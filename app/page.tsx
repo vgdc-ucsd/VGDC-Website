@@ -1,4 +1,4 @@
-import Navbar from "@/components/NavBar";
+import Navbar from "@/components/Navbar";
 import EventList from "@/components/EventList";
 import Contributors from "@/components/Contributors";
 import Footer from "@/components/Footer";
