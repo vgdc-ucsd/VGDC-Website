@@ -4,6 +4,7 @@ import Contributors from "@/components/Contributors";
 import Footer from "@/components/Footer";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { FaInstagram,FaDiscord, FaFacebook  } from "react-icons/fa";
+import { SiMinutemailer } from "react-icons/si";
 
 
 export default function Home() {
@@ -57,7 +58,7 @@ function About() {
           </p>
         </div>
 
-        <span className = "flex flex-row justify-between w-40 mt-4">
+        <span className = "flex flex-row justify-between w-56 mt-4 align-center">
           <a href = "https://www.instagram.com/vgdc.ucsd/" target="_blank">
             <FaInstagram className="text-white transition ease-in transition-duration: 150ms hover:cursor-pointer hover:text-hot-pink" size={32}/>
           </a>
@@ -66,6 +67,9 @@ function About() {
           </a>
           <a href = "https://www.facebook.com/groups/VGDC.UCSD/" target="_blank">
             <FaFacebook className="text-white transition ease-in transition-duration: 150ms hover:cursor-pointer hover:text-hot-pink" size={28}/>
+          </a>
+          <a href = "mailto: vgdc@ucsd.edu" target="_blank">
+            <SiMinutemailer className="text-white transition ease-in transition-duration: 150ms hover:cursor-pointer hover:text-hot-pink" size={28}/>
           </a>
         </span>
       </div>
