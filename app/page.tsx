@@ -153,8 +153,8 @@ function Companies() {
             {/* Iterate through all the companies in the array to populate carousel */}
             {companies.map((company, index) => {
               return (
-                <CarouselItem className={carouselStyle}>
-                  <a href={company.link} key={index} target="_blank">
+                <CarouselItem className={carouselStyle} key={index}>
+                  <a href={company.link} target="_blank">
                     <Image
                       src={company.logo}
                       alt={company.name}
