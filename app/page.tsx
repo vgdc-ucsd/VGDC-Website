@@ -27,6 +27,11 @@ export default function Home() {
   )
 }
 
+/**
+ * The hero that appears at the top of the homepage.
+ *
+ * @returns JSX representation of the hero.
+ */
 function Hero() {
   return (
     <>
@@ -86,6 +91,10 @@ function Hero() {
   )
 }
 
+/**
+ *
+ * @returns
+ */
 function Companies() {
   const carouselStyle = 'basis-1/2 sm:basis-1/3 xl:basis-1/4'
   const companyLogoStyle = 'mx-auto w-28 sm:w-36 md:w-40 xl:w-48'
@@ -127,9 +136,11 @@ function Companies() {
   return (
     <>
       <div className="h-40 w-full sm:h-48 md:h-56 xl:h-72">
+        {/* Text above carousel */}
         <h4 className="pt-4 text-center font-inter text-lg text-text-grey sm:text-xl md:text-2xl">
           Top companies our alumni work at
         </h4>
+        {/* List of companies */}
         <Carousel
           opts={{
             align: 'start',
@@ -139,6 +150,7 @@ function Companies() {
         >
           <CarouselPrevious />
           <CarouselContent>
+            {/* Iterate through all the companies in the array to populate carousel */}
             {companies.map((company) => {
               return (
                 <CarouselItem className={carouselStyle}>
