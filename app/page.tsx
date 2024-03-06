@@ -1,7 +1,7 @@
-import Navbar from "@/components/Navbar";
-import EventList from "@/components/EventList";
-import Contributors from "@/components/Contributors";
-import Footer from "@/components/Footer";
+import Navbar from '@/components/Navbar'
+import EventList from '@/components/EventList'
+import Contributors from '@/components/Contributors'
+import Footer from '@/components/Footer'
 
 export default function Home() {
   return (
@@ -15,47 +15,29 @@ export default function Home() {
       <Games />
       <Footer />
     </main>
-  );
+  )
 }
 
 function Hero() {
-  return (
-    <>
-    </>
-  )
+  return <></>
 }
 
 function Companies() {
-  return (
-    <>
-    </>
-  )
+  return <></>
 }
 
 function About() {
-  return (
-    <>
-    </>
-  )
+  return <></>
 }
 
 function Engagement() {
-  return (
-    <>
-    </>
-  )
+  return <></>
 }
 
 function Niches() {
-  return (
-    <>
-    </>
-  )
+  return <></>
 }
 
 function Games() {
-  return (
-    <>
-    </>
-  )
+  return <></>
 }
