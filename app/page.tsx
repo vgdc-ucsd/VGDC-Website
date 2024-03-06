@@ -154,7 +154,7 @@ function Companies() {
             {companies.map((company) => {
               return (
                 <CarouselItem className={carouselStyle}>
-                  <a href={company.link} target="_blank">
+                  <a href={company.link} key={company.name} target="_blank">
                     <Image
                       src={company.logo}
                       alt={company.name}
