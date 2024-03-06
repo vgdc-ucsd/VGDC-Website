@@ -20,25 +20,22 @@ import { Button } from '@/components/ui/button'
  * @returns JSX representation of the navbar.
  */
 export default function Navbar() {
-  let menuButton: string = 'hover:text-light-grey transition-colors'
+  let menuButton: string = 'hover:text-light-grey transition-colors text-lg'
 
   return (
     <>
       {/* Base navbar div, sticky with a blurred background */}
-      <div className="sticky left-0 top-0 z-50 h-16 w-full bg-background-black/30 font-light text-text-grey backdrop-blur-lg lg:h-20">
+      <div className="sticky left-0 top-0 z-50 h-16 w-full bg-background-black/30 font-light text-text-grey backdrop-blur-lg">
         {/* Contains all components inside navbar */}
-        <div className="w-full px-4 py-2 lg:px-6">
+        <div className="w-full px-4 py-2">
           {/* The logo, changes size and position dynamically */}
-          <Link
-            href="./"
-            className="absolute top-3 block w-fit transition-all lg:top-4"
-          >
+          <Link href="./" className="absolute top-3 block w-fit">
             <Image
               src="/logos/VGDC-logo-no-subtitle.png"
               alt="VGDC Logo"
               width={300}
-              height={780}
-              className="w-24 cursor-pointer lg:w-32"
+              height={0}
+              className="w-24 cursor-pointer"
             />
           </Link>
 
@@ -58,16 +55,16 @@ export default function Navbar() {
               {/* Menu buttons */}
               <DrawerContent>
                 <DrawerFooter>
-                  <Button variant="link" className="text-lg">
+                  <Button variant="link" className="text-sm">
                     <Link href="./">Home</Link>
                   </Button>
-                  <Button variant="link" className="text-lg">
+                  <Button variant="link" className="text-sm">
                     <Link href="./officers">Team</Link>
                   </Button>
-                  <Button variant="link" className="text-lg">
+                  <Button variant="link" className="text-sm">
                     <Link href="./events">Events</Link>
                   </Button>
-                  <Button variant="link" className="text-lg">
+                  <Button variant="link" className="text-sm">
                     <Link href="./news">News</Link>
                   </Button>
                 </DrawerFooter>
@@ -76,7 +73,7 @@ export default function Navbar() {
           </div>
 
           {/* Basic menu, dynamically changes  with screen size */}
-          <div className="invisible relative top-3 float-right mx-auto w-fit space-x-12 align-middle text-xl transition-all sm:visible lg:top-5 lg:float-none lg:space-x-16 lg:text-2xl">
+          <div className="invisible relative top-3 float-right mx-auto w-fit space-x-12 align-middle transition-transform sm:visible lg:float-none lg:space-x-16">
             <Link href="./" className={menuButton}>
               Home
             </Link>
