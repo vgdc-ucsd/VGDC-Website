@@ -4,6 +4,13 @@ import Contributors from '@/components/Contributors'
 import Footer from '@/components/Footer'
 import Image from 'next/image'
 import { useSpring, animated } from 'react-spring'
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from '@/components/ui/carousel'
 
 export default function Home() {
   return (
@@ -24,7 +31,7 @@ function Hero() {
   return (
     <>
       {/* The full container */}
-      <div className="relative h-96 w-full">
+      <div className="relative h-72 w-full sm:h-96 xl:h-[36rem]">
         <div className="absolute left-0 top-0 w-full">
           <div className="relative mx-auto w-80 sm:w-[36rem] md:w-[44rem] xl:w-[68rem]">
             <Image
@@ -80,7 +87,79 @@ function Hero() {
 }
 
 function Companies() {
-  return <></>
+  const carouselStyle = 'basis-1/2 sm:basis-1/3 xl:basis-1/4'
+  const companyLogoStyle = 'mx-auto w-28 sm:w-36 md:w-40 xl:w-48'
+
+  // List of companies & data to be shown in the carousel
+  const companies = [
+    {
+      name: 'XBOX Game Studios',
+      logo: '/logos/companies/xbox-game-studios.png',
+      link: 'https://www.xbox.com/xbox-game-studios',
+    },
+    {
+      name: 'Playstation',
+      logo: '/logos/companies/playstation.png',
+      link: 'https://www.playstation.com/',
+    },
+    {
+      name: 'Google',
+      logo: '/logos/companies/google.png',
+      link: 'https://about.google/',
+    },
+    {
+      name: 'Blizzard Entertainment',
+      logo: '/logos/companies/blizzard.png',
+      link: 'https://www.blizzard.com/',
+    },
+    {
+      name: 'Supergiant Games',
+      logo: '/logos/companies/supergiant.png',
+      link: 'https://www.supergiantgames.com/',
+    },
+    {
+      name: 'The Behemoth',
+      logo: '/logos/companies/behemoth.png',
+      link: 'https://www.thebehemoth.com/',
+    },
+  ]
+
+  return (
+    <>
+      <div className="h-96 w-full">
+        <h4 className="mt-8 text-center font-inter text-lg text-text-grey sm:text-xl md:mt-20 md:text-2xl">
+          Top companies our alumni work at
+        </h4>
+        <Carousel
+          opts={{
+            align: 'start',
+            loop: true,
+          }}
+          className="mx-auto mt-4 w-48 sm:w-96 md:w-[36rem] xl:w-[64rem]"
+        >
+          <CarouselPrevious />
+          <CarouselContent>
+            {companies.map((company) => {
+              return (
+                <CarouselItem className={carouselStyle}>
+                  <a href={company.link} target="_blank">
+                    <Image
+                      src={company.logo}
+                      alt={company.name}
+                      width={500}
+                      height={500}
+                      className={companyLogoStyle}
+                    />
+                  </a>
+                </CarouselItem>
+              )
+            })}
+          </CarouselContent>
+          <CarouselNext />
+        </Carousel>
+      </div>
+    </>
+  )
 }
 
 function About() {
