@@ -1,9 +1,5 @@
-"use client"
+"use client";
 
 export default function EventList() {
-	return (
-		<div>
-
-		</div>
-	);
+	return <div></div>;
 }
