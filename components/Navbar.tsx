@@ -34,7 +34,7 @@ export default function Navbar() {
               src="/logos/VGDC-logo-no-subtitle.png"
               alt="VGDC Logo"
               width={300}
-              height={780}
+              height={0}
               className="w-24 cursor-pointer"
             />
           </Link>
