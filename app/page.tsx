@@ -126,8 +126,8 @@ function Companies() {
 
   return (
     <>
-      <div className="h-96 w-full">
-        <h4 className="mt-8 text-center font-inter text-lg text-text-grey sm:text-xl md:mt-20 md:text-2xl">
+      <div className="h-40 w-full sm:h-48 md:h-56 xl:h-72">
+        <h4 className="pt-4 text-center font-inter text-lg text-text-grey sm:text-xl md:text-2xl">
           Top companies our alumni work at
         </h4>
         <Carousel
