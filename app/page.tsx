@@ -27,7 +27,7 @@ function Hero() {
   return (
     <>
       {/* The full container */}
-      <div className="relative h-72 w-full sm:h-96 md:h-[28rem] xl:h-[44rem]">
+      <div className="relative h-72 w-full sm:h-96 md:h-[26rem] xl:h-[32rem]">
         <div className="absolute left-0 top-0 w-full">
           <div className="relative mx-auto w-80 sm:w-[28rem] md:w-[32rem] xl:w-[38rem]">
             <Image
