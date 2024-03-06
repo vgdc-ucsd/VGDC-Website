@@ -27,7 +27,7 @@ export default function Navbar() {
       {/* Base navbar div, sticky with a blurred background */}
       <div className="sticky left-0 top-0 z-50 h-16 w-full bg-background-black/30 font-light text-text-grey backdrop-blur-lg">
         {/* Contains all components inside navbar */}
-        <div className="w-full px-4 py-2 lg:px-6">
+        <div className="w-full px-4 py-2">
           {/* The logo, changes size and position dynamically */}
           <Link href="./" className="absolute top-3 block w-fit">
             <Image
