@@ -39,7 +39,7 @@ function Hero() {
   return (
     <>
       {/* The full container */}
-      <div className="relative h-72 w-full sm:h-96 md:h-[26rem] xl:h-[32rem]">
+      <div className="relative h-72 w-full sm:h-96 md:h-[26rem] xl:h-[36rem]">
         <div className="absolute left-0 top-0 w-full">
           <div className="relative mx-auto w-80 sm:w-[28rem] md:w-[32rem] xl:w-[64rem]">
             <Image
@@ -47,7 +47,7 @@ function Hero() {
               alt="Controller icon"
               width={128}
               height={128}
-              className="absolute left-4 top-16 w-12 sm:w-20 md:top-16 xl:w-36"
+              className="absolute left-4 top-16 w-12 sm:w-20 md:top-24 xl:w-36"
             />
 
             <Image
@@ -55,7 +55,7 @@ function Hero() {
               alt="Controller icon"
               width={128}
               height={128}
-              className="absolute right-4 top-16 w-12 sm:w-20 md:top-16 xl:w-36"
+              className="absolute right-4 top-16 w-12 sm:w-20 md:top-24 xl:w-36"
             />
           </div>
         </div>
@@ -66,7 +66,7 @@ function Hero() {
             className="mt-24 inline-block
 							bg-gradient-to-r from-vgdc-light-blue to-vgdc-light-green bg-clip-text 
 							text-center font-inter text-3xl font-extrabold text-transparent
-							sm:mt-32 sm:text-4xl xl:text-8xl"
+							sm:mt-40 sm:text-4xl xl:text-8xl"
           >
             <b>
               Video Game
@@ -75,7 +75,7 @@ function Hero() {
             </b>
           </h1>
           {/* School Name */}
-          <h3 className="mt-4 text-center font-inter text-lg text-white sm:text-2xl md:text-3xl xl:text-4xl">
+          <h3 className="mt-4 text-center font-inter text-lg text-white sm:text-2xl md:text-3xl xl:text-3xl">
             @ UC San Diego
           </h3>
           {/* Email Button */}
@@ -138,9 +138,9 @@ function Companies() {
 
   return (
     <>
-      <div className="h-40 w-full sm:h-48 md:h-56 xl:h-72">
+      <div className="h-40 w-full sm:h-48 md:h-56 xl:h-80">
         {/* Text above carousel */}
-        <h4 className="pt-4 text-center font-inter text-lg text-text-grey sm:text-xl md:text-2xl">
+        <h4 className="pt-8 text-center font-inter text-lg text-text-grey sm:text-xl md:text-xl">
           Top companies our alumni work at
         </h4>
         {/* List of companies */}
@@ -188,15 +188,15 @@ function About() {
       </h2>
 
       <div className="mt-4 flex flex-col items-center">
-        <Avatar>
+        <Avatar className="h-12 w-12">
           <AvatarImage src="https://github.com/shadcn.png" />
           <AvatarFallback>TR</AvatarFallback>
         </Avatar>
 
         <div className="text-center">
-          <p className="mt-2 text-xs font-bold text-white">President</p>
-          <p className="text-xs text-white">Tyler Roache</p>
-          <p className="my-0 mt-3 max-w-md text-xs text-text-grey md:text-sm">
+          <p className="mt-2 text-base font-bold text-white">President</p>
+          <p className="text-base text-white">Tyler Roache</p>
+          <p className="my-0 mt-3 max-w-md text-xs text-text-grey md:text-lg">
             VGDC is a student-run organization at UCSD dedicated to teaching and
             applying software and artistic skills widely used in the video game
             industry.
