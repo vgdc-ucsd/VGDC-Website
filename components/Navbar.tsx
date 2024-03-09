@@ -1,5 +1,6 @@
 import Image from 'next/image'
 import Link from 'next/link'
+import { IoMenu } from "react-icons/io5"
 
 import {
   Drawer,
@@ -43,28 +44,30 @@ export default function Navbar() {
           <div className="absolute right-4 top-3 sm:hidden">
             <Drawer>
               {/* Hamburger icon */}
-              <DrawerTrigger className="fill-white hover:fill-light-grey">
-                <svg
+             
+              <DrawerTrigger >
+                <IoMenu size={40} className="text-white hover:text-light-grey"/>
+                {/* <svg
                   xmlns="http://www.w3.org/2000/svg"
                   viewBox="0 -960 960 960"
                   className="w-10"
                 >
                   <path d="M120-240v-80h720v80H120Zm0-200v-80h720v80H120Zm0-200v-80h720v80H120Z" />
-                </svg>
+                </svg> */}
               </DrawerTrigger>
               {/* Menu buttons */}
               <DrawerContent>
                 <DrawerFooter>
-                  <Button variant="link" className="text-sm">
+                  <Button variant="link" className="text-base">
                     <Link href="./">Home</Link>
                   </Button>
-                  <Button variant="link" className="text-sm">
+                  <Button variant="link" className="text-base">
                     <Link href="./officers">Team</Link>
                   </Button>
-                  <Button variant="link" className="text-sm">
+                  <Button variant="link" className="text-base">
                     <Link href="./events">Events</Link>
                   </Button>
-                  <Button variant="link" className="text-sm">
+                  <Button variant="link" className="text-base">
                     <Link href="./news">News</Link>
                   </Button>
                 </DrawerFooter>
@@ -73,7 +76,7 @@ export default function Navbar() {
           </div>
 
           {/* Basic menu, dynamically changes  with screen size */}
-          <div className="invisible relative top-3 float-right mx-auto w-fit space-x-12 align-middle transition-transform sm:visible lg:float-none lg:space-x-16">
+          <div className="invisible relative text-base top-3 float-right mx-auto w-fit space-x-12 align-middle transition-transform sm:visible lg:float-none lg:space-x-16">
             <Link href="./" className={menuButton}>
               Home
             </Link>

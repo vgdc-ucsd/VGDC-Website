@@ -39,23 +39,24 @@ function Hero() {
   return (
     <>
       {/* The full container */}
-      <div className="relative h-72 w-full sm:h-96 md:h-[26rem] xl:h-[36rem]">
+      {/* "relative h-[15rem] w-full sm:h-[20rem] md:h-[24rem] xl:h-[32rem]" */}
+      <div className="relative w-full mt-[1rem]">
         <div className="absolute left-0 top-0 w-full">
           <div className="relative mx-auto w-80 sm:w-[28rem] md:w-[32rem] xl:w-[64rem]">
             <Image
               src="/icons/controller.svg"
               alt="Controller icon"
-              width={128}
-              height={128}
-              className="absolute left-4 top-16 w-12 sm:w-20 md:top-24 xl:w-36"
+              width={80}
+              height={80}
+              className="absolute left-4 xl:left-12 top-16 w-12 sm:w-20 xl:w-24 sm:top-28 md:top-28"
             />
 
             <Image
               src="/icons/laptop.svg"
               alt="Controller icon"
-              width={128}
-              height={128}
-              className="absolute right-4 top-16 w-12 sm:w-20 md:top-24 xl:w-36"
+              width={80}
+              height={80}
+              className="absolute right-4 xl:right-12 top-16 w-12 sm:w-20 xl:w-24  sm:top-28 md:top-28"
             />
           </div>
         </div>
@@ -66,7 +67,7 @@ function Hero() {
             className="mt-24 inline-block
 							bg-gradient-to-r from-vgdc-light-blue to-vgdc-light-green bg-clip-text 
 							text-center font-inter text-3xl font-extrabold text-transparent
-							sm:mt-40 sm:text-4xl xl:text-8xl"
+							sm:mt-40 sm:text-4xl md:text-5xl xl:text-7xl"
           >
             <b>
               Video Game
@@ -75,11 +76,11 @@ function Hero() {
             </b>
           </h1>
           {/* School Name */}
-          <h3 className="mt-4 text-center font-inter text-lg text-white sm:text-2xl md:text-3xl xl:text-3xl">
+          <h3 className="mt-2 text-center font-inter text-base xl:text-lg text-white">
             @ UC San Diego
-          </h3>
+          </h3> 
           {/* Email Button */}
-          <a
+          {/* <a
             href="mailto:vgdc@ucsd.edu"
             target="_blank"
             className="text-md mx-auto mt-3 block h-fit w-fit rounded-3xl bg-hot-pink 
@@ -87,7 +88,7 @@ function Hero() {
 							sm:mt-5"
           >
             vgdc@ucsd.edu
-          </a>
+          </a> */}
         </div>
       </div>
     </>
@@ -100,7 +101,9 @@ function Hero() {
  */
 function Companies() {
   const carouselStyle = 'basis-1/2 sm:basis-1/3 xl:basis-1/4'
-  const companyLogoStyle = 'mx-auto w-28 sm:w-36 md:w-40 xl:w-48'
+
+  // This configures the size of each company logo
+  const companyLogoStyle = 'mx-auto w-32 lg:w-40'
 
   // List of companies & data to be shown in the carousel
   const companies = [
@@ -138,18 +141,20 @@ function Companies() {
 
   return (
     <>
-      <div className="h-40 w-full sm:h-48 md:h-56 xl:h-80">
+      <div className="relative mt-[4rem] md:mt-[8rem] w-full">
+
         {/* Text above carousel */}
-        <h4 className="pt-8 text-center font-inter text-lg text-text-grey sm:text-xl md:text-xl">
-          Top companies our alumni work at
+        <h4 className="pt-8 text-center font-inter text-sm sm:text-base xl:text-lg text-text-grey">
+          Top companies our alumni work at!
         </h4>
+        
         {/* List of companies */}
         <Carousel
           opts={{
             align: 'start',
             loop: true,
           }}
-          className="mx-auto mt-4 w-48 sm:w-96 md:w-[36rem] xl:w-[64rem]"
+          className="mx-auto w-48 sm:w-96 md:w-[36rem] xl:w-[56rem]"
         >
           <CarouselPrevious />
           <CarouselContent>
@@ -161,6 +166,7 @@ function Companies() {
                     <Image
                       src={company.logo}
                       alt={company.name}
+                      // width and height alter the resolution of the image 
                       width={500}
                       height={500}
                       className={companyLogoStyle}
@@ -182,8 +188,8 @@ function About() {
     'text-white transition ease-in duration-150 hover:cursor-pointer hover:text-hot-pink'
 
   return (
-    <section className="mx-4 flex w-auto flex-col items-center py-12">
-      <h2 className=" text-md font-bold text-white md:text-xl lg:text-3xl">
+    <section className="mt-[4rem] md:mt-[8rem] mx-4 flex w-auto flex-col items-center py-12">
+      <h2 className=" text-base font-bold text-white md:text-xl lg:text-3xl">
         What is VGDC?
       </h2>
 
@@ -194,9 +200,9 @@ function About() {
         </Avatar>
 
         <div className="text-center">
-          <p className="mt-2 text-base font-bold text-white">President</p>
-          <p className="text-base text-white">Tyler Roache</p>
-          <p className="my-0 mt-3 max-w-md text-xs text-text-grey md:text-lg">
+          <p className="mt-2 text-base xl:text-lg font-bold text-hot-pink">President</p>
+          <p className=" mt-[-4px] text-base xl:text-lg text-white">Tyler Roache</p>
+          <p className="my-0 mt-3 w-[72vw] max-w-lg text-text-grey text-sm sm:text-base xl:text-lg">
             VGDC is a student-run organization at UCSD dedicated to teaching and
             applying software and artistic skills widely used in the video game
             industry.
