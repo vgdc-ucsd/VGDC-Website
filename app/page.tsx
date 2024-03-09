@@ -48,7 +48,7 @@ function Hero() {
               alt="Controller icon"
               width={80}
               height={80}
-              className="absolute left-4 xl:left-12 top-16 w-12 sm:w-20 xl:w-24 sm:top-28 md:top-28"
+              className="absolute left-4 xl:left-32 top-16 w-12 sm:w-20 xl:w-24 sm:top-28 md:top-28"
             />
 
             <Image
@@ -56,7 +56,7 @@ function Hero() {
               alt="Controller icon"
               width={80}
               height={80}
-              className="absolute right-4 xl:right-12 top-16 w-12 sm:w-20 xl:w-24  sm:top-28 md:top-28"
+              className="absolute right-4 xl:right-32 top-16 w-12 sm:w-20 xl:w-24  sm:top-28 md:top-28"
             />
           </div>
         </div>
