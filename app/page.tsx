@@ -48,7 +48,7 @@ function Hero() {
               alt="Controller icon"
               width={80}
               height={80}
-              className="absolute left-4 xl:left-32 top-16 w-12 sm:w-20 xl:w-24 sm:top-28 md:top-28"
+              className="absolute left-4 sm:left-0 xl:left-32 top-16 w-12 sm:w-20 xl:w-24 sm:top-28 md:top-28"
             />
 
             <Image
@@ -56,7 +56,7 @@ function Hero() {
               alt="Controller icon"
               width={80}
               height={80}
-              className="absolute right-4 xl:right-32 top-16 w-12 sm:w-20 xl:w-24  sm:top-28 md:top-28"
+              className="absolute right-4 sm:right-0 xl:right-32 top-16 w-12 sm:w-20 xl:w-24  sm:top-28 md:top-28"
             />
           </div>
         </div>
@@ -67,7 +67,7 @@ function Hero() {
             className="mt-24 inline-block
 							bg-gradient-to-r from-vgdc-light-blue to-vgdc-light-green bg-clip-text 
 							text-center font-inter text-3xl font-extrabold text-transparent
-							sm:mt-40 sm:text-4xl md:text-5xl xl:text-7xl"
+							sm:mt-40 sm:text-5xl md:text-5xl xl:text-7xl"
           >
             <b>
               Video Game
