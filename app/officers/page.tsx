@@ -13,7 +13,7 @@ export default function Officers() {
     <main className="min-h-screen bg-background-black">
       <Navbar />
 
-      <div className="mx-auto max-w-[800px] pb-20 text-white">
+      <div className="mx-auto max-w-[920px] pb-20 text-white">
         {/* Title section */}
         <div className="mx-6 mb-20 mt-20">
           <Link
@@ -117,16 +117,16 @@ type OfficerDetails = {
 
 function Officer({ title, name, avatar, quote }: OfficerDetails) {
   return (
-    <div>
+    <div className="w-48">
       {/* Avatar */}
-      <Avatar className="mx-4 h-32 w-32">
+      <Avatar className="mx-8 h-32 w-32">
         <AvatarImage src={avatar} />
         <AvatarFallback>{name[0]}</AvatarFallback>
       </Avatar>
       <HoverCard>
         <HoverCardTrigger>
           {/* Title and Name */}
-          <div className="mt-4 w-40 cursor-pointer text-center leading-5 transition-all">
+          <div className="mx-auto mt-4 cursor-pointer text-center leading-5 transition-all">
             <h3 className="font-bold">{title}</h3>
             <h4>{name}</h4>
           </div>
@@ -134,6 +134,10 @@ function Officer({ title, name, avatar, quote }: OfficerDetails) {
 
         <HoverCardContent className="w-72 border-background-grey bg-background-grey text-white">
           <div className="flex justify-between space-x-4">
+            <Avatar className="h-8 w-8">
+              <AvatarImage src={avatar} />
+              <AvatarFallback>{name[0]}</AvatarFallback>
+            </Avatar>
             <div className="space-y-1">
               <h4 className="text-sm font-semibold">{name}</h4>
               <p className="text-sm font-normal">{quote}</p>
