@@ -117,42 +117,40 @@ type OfficerDetails = {
 
 function Officer({ title, name, avatar, quote }: OfficerDetails) {
   return (
-    <HoverCard>
-      <HoverCardTrigger>
-        {/* Avatar */}
-        <Avatar className="mx-4 h-32 w-32">
-          <AvatarImage src={avatar} />
-          <AvatarFallback>TR</AvatarFallback>
-        </Avatar>
-        {/* Title and Name */}
-        <div className="mt-4 w-40 text-center leading-5">
-          <h3 className="font-bold">{title}</h3>
-          <h4>{name}</h4>
-        </div>
-      </HoverCardTrigger>
+    <div>
+      {/* Avatar */}
+      <Avatar className="mx-4 h-32 w-32">
+        <AvatarImage src={avatar} />
+        <AvatarFallback>{name[0]}</AvatarFallback>
+      </Avatar>
+      <HoverCard>
+        <HoverCardTrigger>
+          {/* Title and Name */}
+          <div className="mt-4 w-40 cursor-pointer text-center leading-5 transition-all">
+            <h3 className="font-bold">{title}</h3>
+            <h4>{name}</h4>
+          </div>
+        </HoverCardTrigger>
 
-      <HoverCardContent className="w-72 border-background-grey bg-background-grey text-white">
-        <div className="flex justify-between space-x-4">
-          <Avatar className="h-8 w-8">
-            <AvatarImage src={avatar} />
-            <AvatarFallback>VC</AvatarFallback>
-          </Avatar>
-          <div className="space-y-1">
-            <h4 className="text-sm font-semibold">{name}</h4>
-            <p className="text-sm font-normal">{quote}</p>
-            <div className="flex items-center pt-2">
-              <Image
-                src="/icons/controller.svg"
-                alt="Controller icon"
-                width={20}
-                height={20}
-                className="h-6 w-6 text-white"
-              />
-              <span className="ml-2 text-sm">{title}</span>
+        <HoverCardContent className="w-72 border-background-grey bg-background-grey text-white">
+          <div className="flex justify-between space-x-4">
+            <div className="space-y-1">
+              <h4 className="text-sm font-semibold">{name}</h4>
+              <p className="text-sm font-normal">{quote}</p>
+              <div className="flex items-center pt-2">
+                <Image
+                  src="/icons/controller.svg"
+                  alt="Controller icon"
+                  width={20}
+                  height={20}
+                  className="h-6 w-6 text-white"
+                />
+                <span className="ml-2 text-sm">{title}</span>
+              </div>
             </div>
           </div>
-        </div>
-      </HoverCardContent>
-    </HoverCard>
+        </HoverCardContent>
+      </HoverCard>
+    </div>
   )
 }
