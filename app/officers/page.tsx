@@ -13,17 +13,17 @@ export default function Officers() {
     <main className="min-h-screen bg-background-black">
       <Navbar />
 
-      <div className="mx-auto w-[800px] pb-20 text-white">
+      <div className="mx-auto max-w-[800px] pb-20 text-white">
         {/* Title section */}
-        <div className="mb-20 mt-20">
+        <div className="mx-6 mb-20 mt-20">
           <Link
             href="./"
             className="text-text-grey transition-all hover:text-white"
           >{`<- back to home`}</Link>
           <h2 className="mb-3 mt-2 text-4xl font-bold">Our Team</h2>
-          <p className="w-[600px] text-lg">
+          <p className="max-w-[600px] text-lg">
             We're a growing body of talented individuals with a passion for
-            making game development exciting in every way. Click on each
+            making game development exciting in every way. Hover over each
             profile!
           </p>
         </div>
