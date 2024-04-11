@@ -30,7 +30,7 @@ export default function Custom404() {
             Uh oh! We couldnt find the page you were looking for!
             </h3>
 
-            <Button className = "w-40px">Home</Button>
+            <Button>Home</Button>
           </div>
       </main>
     );
