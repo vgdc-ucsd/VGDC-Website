@@ -11,13 +11,13 @@ export default function Custom404() {
   
     return (
       <main className="min-h-screen bg-background-black h-lvh">
-            <div className = "h-full flex flex-col justify-center items-center" >
+            <div className = "h-full flex flex-col justify-center items-center px-4" >
             <Image
               src="/icons/laptop.svg"
               alt="Controller icon"
               width={140}
               height={140}
-              className="top-16 w-12 sm:w-20 xl:w-24 sm:top-28 md:top-28 mx-auto"
+              className="top-16 w-24 md:top-28 mx-auto"
             />
             <h1
               className="inline-block
