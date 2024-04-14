@@ -1,13 +1,13 @@
-import Navbar from '@/components/Navbar'
-import Footer from '@/components/Footer'
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
+import Navbar from "@/components/Navbar"
+import Footer from "@/components/Footer"
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import {
   HoverCard,
   HoverCardContent,
   HoverCardTrigger,
-} from '@/components/ui/hover-card'
-import Image from 'next/image'
-import Link from 'next/link'
+} from "@/components/ui/hover-card"
+import Image from "next/image"
+import Link from "next/link"
 
 // The type for the data for one officer
 type OfficerDetails = {
@@ -20,76 +20,76 @@ type OfficerDetails = {
 // List of officers
 const officers: OfficerDetails[] = [
   {
-    title: 'President',
-    name: 'Tyler Roache',
-    avatar: '/images/officers/2023-2024/TylerRoache.jpg',
+    title: "President",
+    name: "Tyler Roache",
+    avatar: "/images/officers/2023-2024/TylerRoache.jpg",
     quote: "Hi I'm Tyler. I wuv wuv wuv making games uwu",
   },
   {
-    title: 'Vice President',
-    name: 'Jewelle Tatad',
-    avatar: '/images/officers/2023-2024/JewelleTatad.jpg',
-    quote: 'formerly Co-VP',
+    title: "Vice President",
+    name: "Jewelle Tatad",
+    avatar: "/images/officers/2023-2024/JewelleTatad.jpg",
+    quote: "formerly Co-VP",
   },
   {
-    title: 'Events Director',
-    name: 'Carey Yoon',
-    avatar: '/images/officers/2023-2024/CareyYoon.jpg',
-    quote: 'why is he not VP???',
+    title: "Events Director",
+    name: "Carey Yoon",
+    avatar: "/images/officers/2023-2024/CareyYoon.jpg",
+    quote: "why is he not VP???",
   },
   {
-    title: 'Treasurer',
-    name: 'Chase Peterson',
-    avatar: '/images/officers/2023-2024/ChasePeterson.jpg',
-    quote: 'I made this page',
+    title: "Treasurer",
+    name: "Chase Peterson",
+    avatar: "/images/officers/2023-2024/ChasePeterson.jpg",
+    quote: "I made this page",
   },
   {
-    title: 'Marketing Director',
-    name: 'Killian To',
-    avatar: '/images/officers/2023-2024/KillianTo.jpg',
-    quote: 'formerly known as Ben To',
+    title: "Marketing Director",
+    name: "Killian To",
+    avatar: "/images/officers/2023-2024/KillianTo.jpg",
+    quote: "formerly known as Ben To",
   },
   {
-    title: 'Marketing Officer',
-    name: 'Chanel Lim',
-    avatar: '/images/officers/2023-2024/ChanelLim.jpg',
-    quote: 'soon to be projects lead',
+    title: "Marketing Officer",
+    name: "Chanel Lim",
+    avatar: "/images/officers/2023-2024/ChanelLim.jpg",
+    quote: "soon to be projects lead",
   },
   {
-    title: 'Marketing Officer',
-    name: 'Olivia Tsui',
-    avatar: '/images/officers/2023-2024/OliviaTsui.jpg',
-    quote: 'i am a marketing officer!',
+    title: "Marketing Officer",
+    name: "Olivia Tsui",
+    avatar: "/images/officers/2023-2024/OliviaTsui.jpg",
+    quote: "i am a marketing officer!",
   },
   {
-    title: '3D Art Director',
-    name: 'Rodolfo Marquez-Valencia',
-    avatar: '/images/officers/2023-2024/RodolfoMarquezValencia.jpg',
-    quote: 'I am now woman (rodolfo)',
+    title: "3D Art Director",
+    name: "Rodolfo Marquez-Valencia",
+    avatar: "/images/officers/2023-2024/RodolfoMarquezValencia.jpg",
+    quote: "I am now woman (rodolfo)",
   },
   {
-    title: 'Outreach Officer',
-    name: 'Kiichiro Wang',
-    avatar: '/images/officers/2023-2024/KiichiroWang.jpg',
-    quote: 'the next president!',
+    title: "Outreach Officer",
+    name: "Kiichiro Wang",
+    avatar: "/images/officers/2023-2024/KiichiroWang.jpg",
+    quote: "the next president!",
   },
   {
-    title: 'Website Director',
-    name: 'William Kim',
-    avatar: '/images/officers/2023-2024/WilliamKim.jpg',
-    quote: 'I made some other pages!',
+    title: "Website Director",
+    name: "William Kim",
+    avatar: "/images/officers/2023-2024/WilliamKim.jpg",
+    quote: "I made some other pages!",
   },
   {
-    title: 'Public Relations Officer',
-    name: 'Chris Kreins',
-    avatar: '/images/officers/2023-2024/ChrisKreins.jpg',
-    quote: 'I will murder @jewelle',
+    title: "Public Relations Officer",
+    name: "Chris Kreins",
+    avatar: "/images/officers/2023-2024/ChrisKreins.jpg",
+    quote: "I will murder @jewelle",
   },
   {
-    title: 'General Officer',
-    name: 'Joey Soriano',
-    avatar: '/images/officers/2023-2024/JoeySoriano.jpg',
-    quote: 'formerly Co-VP',
+    title: "General Officer",
+    name: "Joey Soriano",
+    avatar: "/images/officers/2023-2024/JoeySoriano.jpg",
+    quote: "formerly Co-VP",
   },
 ]
 
