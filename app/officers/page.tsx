@@ -9,11 +9,102 @@ import {
 import Image from 'next/image'
 import Link from 'next/link'
 
+// The type for the data for one officer
+type OfficerDetails = {
+  title: string
+  name: string
+  avatar: string
+  quote: string
+}
+
+// List of officers
+const officers: OfficerDetails[] = [
+  {
+    title: 'President',
+    name: 'Tyler Roache',
+    avatar: '/images/officers/2023-2024/TylerRoache.jpg',
+    quote: "Hi I'm Tyler. I wuv wuv wuv making games uwu",
+  },
+  {
+    title: 'Vice President',
+    name: 'Jewelle Tatad',
+    avatar: '/images/officers/2023-2024/JewelleTatad.jpg',
+    quote: "Hi I'm Tyler. I wuv wuv wuv making games uwu",
+  },
+  {
+    title: 'Events Director',
+    name: 'Carey Yoon',
+    avatar: '/images/officers/2023-2024/CareyYoon.jpg',
+    quote: 'why is he not VP???',
+  },
+  {
+    title: 'Treasurer',
+    name: 'Chase Peterson',
+    avatar: '/images/officers/2023-2024/ChasePeterson.jpg',
+    quote: 'I made this page',
+  },
+  {
+    title: 'Marketing Director',
+    name: 'Killian To',
+    avatar: '/images/officers/2023-2024/KillianTo.jpg',
+    quote: 'formerly known as Ben To',
+  },
+  {
+    title: 'Marketing Officer',
+    name: 'Chanel Lim',
+    avatar: '/images/officers/2023-2024/ChanelLim.jpg',
+    quote: 'soon to be projects lead',
+  },
+  {
+    title: 'Marketing Officer',
+    name: 'Olivia Tsui',
+    avatar: '/images/officers/2023-2024/OliviaTsui.jpg',
+    quote: 'i am a marketing officer!',
+  },
+  {
+    title: '3D Art Director',
+    name: 'Rodolfo Marquez-Valencia',
+    avatar: '/images/officers/2023-2024/RodolfoMarquezValencia.jpg',
+    quote: 'I am now woman (rodolfo)',
+  },
+  {
+    title: 'Outreach Officer',
+    name: 'Kiichiro Wang',
+    avatar: '/images/officers/2023-2024/KiichiroWang.jpg',
+    quote: 'the next president!',
+  },
+  {
+    title: 'Website Director',
+    name: 'William Kim',
+    avatar: '/images/officers/2023-2024/WilliamKim.jpg',
+    quote: 'I made some other pages!',
+  },
+  {
+    title: 'Public Relations Officer',
+    name: 'Chris Kreins',
+    avatar: '/images/officers/2023-2024/ChrisKreins.jpg',
+    quote: 'I will murder @jewelle',
+  },
+  {
+    title: 'General Officer',
+    name: 'Joey Soriano',
+    avatar: '/images/officers/2023-2024/JoeySoriano.jpg',
+    quote: 'formerly Co-VP',
+  },
+]
+
+/**
+ * Content for the officers page.
+ *
+ * @returns JSX representation of the officers page.
+ */
 export default function Officers() {
   return (
     <main className="min-h-screen bg-background-black">
+      {/* Display the navbar at the top of the page */}
       <Navbar />
 
+      {/* Page content */}
       <div className="mx-auto max-w-[920px] pb-20 text-white">
         {/* Title section */}
         <div className="mx-6 mb-20 mt-20">
@@ -31,78 +122,9 @@ export default function Officers() {
 
         {/* Officers */}
         <div className="flex-start flex flex-wrap justify-center gap-12">
-          <Officer
-            title="President"
-            name="Tyler Roache"
-            avatar="/images/officers/2023-2024/TylerRoache.jpg"
-            quote="Hi I'm Tyler. I wuv wuv wuv making games uwu"
-          />
-          <Officer
-            title="Co-VP"
-            name="Jewelle Tatad"
-            avatar="/images/officers/2023-2024/JewelleTatad.jpg"
-            quote="Hi I'm Tyler. I wuv wuv wuv making games uwu"
-          />
-          <Officer
-            title="Co-VP"
-            name="Joey Soriano"
-            avatar="/images/officers/2023-2024/JoeySoriano.jpg"
-            quote="Hi I'm Tyler. I wuv wuv wuv making games uwu"
-          />
-          <Officer
-            title="Treasurer"
-            name="Chase Peterson"
-            avatar="/images/officers/2023-2024/ChasePeterson.jpg"
-            quote="Hi I'm Tyler. I wuv wuv wuv making games uwu"
-          />
-          <Officer
-            title="Events Director"
-            name="Carey Yoon"
-            avatar="/images/officers/2023-2024/CareyYoon.jpg"
-            quote="Hi I'm Tyler. I wuv wuv wuv making games uwu"
-          />
-          <Officer
-            title="Marketing Director"
-            name="Killian To"
-            avatar="/images/officers/2023-2024/KillianTo.jpg"
-            quote="Hi I'm Tyler. I wuv wuv wuv making games uwu"
-          />
-          <Officer
-            title="Marketing Officer"
-            name="Chanel Lim"
-            avatar="/images/officers/2023-2024/ChanelLim.jpg"
-            quote="Hi I'm Tyler. I wuv wuv wuv making games uwu"
-          />
-          <Officer
-            title="Marketing Officer"
-            name="Olivia Tsui"
-            avatar="/images/officers/2023-2024/OliviaTsui.jpg"
-            quote="Hi I'm Tyler. I wuv wuv wuv making games uwu"
-          />
-          <Officer
-            title="3D Art Director"
-            name="Rodolfo Marquez-Valencia"
-            avatar="/images/officers/2023-2024/RodolfoMarquezValencia.jpg"
-            quote="I am now woman (rodolfo)"
-          />
-          <Officer
-            title="Outreach Officer"
-            name="Kiichiro Wang"
-            avatar="/images/officers/2023-2024/KiichiroWang.jpg"
-            quote="Hi I'm Tyler. I wuv wuv wuv making games uwu"
-          />
-          <Officer
-            title="Website Director"
-            name="William Kim"
-            avatar="/images/officers/2023-2024/WilliamKim.jpg"
-            quote="Hi I'm Tyler. I wuv wuv wuv making games uwu"
-          />
-          <Officer
-            title="Public Relations Officer"
-            name="Chris Kreins"
-            avatar="/images/officers/2023-2024/ChrisKreins.jpg"
-            quote="I will murder @jewelle"
-          />
+          {officers.map((officer, index) => {
+            return <Officer key={index} {...officer} />
+          })}
         </div>
       </div>
 
@@ -111,13 +133,12 @@ export default function Officers() {
   )
 }
 
-type OfficerDetails = {
-  title: string
-  name: string
-  avatar: string
-  quote: string
-}
-
+/**
+ * A component representing one officer.
+ *
+ * @param officer The object for one officer with a title, name, avatar, and quote.
+ * @returns The JSX representation of an officer.
+ */
 function Officer({ title, name, avatar, quote }: OfficerDetails) {
   return (
     <div className="w-48">
@@ -126,6 +147,7 @@ function Officer({ title, name, avatar, quote }: OfficerDetails) {
         <AvatarImage src={avatar} />
         <AvatarFallback>{name[0]}</AvatarFallback>
       </Avatar>
+      {/* The hover card over the title and name */}
       <HoverCard>
         <HoverCardTrigger>
           {/* Title and Name */}
@@ -135,13 +157,14 @@ function Officer({ title, name, avatar, quote }: OfficerDetails) {
           </div>
         </HoverCardTrigger>
 
+        {/* Hover card content */}
         <HoverCardContent className="w-72 border-background-grey bg-background-grey text-white">
           <div className="flex justify-between space-x-4">
             <Avatar className="h-8 w-8">
               <AvatarImage src={avatar} />
               <AvatarFallback>{name[0]}</AvatarFallback>
             </Avatar>
-            <div className="space-y-1">
+            <div className="flex-grow space-y-1">
               <h4 className="text-sm font-semibold">{name}</h4>
               <p className="text-sm font-normal">{quote}</p>
               <div className="flex items-center pt-2">
