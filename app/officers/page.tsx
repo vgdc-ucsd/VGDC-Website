@@ -1,4 +1,5 @@
 import Navbar from '@/components/Navbar'
+import Footer from '@/components/Footer'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import {
   HoverCard,
@@ -104,6 +105,8 @@ export default function Officers() {
           />
         </div>
       </div>
+
+      <Footer />
     </main>
   )
 }
