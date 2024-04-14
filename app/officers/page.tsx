@@ -114,9 +114,9 @@ export default function Officers() {
           >{`<- back to home`}</Link>
           <h2 className="mb-3 mt-2 text-4xl font-bold">Our Team</h2>
           <p className="max-w-[600px] text-lg">
-            We"re a growing body of talented individuals with a passion for
+            {`We're a growing body of talented individuals with a passion for
             making game development exciting in every way. Hover over each
-            profile!
+            profile!`}
           </p>
         </div>
 
