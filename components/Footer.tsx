@@ -47,7 +47,7 @@ export default function Footer() {
                 <AccordionTrigger className="text-left">
                   How do I get involved?
                 </AccordionTrigger>
-                <AccordionContent>You don't.</AccordionContent>
+                <AccordionContent>{"You don't."}</AccordionContent>
               </AccordionItem>
               <AccordionItem value="item-2" className={accordionStyle}>
                 <AccordionTrigger className="text-left">
@@ -63,7 +63,7 @@ export default function Footer() {
               </AccordionItem>
               <AccordionItem value="item-4" className={accordionStyle}>
                 <AccordionTrigger className="text-left">
-                  What if I haven't made games before?
+                  {"What if I haven't made games before?"}
                 </AccordionTrigger>
                 <AccordionContent>Then leave.</AccordionContent>
               </AccordionItem>
