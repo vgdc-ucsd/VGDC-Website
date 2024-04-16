@@ -16,6 +16,8 @@ import {
 } from "@/components/ui/carousel"
 import { GetStaticProps } from "next"
 import { Post, getSortedPostsData } from "@/lib/post"
+import BlogCard from "@/lib/BlogCard"
+
 
 export default function Home() {
   return (
@@ -238,19 +240,13 @@ function BlogPreview() {
   const allPostsData = getSortedPostsData()
 
   return (
-    <ul>
+    <section className = "flex relative mt-[4rem] w-full md:mt-[8rem]">
       {allPostsData.map(
-        ({ id, date, title }: { id: any; date: any; title: any }) => (
-          <li key={id}>
-            {title}
-            <br />
-            {id}
-            <br />
-            {date}
-          </li>
+        (post:Post) => (
+          <BlogCard key = {post.id} post = {post}/>
         )
       )}
-    </ul>
+    </section>
   )
 }
 

@@ -8,6 +8,8 @@ export type Post = {
   id: string
   date: string
   title: string
+  author: string
+  coverImage: string
   content: string
 }
 
@@ -36,6 +38,8 @@ export function getSortedPostsData() {
       id,
       date: matterResult.data.date,
       title: matterResult.data.title,
+      author: matterResult.data.author,
+      coverImage: matterResult.data.coverImage,
       content: matterResult.content,
     }
   })
