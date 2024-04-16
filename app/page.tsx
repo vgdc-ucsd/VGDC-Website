@@ -16,7 +16,8 @@ import {
 } from "@/components/ui/carousel"
 import { GetStaticProps } from "next"
 import { Post, getSortedPostsData } from "@/lib/post"
-import BlogCard from "@/lib/BlogCard"
+import BlogCard from "@/components/BlogCard"
+
 
 
 export default function Home() {

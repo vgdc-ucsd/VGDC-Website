@@ -17,7 +17,7 @@ export default function BlogCard({post}:{post:Post}) {
             <p>By {post.author}</p>
             <p className = "truncate text-ellipsis overflow-hidden ">{post.content}</p>
 
-            <Link href = {`${post.id}/${post.author}`}>
+            <Link href = {post.id}>
                 <Button>view</Button>
             </Link>
             
