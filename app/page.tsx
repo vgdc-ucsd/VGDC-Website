@@ -241,12 +241,14 @@ function BlogPreview() {
   const allPostsData = getSortedPostsData()
 
   return (
-    <section className = "flex relative mt-[4rem] w-full md:mt-[8rem]">
+    <section className = "mx-auto w-48 sm:w-96 md:w-[36rem] xl:w-[56rem] mt-[4rem] md:mt-[8rem]">
+      <div className = "">
       {allPostsData.map(
         (post:Post) => (
           <BlogCard key = {post.id} post = {post}/>
         )
       )}
+      </div>
     </section>
   )
 }
