@@ -6,6 +6,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { FaInstagram, FaDiscord, FaFacebook } from "react-icons/fa"
 import { SiMinutemailer } from "react-icons/si"
 import Image from "next/image"
+import Link from "next/link";
 import { useSpring, animated } from "react-spring"
 import {
   Carousel,
@@ -17,6 +18,7 @@ import {
 import { GetStaticProps } from "next"
 import { Post, getSortedPostsData } from "@/lib/post"
 import BlogCard from "@/components/BlogCard"
+import { Button } from "@/components/ui/button"
 
 
 
@@ -194,7 +196,7 @@ function About() {
 
   return (
     <section className="mx-4 mt-[4rem] flex w-auto flex-col items-center py-12 md:mt-[8rem]">
-      <h2 className=" text-base font-bold text-white md:text-xl lg:text-3xl">
+      <h2 className = " text-white text-2xl font-bold lg:text-4xl">
         What is VGDC?
       </h2>
 
@@ -241,8 +243,21 @@ function BlogPreview() {
   const allPostsData = getSortedPostsData()
 
   return (
-    <section className = "mx-auto w-48 sm:w-96 md:w-[36rem] xl:w-[56rem] mt-[4rem] md:mt-[8rem]">
-      <div className = "">
+    <section className = "mx-auto w-full md:w-[36rem] xl:w-[56rem] mt-[4rem] md:mt-[8rem]">
+      
+      <span className="mb-8 flex flex-col md:flex-row justify-between">
+        <div>
+          <h2 className=" text-white text-2xl font-bold lg:text-4xl">VGDC News</h2>
+          <p className = "text-text-grey max-w-lg text-sm sm:text-base xl:text-lg">Stay up to date with the latest highlights of the club</p>
+        </div>
+
+        <Link href = "">
+            <Button className = "mt-4">all posts</Button>
+        </Link>
+        
+      </span>
+      
+      <div>
       {allPostsData.map(
         (post:Post) => (
           <BlogCard key = {post.id} post = {post}/>
