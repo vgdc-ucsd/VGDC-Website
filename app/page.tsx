@@ -1,19 +1,19 @@
-import Navbar from '@/components/Navbar'
-import EventList from '@/components/EventList'
-import Contributors from '@/components/Contributors'
-import Footer from '@/components/Footer'
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
-import { FaInstagram, FaDiscord, FaFacebook } from 'react-icons/fa'
-import { SiMinutemailer } from 'react-icons/si'
-import Image from 'next/image'
-import { useSpring, animated } from 'react-spring'
+import Navbar from "@/components/Navbar"
+import EventList from "@/components/EventList"
+import Contributors from "@/components/Contributors"
+import Footer from "@/components/Footer"
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import { FaInstagram, FaDiscord, FaFacebook } from "react-icons/fa"
+import { SiMinutemailer } from "react-icons/si"
+import Image from "next/image"
+import { useSpring, animated } from "react-spring"
 import {
   Carousel,
   CarouselContent,
   CarouselItem,
   CarouselNext,
   CarouselPrevious,
-} from '@/components/ui/carousel'
+} from "@/components/ui/carousel"
 
 export default function Home() {
   return (
@@ -22,6 +22,7 @@ export default function Home() {
       <Hero />
       <Companies />
       <About />
+      <EventList />
       <Engagement />
       <Niches />
       <Games />
@@ -40,7 +41,7 @@ function Hero() {
     <>
       {/* The full container */}
       {/* "relative h-[15rem] w-full sm:h-[20rem] md:h-[24rem] xl:h-[32rem]" */}
-      <div className="relative w-full mt-[1rem]">
+      <div className="relative mt-[1rem] w-full">
         <div className="absolute left-0 top-0 w-full">
           <div className="relative mx-auto w-80 sm:w-[28rem] md:w-[32rem] xl:w-[64rem]">
             <Image
@@ -48,7 +49,7 @@ function Hero() {
               alt="Controller icon"
               width={80}
               height={80}
-              className="absolute left-4 sm:left-0 xl:left-32 top-16 w-12 sm:w-20 xl:w-24 sm:top-28 md:top-28"
+              className="absolute left-4 top-16 w-12 sm:left-0 sm:top-28 sm:w-20 md:top-28 xl:left-32 xl:w-24"
             />
 
             <Image
@@ -56,7 +57,7 @@ function Hero() {
               alt="Controller icon"
               width={80}
               height={80}
-              className="absolute right-4 sm:right-0 xl:right-32 top-16 w-12 sm:w-20 xl:w-24  sm:top-28 md:top-28"
+              className="absolute right-4 top-16 w-12 sm:right-0 sm:top-28 sm:w-20 md:top-28  xl:right-32 xl:w-24"
             />
           </div>
         </div>
@@ -76,9 +77,9 @@ function Hero() {
             </b>
           </h1>
           {/* School Name */}
-          <h3 className="mt-2 text-center font-inter text-base xl:text-lg text-white">
+          <h3 className="mt-2 text-center font-inter text-base text-white xl:text-lg">
             @ UC San Diego
-          </h3> 
+          </h3>
           {/* Email Button */}
           {/* <a
             href="mailto:vgdc@ucsd.edu"
@@ -100,58 +101,57 @@ function Hero() {
  * @returns
  */
 function Companies() {
-  const carouselStyle = 'basis-1/2 sm:basis-1/3 xl:basis-1/4'
+  const carouselStyle = "basis-1/2 sm:basis-1/3 xl:basis-1/4"
 
   // This configures the size of each company logo
-  const companyLogoStyle = 'mx-auto w-32 lg:w-40'
+  const companyLogoStyle = "mx-auto w-32 lg:w-40"
 
   // List of companies & data to be shown in the carousel
   const companies = [
     {
-      name: 'XBOX Game Studios',
-      logo: '/logos/companies/xbox-game-studios.png',
-      link: 'https://www.xbox.com/xbox-game-studios',
+      name: "XBOX Game Studios",
+      logo: "/logos/companies/xbox-game-studios.png",
+      link: "https://www.xbox.com/xbox-game-studios",
     },
     {
-      name: 'Playstation',
-      logo: '/logos/companies/playstation.png',
-      link: 'https://www.playstation.com/',
+      name: "Playstation",
+      logo: "/logos/companies/playstation.png",
+      link: "https://www.playstation.com/",
     },
     {
-      name: 'Google',
-      logo: '/logos/companies/google.png',
-      link: 'https://about.google/',
+      name: "Google",
+      logo: "/logos/companies/google.png",
+      link: "https://about.google/",
     },
     {
-      name: 'Blizzard Entertainment',
-      logo: '/logos/companies/blizzard.png',
-      link: 'https://www.blizzard.com/',
+      name: "Blizzard Entertainment",
+      logo: "/logos/companies/blizzard.png",
+      link: "https://www.blizzard.com/",
     },
     {
-      name: 'Supergiant Games',
-      logo: '/logos/companies/supergiant.png',
-      link: 'https://www.supergiantgames.com/',
+      name: "Supergiant Games",
+      logo: "/logos/companies/supergiant.png",
+      link: "https://www.supergiantgames.com/",
     },
     {
-      name: 'The Behemoth',
-      logo: '/logos/companies/behemoth.png',
-      link: 'https://www.thebehemoth.com/',
+      name: "The Behemoth",
+      logo: "/logos/companies/behemoth.png",
+      link: "https://www.thebehemoth.com/",
     },
   ]
 
   return (
     <>
-      <div className="relative mt-[4rem] md:mt-[8rem] w-full">
-
+      <div className="relative mt-[4rem] w-full md:mt-[8rem]">
         {/* Text above carousel */}
-        <h4 className="pt-8 text-center font-inter text-sm sm:text-base xl:text-lg text-text-grey">
+        <h4 className="pt-8 text-center font-inter text-sm text-text-grey sm:text-base xl:text-lg">
           Top companies our alumni work at!
         </h4>
-        
+
         {/* List of companies */}
         <Carousel
           opts={{
-            align: 'start',
+            align: "start",
             loop: true,
           }}
           className="mx-auto w-48 sm:w-96 md:w-[36rem] xl:w-[56rem]"
@@ -166,7 +166,7 @@ function Companies() {
                     <Image
                       src={company.logo}
                       alt={company.name}
-                      // width and height alter the resolution of the image 
+                      // width and height alter the resolution of the image
                       width={500}
                       height={500}
                       className={companyLogoStyle}
@@ -185,10 +185,10 @@ function Companies() {
 
 function About() {
   const socialLinkStyle =
-    'text-white transition ease-in duration-150 hover:cursor-pointer hover:text-hot-pink'
+    "text-white transition ease-in duration-150 hover:cursor-pointer hover:text-hot-pink"
 
   return (
-    <section className="mt-[4rem] md:mt-[8rem] mx-4 flex w-auto flex-col items-center py-12">
+    <section className="mx-4 mt-[4rem] flex w-auto flex-col items-center py-12 md:mt-[8rem]">
       <h2 className=" text-base font-bold text-white md:text-xl lg:text-3xl">
         What is VGDC?
       </h2>
@@ -200,9 +200,13 @@ function About() {
         </Avatar>
 
         <div className="text-center">
-          <p className="mt-2 text-base xl:text-lg font-bold text-hot-pink">President</p>
-          <p className=" mt-[-4px] text-base xl:text-lg text-white">Tyler Roache</p>
-          <p className="my-0 mt-3 w-[72vw] max-w-lg text-text-grey text-sm sm:text-base xl:text-lg">
+          <p className="mt-2 text-base font-bold text-hot-pink xl:text-lg">
+            President
+          </p>
+          <p className=" mt-[-4px] text-base text-white xl:text-lg">
+            Tyler Roache
+          </p>
+          <p className="my-0 mt-3 w-[72vw] max-w-lg text-sm text-text-grey sm:text-base xl:text-lg">
             VGDC is a student-run organization at UCSD dedicated to teaching and
             applying software and artistic skills widely used in the video game
             industry.
