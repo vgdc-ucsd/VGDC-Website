@@ -7,7 +7,7 @@ import styles from './BlogCard.module.css'; // Import your CSS file
 
 export default function BlogCard({post}:{post:Post}) {
     return(
-        <section className = "flex-col md:flex-row items-start text-white h-fit w-full rounded-lg flex mb-8 pt-4  " >
+        <section className = "flex-col md:flex-row items-start text-white h-fit w-full rounded-lg flex mb-8 pt-4" >
            
            <div className = "pb-4">
 
@@ -29,7 +29,7 @@ export default function BlogCard({post}:{post:Post}) {
         
              
             <div className = "pl-4 pb-4">
-                <h2 className = "text-base font-bold text-white md:text-xl lg:text-3xl">{post.title}</h2>
+                <h2 className = "text-2xl font-bold text-white lg:text-4xl">{post.title}</h2>
                 <p className = "text-text-grey text-base font-bold xl:text-lg mt-2">By {post.author}</p>
                 <p className = {`${styles['clamped-lines']} text-text-grey mt-4 max-w-lg text-sm sm:text-base xl:text-lg` } >{post.content}</p>
 
