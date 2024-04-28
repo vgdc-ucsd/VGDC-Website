@@ -27,7 +27,7 @@ export default async function EventList() {
           image: response.data[i][6],
         }
 
-        eventList.push(event)
+        if (response.data[i][7] == "TRUE") eventList.push(event)
       }
     }
 
