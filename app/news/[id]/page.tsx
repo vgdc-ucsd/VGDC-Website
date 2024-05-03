@@ -2,7 +2,15 @@ import { Post, getPostData } from "@/lib/post"
 import ReactMarkdown from 'react-markdown'
 import { parseISO, format } from 'date-fns';
 
-
+/**
+ * This page holds the content for a 
+ * specific blog post. It fetches the id of the 
+ * blog from the URL params and then fetches the 
+ * file contents using getPostData()
+ * 
+ * ReactMarkdown is then used to display the 
+ * blog content. 
+ */
 
 export default async function Page({ params }: { params: { id: string } }) {    
     const post = await getPostData(params.id);
@@ -19,16 +27,7 @@ export default async function Page({ params }: { params: { id: string } }) {
 
 function DateFormat({dateString}: {dateString: string}) {
     const date = parseISO(dateString);
-    return (<time className = "text-white" dateTime={dateString}>{format(date, 'LLLL d, yyyy')}</time>);
-  }
+    return (<time className = "text-white" dateTime={dateString}>{format(date, 'LLLL d, yyyy')}</time>); 
+}
     
 
-
-// export async function getStaticProps({ params }: {params:any}) {
-//     const postData = getPostData(params.id);
-//     return {
-//       props: {
-//         postData,
-//       },
-//     };
-//   }
