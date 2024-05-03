@@ -3,6 +3,7 @@ import { Post } from "@/lib/post";
 import Image from "next/image";
 import Link from "next/link";
 import styles from './BlogCard.module.css'; // Import your CSS file
+import ReactMarkdown from 'react-markdown';
 
 
 export default function BlogCard({post}:{post:Post}) {
@@ -31,9 +32,9 @@ export default function BlogCard({post}:{post:Post}) {
             <div className = "pl-4 pb-4">
                 <h2 className = "text-2xl font-bold text-white lg:text-4xl">{post.title}</h2>
                 <p className = "text-text-grey text-base font-bold xl:text-lg mt-2">By {post.author}</p>
-                <p className = {`${styles['clamped-lines']} text-text-grey mt-4 max-w-lg text-sm sm:text-base xl:text-lg` } >{post.content}</p>
+                <ReactMarkdown className = {`${styles['clamped-lines']} text-text-grey mt-4 max-w-lg text-sm sm:text-base xl:text-lg` } >{post.content}</ReactMarkdown>
 
-                <Link href = {post.id} >
+                <Link href = {`news/${post.id}`} >
                     <Button className = "mt-4">view</Button>
                 </Link>
 
