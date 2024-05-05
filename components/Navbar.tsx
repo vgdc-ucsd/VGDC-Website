@@ -59,16 +59,16 @@ export default function Navbar() {
               <DrawerContent>
                 <DrawerFooter>
                   <Button variant="link" className="text-base">
-                    <Link href="./">Home</Link>
+                    <Link href="/">Home</Link>
                   </Button>
                   <Button variant="link" className="text-base">
-                    <Link href="./officers">Team</Link>
+                    <Link href="/officers">Team</Link>
                   </Button>
                   <Button variant="link" className="text-base">
-                    <Link href="./events">Events</Link>
+                    <Link href="/events">Events</Link>
                   </Button>
                   <Button variant="link" className="text-base">
-                    <Link href="./news">News</Link>
+                    <Link href="/news">News</Link>
                   </Button>
                 </DrawerFooter>
               </DrawerContent>
