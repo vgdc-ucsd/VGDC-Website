@@ -194,7 +194,7 @@ function About() {
 
   return (
     <section className="mx-4 mt-[4rem] flex w-auto flex-col items-center py-12 md:mt-[8rem]">
-      <h2 className=" text-2xl font-bold text-white lg:text-4xl">
+      <h2 className="text-2xl font-bold text-white lg:text-4xl">
         What is VGDC?
       </h2>
 
@@ -211,7 +211,7 @@ function About() {
           <p className=" mt-[-4px] text-base text-white xl:text-lg">
             Tyler Roache
           </p>
-          <p className="my-0 mt-3 w-[72vw] max-w-lg text-sm text-text-grey sm:text-base xl:text-lg">
+          <p className="my-0 mt-3 w-[72vw] max-w-lg text-sm text-text-grey sm:text-base">
             VGDC is a student-run organization at UCSD dedicated to teaching and
             applying software and artistic skills widely used in the video game
             industry.

@@ -57,7 +57,6 @@ export default async function Page({ params }: { params: { id: string } }) {
                             <p className="text-base">{post.author}</p>
                         </span>
                         
-                        
                         <DateFormat dateString={post.date} />
                         <p className="text-base">{calculateReadingTime(post.content)} Min Read</p>
                         <hr className="mt-2" ></hr>
