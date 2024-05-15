@@ -49,7 +49,6 @@ export default async function EventList() {
       </div>
       <div className="space-y-6">
         {events.map((event) => {
-          console.log(event.title)
           return (
             <Event
               title={event.title}
@@ -58,6 +57,7 @@ export default async function EventList() {
               time={event.time}
               location={event.location}
               image={event.image}
+              key={event.title}
             />
           )
         })}
