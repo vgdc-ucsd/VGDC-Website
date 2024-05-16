@@ -7,6 +7,9 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { createAvatar } from '@dicebear/core';
 import { notionistsNeutral } from '@dicebear/collection';
+import { headers } from "next/headers";
+import TwitterButton from "@/components/ui/twitter-button";
+
 /**
  * This page holds the content for a 
  * specific blog post. It fetches the id of the 
@@ -29,10 +32,28 @@ export default async function Page({ params }: { params: { id: string } }) {
         size: 24
     }).toDataUriSync();
 
+    // grab full url path 
+    const headerList = headers();
+    const pathname = headerList.get("x-current-path");
 
-
+    console.log(`Pathanme: ${pathname}`)
     return (
         <main className="min-h-screen bg-background-black">
+
+            <meta property="og:site_name" content="Video Game Development Club" />
+            <meta property="og:title" content={post.title} />
+            <meta property="og:description" content={post.content} />
+            <meta property="og:url" content={pathname!}/>
+            <meta property="og:type" content="article" />
+            <meta property="og:image" content={post.coverImage} />
+            <meta property="og:image:width" content="1280" />
+            <meta property="og:image:height" content="640" />
+            
+            {/** metadata to define content for twitter previews */}
+            <meta property="twitter:card" content="summary_large_image" />
+            <meta property="twitter:image" content={post.coverImage} />
+            <meta property="twitter:site" content="@vgdc" />
+
             <Navbar />
 
             <div className="mx-auto max-w-[920px] pb-20 text-white mt-6 md:mt-20 flex-col flex md:flex-row justify-center">
@@ -63,6 +84,7 @@ export default async function Page({ params }: { params: { id: string } }) {
                             </div>
 
                         </div>
+                        <TwitterButton url = {pathname!} post = {post}/>
                     </div>
 
                     {/**Cover Image */}
@@ -83,7 +105,7 @@ export default async function Page({ params }: { params: { id: string } }) {
 
 
                     {/**Blog Content */}
-                    <ReactMarkdown className="text-text-grey mt-4 text-sm md:text-base">{post.content}</ReactMarkdown>
+                    <ReactMarkdown className="text-text-grey mt-12 text-sm md:text-base">{post.content}</ReactMarkdown>
 
                 </article>
             </div>
