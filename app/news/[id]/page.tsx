@@ -26,7 +26,7 @@ import TwitterButton from "@/components/ui/twitter-button";
 <meta property="og:description" content={post.excerpt} />
 <meta property="og:url" content={testfullpath}/>
 <meta property="og:type" content="article" />
-<meta property="og:image" content={`${testhost}/_next/image?url=/images/blogs/${post.id}${post.coverImage}&w=828&q=75`} />
+<meta property="og:image" content={`${testhostname}/_next/image?url=/images/blogs/${post.id}${post.coverImage}&w=828&q=75`} />
 <meta property="og:image:width" content="1280" />
 <meta property="og:image:height" content="640" />
 
@@ -34,7 +34,7 @@ import TwitterButton from "@/components/ui/twitter-button";
 <meta property="twitter:site" content ="@vgdc"/>
 <meta property="twitter:title" content={post.title}/>
 <meta property="twitter:description" content = {post.excerpt} />
-<meta property="twitter:image" content={`${testhost}/_next/image?url=/images/blogs/${post.id}${post.coverImage}&w=828&q=75`} />
+<meta property="twitter:image" content={`${testhostname}/_next/image?url=/images/blogs/${post.id}${post.coverImage}&w=828&q=75`} />
  */}
 
 
