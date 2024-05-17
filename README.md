@@ -33,7 +33,7 @@ The `testfullpath` variable is to define the full path to the blog post page you
 ![alt text](image.png)
 
 
-This hostname is used as a prefix to help dynamically identify the image address for meta tags that describe such content, like the one from earlier: 
+This testhostname is used as a prefix to help dynamically identify the image address for meta tags that describe such content, like the one from earlier: 
 
 ```
 <meta property="twitter:image" content={'${testhostname}/_next/image?url=/images/blogs/${post.id}${post.coverImage}&w=828&q=75'} />
