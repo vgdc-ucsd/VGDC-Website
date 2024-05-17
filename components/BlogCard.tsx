@@ -22,7 +22,7 @@ export default function BlogCard({post}:{post:Post}) {
            <div className = "pb-4">
 
            <Image
-                src={post.coverImage}
+                src={`/images/blogs/${post.id}${post.coverImage}`}
                 width={600}
                 height={600}
                 alt="Picture of the author"

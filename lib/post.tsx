@@ -14,6 +14,7 @@ export type Post = {
   date: string
   title: string
   author: string
+  excerpt: string,
   coverImage: string
   content: string
 }
@@ -44,6 +45,7 @@ export function getSortedPostsData() {
       date: matterResult.data.date,
       title: matterResult.data.title,
       author: matterResult.data.author,
+      excerpt: matterResult.data.excerpt,
       coverImage: matterResult.data.coverImage,
       content: matterResult.content,
     }
@@ -78,6 +80,7 @@ export async function getPostData(id: string) {
     date: matterResult.data.date,
     title: matterResult.data.title,
     author: matterResult.data.author,
+    excerpt: matterResult.data.excerpt,
     coverImage: matterResult.data.coverImage,
     content: matterResult.content,
 

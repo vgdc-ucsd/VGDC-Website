@@ -2,7 +2,8 @@
 title: 'Two Forms of Pre-rendering'
 date: '2024-01-01'
 author: 'Lemony Snicket'
-coverImage: '/images/blogImages/blog1/image.png'
+excerpt: 'Nowadays we are accustomed to so many ways to render content on web pages. In this article we show what is possible with nextjs'
+coverImage: '/image.png'
 ---
 
 # Welcome to my Markdown Post!

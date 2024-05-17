@@ -35,24 +35,32 @@ export default async function Page({ params }: { params: { id: string } }) {
     // grab full url path 
     const headerList = headers();
     const pathname = headerList.get("x-current-path");
+    const hostname = headerList.get("x-host-name");
+    const port = headerList.get("x-port");
+    
+    const testpath = `https://0a03-2600-1700-7c01-1380-50b8-e654-7022-7db4.ngrok-free.app/news/${post.id}`
 
-    console.log(`Pathanme: ${pathname}`)
+    console.log(`Pathname: ${hostname}`)
     return (
         <main className="min-h-screen bg-background-black">
-
-            <meta property="og:site_name" content="Video Game Development Club" />
-            <meta property="og:title" content={post.title} />
-            <meta property="og:description" content={post.content} />
-            <meta property="og:url" content={pathname!}/>
-            <meta property="og:type" content="article" />
-            <meta property="og:image" content={post.coverImage} />
-            <meta property="og:image:width" content="1280" />
-            <meta property="og:image:height" content="640" />
-            
-            {/** metadata to define content for twitter previews */}
-            <meta property="twitter:card" content="summary_large_image" />
-            <meta property="twitter:image" content={post.coverImage} />
-            <meta property="twitter:site" content="@vgdc" />
+            <head>
+                <meta property="og:site_name" content="Video Game Development Club" />
+                <meta property="og:title" content={post.title} />
+                <meta property="og:description" content={post.excerpt} />
+                <meta property="og:url" content={testpath}/>
+                <meta property="og:type" content="article" />
+                <meta property="og:image" content={`https://0a03-2600-1700-7c01-1380-50b8-e654-7022-7db4.ngrok-free.app/_next/image?url=/images/blogs/${post.id}${post.coverImage}&w=3840&q=75`} />
+                <meta property="og:image:width" content="1280" />
+                <meta property="og:image:height" content="640" />
+                
+                {/** metadata to define content for twitter previews */}
+                <meta property="twitter:card" content="summary_large_image" />
+                <meta property="twitter:site" content ="@vgdc"/>
+                <meta property="twitter:title" content={post.title}/>
+                <meta property="twitter:description" content = {post.excerpt} />
+                <meta property="twitter:image" content={`https://0a03-2600-1700-7c01-1380-50b8-e654-7022-7db4.ngrok-free.app/_next/image?url=/images/blogs/${post.id}${post.coverImage}&w=3840&q=75`} />
+            </head>
+            {/* <meta property="twitter:image" content={`https://${hostname}:${port}/next/image?url=images/blogs/${post.id}${post.coverImage}&w=3840&q=75`} /> */}
 
             <Navbar />
 
@@ -69,7 +77,7 @@ export default async function Page({ params }: { params: { id: string } }) {
                 <article className=" mx-6 align-middle">
 
                     {/**Blog MetaData */}
-                    <div className="text-text-grey flex w-full flex-row justify-between md:w-2/3 mb-8">
+                    <div className="text-text-grey flex w-full flex-row justify-between mb-8">
 
                         <div className="flex flex-row align-middle">
                             <img
@@ -84,12 +92,12 @@ export default async function Page({ params }: { params: { id: string } }) {
                             </div>
 
                         </div>
-                        <TwitterButton url = {pathname!} post = {post}/>
+                        <TwitterButton url = {testpath} post = {post}/>
                     </div>
 
                     {/**Cover Image */}
                     <Image
-                        src={post.coverImage}
+                        src={`/images/blogs/${post.id}${post.coverImage}`}
                         width={800}
                         height={600}
                         alt="Cover Image"
