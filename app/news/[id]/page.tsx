@@ -9,7 +9,8 @@ import { createAvatar } from '@dicebear/core';
 import { notionistsNeutral } from '@dicebear/collection';
 import { headers } from "next/headers";
 import TwitterButton from "@/components/ui/twitter-button";
-
+import { notFound } from "next/navigation";
+import BackButton from "@/components/ui/back-button";
 /**
  * This page holds the content for a 
  * specific blog post. It fetches the id of the 
@@ -39,11 +40,17 @@ import TwitterButton from "@/components/ui/twitter-button";
 
 
 
+
 export default async function Page({ params }: { params: { id: string } }) {
+
     const post = await getPostData(params.id);
 
+    if (post == null){
+        notFound();
+    }
+
     const avatar = createAvatar(notionistsNeutral, {
-        seed: post.author,
+        seed: post!.author,
         radius: 50,
         size: 24
     }).toDataUriSync();
@@ -84,9 +91,7 @@ export default async function Page({ params }: { params: { id: string } }) {
 
 
                 <div id="socialShares" className="sticky left-0 top-0 mr-20 md:block mx-6 mb-4">
-                    <Link href="/">
-                        <Button>Back</Button>
-                    </Link>
+                    <BackButton/>
                 </div>
 
 
@@ -133,6 +138,12 @@ export default async function Page({ params }: { params: { id: string } }) {
 
                 </article>
             </div>
+
+
+            {/** Section to view more blog posts */}
+            <section>
+
+            </section>
         </main>
 
     );

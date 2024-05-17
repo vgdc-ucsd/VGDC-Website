@@ -25,7 +25,7 @@ export default function Home() {
     <main className="min-h-screen bg-background-black">
       <Navbar />
       <Hero />
-      <Companies />
+      {/* <Companies /> */}
       <About />
       <BlogPreview />
       <Engagement />
@@ -241,7 +241,7 @@ function BlogPreview() {
   const allPostsData = getSortedPostsData()
 
   return (
-    <section className="mx-auto mt-[4rem] w-full px-8 md:mt-[8rem] md:w-[36rem] md:px-0 xl:w-[56rem]">
+    <section className="mx-auto mt-[4rem] px-8 md:mt-[8rem] w-[36rem] md:px-0 xl:w-[56rem]">
       <span className="mb-8 flex flex-col justify-between md:flex-row">
         <div>
           <h2 className="text-2xl font-bold text-white lg:text-4xl">
