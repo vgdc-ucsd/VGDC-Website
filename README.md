@@ -6,9 +6,10 @@ This is the website for the Video Game Development Club at UCSD!
 A neat feature that we included is the ability to share blog posts via twitter. To do this, we utilize an internet protcol called **Opengraph**
 which is basically a standardized way to provide meta data about a particular web page. We achieve this by using `<meta>` tags like so: 
 
-`<meta property="og:site_name" content="Video Game Development Club" />`
-
-`<meta property="twitter:image" content={'${hostname}/_next/image?url=/images/blogs/${post.id}${post.coverImage}&w=828&q=75'} />`
+```
+<meta property="og:site_name" content="Video Game Development Club" />
+<meta property="twitter:image" content={'${hostname}/_next/image?url=/images/blogs/${post.id}${post.coverImage}&w=828&q=75'} />
+```
 
 Each of these tags gets placed at the top of the html document. When the page link is shared to a social media platform, these meta tags are then parsed to form a rendered preview of the blog post. Here are the steps to get this working on your local dev environment: 
 
@@ -32,7 +33,7 @@ The `testfullpath` variable is to define the full path to the blog post page you
 ![alt text](image.png)
 
 
-This hostname is used as a prefix to help dynamically identify the image address for meta tags that describe such content, like the one from earlier: 
+This testhostname is used as a prefix to help dynamically identify the image address for meta tags that describe such content, like the one from earlier: 
 
 ```
 <meta property="twitter:image" content={'${testhostname}/_next/image?url=/images/blogs/${post.id}${post.coverImage}&w=828&q=75'} />
