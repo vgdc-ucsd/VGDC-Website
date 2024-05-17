@@ -14,8 +14,9 @@ import type { NextRequest } from "next/server";
 export function middleware(request: NextRequest) {
   // Add a new header x-current-path which passes the path to downstream components
   const headers = new Headers(request.headers);
+  const testhost = "56a4-2600-1700-7c01-1380-301b-91f5-2629-245b.ngrok-free.app"
   headers.set("x-current-path", `https://${request.nextUrl.host}${request.nextUrl.pathname}`);
-  headers.set("x-host-name",request.nextUrl.hostname)
+  headers.set("x-host-name", request.nextUrl.host)
   headers.set("x-port",request.nextUrl.port)
   return NextResponse.next({ headers });
 }

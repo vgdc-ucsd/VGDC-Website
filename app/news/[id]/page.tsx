@@ -20,6 +20,22 @@ import TwitterButton from "@/components/ui/twitter-button";
  * blog content. 
  */
 
+{/* test meta tags
+<meta property="og:site_name" content="Video Game Development Club" />
+<meta property="og:title" content={post.title} />
+<meta property="og:description" content={post.excerpt} />
+<meta property="og:url" content={testfullpath}/>
+<meta property="og:type" content="article" />
+<meta property="og:image" content={`${testhost}/_next/image?url=/images/blogs/${post.id}${post.coverImage}&w=828&q=75`} />
+<meta property="og:image:width" content="1280" />
+<meta property="og:image:height" content="640" />
+
+<meta property="twitter:card" content="summary_large_image" />
+<meta property="twitter:site" content ="@vgdc"/>
+<meta property="twitter:title" content={post.title}/>
+<meta property="twitter:description" content = {post.excerpt} />
+<meta property="twitter:image" content={`${testhost}/_next/image?url=/images/blogs/${post.id}${post.coverImage}&w=828&q=75`} />
+ */}
 
 
 
@@ -34,22 +50,23 @@ export default async function Page({ params }: { params: { id: string } }) {
 
     // grab full url path 
     const headerList = headers();
-    const pathname = headerList.get("x-current-path");
+    const fullpath = headerList.get("x-current-path");
     const hostname = headerList.get("x-host-name");
-    const port = headerList.get("x-port");
     
-    const testpath = `https://0a03-2600-1700-7c01-1380-50b8-e654-7022-7db4.ngrok-free.app/news/${post.id}`
+    // For testing purposes only. Replace with your custom forwarded host
+    const testfullpath = `https://56a4-2600-1700-7c01-1380-301b-91f5-2629-245b.ngrok-free.app/news/${post.id}`
+    const testhostname = 'https://56a4-2600-1700-7c01-1380-301b-91f5-2629-245b.ngrok-free.app'
 
-    console.log(`Pathname: ${hostname}`)
     return (
         <main className="min-h-screen bg-background-black">
+            
             <head>
                 <meta property="og:site_name" content="Video Game Development Club" />
                 <meta property="og:title" content={post.title} />
                 <meta property="og:description" content={post.excerpt} />
-                <meta property="og:url" content={testpath}/>
+                <meta property="og:url" content={fullpath!}/>
                 <meta property="og:type" content="article" />
-                <meta property="og:image" content={`https://0a03-2600-1700-7c01-1380-50b8-e654-7022-7db4.ngrok-free.app/_next/image?url=/images/blogs/${post.id}${post.coverImage}&w=3840&q=75`} />
+                <meta property="og:image" content={`${hostname}/_next/image?url=/images/blogs/${post.id}${post.coverImage}&w=828&q=75`} />
                 <meta property="og:image:width" content="1280" />
                 <meta property="og:image:height" content="640" />
                 
@@ -58,9 +75,8 @@ export default async function Page({ params }: { params: { id: string } }) {
                 <meta property="twitter:site" content ="@vgdc"/>
                 <meta property="twitter:title" content={post.title}/>
                 <meta property="twitter:description" content = {post.excerpt} />
-                <meta property="twitter:image" content={`https://0a03-2600-1700-7c01-1380-50b8-e654-7022-7db4.ngrok-free.app/_next/image?url=/images/blogs/${post.id}${post.coverImage}&w=3840&q=75`} />
+                <meta property="twitter:image" content={`${hostname}/_next/image?url=/images/blogs/${post.id}${post.coverImage}&w=828&q=75`} />
             </head>
-            {/* <meta property="twitter:image" content={`https://${hostname}:${port}/next/image?url=images/blogs/${post.id}${post.coverImage}&w=3840&q=75`} /> */}
 
             <Navbar />
 
@@ -92,7 +108,7 @@ export default async function Page({ params }: { params: { id: string } }) {
                             </div>
 
                         </div>
-                        <TwitterButton url = {testpath} post = {post}/>
+                        <TwitterButton url = {testfullpath} post = {post}/>
                     </div>
 
                     {/**Cover Image */}
