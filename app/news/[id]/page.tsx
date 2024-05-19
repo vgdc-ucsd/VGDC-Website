@@ -1,4 +1,3 @@
-'use client'
 import React, { useContext } from 'react';
 import { generateNeighbors, getPostData } from "@/lib/post"
 import ReactMarkdown from 'react-markdown'
@@ -12,7 +11,6 @@ import { headers } from "next/headers";
 import TwitterButton from "@/components/ui/twitter-button";
 import { notFound } from "next/navigation";
 import BackButton from "@/components/ui/back-button";
-import { PostsContext } from "@/components/PostsProvider";
 
 /**
  * This page holds the content for a 
@@ -47,10 +45,8 @@ import { PostsContext } from "@/components/PostsProvider";
 export default async function BlogPage({ params}: { params: { id: string }}) {
 
     const post = await getPostData(params.id);
-
-    const {posts} = useContext(PostsContext);
-
-    const {previousPost, nextPost} = await generateNeighbors(params.id, posts)
+    
+    const {previousPost, nextPost} = await generateNeighbors(params.id)
 
     if (post == null){
         notFound();
@@ -145,26 +141,32 @@ export default async function BlogPage({ params}: { params: { id: string }}) {
                     <ReactMarkdown className="text-text-grey mt-12 text-sm md:text-base">{post.content}</ReactMarkdown>
                     {/** Section to view more blog posts */}
                     
-                    <section className = "mt-8 flex justify-between w-full">
-                        <hr className = "bg-slate-300 text-gray-500"></hr>
-                        
-                        <div className="flex items-center">
-                            {previousPost && (
-                                <Link href={`/news/${previousPost.id}`}>
-                                    <p className="text-white text-sm mr-2">Previous</p>
-                                    <p className="text-white">{previousPost.title}</p>
-                                </Link>
-                            )}
-                        </div>
+                    <section className = "mt-16">
+                        <hr></hr>
+                        <h2 className="text-2xl font-bold text-white mt-4">Read more</h2>
 
-                        <div className="flex items-center ml-auto">
-                            {nextPost && (
-                                <Link href={`/news/${nextPost.id}`}>
-                                    <p className="text-white text-sm mr-2">Next</p>
-                                    <p className="text-white">{nextPost.title}</p>
-                                </Link>
-                            )}
-                        </div>          
+                        <div className = "mt-4 flex justify-between w-full">
+                            <div className="flex items-center mr-8">
+                                {previousPost && (
+                                    <Link href={`/news/${previousPost.id}`}>
+                                        <p className="text-white text-sm mr-2">Previous</p>
+                                        <p className="text-white">{previousPost.title}</p>
+                                    </Link>
+                                )}
+                            </div>
+
+                            <div className="flex items-center ml-auto">
+                                {nextPost && (
+                                    <Link href={`/news/${nextPost.id}`}>
+                                        <p className="text-white text-sm mr-2">Next</p>
+                                        <p className="text-white">{nextPost.title}</p>
+                                    </Link>
+                                )}
+                            </div> 
+
+                        </div>
+                        
+                                 
 
                     </section>
                 </article>

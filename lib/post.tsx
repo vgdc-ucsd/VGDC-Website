@@ -20,7 +20,7 @@ export type Post = {
   content: string
 }
 
-export async function getSortedPostsData() {
+export async function getSortedPostsData( index: number ) {
   console.log("getting all posts")
   // Get file names under /posts
   const fileNames = fs.readdirSync(postsDirectory)
@@ -62,7 +62,7 @@ export async function getSortedPostsData() {
   })
 
   // Return only the two most recent posts
-  return sortedPosts.slice(0, 2)
+  return index == 0 ?  sortedPosts: sortedPosts.slice(0, index)
 }
 
 
@@ -103,13 +103,14 @@ export async function getPostData(id: string) {
  * 
  * @param id the current blog post the user is reading
  */
-export async function generateNeighbors(id: string, sortedPosts: Post[]) {
+export async function generateNeighbors(id: string) {
 
- 
+    const sortedPosts = await getSortedPostsData(0);
 
     // Find the index of the current post
     const currentIndex = sortedPosts.findIndex(post => post.id === id);
 
+    console.log(sortedPosts.length)
     // Define previous and next posts
     let previousPost = null;
     let nextPost = null;
@@ -120,7 +121,7 @@ export async function generateNeighbors(id: string, sortedPosts: Post[]) {
     }
 
     // If current post is not the last post, set next post
-    if (currentIndex < sortedPosts.length - 1) {
+    if (currentIndex < sortedPosts.length) {
       nextPost = sortedPosts[currentIndex + 1];
     }
 

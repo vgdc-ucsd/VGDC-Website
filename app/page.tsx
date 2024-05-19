@@ -19,8 +19,6 @@ import { Post, getSortedPostsData } from "@/lib/post"
 import BlogCard from "@/components/BlogCard"
 import { Button } from "@/components/ui/button"
 import { useContext } from "react"
-import PostsProvider, { PostsContext } from "@/components/PostsProvider"
-import BlogPage from "./news/[id]/page"
 
 
 
@@ -242,8 +240,8 @@ function About() {
   )
 }
 
-function BlogPreview() {
-  const {posts, setPosts} = useContext(PostsContext);
+async function BlogPreview() {
+  const posts = await getSortedPostsData(2);
 
   return (
     <section className="mx-auto mt-[4rem] px-8 md:mt-[8rem] w-full md:px-0 xl:w-[56rem]">
