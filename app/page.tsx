@@ -15,23 +15,28 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel"
-import { GetStaticProps } from "next"
 import { Post, getSortedPostsData } from "@/lib/post"
 import BlogCard from "@/components/BlogCard"
 import { Button } from "@/components/ui/button"
+import { useContext } from "react"
+import PostsProvider, { PostsContext } from "@/components/PostsProvider"
+import BlogPage from "./news/[id]/page"
+
+
 
 export default function Home() {
+  
   return (
     <main className="min-h-screen bg-background-black">
       <Navbar />
-      <Hero />
-      {/* <Companies /> */}
-      <About />
-      <BlogPreview />
-      <Engagement />
-      <Niches />
-      <Games />
-      <Footer />
+        <Hero />
+        {/* <Companies /> */}
+        <About />
+        <BlogPreview />
+        <Engagement />
+        <Niches />
+        <Games />
+        <Footer />
     </main>
   )
 }
@@ -238,10 +243,10 @@ function About() {
 }
 
 function BlogPreview() {
-  const allPostsData = getSortedPostsData()
+  const {posts, setPosts} = useContext(PostsContext);
 
   return (
-    <section className="mx-auto mt-[4rem] px-8 md:mt-[8rem] w-[36rem] md:px-0 xl:w-[56rem]">
+    <section className="mx-auto mt-[4rem] px-8 md:mt-[8rem] w-full md:px-0 xl:w-[56rem]">
       <span className="mb-8 flex flex-col justify-between md:flex-row">
         <div>
           <h2 className="text-2xl font-bold text-white lg:text-4xl">
@@ -258,7 +263,7 @@ function BlogPreview() {
       </span>
 
       <div>
-        {allPostsData.map((post: Post) => (
+        {posts.map((post: Post) => (
           <BlogCard key={post.id} post={post} />
         ))}
       </div>

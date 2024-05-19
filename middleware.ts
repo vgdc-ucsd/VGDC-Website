@@ -19,6 +19,8 @@ export function middleware(request: NextRequest) {
   headers.set("x-host-name", request.nextUrl.host)
   headers.set("x-port",request.nextUrl.port)
   return NextResponse.next({ headers });
+
+  
 }
 
 export const config = {

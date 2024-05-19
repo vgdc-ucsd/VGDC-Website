@@ -1,3 +1,4 @@
+'use server'
 import fs from "fs"
 import path from "path"
 import matter from "gray-matter"
@@ -19,7 +20,7 @@ export type Post = {
   content: string
 }
 
-export function getSortedPostsData() {
+export async function getSortedPostsData() {
   console.log("getting all posts")
   // Get file names under /posts
   const fileNames = fs.readdirSync(postsDirectory)
@@ -73,7 +74,6 @@ export async function getPostData(id: string) {
   if (!fs.existsSync(fullPath)) {
     return null; // Indicate that the file was not found
   }
-  
   const fileContents = fs.readFileSync(fullPath, 'utf8');
 
   // Use gray-matter to parse the post metadata section
@@ -93,4 +93,37 @@ export async function getPostData(id: string) {
   };
 
   return data;
+}
+
+/**
+ * This function will retreive the adjacent blog posts in the list
+ * relative to the user's position. This enables pagination to other 
+ * articles in the file system once a user finishes reading, rather than 
+ * having to navigate back to the news page to search for it. 
+ * 
+ * @param id the current blog post the user is reading
+ */
+export async function generateNeighbors(id: string, sortedPosts: Post[]) {
+
+ 
+
+    // Find the index of the current post
+    const currentIndex = sortedPosts.findIndex(post => post.id === id);
+
+    // Define previous and next posts
+    let previousPost = null;
+    let nextPost = null;
+
+    // If current post is not the first post, set previous post
+    if (currentIndex > 0) {
+      previousPost = sortedPosts[currentIndex - 1];
+    }
+
+    // If current post is not the last post, set next post
+    if (currentIndex < sortedPosts.length - 1) {
+      nextPost = sortedPosts[currentIndex + 1];
+    }
+
+    return { previousPost, nextPost };
+
 }
