@@ -30,7 +30,7 @@ export default function Home() {
     <main className="min-h-screen bg-background-black">
         <Navbar />
         <Hero />
-        {/* <Companies /> */}
+        <Companies />
         <About />
         <BlogPreview />
         <Engagement />
