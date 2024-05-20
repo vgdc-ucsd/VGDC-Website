@@ -71,7 +71,6 @@ export default async function BlogPage({ params}: { params: { id: string }}) {
         <main className="min-h-screen bg-background-black">
             <Navbar />
             
-
             <head>
                 <meta property="og:site_name" content="Video Game Development Club" />
                 <meta property="og:title" content={post.title} />

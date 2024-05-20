@@ -19,6 +19,8 @@ import { Post, getSortedPostsData } from "@/lib/post"
 import BlogCard from "@/components/BlogCard"
 import { Button } from "@/components/ui/button"
 import { useContext } from "react"
+import { GetServerSideProps } from "next"
+
 
 
 
@@ -26,7 +28,7 @@ export default function Home() {
   
   return (
     <main className="min-h-screen bg-background-black">
-      <Navbar />
+        <Navbar />
         <Hero />
         {/* <Companies /> */}
         <About />

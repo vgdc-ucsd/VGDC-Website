@@ -4,7 +4,7 @@ import type { NextRequest } from "next/server";
 /**
  * This method helps intercept incoming requests so that 
  * Nextjs server components can access URL data via headers. 
- * This is used for the blog page component
+ *
  * https://nextjs.org/docs/app/building-your-application/routing/middleware?ref=propelauth.com
  * 
  * @param request an HTTP request object 
