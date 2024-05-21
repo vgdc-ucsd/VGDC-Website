@@ -142,7 +142,7 @@ export default async function BlogPage({ params}: { params: { id: string }}) {
                     
                     <section className = "mt-16">
                         <hr></hr>
-                        <h2 className="text-2xl font-bold text-white mt-4">Read more</h2>
+                        {/* <h2 className="text-2xl font-bold text-white mt-4">Read more</h2> */}
 
                         <div className = "mt-4 flex justify-between w-full">
                             <div className="flex items-center mr-8">

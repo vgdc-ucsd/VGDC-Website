@@ -257,7 +257,7 @@ async function BlogPreview() {
           </p>
         </div>
 
-        <Link href="">
+        <Link href="/news">
           <Button className="mt-4">all posts</Button>
         </Link>
       </span>
