@@ -48,7 +48,7 @@ export default function BlogCard({post}:{post:Post}) {
                     />
                     <p className = "text-text-grey text-base font-bold">By {post.author}</p>
                 </span>
-                <ReactMarkdown className = {`${styles['clamped-lines']} text-text-grey mt-4 max-w-lg text-base` } >{post.content}</ReactMarkdown>
+                <ReactMarkdown className = {`${styles['clamped-lines']} text-text-grey mt-4 max-w-lg text-sm sm:text-base` } >{post.content}</ReactMarkdown>
 
                 <Link href = {`news/${post.id}`} >
                     <Button className = "mt-4">view</Button>

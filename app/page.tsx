@@ -30,7 +30,7 @@ export default function Home() {
     <main className="min-h-screen bg-background-black">
         <Navbar />
         <Hero />
-        <Companies />
+        {/* <Companies /> */}
         <About />
         <BlogPreview />
         <Engagement />
@@ -51,7 +51,7 @@ function Hero() {
     <>
       {/* The full container */}
       {/* "relative h-[15rem] w-full sm:h-[20rem] md:h-[24rem] xl:h-[32rem]" */}
-      <div className="relative mt-[1rem] w-full">
+      <div className="relative mt-[1rem] w-full bg-footer-grey">
         <div className="absolute left-0 top-0 w-full">
           <div className="relative mx-auto w-80 sm:w-[28rem] md:w-[32rem] xl:w-[64rem]">
             <Image
@@ -72,13 +72,13 @@ function Hero() {
           </div>
         </div>
         {/* Text & button content */}
-        <div className="mx-auto w-fit">
+        <div className="mx-auto w-fit py-24 md:py-48">
           {/* Club Name */}
           <h1
-            className="mt-24 inline-block
+            className="inline-block
 							bg-gradient-to-r from-vgdc-light-blue to-vgdc-light-green bg-clip-text 
 							text-center font-inter text-3xl font-extrabold text-transparent
-							sm:mt-40 sm:text-5xl md:text-5xl xl:text-7xl"
+							text-4xl md:text-5xl xl:text-7xl mx-6"
           >
             <b>
               Video Game
@@ -252,7 +252,7 @@ async function BlogPreview() {
           <h2 className="text-2xl font-bold text-white lg:text-4xl">
             VGDC News
           </h2>
-          <p className="max-w-lg text-sm text-text-grey sm:text-base xl:text-lg">
+          <p className="max-w-lg text-sm text-text-grey  sm:text-base xl:text-lg">
             Stay up to date with the latest highlights of the club
           </p>
         </div>

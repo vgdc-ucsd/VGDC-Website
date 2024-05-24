@@ -11,6 +11,7 @@ import { headers } from "next/headers";
 import TwitterButton from "@/components/ui/twitter-button";
 import { notFound } from "next/navigation";
 import BackButton from "@/components/ui/back-button";
+import Footer from '@/components/Footer';
 
 /**
  * This page holds the content for a 
@@ -174,7 +175,7 @@ export default async function BlogPage({ params}: { params: { id: string }}) {
             </div>
 
 
-            
+            <Footer />
         </main>
 
     );
