@@ -159,7 +159,7 @@ function Companies() {
           Our members are everywhere!
         </h2>
 
-        <h4 className=" mt-4 text-center font-inter text-sm text-text-grey sm:text-base xl:text-lg">
+        <h4 className="mt-4 text-center font-inter text-sm text-text-grey sm:text-base xl:text-lg">
           Top companies our alumni work at!
         </h4>
 
@@ -251,7 +251,7 @@ async function BlogPreview() {
   const posts = await getSortedPostsData(2);
 
   return (
-    <section className="mx-auto mt-[4rem] px-8 md:mt-[8rem] w-full md:px-0 xl:w-[56rem]">
+    <section className="mx-auto justify-center mt-[4rem] px-8 md:mt-[8rem] xl:w-[56rem] w-fit">
       <span className="mb-8 flex flex-col justify-between md:flex-row">
         <div>
           <h2 className="text-2xl font-bold text-white lg:text-4xl">
