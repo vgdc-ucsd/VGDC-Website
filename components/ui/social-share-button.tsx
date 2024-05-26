@@ -11,22 +11,23 @@ import {
   } from 'next-share'
 import { FaFacebook, FaLinkedin, FaTwitter } from 'react-icons/fa'
   
+const socialIconStyle = "mx-2 hover:text-vgdc-light-blue transition ease-in duration-150 "
 export default function SocialShareButton({url, network,post}: {url:string, network:string, post: Post}) {
     return (
         <>
         {network == "twitter" && 
             <TwitterShareButton url={url!}>
-                <FaTwitter size={24} className = "mx-2 hover:text-hot-pink transition ease-in duration-150 " />
+                <FaTwitter size={24} className = {socialIconStyle} />
             </TwitterShareButton>
         }
         {network == "facebook" && 
             <FacebookShareButton url={url!}>
-                <FaFacebook size={24} className = "mx-2 hover:text-hot-pink transition ease-in duration-150 " />
+                <FaFacebook size={24} className = {socialIconStyle} />
             </FacebookShareButton>
         }
         {network == "linkedin" && 
             <LinkedinShareButton url={url!}>
-                <FaLinkedin size={24} className = "mx-2 hover:text-hot-pink transition ease-in duration-150 " />
+                <FaLinkedin size={24} className = {socialIconStyle} />
             </LinkedinShareButton>
         }
         </>
