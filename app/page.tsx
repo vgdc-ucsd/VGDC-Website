@@ -30,12 +30,12 @@ export default function Home() {
     <main className="min-h-screen bg-background-black">
         <Navbar />
         <Hero />
-        {/* <Companies /> */}
         <About />
         <BlogPreview />
         <Engagement />
         <Niches />
         <Games />
+        <Companies />
         <Footer />
     </main>
   )
@@ -155,7 +155,11 @@ function Companies() {
     <>
       <div className="relative mt-[4rem] w-full md:mt-[8rem]">
         {/* Text above carousel */}
-        <h4 className="pt-8 text-center font-inter text-sm text-text-grey sm:text-base xl:text-lg">
+        <h2 className="text-center text-2xl font-bold text-white lg:text-4xl">
+          Our members are everywhere!
+        </h2>
+
+        <h4 className=" mt-4 text-center font-inter text-sm text-text-grey sm:text-base xl:text-lg">
           Top companies our alumni work at!
         </h4>
 
