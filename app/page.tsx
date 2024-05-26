@@ -51,7 +51,7 @@ function Hero() {
     <>
       {/* The full container */}
       {/* "relative h-[15rem] w-full sm:h-[20rem] md:h-[24rem] xl:h-[32rem]" */}
-      <div className="relative mt-[1rem] w-full bg-footer-grey">
+      <div className="relative w-full mt-[1rem]">
         <div className="absolute left-0 top-0 w-full">
           <div className="relative mx-auto w-80 sm:w-[28rem] md:w-[32rem] xl:w-[64rem]">
             <Image
@@ -59,7 +59,7 @@ function Hero() {
               alt="Controller icon"
               width={80}
               height={80}
-              className="absolute left-4 top-16 w-12 sm:left-0 sm:top-28 sm:w-20 md:top-28 xl:left-32 xl:w-24"
+              className="absolute left-4 sm:left-0 xl:left-32 top-16 w-12 sm:w-20 xl:w-24 sm:top-28 md:top-28"
             />
 
             <Image
@@ -67,18 +67,18 @@ function Hero() {
               alt="Controller icon"
               width={80}
               height={80}
-              className="absolute right-4 top-16 w-12 sm:right-0 sm:top-28 sm:w-20 md:top-28  xl:right-32 xl:w-24"
+              className="absolute right-4 sm:right-0 xl:right-32 top-16 w-12 sm:w-20 xl:w-24  sm:top-28 md:top-28"
             />
           </div>
         </div>
         {/* Text & button content */}
-        <div className="mx-auto w-fit py-24 md:py-48">
+        <div className="mx-auto w-fit">
           {/* Club Name */}
           <h1
-            className="inline-block
+            className="mt-24 mx-6 inline-block
 							bg-gradient-to-r from-vgdc-light-blue to-vgdc-light-green bg-clip-text 
-							text-center font-inter text-3xl font-extrabold text-transparent
-							text-4xl md:text-5xl xl:text-7xl mx-6"
+							text-center font-inter text-4xl font-extrabold text-transparent
+							sm:mt-40 sm:text-5xl md:text-5xl xl:text-7xl"
           >
             <b>
               Video Game
@@ -87,9 +87,9 @@ function Hero() {
             </b>
           </h1>
           {/* School Name */}
-          <h3 className="mt-2 text-center font-inter text-base text-white xl:text-lg">
+          <h3 className="mt-2 text-center font-inter text-base xl:text-lg text-white">
             @ UC San Diego
-          </h3>
+          </h3> 
           {/* Email Button */}
           {/* <a
             href="mailto:vgdc@ucsd.edu"
@@ -105,6 +105,7 @@ function Hero() {
     </>
   )
 }
+
 
 /**
  *
