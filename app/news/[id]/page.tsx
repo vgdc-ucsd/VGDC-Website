@@ -83,8 +83,8 @@ export default async function BlogPage({ params}: { params: { id: string }}) {
     const hostname = headerList.get("x-host-name");
     
     // For testing purposes only. Replace with your custom forwarded host
-    const testfullpath = `https://56a4-2600-1700-7c01-1380-301b-91f5-2629-245b.ngrok-free.app/news/${post.id}`
-    const testhostname = 'https://56a4-2600-1700-7c01-1380-301b-91f5-2629-245b.ngrok-free.app'
+    const testfullpath = `https://5742-2600-1700-7c01-1380-d136-ab79-e586-c1e3.ngrok-free.app/news/${post.id}`
+    const testhostname = 'https://5742-2600-1700-7c01-1380-d136-ab79-e586-c1e3.ngrok-free.app'
 
     return (
         <main className="min-h-screen bg-background-black">
@@ -213,9 +213,9 @@ export default async function BlogPage({ params}: { params: { id: string }}) {
     );
 }
 
-function DateFormat({ dateString }: { dateString: string }) {
+export function DateFormat({ dateString }: { dateString: string }) {
     const date = parseISO(dateString);
-    return (<time className="text-text-grey text-xs sm:text-sm" dateTime={dateString}>{format(date, 'LLLL d, yyyy')}</time>);
+    return (<time className="text-text-grey text-sm" dateTime={dateString}>{format(date, 'LLLL d, yyyy')}</time>);
 }
 
 function calculateReadingTime(content: string) {
