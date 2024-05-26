@@ -6,6 +6,7 @@ import styles from './BlogCard.module.css'; // Import your CSS file
 import ReactMarkdown from 'react-markdown';
 import { createAvatar } from "@dicebear/core";
 import { notionistsNeutral } from "@dicebear/collection";
+import { DateFormat } from '../app/news/[id]/page';
 
 
 export default function BlogCard({post}:{post:Post}) {
@@ -40,14 +41,20 @@ export default function BlogCard({post}:{post:Post}) {
              
             <div className = "pl-4 pb-4">
                 <h2 className = "text-2xl font-bold text-white lg:text-2xl">{post.title}</h2>
-                <span className = "flex flex-row align-middle mt-2">
+
+                {/** Card Meta Data */}
+                <div className = "inline-flex items-center mt-2">
                     <img
                         src={avatar}
-                        className="w-8 mr-2"
+                        className="w-8"
                         alt = "author cover image"
                     />
-                    <p className = "text-text-grey text-base font-bold">By {post.author}</p>
-                </span>
+                    <p className = "text-text-grey text-base font-bold ml-2">{post.author}</p>
+                    <p className = "mx-1">•</p>
+                    <DateFormat dateString={post.date} />
+                </div>
+
+                {/** Truncated Card content */}
                 <ReactMarkdown className = {`${styles['clamped-lines']} text-text-grey mt-4 max-w-lg text-sm sm:text-base` } >{post.content}</ReactMarkdown>
 
                 <Link href = {`news/${post.id}`} >
