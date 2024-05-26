@@ -8,10 +8,11 @@ import Link from "next/link";
 import { createAvatar } from '@dicebear/core';
 import { notionistsNeutral } from '@dicebear/collection';
 import { headers } from "next/headers";
-import TwitterButton from "@/components/ui/twitter-button";
+import TwitterButton from "@/components/ui/social-share-button";
 import { notFound } from "next/navigation";
 import BackButton from "@/components/ui/back-button";
 import Footer from '@/components/Footer';
+import SocialShareButton from '@/components/ui/social-share-button';
 
 /**
  * This page holds the content for a 
@@ -40,6 +41,23 @@ import Footer from '@/components/Footer';
 <meta property="twitter:image" content={`${testhostname}/_next/image?url=/images/blogs/${post.id}${post.coverImage}&w=828&q=75`} />
  */}
 
+ {/*
+<meta property="og:site_name" content="Video Game Development Club" />
+<meta property="og:title" content={post.title} />
+<meta property="og:description" content={post.excerpt} />
+<meta property="og:url" content={fullpath!}/>
+<meta property="og:type" content="article" />
+<meta property="og:image" content={`${hostname}/_next/image?url=/images/blogs/${post.id}${post.coverImage}&w=828&q=75`} />
+<meta property="og:image:width" content="1280" />
+<meta property="og:image:height" content="640" />
+
+{/** metadata to define content for twitter previews 
+<meta property="twitter:card" content="summary_large_image" />
+<meta property="twitter:site" content ="@vgdc"/>
+<meta property="twitter:title" content={post.title}/>
+<meta property="twitter:description" content = {post.excerpt} />
+<meta property="twitter:image" content={`${hostname}/_next/image?url=/images/blogs/${post.id}${post.coverImage}&w=828&q=75`} />
+ */}
 
 
 
@@ -73,29 +91,37 @@ export default async function BlogPage({ params}: { params: { id: string }}) {
             <Navbar />
             
             <head>
+
                 <meta property="og:site_name" content="Video Game Development Club" />
                 <meta property="og:title" content={post.title} />
                 <meta property="og:description" content={post.excerpt} />
-                <meta property="og:url" content={fullpath!}/>
+                <meta property="og:url" content={testfullpath}/>
                 <meta property="og:type" content="article" />
-                <meta property="og:image" content={`${hostname}/_next/image?url=/images/blogs/${post.id}${post.coverImage}&w=828&q=75`} />
+                <meta property="og:image" content={`${testhostname}/_next/image?url=/images/blogs/${post.id}${post.coverImage}&w=828&q=75`} />
                 <meta property="og:image:width" content="1280" />
                 <meta property="og:image:height" content="640" />
-                
-                {/** metadata to define content for twitter previews */}
+
                 <meta property="twitter:card" content="summary_large_image" />
                 <meta property="twitter:site" content ="@vgdc"/>
                 <meta property="twitter:title" content={post.title}/>
                 <meta property="twitter:description" content = {post.excerpt} />
-                <meta property="twitter:image" content={`${hostname}/_next/image?url=/images/blogs/${post.id}${post.coverImage}&w=828&q=75`} />
+                <meta property="twitter:image" content={`${testhostname}/_next/image?url=/images/blogs/${post.id}${post.coverImage}&w=828&q=75`} />
+                            
             </head>
 
 
-            <div className="mx-auto max-w-[920px] pb-20 text-white mt-6 md:mt-20 flex-col flex md:flex-row justify-center">
+            <div className="mx-auto max-w-[920px] pb-20 text-white mt-6 md:mt-20 flex-col flex lg:flex-row justify-center">
 
 
-                <div id="socialShares" className="sticky left-0 top-0 mr-20 md:block mx-6 mb-4">
+                <div className="sticky left-0 top-0 mr-20 mx-6 mb-4">
                     <BackButton/>
+
+                    <p className = "text-text-grey text-sm hidden md:mt-48 lg:flex">Share this blog</p>
+                    <div className = "mt-2 hidden lg:flex">
+                        <TwitterButton url = {testfullpath} network = "twitter" post = {post}/>
+                        <TwitterButton url = {testfullpath} network = "facebook" post = {post}/>
+                        <TwitterButton url = {testfullpath} network = "linkedin" post = {post}/>
+                    </div>
                 </div>
 
 
@@ -117,7 +143,6 @@ export default async function BlogPage({ params}: { params: { id: string }}) {
                             </div>
 
                         </div>
-                        <TwitterButton url = {testfullpath} post = {post}/>
                     </div>
 
                     {/**Cover Image */}
@@ -135,12 +160,18 @@ export default async function BlogPage({ params}: { params: { id: string }}) {
                     />
 
                     <h1 className="text-3xl md:text-5xl mt-4 mb-2 font-extrabold text-white">{post.title}</h1>
-
+                    
 
                     {/**Blog Content */}
                     <ReactMarkdown className="text-text-grey mt-12 text-sm md:text-base">{post.content}</ReactMarkdown>
                     {/** Section to view more blog posts */}
                     
+                    <p className = "text-text-grey text-sm mt-8 lg:hidden">Share this blog</p>
+                    <div className = "mt-2 flex lg:hidden">
+                        <TwitterButton url = {testfullpath} network = "twitter" post = {post}/>
+                        <TwitterButton url = {testfullpath} network = "facebook" post = {post}/>
+                        <TwitterButton url = {testfullpath} network = "linkedin" post = {post}/>
+                    </div>
                     <section className = "mt-16">
                         <hr></hr>
                         {/* <h2 className="text-2xl font-bold text-white mt-4">Read more</h2> */}
@@ -154,6 +185,7 @@ export default async function BlogPage({ params}: { params: { id: string }}) {
                                     </Link>
                                 )}
                             </div>
+                           
 
                             <div className="flex items-center ml-auto">
                                 {nextPost && (

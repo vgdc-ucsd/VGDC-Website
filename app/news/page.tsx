@@ -1,4 +1,5 @@
 import BlogCard from '@/components/BlogCard';
+import Footer from '@/components/Footer';
 import Navbar from '@/components/Navbar'
 import { Post, getSortedPostsData } from '@/lib/post';
 
@@ -24,6 +25,8 @@ export default async function News() {
         })}
       </div>
       </div>
+
+      <Footer/>
     </main>
   )
 }
