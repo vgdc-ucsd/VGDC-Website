@@ -1,31 +1,42 @@
-import Navbar from '@/components/Navbar'
-import EventList from '@/components/EventList'
-import Contributors from '@/components/Contributors'
-import Footer from '@/components/Footer'
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
-import { FaInstagram, FaDiscord, FaFacebook } from 'react-icons/fa'
-import { SiMinutemailer } from 'react-icons/si'
-import Image from 'next/image'
-import { useSpring, animated } from 'react-spring'
+import Navbar from "@/components/Navbar"
+import EventList from "@/components/EventList"
+import Contributors from "@/components/Contributors"
+import Footer from "@/components/Footer"
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import { FaInstagram, FaDiscord, FaFacebook } from "react-icons/fa"
+import { SiMinutemailer } from "react-icons/si"
+import Image from "next/image"
+import Link from "next/link"
+import { useSpring, animated } from "react-spring"
 import {
   Carousel,
   CarouselContent,
   CarouselItem,
   CarouselNext,
   CarouselPrevious,
-} from '@/components/ui/carousel'
+} from "@/components/ui/carousel"
+import { Post, getSortedPostsData } from "@/lib/post"
+import BlogCard from "@/components/BlogCard"
+import { Button } from "@/components/ui/button"
+import { useContext } from "react"
+import { GetServerSideProps } from "next"
+
+
+
 
 export default function Home() {
+  
   return (
     <main className="min-h-screen bg-background-black">
-      <Navbar />
-      <Hero />
-      <Companies />
-      <About />
-      <Engagement />
-      <Niches />
-      <Games />
-      <Footer />
+        <Navbar />
+        <Hero />
+        <About />
+        <BlogPreview />
+        <Engagement />
+        <Niches />
+        <Games />
+        <Companies />
+        <Footer />
     </main>
   )
 }
@@ -64,9 +75,9 @@ function Hero() {
         <div className="mx-auto w-fit">
           {/* Club Name */}
           <h1
-            className="mt-24 inline-block
+            className="mt-24 mx-6 inline-block
 							bg-gradient-to-r from-vgdc-light-blue to-vgdc-light-green bg-clip-text 
-							text-center font-inter text-3xl font-extrabold text-transparent
+							text-center font-inter text-4xl font-extrabold text-transparent
 							sm:mt-40 sm:text-5xl md:text-5xl xl:text-7xl"
           >
             <b>
@@ -95,63 +106,67 @@ function Hero() {
   )
 }
 
+
 /**
  *
  * @returns
  */
 function Companies() {
-  const carouselStyle = 'basis-1/2 sm:basis-1/3 xl:basis-1/4'
+  const carouselStyle = "basis-1/2 sm:basis-1/3 xl:basis-1/4"
 
   // This configures the size of each company logo
-  const companyLogoStyle = 'mx-auto w-32 lg:w-40'
+  const companyLogoStyle = "mx-auto w-32 lg:w-40"
 
   // List of companies & data to be shown in the carousel
   const companies = [
     {
-      name: 'XBOX Game Studios',
-      logo: '/logos/companies/xbox-game-studios.png',
-      link: 'https://www.xbox.com/xbox-game-studios',
+      name: "XBOX Game Studios",
+      logo: "/logos/companies/xbox-game-studios.png",
+      link: "https://www.xbox.com/xbox-game-studios",
     },
     {
-      name: 'Playstation',
-      logo: '/logos/companies/playstation.png',
-      link: 'https://www.playstation.com/',
+      name: "Playstation",
+      logo: "/logos/companies/playstation.png",
+      link: "https://www.playstation.com/",
     },
     {
-      name: 'Google',
-      logo: '/logos/companies/google.png',
-      link: 'https://about.google/',
+      name: "Google",
+      logo: "/logos/companies/google.png",
+      link: "https://about.google/",
     },
     {
-      name: 'Blizzard Entertainment',
-      logo: '/logos/companies/blizzard.png',
-      link: 'https://www.blizzard.com/',
+      name: "Blizzard Entertainment",
+      logo: "/logos/companies/blizzard.png",
+      link: "https://www.blizzard.com/",
     },
     {
-      name: 'Supergiant Games',
-      logo: '/logos/companies/supergiant.png',
-      link: 'https://www.supergiantgames.com/',
+      name: "Supergiant Games",
+      logo: "/logos/companies/supergiant.png",
+      link: "https://www.supergiantgames.com/",
     },
     {
-      name: 'The Behemoth',
-      logo: '/logos/companies/behemoth.png',
-      link: 'https://www.thebehemoth.com/',
+      name: "The Behemoth",
+      logo: "/logos/companies/behemoth.png",
+      link: "https://www.thebehemoth.com/",
     },
   ]
 
   return (
     <>
-      <div className="relative mt-[4rem] md:mt-[8rem] w-full">
-
+      <div className="relative mt-[4rem] w-full md:mt-[8rem]">
         {/* Text above carousel */}
-        <h4 className="pt-8 text-center font-inter text-sm sm:text-base xl:text-lg text-text-grey">
+        <h2 className="text-center text-2xl font-bold text-white lg:text-4xl">
+          Our members are everywhere!
+        </h2>
+
+        <h4 className="mt-4 text-center font-inter text-sm text-text-grey sm:text-base xl:text-lg">
           Top companies our alumni work at!
         </h4>
-        
+
         {/* List of companies */}
         <Carousel
           opts={{
-            align: 'start',
+            align: "start",
             loop: true,
           }}
           className="mx-auto w-48 sm:w-96 md:w-[36rem] xl:w-[56rem]"
@@ -166,7 +181,7 @@ function Companies() {
                     <Image
                       src={company.logo}
                       alt={company.name}
-                      // width and height alter the resolution of the image 
+                      // width and height alter the resolution of the image
                       width={500}
                       height={500}
                       className={companyLogoStyle}
@@ -185,11 +200,11 @@ function Companies() {
 
 function About() {
   const socialLinkStyle =
-    'text-white transition ease-in duration-150 hover:cursor-pointer hover:text-hot-pink'
+    "text-white transition ease-in duration-150 hover:cursor-pointer hover:text-hot-pink"
 
   return (
-    <section className="mt-[4rem] md:mt-[8rem] mx-4 flex w-auto flex-col items-center py-12">
-      <h2 className=" text-base font-bold text-white md:text-xl lg:text-3xl">
+    <section className="mx-4 mt-[4rem] flex w-auto flex-col items-center py-12 md:mt-[8rem]">
+      <h2 className="text-2xl font-bold text-white lg:text-4xl">
         What is VGDC?
       </h2>
 
@@ -200,9 +215,13 @@ function About() {
         </Avatar>
 
         <div className="text-center">
-          <p className="mt-2 text-base xl:text-lg font-bold text-hot-pink">President</p>
-          <p className=" mt-[-4px] text-base xl:text-lg text-white">Tyler Roache</p>
-          <p className="my-0 mt-3 w-[72vw] max-w-lg text-text-grey text-sm sm:text-base xl:text-lg">
+          <p className="mt-2 text-base font-bold text-hot-pink xl:text-lg">
+            President
+          </p>
+          <p className=" mt-[-4px] text-base text-white xl:text-lg">
+            Tyler Roache
+          </p>
+          <p className="my-0 mt-3 w-[72vw] max-w-lg text-sm text-text-grey sm:text-base">
             VGDC is a student-run organization at UCSD dedicated to teaching and
             applying software and artistic skills widely used in the video game
             industry.
@@ -223,6 +242,35 @@ function About() {
             <SiMinutemailer className={socialLinkStyle} size={28} />
           </a>
         </span>
+      </div>
+    </section>
+  )
+}
+
+async function BlogPreview() {
+  const posts = await getSortedPostsData(2);
+
+  return (
+    <section className="mx-auto justify-center mt-[4rem] px-8 md:mt-[8rem] xl:w-[56rem] w-fit">
+      <span className="mb-8 flex flex-col justify-between md:flex-row">
+        <div>
+          <h2 className="text-2xl font-bold text-white lg:text-4xl">
+            VGDC News
+          </h2>
+          <p className="max-w-lg text-sm text-text-grey  sm:text-base xl:text-lg">
+            Stay up to date with the latest highlights of the club
+          </p>
+        </div>
+
+        <Link href="/news">
+          <Button className="mt-4">all posts</Button>
+        </Link>
+      </span>
+
+      <div>
+        {posts.map((post: Post) => (
+          <BlogCard key={post.id} post={post} />
+        ))}
       </div>
     </section>
   )

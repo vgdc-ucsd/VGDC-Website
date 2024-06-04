@@ -41,7 +41,7 @@ export default function Footer() {
   return (
     <div className="bg-footer-grey">
       {/* Responsive flexbox containing the FAQs, social links, and extra box. */}
-      <div className="mx-auto flex w-full max-w-full flex-col justify-center pt-8 sm:w-fit lg:flex-row-reverse lg:space-x-4">
+      <div className="mx-auto flex w-full max-w-full flex-col justify-center pt-8 mt-[4rem] md:mt-[8rem] sm:w-fit lg:flex-row-reverse lg:space-x-4">
         {/* Social links */}
         <div className="min-w-full p-8 sm:w-[540px] sm:min-w-0">
           <SocialLinks />

@@ -14,6 +14,10 @@ import {
 } from '@/components/ui/drawer'
 
 import { Button } from '@/components/ui/button'
+import { GetServerSideProps } from 'next'
+import { headers } from 'next/headers'
+
+
 
 /**
  * The navbar for the website, with the logo and navigation.
@@ -30,7 +34,7 @@ export default function Navbar() {
         {/* Contains all components inside navbar */}
         <div className="w-full px-4 py-2">
           {/* The logo, changes size and position dynamically */}
-          <Link href="./" className="absolute top-3 block w-fit">
+          <Link href='/' className="absolute top-3 block w-fit">
             <Image
               src="/logos/VGDC-logo-no-subtitle.png"
               alt="VGDC Logo"
@@ -59,16 +63,16 @@ export default function Navbar() {
               <DrawerContent>
                 <DrawerFooter>
                   <Button variant="link" className="text-base">
-                    <Link href="./">Home</Link>
+                    <Link href='/'>Home</Link>
                   </Button>
                   <Button variant="link" className="text-base">
-                    <Link href="./officers">Team</Link>
+                    <Link href='/officers'>Team</Link>
                   </Button>
                   <Button variant="link" className="text-base">
-                    <Link href="./events">Events</Link>
+                    <Link href='/events'>Events</Link>
                   </Button>
                   <Button variant="link" className="text-base">
-                    <Link href="./news">News</Link>
+                    <Link href='/news'>News</Link>
                   </Button>
                 </DrawerFooter>
               </DrawerContent>
@@ -77,16 +81,16 @@ export default function Navbar() {
 
           {/* Basic menu, dynamically changes  with screen size */}
           <div className="invisible relative text-base top-3 float-right mx-auto w-fit space-x-12 align-middle transition-transform sm:visible lg:float-none lg:space-x-16">
-            <Link href="./" className={menuButton}>
+            <Link href='/' className={menuButton}>
               Home
             </Link>
-            <Link href="./officers" className={menuButton}>
+            <Link href='/officers' className={menuButton}>
               Team
             </Link>
-            <Link href="./events" className={menuButton}>
+            <Link href="/events" className={menuButton}>
               Events
             </Link>
-            <Link href="./news" className={menuButton}>
+            <Link href="/news" className={menuButton}>
               News
             </Link>
           </div>
