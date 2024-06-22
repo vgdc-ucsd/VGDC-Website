@@ -117,9 +117,9 @@ export default async function BlogPage({ params}: { params: { id: string }}) {
 
                     <p className = "text-text-grey text-sm hidden md:mt-48 lg:flex">Share this blog</p>
                     <div className = "mt-2 hidden lg:flex">
-                        <TwitterButton url = {testfullpath} network = "twitter" post = {post}/>
-                        <TwitterButton url = {testfullpath} network = "facebook" post = {post}/>
-                        <TwitterButton url = {testfullpath} network = "linkedin" post = {post}/>
+                        <TwitterButton url = {fullpath!} network = "twitter" post = {post}/>
+                        <TwitterButton url = {fullpath!} network = "facebook" post = {post}/>
+                        <TwitterButton url = {fullpath!} network = "linkedin" post = {post}/>
                     </div>
                 </div>
 
