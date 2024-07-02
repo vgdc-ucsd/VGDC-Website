@@ -1,32 +1,43 @@
-import Navbar from '@/components/Navbar'
-import EventList from '@/components/EventList'
-import Contributors from '@/components/Contributors'
-import Footer from '@/components/Footer'
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
-import { FaInstagram, FaDiscord, FaFacebook } from 'react-icons/fa'
-import { SiMinutemailer } from 'react-icons/si'
-import Image from 'next/image'
-import { useSpring, animated } from 'react-spring'
+import Navbar from "@/components/Navbar"
+import EventList from "@/components/EventList"
+import Contributors from "@/components/Contributors"
+import Footer from "@/components/Footer"
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import { FaInstagram, FaDiscord, FaFacebook } from "react-icons/fa"
+import { SiMinutemailer } from "react-icons/si"
+import Image from "next/image"
+import Link from "next/link"
+import { useSpring, animated } from "react-spring"
 import {
   Carousel,
   CarouselContent,
   CarouselItem,
   CarouselNext,
   CarouselPrevious,
-} from '@/components/ui/carousel'
+} from "@/components/ui/carousel"
+import { Post, getSortedPostsData } from "@/lib/post"
+import BlogCard from "@/components/BlogCard"
+import { Button } from "@/components/ui/button"
+import { useContext } from "react"
+import { GetServerSideProps } from "next"
+
+
+
 
 export default function Home() {
   
   return (
     <main className="min-h-screen bg-background-black">
-      <Navbar />
-      <Hero />
-      <Companies />
-      <About />
-      <Engagement />
-      <Niches />
-      <Games />
-      <Footer />
+        <Navbar />
+        <Hero />
+        <About />
+        <BlogPreview />
+        <Engagement /> 
+        <EventList />
+        <Niches />
+        <Games />
+        <Companies />
+        <Footer />
     </main>
   )
 }
@@ -145,7 +156,11 @@ function Companies() {
     <>
       <div className="relative mt-[4rem] w-full md:mt-[8rem]">
         {/* Text above carousel */}
-        <h4 className="pt-8 text-center font-inter text-sm sm:text-base xl:text-lg text-text-grey">
+        <h2 className="text-center text-2xl font-bold text-white lg:text-4xl">
+          Our members are everywhere!
+        </h2>
+
+        <h4 className="mt-4 text-center font-inter text-sm text-text-grey sm:text-base xl:text-lg">
           Top companies our alumni work at!
         </h4>
 
@@ -189,8 +204,8 @@ function About() {
     "text-white transition ease-in duration-150 hover:cursor-pointer hover:text-hot-pink"
 
   return (
-    <section className="mt-[4rem] md:mt-[8rem] mx-4 flex w-auto flex-col items-center py-12">
-      <h2 className=" text-base font-bold text-white md:text-xl lg:text-3xl">
+    <section className="mx-4 mt-[4rem] flex w-auto flex-col items-center py-12 md:mt-[8rem]">
+      <h2 className="text-2xl font-bold text-white lg:text-4xl">
         What is VGDC?
       </h2>
 
@@ -201,9 +216,13 @@ function About() {
         </Avatar>
 
         <div className="text-center">
-          <p className="mt-2 text-base xl:text-lg font-bold text-hot-pink">President</p>
-          <p className=" mt-[-4px] text-base xl:text-lg text-white">Tyler Roache</p>
-          <p className="my-0 mt-3 w-[72vw] max-w-lg text-text-grey text-sm sm:text-base xl:text-lg">
+          <p className="mt-2 text-base font-bold text-hot-pink xl:text-lg">
+            President
+          </p>
+          <p className=" mt-[-4px] text-base text-white xl:text-lg">
+            Tyler Roache
+          </p>
+          <p className="my-0 mt-3 w-[72vw] max-w-lg text-sm text-text-grey sm:text-base">
             VGDC is a student-run organization at UCSD dedicated to teaching and
             applying software and artistic skills widely used in the video game
             industry.
