@@ -2,39 +2,10 @@
 
 import Link from "next/link"
 
-import { getSheetData } from "@/lib/google-sheets.action"
-
-import { useState, useMemo, useEffect } from "react"
-
-type EventType = {
-  data: any[][]
-}
+import { getEvents } from "@/lib/events"
 
 export default async function EventList() {
-  const getEvents = async () => {
-    const response = await getSheetData()
-
-    let eventList = []
-
-    if (response.data != null && response.data != undefined) {
-      for (let i in response.data) {
-        let event = {
-          title: response.data[i][0],
-          description: response.data[i][1],
-          location: response.data[i][2],
-          date: response.data[i][3],
-          time: response.data[i][4] + " - " + response.data[i][5],
-          image: response.data[i][6],
-        }
-
-        if (response.data[i][7] == "TRUE") eventList.push(event)
-      }
-    }
-
-    return eventList
-  }
-
-  const events = await getEvents()
+  const events = await getEvents(true)
 
   return (
     <div className="mx-auto mb-32 mt-32 w-full px-4 sm:w-[600px] sm:px-8 md:w-[680px] lg:w-[800px]">
@@ -57,7 +28,8 @@ export default async function EventList() {
               time={event.time}
               location={event.location}
               image={event.image}
-              key={event.title}
+              slug={event.slug}
+              key={event.slug}
             />
           )
         })}
@@ -66,7 +38,7 @@ export default async function EventList() {
   )
 }
 
-function Event({ title, location, date, time, description, image }: any) {
+function Event({ title, location, date, time, description, image, slug }: any) {
   return (
     <div className="flex rounded-3xl bg-footer-grey p-3 align-middle sm:space-x-6 sm:p-6">
       <img
@@ -75,7 +47,9 @@ function Event({ title, location, date, time, description, image }: any) {
       />
       <div className="relative w-full">
         <div className="mb-2 md:mt-2">
-          <h3 className="text-xl font-semibold text-text-white">{title}</h3>
+          <Link href={`./events/${slug}`}>
+            <h3 className="text-xl font-semibold text-text-white">{title}</h3>
+          </Link>
           <h4 className="text-md font-semibold text-vgdc-light-green">
             {location}
           </h4>
@@ -94,9 +68,11 @@ function Event({ title, location, date, time, description, image }: any) {
           <br />
           {time}
         </h4>
-        <button className="bottom-0 right-0 mt-4 h-10 w-28 rounded-lg bg-background-grey text-sm text-text-white transition-colors sm:absolute sm:right-auto md:bottom-2">
-          Event Details
-        </button>
+        <Link href={`./events/${slug}`}>
+          <button className="bottom-0 right-0 mt-4 h-10 w-28 rounded-lg bg-background-grey text-sm text-text-white transition-colors sm:absolute sm:right-auto md:bottom-2">
+            Event Details
+          </button>
+        </Link>
       </div>
     </div>
   )

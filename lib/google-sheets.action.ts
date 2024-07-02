@@ -3,7 +3,6 @@ import { google } from "googleapis"
 
 export async function getSheetData() {
   const glAuth = await google.auth.getClient({
-    projectId: "YOUR_PROJECT_ID",
     credentials: {
       type: "service_account",
       project_id: process.env.PROJECT_ID,
