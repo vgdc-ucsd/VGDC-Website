@@ -55,7 +55,9 @@ export default function BlogCard({post}:{post:Post}) {
                 </div>
 
                 {/** Truncated Card content */}
-                <ReactMarkdown className = {`${styles['clamped-lines']} text-text-grey mt-4 max-w-lg text-sm sm:text-base` } >{post.content}</ReactMarkdown>
+                <div className = {`${styles['clamped-lines']} text-text-grey mt-4 max-w-lg text-sm sm:text-base` }>
+                    <p>{post.content}</p>
+                </div>
 
                 <Link href = {`news/${post.id}`} >
                     <Button className = "mt-4">view</Button>

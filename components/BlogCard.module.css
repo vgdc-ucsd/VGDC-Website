@@ -4,3 +4,7 @@
     -webkit-line-clamp: 3;
     overflow: hidden;
   }
+
+  .campled-lines p {
+    margin-bottom: 0;
+  }
