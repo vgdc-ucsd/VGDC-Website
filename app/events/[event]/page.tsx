@@ -9,7 +9,7 @@ import Footer from "@/components/Footer"
 import Custom404 from "@/app/not-found"
 
 export default async function Event({ params }: { params: { event: string } }) {
-  let events = await getEvents(false)
+  let events = await getEvents(false, true, true)
 
   let eventDetails: EventDetails = {
     title: "",
@@ -17,6 +17,7 @@ export default async function Event({ params }: { params: { event: string } }) {
     location: "",
     date: "",
     time: "",
+    timestamp: "",
     image: "",
     slug: "",
   }
