@@ -25,13 +25,14 @@ export default async function EventList({
 
   return (
     <div
-      className={`mx-auto mb-16 mt-24 w-full px-4 sm:w-[600px] sm:px-8 md:w-[680px] lg:w-[800px] ${homepage && "mb-32 mt-32"}`}
+      id="events"
+      className={`mx-auto w-full px-4 pb-16 pt-24 sm:w-[600px] sm:px-8 md:w-[680px] lg:w-[800px] ${homepage && "pb-32 pt-32"}`}
     >
       <div className="mb-6 text-left">
         {/* If the events list isn't on the homepage, include back button. */}
         {homepage || (
           <Link
-            href="/"
+            href="/#events"
             className="text-text-grey transition-all hover:text-white"
           >{`<- back to home`}</Link>
         )}
@@ -59,6 +60,7 @@ export default async function EventList({
               image={event.image}
               slug={event.slug}
               key={event.slug}
+              homepage={homepage}
             />
           )
         })}
@@ -68,7 +70,16 @@ export default async function EventList({
 }
 
 /** An event card to be shown in the events list. */
-function Event({ title, location, date, time, description, image, slug }: any) {
+function Event({
+  title,
+  location,
+  date,
+  time,
+  description,
+  image,
+  slug,
+  homepage,
+}: any) {
   return (
     <div className="flex rounded-3xl bg-footer-grey p-3 align-middle sm:space-x-6 sm:p-6">
       <img
@@ -77,7 +88,9 @@ function Event({ title, location, date, time, description, image, slug }: any) {
       />
       <div className="relative w-full">
         <div className="mb-2 md:mt-2">
-          <Link href={`./events/${slug}`}>
+          <Link
+            href={`./events/${slug}${homepage ? "?from=home" : "?from=events"}`}
+          >
             <h3 className="text-xl font-semibold text-text-white">{title}</h3>
           </Link>
           <h4 className="text-md font-semibold text-vgdc-light-green">
