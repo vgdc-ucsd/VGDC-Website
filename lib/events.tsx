@@ -22,8 +22,8 @@ export type EventDetails = {
 export async function getEvents(homepage = false, includeOldEvents = false) {
   // Gets the raw data from getSheetData.
   const response = await getSheetData()
-  // Gets the current moment to filter out events before this time. Subtracts 2 hours so events show briefly after ending.
-  const thisMoment = moment().subtract(2, "hours").format("YYYY-MM-DD HH:mm:ss")
+  // Gets the current moment to filter out events before this time. Subtracts 1 day so events show a day after ending.
+  const thisMoment = moment().subtract(1, "day").format("YYYY-MM-DD HH:mm:ss")
 
   // The list that events will be added to.
   let eventList = []
@@ -42,7 +42,7 @@ export async function getEvents(homepage = false, includeOldEvents = false) {
         time: response.data[i][4] + " - " + response.data[i][5],
         // Uses momentjs to get a standard timestamp for sorting.
         timestamp: moment(
-          response.data[i][3] + " " + response.data[i][5],
+          response.data[i][3] + " " + response.data[i][4],
           "M/D/YYYY h:mm A"
         ).format("YYYY-MM-DD HH:mm:ss"),
         image: response.data[i][6],
