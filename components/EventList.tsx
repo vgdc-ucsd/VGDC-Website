@@ -4,19 +4,29 @@ import Link from "next/link"
 
 import { getEvents } from "@/lib/events"
 
-export default async function EventList() {
-  const events = await getEvents(true)
+export default async function EventList({ homepage = true }) {
+  const events = await getEvents(homepage)
 
   return (
-    <div className="mx-auto mb-32 mt-32 w-full px-4 sm:w-[600px] sm:px-8 md:w-[680px] lg:w-[800px]">
+    <div
+      className={`mx-auto mb-16 mt-24 w-full px-4 sm:w-[600px] sm:px-8 md:w-[680px] lg:w-[800px] ${homepage && "mb-32 mt-32"}`}
+    >
       <div className="mb-6 text-left">
-        <h2 className="mb-2 text-xl font-bold text-white lg:text-3xl">
+        {homepage || (
+          <Link
+            href="/"
+            className="text-text-grey transition-all hover:text-white"
+          >{`<- back to home`}</Link>
+        )}
+        <h2 className="my-2 text-xl font-bold text-white lg:text-3xl">
           Explore Events
         </h2>
-        <Link
-          href="./"
-          className="text-text-grey transition-all hover:text-white"
-        >{`View more events ->`}</Link>
+        {homepage && (
+          <Link
+            href="/events"
+            className="text-text-grey transition-all hover:text-white"
+          >{`View more events ->`}</Link>
+        )}
       </div>
       <div className="space-y-6">
         {events.map((event) => {
