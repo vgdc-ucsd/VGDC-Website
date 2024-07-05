@@ -26,7 +26,7 @@ export default async function EventList({
   return (
     <div
       id="events"
-      className={`mx-auto w-full px-4 pb-16 pt-24 sm:w-[600px] sm:px-8 md:w-[680px] lg:w-[800px] ${homepage && "pb-32 pt-32"}`}
+      className={`mx-auto w-full px-4 pb-16 pt-32 sm:w-[600px] sm:px-8 md:w-[680px] lg:w-[800px]`}
     >
       <div className="mb-6 text-left">
         {/* If the events list isn't on the homepage, include back button. */}
@@ -49,21 +49,27 @@ export default async function EventList({
       </div>
       <div className="space-y-6">
         {/* Display the events one by one. */}
-        {events.map((event) => {
-          return (
-            <Event
-              title={event.title}
-              description={event.description}
-              date={event.date}
-              time={event.time}
-              location={event.location}
-              image={event.image}
-              slug={event.slug}
-              key={event.slug}
-              homepage={homepage}
-            />
-          )
-        })}
+        {events.length > 0 ? (
+          events.map((event) => {
+            return (
+              <Event
+                title={event.title}
+                description={event.description}
+                date={event.date}
+                time={event.time}
+                location={event.location}
+                image={event.image}
+                slug={event.slug}
+                key={event.slug}
+                homepage={homepage}
+              />
+            )
+          })
+        ) : (
+          <h3 className="text-xl text-text-grey">
+            No events found, check back again soon!
+          </h3>
+        )}
       </div>
     </div>
   )
@@ -81,7 +87,7 @@ function Event({
   homepage,
 }: any) {
   return (
-    <div className="flex rounded-3xl bg-footer-grey p-3 align-middle sm:space-x-6 sm:p-6">
+    <div className="flex rounded-3xl bg-background-grey/50 p-3 align-middle sm:space-x-6 sm:p-6">
       <img
         src={`${image}`}
         className="hidden w-40 rounded-xl sm:block md:w-48"
