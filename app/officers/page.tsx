@@ -111,7 +111,7 @@ export default function Officers() {
           <Link
             href="./"
             className="text-text-grey transition-all hover:text-white"
-          >{`<- back to home`}</Link>
+          >{`<- back`}</Link>
           <h2 className="mb-3 mt-2 text-4xl font-bold">Our Team</h2>
           <p className="max-w-[600px] text-lg">
             {`We're a growing body of talented individuals with a passion for

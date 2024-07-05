@@ -32,7 +32,8 @@ export default function Home() {
         <Hero />
         <About />
         <BlogPreview />
-        <Engagement />
+        <Engagement /> 
+        <EventList />
         <Niches />
         <Games />
         <Companies />
@@ -51,7 +52,7 @@ function Hero() {
     <>
       {/* The full container */}
       {/* "relative h-[15rem] w-full sm:h-[20rem] md:h-[24rem] xl:h-[32rem]" */}
-      <div className="relative w-full mt-[1rem]">
+      <div className="relative mt-[1rem] w-full">
         <div className="absolute left-0 top-0 w-full">
           <div className="relative mx-auto w-80 sm:w-[28rem] md:w-[32rem] xl:w-[64rem]">
             <Image
@@ -59,7 +60,7 @@ function Hero() {
               alt="Controller icon"
               width={80}
               height={80}
-              className="absolute left-4 sm:left-0 xl:left-32 top-16 w-12 sm:w-20 xl:w-24 sm:top-28 md:top-28"
+              className="absolute left-4 top-16 w-12 sm:left-0 sm:top-28 sm:w-20 md:top-28 xl:left-32 xl:w-24"
             />
 
             <Image
@@ -67,7 +68,7 @@ function Hero() {
               alt="Controller icon"
               width={80}
               height={80}
-              className="absolute right-4 sm:right-0 xl:right-32 top-16 w-12 sm:w-20 xl:w-24  sm:top-28 md:top-28"
+              className="absolute right-4 top-16 w-12 sm:right-0 sm:top-28 sm:w-20 md:top-28  xl:right-32 xl:w-24"
             />
           </div>
         </div>
@@ -87,9 +88,9 @@ function Hero() {
             </b>
           </h1>
           {/* School Name */}
-          <h3 className="mt-2 text-center font-inter text-base xl:text-lg text-white">
+          <h3 className="mt-2 text-center font-inter text-base text-white xl:text-lg">
             @ UC San Diego
-          </h3> 
+          </h3>
           {/* Email Button */}
           {/* <a
             href="mailto:vgdc@ucsd.edu"
