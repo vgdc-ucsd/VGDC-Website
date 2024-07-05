@@ -4,14 +4,31 @@ import Link from "next/link"
 
 import { getEvents } from "@/lib/events"
 
-export default async function EventList({ homepage = true }) {
-  const events = await getEvents(homepage)
+/** Returns a vertical list of events. */
+export default async function EventList({
+  /** Only include events for the homepage? False by default. */
+  homepage = true,
+  /** Include events that haven't already passed? False by default. */
+  includeOldEvents = false,
+  /** Include events that haven't happened yet? True by default. */
+  includeNewEvents = true,
+  /** Reverse order of events? False by default, helpfulf or showing past events. */
+  reverseOrder = false,
+}) {
+  // Gets the event data based on parameters passed in.
+  const events = await getEvents(
+    homepage,
+    includeOldEvents,
+    includeNewEvents,
+    reverseOrder
+  )
 
   return (
     <div
       className={`mx-auto mb-16 mt-24 w-full px-4 sm:w-[600px] sm:px-8 md:w-[680px] lg:w-[800px] ${homepage && "mb-32 mt-32"}`}
     >
       <div className="mb-6 text-left">
+        {/* If the events list isn't on the homepage, include back button. */}
         {homepage || (
           <Link
             href="/"
@@ -21,6 +38,7 @@ export default async function EventList({ homepage = true }) {
         <h2 className="my-2 text-xl font-bold text-white lg:text-3xl">
           Explore Events
         </h2>
+        {/* If the events list is on the homepage, include link to events page. */}
         {homepage && (
           <Link
             href="/events"
@@ -29,6 +47,7 @@ export default async function EventList({ homepage = true }) {
         )}
       </div>
       <div className="space-y-6">
+        {/* Display the events one by one. */}
         {events.map((event) => {
           return (
             <Event
@@ -48,6 +67,7 @@ export default async function EventList({ homepage = true }) {
   )
 }
 
+/** An event card to be shown in the events list. */
 function Event({ title, location, date, time, description, image, slug }: any) {
   return (
     <div className="flex rounded-3xl bg-footer-grey p-3 align-middle sm:space-x-6 sm:p-6">
@@ -88,6 +108,7 @@ function Event({ title, location, date, time, description, image, slug }: any) {
   )
 }
 
+/** Returns a shortened version of a given string. */
 function truncate(str: string, n: number, useWordBoundary: boolean) {
   if (str.length <= n) {
     return str
