@@ -17,13 +17,22 @@ export type EventDetails = {
  * Gets the events from a spreadsheet, filters them, and sorts them.
  * @param homepage Only include events for the homepage? False by default.
  * @param includeOldEvents Include events that have already passed? False by default.
+ * @param includeNewEvents Include events that haven't happened yet? True by default.
+ * @param reverseOrder Reverse order of events? False by default, helpful for showing past events.
  * @returns The list of events, sorted and filtered.
  */
-export async function getEvents(homepage = false, includeOldEvents = false) {
+export async function getEvents(
+  homepage = false,
+  includeOldEvents = false,
+  includeNewEvents = true,
+  reverseOrder = false
+) {
   // Gets the raw data from getSheetData.
   const response = await getSheetData()
   // Gets the current moment to filter out events before this time. Subtracts 1 day so events show a day after ending.
-  const thisMoment = moment().subtract(1, "day").format("YYYY-MM-DD HH:mm:ss")
+  const yesterday = moment().subtract(1, "day").format("YYYY-MM-DD HH:mm:ss")
+  // Gets the current moment to filter out events after this time.
+  const today = moment().format("YYYY-MM-DD HH:mm:ss")
 
   // The list that events will be added to.
   let eventList = []
@@ -51,16 +60,17 @@ export async function getEvents(homepage = false, includeOldEvents = false) {
 
       // If on the homepage, filter out non-homepage events.
       if (response.data[i][7] == "FALSE" && homepage) continue
-      // Filter out all events before the current time if chosen.
-      if (event.timestamp < thisMoment && !includeOldEvents) continue
+      // Filter out old or new events based on parameters.
+      if (event.timestamp < yesterday && !includeOldEvents) continue
+      if (event.timestamp > today && !includeNewEvents) continue
       // If neither filter activated, add the event to the list.
       eventList.push(event)
     }
 
     // Sort the events by timestamp, earliest event first.
     eventList.sort((a, b) => {
-      if (a.timestamp > b.timestamp) return 1
-      else if (a.timestamp < b.timestamp) return -1
+      if (a.timestamp > b.timestamp) return reverseOrder ? -1 : 1
+      else if (a.timestamp < b.timestamp) return reverseOrder ? 1 : -1
       return 0
     })
   }
