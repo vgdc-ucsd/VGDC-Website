@@ -34,7 +34,7 @@ export default async function EventList({
           <Link
             href="/#events"
             className="text-text-grey transition-all hover:text-white"
-          >{`<- back to home`}</Link>
+          >{`<- back`}</Link>
         )}
         <h2 className="my-2 text-xl font-bold text-white lg:text-3xl">
           Explore Events

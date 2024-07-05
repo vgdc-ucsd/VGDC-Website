@@ -17,12 +17,12 @@ export default function EventView({ event }: { event: EventDetails }) {
             <Link
               href="/events"
               className="text-text-grey transition-all hover:text-white"
-            >{`<- back to events`}</Link>
+            >{`<- back`}</Link>
           ) : (
             <Link
               href="/#events"
               className="text-text-grey transition-all hover:text-white"
-            >{`<- back to home`}</Link>
+            >{`<- back`}</Link>
           )}
           <h2 className="mt-2 font-inter text-4xl font-bold tracking-tight text-text-white">
             {event.title}
