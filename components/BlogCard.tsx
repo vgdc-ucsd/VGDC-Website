@@ -7,6 +7,7 @@ import ReactMarkdown from 'react-markdown';
 import { createAvatar } from "@dicebear/core";
 import { notionistsNeutral } from "@dicebear/collection";
 import { DateFormat } from '../app/news/[id]/page';
+import { blogger } from "googleapis/build/src/apis/blogger";
 
 
 export default function BlogCard({post}:{post:Post}) {
@@ -16,6 +17,7 @@ export default function BlogCard({post}:{post:Post}) {
         radius: 50,
         size: 24
     }).toDataUriSync();
+
     
     return(
         <section className = "flex-col md:flex-row items-start text-white h-fit w-full rounded-lg flex mb-8 pt-4" >
@@ -56,7 +58,7 @@ export default function BlogCard({post}:{post:Post}) {
 
                 {/** Truncated Card content */}
                 <div className = {`${styles['clamped-lines']} text-text-grey mt-4 max-w-lg text-sm sm:text-base` }>
-                    <p>{post.content}</p>
+                    <p>{post.excerpt}</p>
                 </div>
 
                 <Link href = {`news/${post.id}`} >
