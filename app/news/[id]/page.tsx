@@ -1,18 +1,24 @@
 import React, { useContext } from 'react';
 import { generateNeighbors, getPostData } from "@/lib/post"
 import ReactMarkdown from 'react-markdown'
+import rehypeRaw from 'rehype-raw'
 import { parseISO, format } from 'date-fns';
 import Image from "next/image";
 import Navbar from "@/components/Navbar";
 import Link from "next/link";
+import styles from './page.module.css'
 import { createAvatar } from '@dicebear/core';
 import { notionistsNeutral } from '@dicebear/collection';
 import { headers } from "next/headers";
 import TwitterButton from "@/components/ui/social-share-button";
 import { notFound } from "next/navigation";
+import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
+import { dracula } from 'react-syntax-highlighter/dist/esm/styles/hljs';
+import { vscDarkPlus } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import BackButton from "@/components/ui/back-button";
 import Footer from '@/components/Footer';
 import SocialShareButton from '@/components/ui/social-share-button';
+import { vsDark } from 'react-syntax-highlighter/dist/cjs/styles/prism';
 
 /**
  * This page holds the content for a 
@@ -61,21 +67,15 @@ import SocialShareButton from '@/components/ui/social-share-button';
 
 
 
+
 export default async function BlogPage({ params}: { params: { id: string }}) {
 
     const post = await getPostData(params.id);
-    
     const {previousPost, nextPost} = await generateNeighbors(params.id)
 
     if (post == null){
         notFound();
     }
-
-    const avatar = createAvatar(notionistsNeutral, {
-        seed: post!.author,
-        radius: 50,
-        size: 24
-    }).toDataUriSync();
 
     // grab full url path 
     const headerList = headers();
@@ -86,6 +86,25 @@ export default async function BlogPage({ params}: { params: { id: string }}) {
     const testfullpath = `https://5742-2600-1700-7c01-1380-d136-ab79-e586-c1e3.ngrok-free.app/news/${post.id}`
     const testhostname = 'https://5742-2600-1700-7c01-1380-d136-ab79-e586-c1e3.ngrok-free.app'
 
+
+    const avatar = createAvatar(notionistsNeutral, {
+        seed: post!.author,
+        radius: 50,
+        size: 24
+    }).toDataUriSync();
+
+    // const transformUri = (uri: string) => {
+    //     if (uri.startsWith('/images/')) {
+    //         console.log('hit')
+    //       // Assuming images are in public/images directory
+    //       return `${uri}`;
+    //     }
+    //     return uri;
+    //   };
+
+    function ImageRenderer(src:string, alt:string, title:string) {
+     return <img src={src} alt={alt} title={title} style={{ maxWidth: '100%' }} />;
+    }
     return (
         <main className="min-h-screen bg-background-black">
             <Navbar />
@@ -162,7 +181,39 @@ export default async function BlogPage({ params}: { params: { id: string }}) {
                     
 
                     {/**Blog Content */}
-                    <ReactMarkdown className="text-text-grey mt-12 text-sm md:text-base">{post.content}</ReactMarkdown>
+                    <ReactMarkdown  className={`${styles['markdown']} text-text-grey mt-12 text-sm md:text-base`} 
+                    rehypePlugins={[rehypeRaw]}
+                
+                    components={{
+                        // add a css for p tagsxs
+                       
+                        img: image => {
+
+                            return (
+                              <Image
+                                src={image.src!}
+                                alt={image.alt!}
+                                height="768"
+                                width="432"
+                                style={{borderRadius: "12px", width: "100%"}}
+                              />
+                            )
+                          },
+                        code({children, className}) {
+                            // Detect which programming language is being used
+                            const match = /language-(\w+)/.exec(className || '');
+                            const language = match ? match[1] : ''; // Extract the language from className
+
+                            return  <SyntaxHighlighter language={language} customStyle={{ borderRadius: '12px'}} 
+                            style={vscDarkPlus}>{String(children).replace(/\n$/, "")}</SyntaxHighlighter>
+                        },
+                        a: ({ children, href }) => (
+                            <a href={href} className='text-hot-pink' target='_blank'>
+                              {children}
+                            </a>
+                          ),
+                    }}
+                    >{post.content}</ReactMarkdown>
                     {/** Section to view more blog posts */}
                     
                     <p className = "text-text-grey text-sm mt-8 lg:hidden">Share this blog</p>

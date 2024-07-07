@@ -16,7 +16,43 @@ This is a **demo** of how Markdown content can be rendered beautifully.
 - Item 3
 
 ## And here's some code:
-```javascript
-function greet(name) {
-  return `Hello, ${name}!`;
+```cpp
+#include <iostream>
+
+// Example class definition
+class MyClass {
+private:
+    int number;
+    std::string name;
+
+public:
+    MyClass(int num, const std::string& n) : number(num), name(n) {}
+
+    void display() {
+        std::cout << "Number: " << number << ", Name: " << name << std::endl;
+    }
+};
+
+int main() {
+    // Create an instance of MyClass
+    MyClass obj(42, "John Doe");
+
+    // Call a method of MyClass
+    obj.display();
+
+    return 0;
 }
+```
+&nbsp;
+
+![hello](/images/blogs/blog1/Parabox.png)
+*Indie Game Winner of the year Patrick's Parabox*
+
+&nbsp;
+
+
+
+### Helpful links
+
+[Vercel](https://vercel.com)
+
