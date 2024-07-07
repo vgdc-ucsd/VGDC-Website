@@ -177,7 +177,7 @@ export default async function BlogPage({ params}: { params: { id: string }}) {
                         }}
                     />
 
-                    <h1 className="text-3xl md:text-5xl mt-4 mb-2 font-extrabold text-white">{post.title}</h1>
+                    <h1 className="text-3xl md:text-4xl mt-4 mb-2 font-extrabold text-gray-200">{post.title}</h1>
                     
 
                     {/**Blog Content */}
@@ -211,7 +211,28 @@ export default async function BlogPage({ params}: { params: { id: string }}) {
                             <a href={href} className='text-hot-pink' target='_blank'>
                               {children}
                             </a>
-                          ),
+                        ),
+                        h3({ node, className, children, ...props}) {
+                            return (
+                              <h2 style={{ marginBottom: "0", color: "rgb(229 231 235)", transform: "translateY(6px)", fontSize: "1.2rem"}}>
+                                {String(children).replace(/\n$/, '')}
+                              </h2>
+                            )
+                        },
+                        h2({ node, className, children, ...props}) {
+                            return (
+                              <h2 style={{ marginBottom: "0", color: "rgb(229 231 235)", transform: "translateY(6px)", fontSize: "1.5rem"}}>
+                                {String(children).replace(/\n$/, '')}
+                              </h2>
+                            )
+                        },
+                        h1({ node, className, children, ...props}) {
+                            return (
+                              <h2 style={{ marginBottom: "0", color: "rgb(229 231 235)", transform: "translateY(6px)", fontSize: "1.8rem", lineHeight: "1.5rem"}}>
+                                {String(children).replace(/\n$/, '')}
+                              </h2>
+                            )
+                        }
                     }}
                     >{post.content}</ReactMarkdown>
                     {/** Section to view more blog posts */}
