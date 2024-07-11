@@ -29,7 +29,7 @@ const config = {
         'background-grey': '#232528',
         'vgdc-light-blue': '#297892',
         'vgdc-light-green': '#58d583',
-        'footer-grey': '#0b0c0d',
+        'footer-grey': '#101010',
         'hot-pink': '#d3226d',
         'light-grey': '#e1e1e1',
         'text-grey': '#bebebe',
