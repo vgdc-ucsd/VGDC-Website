@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import mailchimp from "@mailchimp/mailchimp_marketing";
+import axios from "axios";
 
 mailchimp.setConfig({
   apiKey: process.env.MAILCHIMP_API_KEY!,
@@ -9,62 +10,56 @@ mailchimp.setConfig({
 
 export async function POST(
   req: NextRequest,
-){
+) {
+
+  const URL = `https://${process.env.MAILCHIMP_SERVER!}.api.mailchimp.com/3.0/lists/${process.env.MAILCHIMP_AUDIENCE_ID!}/members`
+
+  const options = {
+    headers: {
+      Authorization: `api_key ${process.env.MAILCHIMP_API_KEY}`,
+      'Content-Type': 'application/json'
+    }
+  }
+
 
   try {
-
     const { email } = await req.json();
     if (!email) {
       return NextResponse.json({ message: 'Email is required' })
     }
-    const audienceId = process.env.MAILCHIMP_AUDIENCE_ID;
-    if (!audienceId) {
-      return NextResponse.json({ message: 'Audience ID is missing' }, { status: 500 });
-    }
 
     const mailChimpData = {
-      members: [{
-          email_address: email,
-          status: 'subscribed'
-      }]
+      email_address: email,
+      status: 'subscribed'
     }
-     
-    // const response = await mailchimp.lists.addListMember(
-    //   audienceId,
-    //   {email_address: email}
-    // )
+    const response = await axios.post(URL, JSON.stringify(mailChimpData), options);
 
-    // console.log("Response: " + response)
-      
-    const URL = `https://${process.env.MAILCHIMP_SERVER!}.api.mailchimp.com/3.0/lists/${process.env.MAILCHIMP_AUDIENCE_ID!}/members`
+    //console.log(response)
 
-    const headers = {
-      Authorization: `apiKey ${process.env.MAILCHIMP_API_KEY}`,
-      'Content-Type': 'application/json'
+
+    if (response.status == 200) {
+      return Response.json({ message: "You have successfully subscribed!" }, { status: 200 })
     }
-    const response = await fetch(URL, {
-        method: 'POST',
-        headers: headers,
-        body: JSON.stringify(mailChimpData),
+  } catch (error) {
+
+    if (axios.isAxiosError(error)) {
+      console.error(
+        'Axios Error',
+        `${error.response?.status}`,
+        `${error.response?.data.title}`,
+        `${error.response?.data.detail}`
+      );
+
+      if (error.response?.data.title == "Member Exists") {
+        return Response.json({ message: "This email is already subscribed." }, { status: 400 })
       }
-    );
-
-    const data = await response.json()
-    console.log('hello')
-    if (parseInt(response.status.toString(), 10) >= 400) {
-      console.log(response)
-      return Response.json({message: response.status }, {status: 401})
+      if (error.response?.data.title == "Invalid Resource") {
+        return Response.json({ message: "This email appears fake or invalid." }, { status: 400 })
+      }
     }
-     else {
-      console.log("Status: " + response.status)
-      return Response.json({message: 'Success' }, {status: 200})
-    }
-  } catch (error: any) {
-    if (error.response?.data.title == "Member Exists") {
-      return Response.json({message: 'This email already exists'},{ status: 409})
-    }
-    console.log(error)
-    return Response.json({message: error.message }, { status: 500})
   }
+
+  return Response.json({ message: "An error occurred signing up your email." }, { status: 500 })
+
 }
 
