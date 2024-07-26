@@ -86,6 +86,7 @@ export default function Footer() {
         body: JSON.stringify({ email: values.email }),
       });
   
+      const data = await response.json()
       
       if (response.status == 200) {
         toast({
@@ -100,7 +101,7 @@ export default function Footer() {
         
         toast({
           title: "Something went wrong",
-          description: `${response.statusText}`,
+          description: `${data.message}`,
           action: (
             <ToastAction altText="Ok">Ok</ToastAction>
           ),
@@ -108,7 +109,7 @@ export default function Footer() {
       }
   
     } catch (error: any) {
-      alert(error.message);
+      console.log(error.message);
     }
   }
 
