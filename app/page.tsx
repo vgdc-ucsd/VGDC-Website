@@ -21,23 +21,19 @@ import { Button } from "@/components/ui/button"
 import { useContext } from "react"
 import { GetServerSideProps } from "next"
 
-
-
-
 export default function Home() {
-  
   return (
     <main className="min-h-screen bg-background-black">
-        <Navbar />
-        <Hero />
-        <About />
-        <BlogPreview />
-        <Engagement /> 
-        <EventList />
-        <Niches />
-        <Games />
-        <Companies />
-        <Footer />
+      <Navbar />
+      <Hero />
+      <About />
+      <BlogPreview />
+      <Engagement />
+      <EventList />
+      <Niches />
+      <Games />
+      <Companies />
+      <Footer />
     </main>
   )
 }
@@ -76,7 +72,7 @@ function Hero() {
         <div className="mx-auto w-fit">
           {/* Club Name */}
           <h1
-            className="mt-24 mx-6 inline-block
+            className="mx-6 mt-24 inline-block
 							bg-gradient-to-r from-vgdc-light-blue to-vgdc-light-green bg-clip-text 
 							text-center font-inter text-4xl font-extrabold text-transparent
 							sm:mt-40 sm:text-5xl md:text-5xl xl:text-7xl"
@@ -106,7 +102,6 @@ function Hero() {
     </>
   )
 }
-
 
 /**
  *
@@ -249,10 +244,10 @@ function About() {
 }
 
 async function BlogPreview() {
-  const posts = await getSortedPostsData(2);
+  const posts = await getSortedPostsData(2)
 
   return (
-    <section className="mx-auto justify-center mt-[4rem] px-8 md:mt-[8rem] xl:w-[56rem] w-fit">
+    <section className="mx-auto mt-[4rem] w-fit justify-center px-8 md:mt-[8rem] xl:w-[56rem]">
       <span className="mb-8 flex flex-col justify-between md:flex-row">
         <div>
           <h2 className="text-2xl font-bold text-white lg:text-4xl">
@@ -286,5 +281,94 @@ function Niches() {
 }
 
 function Games() {
-  return <></>
+  let gameBoxStyle =
+    "group relative block bg-vgdc-light-blue rounded-lg overflow-clip cursor-pointer bg-cover"
+
+  function GameContent(name: string) {
+    return (
+      <>
+        <div className="h-full w-full bg-black/50 transition-colors group-hover:bg-black/0" />
+        <div className="absolute bottom-3 left-3 select-none text-xl font-bold text-white transition-colors group-hover:text-white/0">
+          {name}
+        </div>
+      </>
+    )
+  }
+
+  return (
+    <section className="mx-auto mt-[4rem] w-[40rem] justify-center px-8 md:mt-[8rem] xl:w-[56rem]">
+      <span className="mb-8 flex flex-col justify-between md:flex-row">
+        <div>
+          <h2 className="text-2xl font-bold text-white lg:text-4xl">
+            A few of our favorite creations!
+          </h2>
+          <a
+            href="https://vgdc-ucsd.itch.io/"
+            target="_blank"
+            className="max-w-lg text-sm text-text-grey  sm:text-base xl:text-lg"
+          >
+            {"Browse our itch.io for more ->"}
+          </a>
+        </div>
+      </span>
+      <div className="grid w-full grid-cols-4 grid-rows-4 gap-2 md:gap-3 xl:gap-4">
+        <a
+          href="https://ethancreek.itch.io/athenaeum"
+          target="_blank"
+          className={`${gameBoxStyle} col-span-2 row-span-2 bg-[url('/images/games/athenaeum.webp')] bg-center`}
+        >
+          {GameContent("Athenaeum")}
+        </a>
+        <a
+          href="https://store.steampowered.com/app/1588250/Contract_Killer/"
+          target="_blank"
+          className={`${gameBoxStyle} col-span-2 row-span-1 bg-[url('/images/games/contractkiller.jpg')]`}
+        >
+          {GameContent("Contract Killer")}
+        </a>
+        <a
+          href="https://creikey.itch.io/skylimit"
+          target="_blank"
+          className={`${gameBoxStyle} col-span-1 row-span-1`}
+        >
+          {GameContent("Sky Limit")}
+        </a>
+        <a
+          href="https://chaseplays.itch.io/spellthief"
+          target="_blank"
+          className={`${gameBoxStyle} col-span-1 row-span-1 bg-[url('/images/games/spellthief.png')] bg-center`}
+        >
+          {GameContent("Spellthief")}
+        </a>
+        <a
+          href="https://angelina007.itch.io/lamplight"
+          target="_blank"
+          className={`${gameBoxStyle} col-span-1 row-span-1`}
+        >
+          {GameContent("LampLight")}
+        </a>
+        <a
+          href="https://wabadaba.itch.io/takyon"
+          target="_blank"
+          className={`${gameBoxStyle} col-span-1 row-span-1 aspect-square`}
+        >
+          {GameContent("Takyon")}
+        </a>
+        <a
+          href="https://www.indiecade.com/patricks-parabox/"
+          target="_blank"
+          className={`${gameBoxStyle} col-span-2 row-span-2`}
+        >
+          {GameContent("Patrick's Parabox")}
+        </a>
+        <a
+          href="https://ethancreek.itch.io/dont-space-out"
+          target="_blank"
+          className={`${gameBoxStyle} col-span-2 row-span-1 bg-[url('/images/games/dontspaceout.png')] bg-center`}
+        >
+          {GameContent("Don't Space Out")}
+        </a>
+      </div>
+    </section>
+  )
 }
