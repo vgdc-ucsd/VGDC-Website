@@ -288,7 +288,7 @@ function Games() {
     return (
       <>
         <div className="h-full w-full bg-black/50 transition-colors group-hover:bg-black/0" />
-        <div className="absolute bottom-3 left-3 select-none text-xl font-bold text-white transition-all group-hover:-bottom-16">
+        <div className="text-md absolute bottom-1 left-2 select-none font-bold text-white transition-all group-hover:-bottom-16 md:bottom-3 md:left-3 md:text-xl">
           {name}
         </div>
       </>
@@ -296,8 +296,8 @@ function Games() {
   }
 
   return (
-    <section className="mx-auto mt-[4rem] w-[40rem] justify-center px-8 md:mt-[8rem] xl:w-[56rem]">
-      <span className="mb-8 flex flex-col justify-between md:flex-row">
+    <section className="mx-auto mt-[4rem] w-full justify-center px-8 sm:w-[32rem] md:mt-[8rem] md:w-[44rem] lg:w-[56rem]">
+      <span className="mb-4 flex flex-col justify-between md:flex-row">
         <div>
           <h2 className="text-2xl font-bold text-white lg:text-4xl">
             A few of our favorite creations!
@@ -305,66 +305,66 @@ function Games() {
           <a
             href="https://vgdc-ucsd.itch.io/"
             target="_blank"
-            className="max-w-lg text-sm text-text-grey  sm:text-base xl:text-lg"
+            className="max-w-lg text-sm text-text-grey sm:text-base lg:text-lg"
           >
             {"Browse our itch.io for more ->"}
           </a>
         </div>
       </span>
-      <div className="grid w-full grid-cols-4 grid-rows-4 gap-2 md:gap-3 xl:gap-4">
+      <div className="grid w-full grid-cols-2 grid-rows-4 gap-4 sm:grid-cols-4 sm:grid-rows-4 sm:gap-3 lg:gap-4">
         <a
           href="https://ethancreek.itch.io/athenaeum"
           target="_blank"
-          className={`${gameBoxStyle} col-span-2 row-span-2 bg-[url('/images/games/athenaeum.webp')] bg-center`}
+          className={`${gameBoxStyle} bg-[url('/images/games/athenaeum.webp')] bg-center sm:col-span-2 sm:row-span-2`}
         >
           {GameContent("Athenaeum")}
         </a>
         <a
           href="https://store.steampowered.com/app/1588250/Contract_Killer/"
           target="_blank"
-          className={`${gameBoxStyle} col-span-2 row-span-1 bg-[url('/images/games/contractkiller.jpg')]`}
+          className={`${gameBoxStyle} bg-[url('/images/games/contractkiller.jpg')] sm:col-span-2 sm:row-span-1`}
         >
           {GameContent("Contract Killer")}
         </a>
         <a
           href="https://creikey.itch.io/skylimit"
           target="_blank"
-          className={`${gameBoxStyle} col-span-1 row-span-1 bg-[url('/images/games/skylimit.png')] bg-center`}
+          className={`${gameBoxStyle} bg-[url('/images/games/skylimit.png')] bg-center sm:col-span-1 sm:row-span-1`}
         >
           {GameContent("Sky Limit")}
         </a>
         <a
           href="https://chaseplays.itch.io/spellthief"
           target="_blank"
-          className={`${gameBoxStyle} col-span-1 row-span-1 bg-[url('/images/games/spellthief.png')] bg-center`}
+          className={`${gameBoxStyle} bg-[url('/images/games/spellthief.png')] bg-center sm:col-span-1 sm:row-span-1`}
         >
           {GameContent("Spellthief")}
         </a>
         <a
           href="https://angelina007.itch.io/lamplight"
           target="_blank"
-          className={`${gameBoxStyle} col-span-1 row-span-1 bg-[url('/images/games/lamplight.png')]`}
+          className={`${gameBoxStyle} bg-[url('/images/games/lamplight.png')] sm:col-span-1 sm:row-span-1`}
         >
           {GameContent("LampLight")}
         </a>
         <a
           href="https://wabadaba.itch.io/takyon"
           target="_blank"
-          className={`${gameBoxStyle} col-span-1 row-span-1 aspect-square bg-[url('/images/games/takyon.jpg')] bg-center`}
+          className={`${gameBoxStyle} aspect-square bg-[url('/images/games/takyon.jpg')] bg-center sm:col-span-1 sm:row-span-1`}
         >
           {GameContent("Takyon")}
         </a>
         <a
           href="https://www.indiecade.com/patricks-parabox/"
           target="_blank"
-          className={`${gameBoxStyle} col-span-2 row-span-2 bg-[url('/images/games/patricksparabox.png')] bg-center`}
+          className={`${gameBoxStyle} bg-[url('/images/games/patricksparabox.png')] bg-center sm:col-span-2 sm:row-span-2`}
         >
           {GameContent("Patrick's Parabox")}
         </a>
         <a
           href="https://ethancreek.itch.io/dont-space-out"
           target="_blank"
-          className={`${gameBoxStyle} col-span-2 row-span-1 bg-[url('/images/games/dontspaceout.png')] bg-center`}
+          className={`${gameBoxStyle} bg-[url('/images/games/dontspaceout.png')] bg-center sm:col-span-2 sm:row-span-1`}
         >
           {GameContent("Don't Space Out")}
         </a>
