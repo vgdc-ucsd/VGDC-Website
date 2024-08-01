@@ -288,7 +288,7 @@ function Games() {
     return (
       <>
         <div className="h-full w-full bg-black/50 transition-colors group-hover:bg-black/0" />
-        <div className="absolute bottom-3 left-3 select-none text-xl font-bold text-white transition-colors group-hover:text-white/0">
+        <div className="absolute bottom-3 left-3 select-none text-xl font-bold text-white transition-all group-hover:-bottom-16">
           {name}
         </div>
       </>
@@ -329,7 +329,7 @@ function Games() {
         <a
           href="https://creikey.itch.io/skylimit"
           target="_blank"
-          className={`${gameBoxStyle} col-span-1 row-span-1`}
+          className={`${gameBoxStyle} col-span-1 row-span-1 bg-[url('/images/games/skylimit.png')] bg-center`}
         >
           {GameContent("Sky Limit")}
         </a>
@@ -343,21 +343,21 @@ function Games() {
         <a
           href="https://angelina007.itch.io/lamplight"
           target="_blank"
-          className={`${gameBoxStyle} col-span-1 row-span-1`}
+          className={`${gameBoxStyle} col-span-1 row-span-1 bg-[url('/images/games/lamplight.png')]`}
         >
           {GameContent("LampLight")}
         </a>
         <a
           href="https://wabadaba.itch.io/takyon"
           target="_blank"
-          className={`${gameBoxStyle} col-span-1 row-span-1 aspect-square`}
+          className={`${gameBoxStyle} col-span-1 row-span-1 aspect-square bg-[url('/images/games/takyon.jpg')] bg-center`}
         >
           {GameContent("Takyon")}
         </a>
         <a
           href="https://www.indiecade.com/patricks-parabox/"
           target="_blank"
-          className={`${gameBoxStyle} col-span-2 row-span-2`}
+          className={`${gameBoxStyle} col-span-2 row-span-2 bg-[url('/images/games/patricksparabox.png')] bg-center`}
         >
           {GameContent("Patrick's Parabox")}
         </a>
