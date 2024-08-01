@@ -7,13 +7,13 @@ import { EventDetails } from "@/lib/events"
 export default function EventView({ event }: { event: EventDetails }) {
   // Get the search parameters
   const searchParams = useSearchParams()
-  console.log(searchParams.get("from"))
+  console.log(searchParams!.get("from"))
 
   return (
     <section className="mx-auto mt-24 max-w-[920px]">
       <div className="flex flex-col lg:flex-row">
         <div className="m-4 flex-[2]">
-          {searchParams.get("from") == "events" ? (
+          {searchParams!.get("from") == "events" ? (
             <Link
               href="/events"
               className="text-text-grey transition-all hover:text-white"
