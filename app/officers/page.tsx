@@ -1,95 +1,141 @@
 import Navbar from "@/components/Navbar"
 import Footer from "@/components/Footer"
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import {
-  HoverCard,
-  HoverCardContent,
-  HoverCardTrigger,
-} from "@/components/ui/hover-card"
-import Image from "next/image"
 import Link from "next/link"
-
-// The type for the data for one officer
-type OfficerDetails = {
-  title: string
-  name: string
-  avatar: string
-  quote: string
-}
+import Officers, { OfficerDetails } from "./Officers"
 
 // List of officers
 const officers: OfficerDetails[] = [
   {
     title: "President",
-    name: "Tyler Roache",
-    avatar: "/images/officers/2023-2024/TylerRoache.jpg",
-    quote: "Hi I'm Tyler. I wuv wuv wuv making games uwu",
+    name: "Kiichiro Wang",
+    avatar: "/images/officers/2023-2024/ChanelLim.jpg",
+    quote:
+      "HIYA!! I'm Kiichi, a 3rd year ICAM Major and CS minor and the president for the upcoming 2024-2025 year. I love dabbling in a little bit of everything like digital art, game programming, game production, drums, archery, blablabla -- will finish later lol ",
   },
   {
     title: "Vice President",
-    name: "Jewelle Tatad",
-    avatar: "/images/officers/2023-2024/JewelleTatad.jpg",
-    quote: "formerly Co-VP",
+    name: "Breanna Lau",
+    avatar: "/images/officers/2023-2024/ChanelLim.jpg",
+    quote:
+      "Hey y'all, Breanna here! I'm a 2nd-year majoring in ICAM (art focus) hoping to break into character design, cinematography, worldbuilding, and narrative in games! I love drawing, singing, staying fit in interesting ways, anime, and ofc gaming. Hmu on Discord @breagle and follow my art acc @breagle.art on Insta to see my work <3",
   },
   {
     title: "Events Director",
-    name: "Carey Yoon",
-    avatar: "/images/officers/2023-2024/CareyYoon.jpg",
-    quote: "why is he not VP???",
-  },
-  {
-    title: "Treasurer",
-    name: "Chase Peterson",
-    avatar: "/images/officers/2023-2024/ChasePeterson.jpg",
-    quote: "I made this page",
+    name: "Aslan Chan",
+    avatar: "/images/officers/2023-2024/ChanelLim.jpg",
+    quote:
+      "Hii! I'm Aslan, 2nd year CS major. I'm the Events Director and am hoping to organize some really cool events for you guys. In terms of game dev, I mainly enjoy programming and maybe a little game design. In general, I love playing volleyball, working out and playing tetris.",
   },
   {
     title: "Marketing Director",
-    name: "Killian To",
-    avatar: "/images/officers/2023-2024/KillianTo.jpg",
-    quote: "formerly known as Ben To",
+    name: "Olivia Tsui",
+    avatar: "/images/officers/2023-2024/ChanelLim.jpg",
+    quote: "Hello! I'm Olivia and I'm the Marketing Director for VGDC :O",
   },
   {
-    title: "Marketing Officer",
+    title: "Projects Director",
     name: "Chanel Lim",
     avatar: "/images/officers/2023-2024/ChanelLim.jpg",
-    quote: "soon to be projects lead",
+    quote:
+      "HII 🫶 My name is Chanel, I'm a 4th year ICAM major! I'm currently the Projects Director for the club. Reach out to me about anything! I love Disco Elysium, Hades, Celeste, and Hollow Knight. You can always find me drawing ✍️ and chronically online @prima on discord!",
+  },
+  {
+    title: "Outreach & PR Director",
+    name: "Chris Kreins",
+    avatar: "/images/officers/2023-2024/ChanelLim.jpg",
+    quote: "",
+  },
+  {
+    title: "Tech Director & Treasurer",
+    name: "Chase Peterson",
+    avatar: "/images/officers/2023-2024/ChanelLim.jpg",
+    quote:
+      "Hey! I'm Chase, a Computer Science and Music double major. I built this site with William Kim, including the page you're looking at right now! If you wanna talk or hang out definitely feel free to reach out, my Discord is @cepeters and I'm always down to meet new people :)",
   },
   {
     title: "Marketing Officer",
-    name: "Olivia Tsui",
-    avatar: "/images/officers/2023-2024/OliviaTsui.jpg",
-    quote: "i am a marketing officer!",
+    name: "Sofia Nguyen",
+    avatar: "/images/officers/2023-2024/ChanelLim.jpg",
+    quote:
+      "Heyo! My name is Sofia, I'm a Computer Science major with a minor in ICAM.  I love puzzles, manga, and reading. I am trying to learn game development and piano in my free time.",
   },
   {
-    title: "3D Art Director",
-    name: "Rodolfo Marquez-Valencia",
-    avatar: "/images/officers/2023-2024/RodolfoMarquezValencia.jpg",
-    quote: "I am now woman (rodolfo)",
+    title: "Marketing Officer",
+    name: "Kevin Tang",
+    avatar: "/images/officers/2023-2024/ChanelLim.jpg",
+    quote: "",
+  },
+  {
+    title: "Marketing Officer",
+    name: "Zee Avila",
+    avatar: "/images/officers/2023-2024/ChanelLim.jpg",
+    quote:
+      "Hi! My name is Zee, I'm a second year majoring in ICAM and I'm a new Marketing officer with a focus on design. ",
+  },
+  {
+    title: "Events Officer",
+    name: "Ethan Schwartzman",
+    avatar: "/images/officers/2023-2024/ChanelLim.jpg",
+    quote:
+      "Hi! I'm Ethan, a 2nd-year CS major with a minor in ICAM music. I enjoy programming, game design, and composing original music for VGDC!",
+  },
+  {
+    title: "Events Officer",
+    name: "Adian Averett",
+    avatar: "/images/officers/2023-2024/ChanelLim.jpg",
+    quote: "",
+  },
+  {
+    title: "Events Officer",
+    name: "Andrew Khov",
+    avatar: "/images/officers/2023-2024/ChanelLim.jpg",
+    quote:
+      "Yo! My name is Andrew, I'm a Math-CS 2nd-year (incoming 3rd year)  hoping to get into whatever interests me in the tech field like game development :) I am currently an events officer and I hope we'll be able to make and do some really cool shit together. I'll be around watching anime, working out, and gaming.",
+  },
+  {
+    title: "Marketing Officer",
+    name: "Jewelle Tatad",
+    avatar: "/images/officers/2023-2024/ChanelLim.jpg",
+    quote: "",
+  },
+  {
+    title: "Marketing Officer",
+    name: "Mirae Lee",
+    avatar: "/images/officers/2023-2024/ChanelLim.jpg",
+    quote:
+      "Hihi! I'm a 3rd year Psych major and CogSci minor. I'm a new officer but I want to get into making more graphics and game UI/UX, so I look forward to growing with the club this year!",
+  },
+  {
+    title: "PR Officer",
+    name: "Joshua Nolasco",
+    avatar: "/images/officers/2023-2024/ChanelLim.jpg",
+    quote:
+      "Hey ya! I'm Josh, an incoming 2nd-year Business Economics major and a new PR Officer for VGDC. I love games, films, art, animation, and hitting the gym. Hit me up at @jashnola on discord!",
   },
   {
     title: "Outreach Officer",
-    name: "Kiichiro Wang",
-    avatar: "/images/officers/2023-2024/KiichiroWang.jpg",
-    quote: "the next president!",
+    name: "Annie Wong",
+    avatar: "/images/officers/2023-2024/ChanelLim.jpg",
+    quote: "",
   },
   {
-    title: "Website Director",
-    name: "William Kim",
-    avatar: "/images/officers/2023-2024/WilliamKim.jpg",
-    quote: "I made some other pages!",
+    title: "Outreach Officer",
+    name: "Arihant Jain",
+    avatar: "/images/officers/2023-2024/ChanelLim.jpg",
+    quote: "",
   },
   {
-    title: "Public Relations Officer",
-    name: "Chris Kreins",
-    avatar: "/images/officers/2023-2024/ChrisKreins.jpg",
-    quote: "I will murder @jewelle",
+    title: "Outreach Officer",
+    name: "Gabriel Ikezaki",
+    avatar: "/images/officers/2023-2024/ChanelLim.jpg",
+    quote:
+      "Hey. I'm Gabriel, a 4th year CS major. I enjoy drawing, playing games, practicing martial arts and talking about weird media on my spare time. Joining the VGDC this year, and I hope to meet new people!",
   },
   {
-    title: "General Officer",
-    name: "Joey Soriano",
-    avatar: "/images/officers/2023-2024/JoeySoriano.jpg",
-    quote: "formerly Co-VP",
+    title: "Outreach Officer",
+    name: "Ryan Fordham",
+    avatar: "/images/officers/2023-2024/ChanelLim.jpg",
+    quote: "",
   },
 ]
 
@@ -98,7 +144,7 @@ const officers: OfficerDetails[] = [
  *
  * @returns JSX representation of the officers page.
  */
-export default function Officers() {
+export default function OfficerPage() {
   return (
     <main className="min-h-screen bg-background-black">
       {/* Display the navbar at the top of the page */}
@@ -121,66 +167,19 @@ export default function Officers() {
         </div>
 
         {/* Officers */}
-        <div className="flex-start flex flex-wrap justify-center gap-12">
-          {officers.map((officer, index) => {
-            return <Officer key={index} {...officer} />
-          })}
+        <Officers officers={officers} />
+
+        {/* Title section */}
+        <div className="mx-6 mb-20 mt-20">
+          <h2 className="mb-2 mt-2 text-3xl font-medium">Previous Years</h2>
+          <Link
+            href="./officers/2023-2024"
+            className="text-text-grey transition-all hover:text-white"
+          >{`2023-2024 Officers`}</Link>
         </div>
       </div>
 
       <Footer />
     </main>
-  )
-}
-
-/**
- * A component representing one officer.
- *
- * @param officer The object for one officer with a title, name, avatar, and quote.
- * @returns The JSX representation of an officer.
- */
-function Officer({ title, name, avatar, quote }: OfficerDetails) {
-  return (
-    <div className="w-48">
-      {/* Avatar */}
-      <Avatar className="mx-8 h-32 w-32">
-        <AvatarImage src={avatar} />
-        <AvatarFallback>{name[0]}</AvatarFallback>
-      </Avatar>
-      {/* The hover card over the title and name */}
-      <HoverCard>
-        <HoverCardTrigger>
-          {/* Title and Name */}
-          <div className="mx-auto mt-4 cursor-pointer text-center leading-5 transition-all">
-            <h3 className="font-bold">{title}</h3>
-            <h4>{name}</h4>
-          </div>
-        </HoverCardTrigger>
-
-        {/* Hover card content */}
-        <HoverCardContent className="w-72 border-background-grey bg-background-grey text-white">
-          <div className="flex justify-between space-x-4">
-            <Avatar className="h-8 w-8">
-              <AvatarImage src={avatar} />
-              <AvatarFallback>{name[0]}</AvatarFallback>
-            </Avatar>
-            <div className="flex-grow space-y-1">
-              <h4 className="text-sm font-semibold">{name}</h4>
-              <p className="text-sm font-normal">{quote}</p>
-              <div className="flex items-center pt-2">
-                <Image
-                  src="/icons/controller.svg"
-                  alt="Controller icon"
-                  width={20}
-                  height={20}
-                  className="h-6 w-6 text-white"
-                />
-                <span className="ml-2 text-sm">{title}</span>
-              </div>
-            </div>
-          </div>
-        </HoverCardContent>
-      </HoverCard>
-    </div>
   )
 }
