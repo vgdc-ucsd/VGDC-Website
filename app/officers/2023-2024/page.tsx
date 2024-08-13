@@ -1,16 +1,87 @@
 import Navbar from "@/components/Navbar"
 import Footer from "@/components/Footer"
 import Link from "next/link"
-import Officers, { OfficerDetails } from "./Officers"
+import Officers, { OfficerDetails } from "../Officers"
+
+// List of officers
+// const officers: OfficerDetails[] = [
+//   {
+//     title: "President",
+//     name: "Tyler Roache",
+//     avatar: "/images/officers/2023-2024/TylerRoache.jpg",
+//     quote:
+//       "Heyo! My name is Tyler Roache, and I was the President for the 2023-2024 year. I have a Math-CS degree, and am currenting trying to get a job in the game industry! I like making games, talking about them, and going outside to climb and explore (exposure therapy for the grass allergy). If you have any questions feel free to ask away!",
+//   },
+//   {
+//     title: "Vice President",
+//     name: "Jewelle Tatad",
+//     avatar: "/images/officers/2023-2024/JewelleTatad.jpg",
+//     quote: "formerly Co-VP",
+//   },
+//   {
+//     title: "Events Director",
+//     name: "Carey Yoon",
+//     avatar: "/images/officers/2023-2024/CareyYoon.jpg",
+//     quote: "why is he not VP???",
+//   },
+//   {
+//     title: "Treasurer",
+//     name: "Chase Peterson",
+//     avatar: "/images/officers/2023-2024/ChasePeterson.jpg",
+//     quote: "I made this page",
+//   },
+//   {
+//     title: "Marketing Officer",
+//     name: "Chanel Lim",
+//     avatar: "/images/officers/2023-2024/ChanelLim.jpg",
+//     quote: "soon to be projects lead",
+//   },
+//   {
+//     title: "Marketing Officer",
+//     name: "Olivia Tsui",
+//     avatar: "/images/officers/2023-2024/OliviaTsui.jpg",
+//     quote: "i am a marketing officer!",
+//   },
+//   {
+//     title: "3D Art Director",
+//     name: "Rodolfo Marquez-Valencia",
+//     avatar: "/images/officers/2023-2024/RodolfoMarquezValencia.jpg",
+//     quote: "I am now woman (rodolfo)",
+//   },
+//   {
+//     title: "Outreach Officer",
+//     name: "Kiichiro Wang",
+//     avatar: "/images/officers/2023-2024/KiichiroWang.jpg",
+//     quote: "the next president!",
+//   },
+//   {
+//     title: "Public Relations Officer",
+//     name: "Chris Kreins",
+//     avatar: "/images/officers/2023-2024/ChrisKreins.jpg",
+//     quote: "I will murder @jewelle",
+//   },
+// ]
 
 // List of officers
 const officers: OfficerDetails[] = [
   {
     title: "President",
-    name: "Kiichiro Wang",
-    avatar: "/images/officers/2023-2024/ChanelLim.jpg",
+    name: "Tyler Roache",
+    avatar: "/images/officers/2023-2024/TylerRoache.jpg",
     quote:
-      "HIYA!! I'm Kiichi, a 3rd year ICAM Major and CS minor and the president for the upcoming 2024-2025 year. I love dabbling in a little bit of everything like digital art, game programming, game production, drums, archery, blablabla -- will finish later lol ",
+      "Heyo! My name is Tyler Roache, and I was the President for the 2023-2024 year. I have a Math-CS degree, and am currenting trying to get a job in the game industry! I like making games, talking about them, and going outside to climb and explore (exposure therapy for the grass allergy). If you have any questions feel free to ask away!",
+  },
+  {
+    title: "Vice President & Events Director",
+    name: "Carey Yoon",
+    avatar: "/images/officers/2023-2024/CareyYoon.jpg",
+    quote: "why is he not VP???",
+  },
+  {
+    title: "Vice President",
+    name: "Jewelle Tatad",
+    avatar: "/images/officers/2023-2024/ChanelLim.jpg",
+    quote: "",
   },
   {
     title: "Vice President",
@@ -20,17 +91,10 @@ const officers: OfficerDetails[] = [
       "Hey y'all, Breanna here! I'm a 2nd-year majoring in ICAM (art focus) hoping to break into character design, cinematography, worldbuilding, and narrative in games! I love drawing, singing, staying fit in interesting ways, anime, and ofc gaming. Hmu on Discord @breagle and follow my art acc @breagle.art on Insta to see my work <3",
   },
   {
-    title: "Events Director",
-    name: "Aslan Chan",
-    avatar: "/images/officers/2023-2024/ChanelLim.jpg",
-    quote:
-      "Hii! I'm Aslan, 2nd year CS major. I'm the Events Director and am hoping to organize some really cool events for you guys. In terms of game dev, I mainly enjoy programming and maybe a little game design. In general, I love playing volleyball, working out and playing tetris.",
-  },
-  {
     title: "Marketing Director",
-    name: "Olivia Tsui",
-    avatar: "/images/officers/2023-2024/ChanelLim.jpg",
-    quote: "Hello! I'm Olivia and I'm the Marketing Director for VGDC :O",
+    name: "Killian To",
+    avatar: "/images/officers/2023-2024/KillianTo.jpg",
+    quote: "formerly known as Ben To",
   },
   {
     title: "Projects Director",
@@ -46,11 +110,29 @@ const officers: OfficerDetails[] = [
     quote: "",
   },
   {
-    title: "Tech Director & Treasurer",
+    title: "Treasurer",
     name: "Chase Peterson",
     avatar: "/images/officers/2023-2024/ChanelLim.jpg",
     quote:
       "Hey! I'm Chase, a Computer Science and Music double major. I built this site with William Kim, including the page you're looking at right now! If you wanna talk or hang out definitely feel free to reach out, my Discord is @cepeters and I'm always down to meet new people :)",
+  },
+  {
+    title: "Website Director",
+    name: "William Kim",
+    avatar: "/images/officers/2023-2024/WilliamKim.jpg",
+    quote: "I made some other pages!",
+  },
+  {
+    title: "3D Art Director",
+    name: "Rodolfo Marquez-Valencia",
+    avatar: "/images/officers/2023-2024/RodolfoMarquezValencia.jpg",
+    quote: "I am now woman (rodolfo)",
+  },
+  {
+    title: "Marketing Officer",
+    name: "Olivia Tsui",
+    avatar: "/images/officers/2023-2024/ChanelLim.jpg",
+    quote: "Hello! I'm Olivia and I'm the Marketing Director for VGDC :O",
   },
   {
     title: "Marketing Officer",
@@ -74,6 +156,13 @@ const officers: OfficerDetails[] = [
   },
   {
     title: "Events Officer",
+    name: "Aslan Chan",
+    avatar: "/images/officers/2023-2024/ChanelLim.jpg",
+    quote:
+      "Hii! I'm Aslan, 2nd year CS major. I'm the Events Director and am hoping to organize some really cool events for you guys. In terms of game dev, I mainly enjoy programming and maybe a little game design. In general, I love playing volleyball, working out and playing tetris.",
+  },
+  {
+    title: "Events Officer",
     name: "Ethan Schwartzman",
     avatar: "/images/officers/2023-2024/ChanelLim.jpg",
     quote:
@@ -94,12 +183,6 @@ const officers: OfficerDetails[] = [
   },
   {
     title: "Marketing Officer",
-    name: "Jewelle Tatad",
-    avatar: "/images/officers/2023-2024/ChanelLim.jpg",
-    quote: "",
-  },
-  {
-    title: "Marketing Officer",
     name: "Mirae Lee",
     avatar: "/images/officers/2023-2024/ChanelLim.jpg",
     quote:
@@ -111,6 +194,13 @@ const officers: OfficerDetails[] = [
     avatar: "/images/officers/2023-2024/ChanelLim.jpg",
     quote:
       "Hey ya! I'm Josh, an incoming 2nd-year Business Economics major and a new PR Officer for VGDC. I love games, films, art, animation, and hitting the gym. Hit me up at @jashnola on discord!",
+  },
+  {
+    title: "Outreach Officer",
+    name: "Kiichiro Wang",
+    avatar: "/images/officers/2023-2024/ChanelLim.jpg",
+    quote:
+      "HIYA!! I'm Kiichi, a 3rd year ICAM Major and CS minor and the president for the upcoming 2024-2025 year. I love dabbling in a little bit of everything like digital art, game programming, game production, drums, archery, blablabla -- will finish later lol ",
   },
   {
     title: "Outreach Officer",
@@ -158,11 +248,13 @@ export default function OfficerPage() {
             href="./"
             className="text-text-grey transition-all hover:text-white"
           >{`<- back`}</Link>
-          <h2 className="mb-3 mt-2 text-4xl font-bold">Our Team</h2>
+          <h2 className="mb-3 mt-2 text-4xl font-bold">2023-2024 Officers</h2>
           <p className="max-w-[600px] text-lg leading-6">
-            {`We're a growing body of talented individuals with a passion for
-            making game development exciting in every way. Hover over each
-            profile!`}
+            {`VGDC grew dramatically in the 2023-2024 year, with a new team led by Tyler Roache.
+            Events, led by Carey Yoon, more than tripled in attendance, and the whole club came
+            together to build Athenaeum as part of The Chanel Project, led by Chanel Lim. In the
+            Spring, Kiichiro Wang took over as President and more than doubled the size of the 
+            board in preparation for the next year.`}
           </p>
         </div>
 
@@ -171,11 +263,11 @@ export default function OfficerPage() {
 
         {/* Title section */}
         <div className="mx-6 mb-20 mt-20">
-          <h2 className="mb-2 mt-2 text-3xl font-medium">Previous Years</h2>
+          <h2 className="mb-2 mt-2 text-3xl font-medium">Other Years</h2>
           <Link
-            href="./officers/2023-2024"
+            href="./"
             className="text-text-grey transition-all hover:text-white"
-          >{`2023-2024 Officers`}</Link>
+          >{`Current Officers`}</Link>
         </div>
       </div>
 
