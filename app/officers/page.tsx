@@ -159,7 +159,7 @@ export default function OfficerPage() {
             className="text-text-grey transition-all hover:text-white"
           >{`<- back`}</Link>
           <h2 className="mb-3 mt-2 text-4xl font-bold">Our Team</h2>
-          <p className="max-w-[600px] text-lg">
+          <p className="max-w-[600px] text-lg leading-6">
             {`We're a growing body of talented individuals with a passion for
             making game development exciting in every way. Hover over each
             profile!`}

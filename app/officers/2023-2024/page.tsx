@@ -249,6 +249,13 @@ export default function OfficerPage() {
             className="text-text-grey transition-all hover:text-white"
           >{`<- back`}</Link>
           <h2 className="mb-3 mt-2 text-4xl font-bold">2023-2024 Officers</h2>
+          <p className="max-w-[600px] text-lg leading-6">
+            {`VGDC grew dramatically in the 2023-2024 year, with a new team led by Tyler Roache.
+            Events, led by Carey Yoon, more than tripled in attendance, and the whole club came
+            together to build Athenaeum as part of The Chanel Project, led by Chanel Lim. In the
+            Spring, Kiichiro Wang took over as President and more than doubled the size of the 
+            board in preparation for the next year.`}
+          </p>
         </div>
 
         {/* Officers */}
