@@ -3,24 +3,59 @@ title: 'VGDC launches new website'
 date: '2024-06-29'
 author: 'William Kim'
 excerpt: 'Dive into how we made our new website using Next JS!'
-coverImage: '/image.png'
+coverImage: '/cover.png'
 ---
 
 
-In today's fast-paced digital age, video games have emerged as more than just a form of entertainment; they have become a cultural phenomenon that transcends boundaries and captivates millions worldwide. From the immersive worlds of role-playing games to the adrenaline rush of competitive multiplayer matches, video games offer an unparalleled experience that engages players on multiple levels. However, beyond their entertainment value, video games have also proven to have a profound impact on individuals, communities, and society as a whole.&nbsp  
+Hello everyone, I'm Will. I'm pleased to announce that VGDC has finally migrated to Next JS for its new website. This
+decision came quite late into my role as website manager in 2024. However despite the timing, I felt that the organization
+was in dire need of a face lift. Several features were left ignored in the previous website that never saw the light of day.
+On top of that, I was working with a codebase that was becoming unstable to manage. 
 
-### Empowering Players:
-One of the most remarkable aspects of video games is their ability to empower players. In a virtual space where they have agency and control, individuals can explore their creativity, problem-solving skills, and decision-making abilities in ways that traditional media cannot replicate. Games like Minecraft, for example, enable players to build entire worlds from scratch, fostering creativity and collaboration among peers. Similarly, strategy games like Civilization challenge players to make complex decisions that can shape the course of history, teaching valuable lessons about leadership and resource management.
+## Choosing a framework 
+Deciding on a tech stack that would make dev and user experience easy was crucial. Furthermore, we had scale in mind and we were
+sure that future developers would want to add both frontend and backend features later on. After consulting with my friend 
+and executive officer **Chase Peterson**, we chose Next JS to create the new website. 
 
+## Designing and Challenges
+Like the rational people we were, we decided to hop on Figma right away to start drafting our ideas. There were core features that we 
+wanted this time around including a new events and blog system that could deliver information to our users more efficiently than before. 
+Below you'll see some of the designs that we created in Figma. 
 
+&nbsp;
 
-### Building Communities:
-Beyond the solitary experience, video games also serve as a platform for building communities and fostering social connections. Online multiplayer games create opportunities for players to collaborate, compete, and communicate with others from around the globe, transcending geographical boundaries and cultural differences. Whether it's forming a guild in an MMORPG or joining forces in a team-based shooter, the sense of camaraderie and shared experience that emerges within gaming communities is unparalleled. Moreover, the rise of live streaming and esports has transformed gaming into a spectator sport, bringing together millions of viewers to cheer for their favorite players and teams.
+![image](/images/blogs/Website-Launch/newsPage.png)
 
-### Promoting Learning and Development:
-Contrary to popular belief, video games can be powerful educational tools that promote learning and development across various domains. Educational games, such as those focused on mathematics, language learning, or historical events, offer an interactive and engaging way for students to acquire new knowledge and skills. Additionally, games that incorporate elements of problem-solving, critical thinking, and strategic planning can enhance cognitive abilities and decision-making skills. Studies have shown that playing video games can improve spatial awareness, hand-eye coordination, and even empathy, challenging the notion that gaming is purely detrimental to mental health.
+![image](/images/blogs/Website-Launch/eventsPage.png)
 
-### Driving Innovation and Technology:
-The video game industry has always been at the forefront of technological innovation, pushing the boundaries of what is possible in interactive entertainment. From cutting-edge graphics and immersive virtual reality experiences to innovative gameplay mechanics and artificial intelligence, video games continue to drive advancements in technology that extend far beyond the gaming realm. Furthermore, the gamification of everyday tasks and activities has become increasingly prevalent, with businesses, healthcare organizations, and educational institutions leveraging game design principles to engage audiences and motivate behavior change.
+&nbsp;
 
-In conclusion, video games are more than just a form of entertainment; they are a powerful medium with the potential to shape our lives in profound ways. From empowering individuals and building communities to promoting learning and driving innovation, the impact of video games extends far beyond the confines of the virtual world. As we continue to embrace the possibilities of interactive entertainment, it is essential to recognize and celebrate the transformative power of video games in our society. Whether you're a casual player or a dedicated enthusiast, there's no denying the profound influence that video games have on our lives and culture.
+Still we ran into a few issues that were more technical. First off, how were we going to create a blog system? I heavily considered 
+creating a separate database to store the info but this would lead to more overhead work and possibly cost money. I was fortunate to 
+come across a couple of articles online written by other developers who made custom blog systems using markdown. And with a bit of 
+official info on the Next JS docs, I managed to create a simple pipeline that converts raw markdown into the stylized html that you're 
+reading right now!
+
+Another issue was the matter of creating a newsletter, which came rather late into development around June. Chase consulted me about 
+the possibility of adding an email sign-up to fill up some empty space in our footer which you'll see below. We eventually settled on using 
+[Mailchimp](https://mailchimp.com) to handle our subscriptions. 
+
+I thought this would be an easy task but this turned out to be more annoying than I expected. The biggest headache came from the lack 
+of documentation on the company's API reference. At one point, I actively avoided coding this feature for a week or two before I 
+hashed it out in a couple hours on a random night. 
+
+&nbsp;
+
+![image](/images/blogs/Website-Launch/footer.png)
+
+&nbsp;
+
+## What are some future goals for the dev team?
+Our work never stops evolving. We are always looking for ways to improve the website which, believe it or not, at this stage 
+is just an MVP. We plan on adding some more artistic elements and other information to all the pages in the next upcoming weeks. 
+Be on the lookout for updates! We hope you enjoy the journey as this club takes just one of many steps to a bright future at UCSD.
+
+&nbsp;
+
+## Special Thanks
+Also shoutout to Chase Peterson for helping me with the website. 

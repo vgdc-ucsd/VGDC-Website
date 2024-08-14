@@ -212,6 +212,12 @@ export default async function BlogPage({ params}: { params: { id: string }}) {
                               {children}
                             </a>
                         ),
+                        em: ({ children }) => (
+                            <p className='text-center mt-2 w-full'>
+                                {children}
+                            </p>
+                        ),
+
                         h3({ node, className, children, ...props}) {
                             return (
                               <h2 style={{ marginBottom: "0", color: "rgb(229 231 235)", transform: "translateY(6px)", fontSize: "1.2rem"}}>
