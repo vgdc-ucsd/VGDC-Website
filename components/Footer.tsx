@@ -80,6 +80,9 @@ export default function Footer() {
       </div>
       <div className="py-8 text-center font-medium text-text-grey">
         Video Game Development Club
+        <br className="visible sm:hidden" />
+        {" © "}
+        {new Date().getFullYear()}
       </div>
     </div>
   )
