@@ -46,7 +46,7 @@ bring some contrast to elevate the look and feel. We added a dash of pink, black
 gives the website a modern yet fun feel to it.
 
 
-Still we ran into a few issues that were more technical. First off, how were we going to create a blog system? I heavily considered 
+Eventually, we ran into a few issues that were more technical. First off, how were we going to create a blog system? I heavily considered 
 creating a separate database to store the info but this would lead to more overhead work and possibly cost money. I was fortunate to 
 come across a couple of articles online written by other developers who made custom blog systems using markdown. And with a bit of 
 official info on the Next JS docs, I managed to create a simple pipeline that converts raw markdown into the stylized html that you're 
