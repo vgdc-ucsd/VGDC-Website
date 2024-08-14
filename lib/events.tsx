@@ -48,7 +48,10 @@ export async function getEvents(
         location: response.data[i][2],
         // Formats the date as "Fri, July 5th".
         date: moment(response.data[i][3], "M/D/YYYY").format("MMMM Do"),
-        time: response.data[i][4] + " - " + response.data[i][5],
+        time:
+          response.data[i][4] != response.data[i][5]
+            ? response.data[i][4] + " - " + response.data[i][5]
+            : response.data[i][4],
         // Uses momentjs to get a standard timestamp for sorting.
         timestamp: moment(
           response.data[i][3] + " " + response.data[i][4],
