@@ -7,7 +7,6 @@ import { EventDetails } from "@/lib/events"
 export default function EventView({ event }: { event: EventDetails }) {
   // Get the search parameters
   const searchParams = useSearchParams()
-  console.log(searchParams!.get("from"))
 
   return (
     <section className="mx-auto mt-24 max-w-[920px]">
