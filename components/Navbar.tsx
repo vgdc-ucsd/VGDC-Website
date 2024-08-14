@@ -63,7 +63,7 @@ export default function Navbar({ offsetSpace = true, hideOnScroll = false }) {
         className={`fixed left-0 top-0 z-50 h-16 w-full bg-background-black/30 font-light text-text-grey backdrop-blur-lg transition-[top] ${show || !hideOnScroll ? "top-0" : "-top-20"}`}
       >
         {/* Contains all components inside navbar */}
-        <div className="w-full px-4 py-2">
+        <div className="mx-auto w-full max-w-[1200px] px-4 py-2">
           {/* The logo, changes size and position dynamically */}
           <Link href="/" className="absolute top-3 block w-fit">
             <Image
