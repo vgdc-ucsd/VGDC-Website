@@ -243,9 +243,7 @@ export default async function BlogPage({ params }: { params: { id: string } }) {
                 </a>
               ),
               em: ({ children }) => (
-                <div className="mt-2 w-full text-center">
-                  <em>{children}</em>
-                </div>
+                <em className="mt-2 block w-full text-center">{children}</em>
               ),
               h3({ node, className, children, ...props }) {
                 return (
