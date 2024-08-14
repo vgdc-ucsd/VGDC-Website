@@ -85,7 +85,7 @@ function Event({
   homepage,
 }: any) {
   return (
-    <div className="flex rounded-3xl bg-background-grey/50 p-3 align-middle sm:space-x-6 sm:p-6">
+    <div className="flex rounded-3xl bg-background-grey/50 p-5 align-middle sm:space-x-6 sm:p-6">
       <img
         src={`${image}`}
         className="hidden w-40 rounded-xl sm:block md:w-48"
