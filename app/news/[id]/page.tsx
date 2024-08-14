@@ -74,24 +74,20 @@ export async function generateMetadata({ params }: any) {
   const post = await getPostData(params.id)
 
   // grab full url path
-  const headerList = headers()
-  const fullpath = headerList.get("x-current-path")
-  const hostname = headerList.get("x-host-name")
 
   if (post != null) {
     return {
-      metadataBase: new URL(hostname!),
       title: post.title,
       description: post.excerpt,
       openGraph: {
         siteName: "Video Game Development Club",
         title: post.title,
         description: post.excerpt,
-        url: fullpath!,
+        url: `https://vgdc.dev/news/${post.id}`,
         type: "article",
         images: [
           {
-            url: `${hostname}/_next/image?url=/images/blogs/${post.id}${post.coverImage}&w=828&q=75`,
+            url: `/_next/image?url=/images/blogs/${post.id}${post.coverImage}&w=828&q=75`,
             width: 1280,
             height: 640,
           },
@@ -104,7 +100,7 @@ export async function generateMetadata({ params }: any) {
         description: post.excerpt,
         creator: "@vgdc",
         images: [
-          `${hostname}/_next/image?url=/images/blogs/${post.id}${post.coverImage}&w=828&q=75`,
+          `/_next/image?url=/images/blogs/${post.id}${post.coverImage}&w=828&q=75`,
         ],
       },
     }
