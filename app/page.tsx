@@ -27,11 +27,11 @@ export default function Home() {
       <Navbar offsetSpace={false} />
       <Hero />
       <About />
-      <BlogPreview />
-      <Engagement />
       <EventList />
-      <Niches />
+      {/* <Engagement /> */}
       <Games />
+      <BlogPreview />
+      {/* <Niches /> */}
       <Companies />
       <Footer />
     </main>
@@ -245,19 +245,19 @@ async function BlogPreview() {
   const posts = await getSortedPostsData(2)
 
   return (
-    <section className="mx-auto mt-[4rem] w-fit justify-center px-8 md:mt-[8rem] xl:w-[56rem]">
+    <section className="mx-auto mt-[4rem] w-fit justify-center px-8 sm:w-[32rem] md:mt-[8rem] md:w-[44rem] lg:w-[56rem]">
       <span className="mb-8 flex flex-col justify-between md:flex-row">
         <div>
           <h2 className="text-2xl font-bold text-white lg:text-4xl">
             VGDC News
           </h2>
-          <p className="max-w-lg text-sm text-text-grey  sm:text-base xl:text-lg">
+          <p className="max-w-lg text-sm text-text-grey sm:text-base lg:text-lg">
             Stay up to date with the latest highlights of the club
           </p>
         </div>
 
         <Link href="/news">
-          <Button className="mt-4">all posts</Button>
+          <Button className="mt-4">All Posts</Button>
         </Link>
       </span>
 

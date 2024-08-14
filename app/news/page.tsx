@@ -21,7 +21,7 @@ export default async function News() {
           <h2 className="mt-2 text-4xl font-bold">VGDC News</h2>
         </div>
 
-        <div className="flex-start mx-6 flex flex-wrap justify-center">
+        <div className="mx-auto flex w-fit flex-wrap px-4 sm:w-[36rem] sm:px-0 md:mx-auto md:w-[44rem] md:justify-start lg:mx-6 lg:w-[56rem]">
           {posts.map((post: Post, index) => {
             return <BlogCard key={index} post={post} />
           })}
