@@ -154,11 +154,11 @@ export default async function BlogPage({ params }: { params: { id: string } }) {
       </head> */}
 
       <div className="mx-auto mt-6 flex max-w-[920px] flex-col justify-center pb-20 text-white md:mt-20 lg:flex-row">
-        <div className="sticky left-0 top-0 mx-6 mb-4 mr-8">
+        <div className="sticky left-0 top-0 mx-8 mb-4 mr-8">
           <BackButton />
         </div>
 
-        <article className="mx-6 align-middle">
+        <article className="mx-8 align-middle">
           {/**Blog MetaData */}
           <div className="mb-4 flex w-full flex-row justify-between text-text-grey">
             <div className="mt-1 flex h-fit flex-row align-middle">

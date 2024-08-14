@@ -12,7 +12,7 @@ export default function EventView({ event }: { event: EventDetails }) {
   return (
     <section className="mx-auto mt-24 max-w-[920px]">
       <div className="flex flex-col lg:flex-row">
-        <div className="m-4 flex-[2]">
+        <div className="m-8 flex-[2]">
           {searchParams!.get("from") == "events" ? (
             <Link
               href="/events"

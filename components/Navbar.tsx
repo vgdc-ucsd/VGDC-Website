@@ -63,7 +63,7 @@ export default function Navbar({ offsetSpace = true, hideOnScroll = false }) {
         className={`fixed left-0 top-0 z-50 h-16 w-full bg-background-black/30 font-light text-text-grey backdrop-blur-lg transition-[top] ${show || !hideOnScroll ? "top-0" : "-top-20"}`}
       >
         {/* Contains all components inside navbar */}
-        <div className="mx-auto w-full max-w-[1200px] px-4 py-2">
+        <div className="mx-auto w-full max-w-[1200px] px-8 py-2">
           {/* The logo, changes size and position dynamically */}
           <Link href="/" className="absolute top-3 block w-fit">
             <Image
@@ -76,7 +76,7 @@ export default function Navbar({ offsetSpace = true, hideOnScroll = false }) {
           </Link>
 
           {/* Hamburger menu for mobile, disappears on bigger screens */}
-          <div className="absolute right-4 top-3 sm:hidden">
+          <div className="absolute right-7 top-3 sm:hidden">
             <Drawer>
               {/* Hamburger icon */}
 
@@ -113,7 +113,7 @@ export default function Navbar({ offsetSpace = true, hideOnScroll = false }) {
             </Drawer>
           </div>
 
-          {/* Basic menu, dynamically changes  with screen size */}
+          {/* Basic menu, dynamically changes with screen size */}
           <div className="invisible relative top-3 float-right mx-auto w-fit space-x-12 align-middle text-base transition-transform sm:visible lg:float-none lg:space-x-16">
             <Link href="/" className={menuButton}>
               Home

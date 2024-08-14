@@ -154,7 +154,7 @@ export default function OfficerPage() {
       {/* Page content */}
       <div className="mx-auto max-w-[920px] pb-20 text-white">
         {/* Title section */}
-        <div className="mx-6 mb-20 mt-20">
+        <div className="mx-8 mb-20 mt-20">
           <Link
             href="./"
             className="text-text-grey transition-all hover:text-white"
@@ -170,8 +170,8 @@ export default function OfficerPage() {
         {/* Officers */}
         <Officers officers={officers} />
 
-        {/* Title section */}
-        <div className="mx-6 mb-20 mt-20">
+        {/* Previous Years */}
+        <div className="mx-8 mb-20 mt-20">
           <h2 className="mb-2 mt-2 text-3xl font-medium">Previous Years</h2>
           <Link
             href="./officers/2023-2024"
