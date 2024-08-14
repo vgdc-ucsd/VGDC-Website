@@ -23,10 +23,12 @@ export default async function EventList({
     reverseOrder
   )
 
+  // mx-auto mt-[4rem] w-fit justify-center px-8 md:mt-[8rem] xl:w-[56rem]
+
   return (
     <div
       id="events"
-      className={`mx-auto w-full px-4 pb-16 pt-32 sm:w-[600px] sm:px-8 md:w-[680px] lg:w-[800px]`}
+      className={`mx-auto w-full px-4 pb-16 pt-32 sm:w-[600px] sm:px-8 md:w-[680px] lg:w-[56rem]`}
     >
       <div className="mb-6 text-left">
         {/* If the events list isn't on the homepage, include back button. */}
@@ -109,7 +111,7 @@ function Event({
         <p className="hidden w-full text-sm text-text-grey sm:block md:hidden">
           {truncate(description, 120, true)}
         </p>
-        <p className="w-full text-sm text-text-grey sm:hidden md:block md:w-80 lg:w-96 lg:leading-6">
+        <p className="w-full text-sm text-text-grey sm:hidden md:block md:w-80 lg:w-[440px] lg:leading-6">
           {truncate(description, 200, true)}
         </p>
         <h4 className="invisible absolute right-2 text-right font-semibold text-text-grey lg:visible lg:top-2">
