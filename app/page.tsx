@@ -28,9 +28,9 @@ export default function Home() {
       <Hero />
       <About />
       <EventList />
+      <BlogPreview />
       {/* <Engagement /> */}
       <Games />
-      <BlogPreview />
       {/* <Niches /> */}
       <Companies />
       <Footer />
@@ -147,7 +147,7 @@ function Companies() {
 
   return (
     <>
-      <div className="relative mt-[4rem] w-full md:mt-[8rem]">
+      <div className="relative my-36 w-full">
         {/* Text above carousel */}
         <h2 className="text-center text-2xl font-bold text-white lg:text-4xl">
           Our members are everywhere!
@@ -197,7 +197,7 @@ function About() {
     "text-white transition ease-in duration-150 hover:cursor-pointer hover:text-hot-pink"
 
   return (
-    <section className="mx-4 flex w-auto flex-col items-center pb-32">
+    <section className="mx-4 mb-36 flex w-auto flex-col items-center">
       <h2 className="text-2xl font-bold text-white lg:text-4xl">
         What is VGDC?
       </h2>
@@ -245,7 +245,7 @@ async function BlogPreview() {
   const posts = await getSortedPostsData(2)
 
   return (
-    <section className="mx-auto mt-[4rem] w-fit justify-center px-8 sm:w-[32rem] md:mt-[8rem] md:w-[44rem] lg:w-[56rem]">
+    <section className="mx-auto my-36 w-fit justify-center px-8 sm:w-[32rem] md:w-[44rem] lg:w-[56rem]">
       <span className="mb-8 flex flex-col justify-between md:flex-row">
         <div>
           <h2 className="text-2xl font-bold text-white lg:text-4xl">
@@ -294,7 +294,7 @@ function Games() {
   }
 
   return (
-    <section className="mx-auto mt-[4rem] w-full justify-center px-8 sm:w-[32rem] md:mt-[8rem] md:w-[44rem] lg:w-[56rem]">
+    <section className="mx-auto my-36 w-full justify-center px-8 sm:w-[32rem] md:w-[44rem] lg:w-[56rem]">
       <span className="mb-4 flex flex-col justify-between md:flex-row">
         <div>
           <h2 className="text-2xl font-bold text-white lg:text-4xl">
