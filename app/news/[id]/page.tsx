@@ -19,6 +19,7 @@ import BackButton from "@/components/ui/back-button"
 import Footer from "@/components/Footer"
 import SocialShareButton from "@/components/ui/social-share-button"
 import { vsDark } from "react-syntax-highlighter/dist/cjs/styles/prism"
+import { Metadata } from "next"
 
 /**
  * This page holds the content for a
@@ -69,6 +70,20 @@ import { vsDark } from "react-syntax-highlighter/dist/cjs/styles/prism"
  */
 }
 
+export async function generateMetadata({ params }: any) {
+  const post = await getPostData(params.id)
+
+  if (post != null) {
+    return {
+      title: post.title,
+    }
+  } else {
+    return {
+      title: "VGDC @ UCSD",
+    }
+  }
+}
+
 export default async function BlogPage({ params }: { params: { id: string } }) {
   const post = await getPostData(params.id)
   const { previousPost, nextPost } = await generateNeighbors(params.id)
@@ -107,10 +122,13 @@ export default async function BlogPage({ params }: { params: { id: string } }) {
       <img src={src} alt={alt} title={title} style={{ maxWidth: "100%" }} />
     )
   }
+
+  generateMetadata({ title: "Test" })
+
   return (
     <main className="min-h-screen bg-background-black">
       <Navbar />
-
+      {/* 
       <head>
         <meta property="og:site_name" content="Video Game Development Club" />
         <meta property="og:title" content={post.title} />
@@ -125,7 +143,7 @@ export default async function BlogPage({ params }: { params: { id: string } }) {
         <meta property="og:image:height" content="640" />
 
         {/** metadata to define content for twitter previews */}
-        <meta property="twitter:card" content="summary_large_image" />
+      {/* <meta property="twitter:card" content="summary_large_image" />
         <meta property="twitter:site" content="@vgdc" />
         <meta property="twitter:title" content={post.title} />
         <meta property="twitter:description" content={post.excerpt} />
@@ -133,7 +151,7 @@ export default async function BlogPage({ params }: { params: { id: string } }) {
           property="twitter:image"
           content={`${hostname}/_next/image?url=/images/blogs/${post.id}${post.coverImage}&w=828&q=75`}
         />
-      </head>
+      </head> */}
 
       <div className="mx-auto mt-6 flex max-w-[920px] flex-col justify-center pb-20 text-white md:mt-20 lg:flex-row">
         <div className="sticky left-0 top-0 mx-6 mb-4 mr-8">
