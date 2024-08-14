@@ -106,6 +106,9 @@ export default function Footer() {
       </div>
       <div className="py-8 text-center font-medium text-text-grey">
         Video Game Development Club
+        <br className="visible sm:hidden" />
+        {" © "}
+        {new Date().getFullYear()}
       </div>
     </div>
   )
@@ -123,8 +126,10 @@ function SocialLinks() {
 
   return (
     <>
-      <h4 className="text-lg text-text-white">Stay connected!</h4>
-      <span className="align-center mt-4 flex w-48 flex-row justify-between">
+      <h4 className="text-center text-lg text-text-white lg:text-left">
+        Stay connected!
+      </h4>
+      <span className="align-center mx-auto mt-4 flex w-48 flex-row justify-between lg:mx-0">
         <a href="https://www.instagram.com/vgdc.ucsd/" target="_blank">
           <FaInstagram className={socialLinkStyle} size={32} />
         </a>

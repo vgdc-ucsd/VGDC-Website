@@ -7,6 +7,8 @@ import Footer from "@/components/Footer"
 import Custom404 from "@/app/not-found"
 import EventView from "./components/EventView"
 
+import Link from "next/link"
+
 /** The page for a single event. */
 export default async function Event({ params }: { params: { event: string } }) {
   // Get the event data, including old events.

@@ -8,9 +8,9 @@ const officers: OfficerDetails[] = [
   {
     title: "President",
     name: "Kiichiro Wang",
-    avatar: "/images/officers/placeholders/doug.png",
+    avatar: "/images/officers/2024-2025/kiichiro-wang.jpg",
     quote:
-      "HIYA!! I'm Kiichi, a 3rd year ICAM Major and CS minor and the president for the upcoming 2024-2025 year. I love dabbling in a little bit of everything like digital art, game programming, game production, drums, archery, blablabla -- will finish later lol ",
+      "HIYA!! I'm Kiichi, a 3rd year ICAM Major and CS minor and the president for the upcoming 2024-2025 year. I love dabbling in a little bit of everything like digital art, game programming, game production, drums, and archery. I'm super stoked to be working on some future events and projects so I hope I see y'all then :D",
   },
   {
     title: "Vice President",
@@ -42,8 +42,9 @@ const officers: OfficerDetails[] = [
   {
     title: "Outreach & PR Director",
     name: "Chris Kreins",
-    avatar: "/images/officers/placeholders/cici.png",
-    quote: "",
+    avatar: "/images/officers/2024-2025/chris-kreins.jpg",
+    quote:
+      "Hi! My name is Chris and im a 3rd year studying Business Psychology with a minor in Computational Social Science. I'm a big fan of Stardew Valley and Destiny 2 and I often spend my time either gaming or serving our awesome UCSD community :). If you catch me around our gaming space or even where I work at Eleanor Roosevelt College, feel free to say hi!",
   },
   {
     title: "Tech Director & Treasurer",
@@ -153,7 +154,7 @@ export default function OfficerPage() {
       {/* Page content */}
       <div className="mx-auto max-w-[920px] pb-20 text-white">
         {/* Title section */}
-        <div className="mx-6 mb-20 mt-20">
+        <div className="mx-8 mb-20 mt-20">
           <Link
             href="./"
             className="text-text-grey transition-all hover:text-white"
@@ -169,8 +170,8 @@ export default function OfficerPage() {
         {/* Officers */}
         <Officers officers={officers} />
 
-        {/* Title section */}
-        <div className="mx-6 mb-20 mt-20">
+        {/* Previous Years */}
+        <div className="mx-8 mb-20 mt-20">
           <h2 className="mb-2 mt-2 text-3xl font-medium">Previous Years</h2>
           <Link
             href="./officers/2023-2024"
