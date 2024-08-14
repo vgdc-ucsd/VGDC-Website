@@ -24,7 +24,7 @@ import { GetServerSideProps } from "next"
 export default function Home() {
   return (
     <main className="min-h-screen bg-background-black">
-      <Navbar />
+      <Navbar offsetSpace={false} />
       <Hero />
       <About />
       <BlogPreview />
@@ -48,55 +48,53 @@ function Hero() {
     <>
       {/* The full container */}
       {/* "relative h-[15rem] w-full sm:h-[20rem] md:h-[24rem] xl:h-[32rem]" */}
-      <div className="relative mt-[1rem] w-full">
-        <div className="absolute left-0 top-0 w-full">
-          <div className="relative mx-auto w-80 sm:w-[28rem] md:w-[32rem] xl:w-[64rem]">
-            <Image
-              src="/icons/controller.svg"
-              alt="Controller icon"
-              width={80}
-              height={80}
-              className="absolute left-4 top-16 w-12 sm:left-0 sm:top-28 sm:w-20 md:top-28 xl:left-32 xl:w-24"
-            />
+      <div className="relative flex h-screen w-full items-center justify-center">
+        <div className="relative block h-fit w-fit">
+          <Image
+            src="/icons/controller.svg"
+            alt="Controller icon"
+            width={160}
+            height={160}
+            className="absolute left-0 top-8 w-12 sm:w-20 md:w-28 lg:w-36 xl:top-0 xl:w-48"
+          />
 
-            <Image
-              src="/icons/laptop.svg"
-              alt="Controller icon"
-              width={80}
-              height={80}
-              className="absolute right-4 top-16 w-12 sm:right-0 sm:top-28 sm:w-20 md:top-28  xl:right-32 xl:w-24"
-            />
+          <Image
+            src="/icons/laptop.svg"
+            alt="Controller icon"
+            width={160}
+            height={160}
+            className="absolute right-0 top-8 w-12 sm:w-20 md:w-28 lg:w-36 xl:top-0 xl:w-48"
+          />
+          {/* Text & button content */}
+          <div className="mx-0 my-12 max-w-fit sm:my-16 md:mx-8 md:my-24">
+            {/* Club Name */}
+            <h1
+              className="mx-auto
+                block bg-gradient-to-r from-vgdc-light-blue to-vgdc-light-green 
+                bg-clip-text text-center font-inter text-4xl font-extrabold tracking-tight
+                text-transparent sm:text-6xl md:text-7xl lg:text-8xl xl:text-9xl"
+            >
+              <b>
+                Video Game
+                <br />
+                Development Club
+              </b>
+            </h1>
+            {/* School Name */}
+            <h3 className="mt-2 text-center font-inter text-xl tracking-tight text-white sm:mt-4 sm:text-2xl md:mt-6 md:text-3xl xl:mt-8 xl:text-4xl">
+              @ UC San Diego
+            </h3>
+            {/* Email Button */}
+            {/* <a
+              href="mailto:vgdc@ucsd.edu"
+              target="_blank"
+              className="text-md mx-auto mt-3 block h-fit w-fit rounded-3xl bg-hot-pink 
+                px-3 py-1 text-center align-middle text-white transition-colors hover:bg-pink-700 hover:text-light-grey 
+                sm:mt-5"
+            >
+              vgdc@ucsd.edu
+            </a> */}
           </div>
-        </div>
-        {/* Text & button content */}
-        <div className="mx-auto w-fit">
-          {/* Club Name */}
-          <h1
-            className="mx-6 mt-24 inline-block
-							bg-gradient-to-r from-vgdc-light-blue to-vgdc-light-green bg-clip-text 
-							text-center font-inter text-4xl font-extrabold text-transparent
-							sm:mt-40 sm:text-5xl md:text-5xl xl:text-7xl"
-          >
-            <b>
-              Video Game
-              <br />
-              Development Club
-            </b>
-          </h1>
-          {/* School Name */}
-          <h3 className="mt-2 text-center font-inter text-base text-white xl:text-lg">
-            @ UC San Diego
-          </h3>
-          {/* Email Button */}
-          {/* <a
-            href="mailto:vgdc@ucsd.edu"
-            target="_blank"
-            className="text-md mx-auto mt-3 block h-fit w-fit rounded-3xl bg-hot-pink 
-							px-3 py-1 text-center align-middle text-white transition-colors hover:bg-pink-700 hover:text-light-grey 
-							sm:mt-5"
-          >
-            vgdc@ucsd.edu
-          </a> */}
         </div>
       </div>
     </>
@@ -199,15 +197,15 @@ function About() {
     "text-white transition ease-in duration-150 hover:cursor-pointer hover:text-hot-pink"
 
   return (
-    <section className="mx-4 mt-[4rem] flex w-auto flex-col items-center py-12 md:mt-[8rem]">
+    <section className="mx-4 flex w-auto flex-col items-center pb-32">
       <h2 className="text-2xl font-bold text-white lg:text-4xl">
         What is VGDC?
       </h2>
 
       <div className="mt-4 flex flex-col items-center">
         <Avatar className="h-12 w-12">
-          <AvatarImage src="https://github.com/shadcn.png" />
-          <AvatarFallback>TR</AvatarFallback>
+          <AvatarImage src="/images/officers/2024-2025/kiichiro-wang.jpg" />
+          <AvatarFallback>KW</AvatarFallback>
         </Avatar>
 
         <div className="text-center">
@@ -215,7 +213,7 @@ function About() {
             President
           </p>
           <p className=" mt-[-4px] text-base text-white xl:text-lg">
-            Tyler Roache
+            Kiichiro Wang
           </p>
           <p className="my-0 mt-3 w-[72vw] max-w-lg text-sm text-text-grey sm:text-base">
             VGDC is a student-run organization at UCSD dedicated to teaching and
