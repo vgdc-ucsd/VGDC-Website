@@ -73,9 +73,40 @@ import { Metadata } from "next"
 export async function generateMetadata({ params }: any) {
   const post = await getPostData(params.id)
 
+  // grab full url path
+  const headerList = headers()
+  const fullpath = headerList.get("x-current-path")
+  const hostname = headerList.get("x-host-name")
+
   if (post != null) {
     return {
+      metadataBase: new URL(hostname!),
       title: post.title,
+      description: post.excerpt,
+      openGraph: {
+        siteName: "Video Game Development Club",
+        title: post.title,
+        description: post.excerpt,
+        url: fullpath!,
+        type: "article",
+        images: [
+          {
+            url: `${hostname}/_next/image?url=/images/blogs/${post.id}${post.coverImage}&w=828&q=75`,
+            width: 1280,
+            height: 640,
+          },
+        ],
+      },
+      twitter: {
+        card: "summary_large_image",
+        site: "@UCSDVGDC",
+        title: post.title,
+        description: post.excerpt,
+        creator: "@vgdc",
+        images: [
+          `${hostname}/_next/image?url=/images/blogs/${post.id}${post.coverImage}&w=828&q=75`,
+        ],
+      },
     }
   } else {
     return {
@@ -123,35 +154,9 @@ export default async function BlogPage({ params }: { params: { id: string } }) {
     )
   }
 
-  generateMetadata({ title: "Test" })
-
   return (
     <main className="min-h-screen bg-background-black">
       <Navbar />
-      {/* 
-      <head>
-        <meta property="og:site_name" content="Video Game Development Club" />
-        <meta property="og:title" content={post.title} />
-        <meta property="og:description" content={post.excerpt} />
-        <meta property="og:url" content={fullpath!} />
-        <meta property="og:type" content="article" />
-        <meta
-          property="og:image"
-          content={`${hostname}/_next/image?url=/images/blogs/${post.id}${post.coverImage}&w=828&q=75`}
-        />
-        <meta property="og:image:width" content="1280" />
-        <meta property="og:image:height" content="640" />
-
-        {/** metadata to define content for twitter previews */}
-      {/* <meta property="twitter:card" content="summary_large_image" />
-        <meta property="twitter:site" content="@vgdc" />
-        <meta property="twitter:title" content={post.title} />
-        <meta property="twitter:description" content={post.excerpt} />
-        <meta
-          property="twitter:image"
-          content={`${hostname}/_next/image?url=/images/blogs/${post.id}${post.coverImage}&w=828&q=75`}
-        />
-      </head> */}
 
       <div className="mx-auto mt-6 flex max-w-[920px] flex-col justify-center pb-20 text-white md:mt-20 lg:flex-row">
         <div className="sticky left-0 top-0 mx-8 mb-4 mr-8">
