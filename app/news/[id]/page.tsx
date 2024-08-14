@@ -213,9 +213,9 @@ export default async function BlogPage({ params}: { params: { id: string }}) {
                             </a>
                         ),
                         em: ({ children }) => (
-                            <p className='text-center mt-2 w-full'>
-                                {children}
-                            </p>
+                            <div className='text-center mt-2 w-full'>
+                                <em>{children}</em>
+                            </div>
                         ),
 
                         h3({ node, className, children, ...props}) {
