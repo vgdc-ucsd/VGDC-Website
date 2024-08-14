@@ -1,8 +1,8 @@
 ---
 title: 'VGDC launches new website'
-date: '2024-06-29'
+date: '2024-08-12'
 author: 'William Kim'
-excerpt: 'Dive into how we made our new website using Next JS!'
+excerpt: 'Take a deeper dive into how a team of two devs made our new website using Next JS. '
 coverImage: '/cover.png'
 ---
 
@@ -53,7 +53,7 @@ hashed it out in a couple hours on a random night.
 ## What are some future goals for the dev team?
 Our work never stops evolving. We are always looking for ways to improve the website which, believe it or not, at this stage 
 is just an MVP. We plan on adding some more artistic elements and other information to all the pages in the next upcoming weeks. 
-Be on the lookout for updates! We hope you enjoy the journey as this club takes just one of many steps to a bright future at UCSD.
+Be on the lookout for updates! We hope you'll enjoy the journey with us, as the club takes just one of many steps to a brighter future at UCSD.
 
 &nbsp;
 
