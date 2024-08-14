@@ -28,7 +28,7 @@ export default async function EventList({
   return (
     <div
       id="events"
-      className={`mx-auto w-full px-4 pb-16 pt-32 sm:w-[600px] sm:px-8 md:w-[680px] lg:w-[56rem]`}
+      className={`mx-auto w-full px-4 pb-16 pt-32 sm:w-[600px] sm:px-8 md:w-[44rem] lg:w-[56rem]`}
     >
       <div className="mb-6 text-left">
         {/* If the events list isn't on the homepage, include back button. */}
