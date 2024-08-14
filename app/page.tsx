@@ -153,7 +153,7 @@ function Companies() {
           Our members are everywhere!
         </h2>
 
-        <h4 className="mt-4 text-center font-inter text-sm text-text-grey sm:text-base xl:text-lg">
+        <h4 className="text-center font-inter text-sm text-text-grey sm:text-base lg:mt-2 xl:text-lg">
           Top companies our alumni work at!
         </h4>
 
