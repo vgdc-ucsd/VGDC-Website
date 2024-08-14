@@ -242,6 +242,11 @@ export default async function BlogPage({ params }: { params: { id: string } }) {
                   {children}
                 </a>
               ),
+              em: ({ children }) => (
+                <div className="mt-2 w-full text-center">
+                  <em>{children}</em>
+                </div>
+              ),
               h3({ node, className, children, ...props }) {
                 return (
                   <h2
