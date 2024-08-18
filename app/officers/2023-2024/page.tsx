@@ -230,7 +230,7 @@ const officers: OfficerDetails[] = [
   {
     title: "Outreach Officer",
     name: "Ryan Fordham",
-    avatar: "/images/officers/placeholders/doug.png",
+    avatar: "/images/officers/2024-2025/ryan-fordham.jpg",
     quote:
       "Hello!!! I'm Ryan, a 3rd-year math-cs major and music minor. In my spare time I play basketball and hit the gym, watch anime, and play games of course. In the future I'd love to be involved in the games industry and meet new people along the way!",
   },
