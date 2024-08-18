@@ -34,7 +34,7 @@ const questions = [
       "The quickest way to get involved is to join our Discord server! " +
       "There, we announce everything we have going on throughout the year, " +
       "and you can also talk with other game developers. Our GBM at the start " +
-      "of every quarter is another great way to get hear about everything " +
+      "of every quarter is another great way to find out about everything " +
       "we have planned, but any of our events are a perfect place to get started!",
   },
   {
