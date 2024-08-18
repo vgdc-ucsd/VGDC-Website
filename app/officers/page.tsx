@@ -35,7 +35,7 @@ const officers: OfficerDetails[] = [
   {
     title: "Projects Director",
     name: "Chanel Lim",
-    avatar: "/images/officers/placeholders/vivi.png",
+    avatar: "/images/officers/2024-2025/chanel-lim.jpg",
     quote:
       "HII 🫶 My name is Chanel, I'm a 4th year ICAM major! I'm currently the Projects Director for the club. Reach out to me about anything! I love Disco Elysium, Hades, Celeste, and Hollow Knight. You can always find me drawing ✍️ and chronically online @prima on discord!",
   },
@@ -69,7 +69,7 @@ const officers: OfficerDetails[] = [
   {
     title: "Marketing Officer",
     name: "Zee Avila",
-    avatar: "/images/officers/placeholders/cici.png",
+    avatar: "/images/officers/2024-2025/zee-avila.jpg",
     quote:
       "Hi! My name is Zee, I'm a second year majoring in ICAM and I'm a new Marketing officer with a focus on design. ",
   },
@@ -83,8 +83,9 @@ const officers: OfficerDetails[] = [
   {
     title: "Events Officer",
     name: "Adian Averett",
-    avatar: "/images/officers/placeholders/vivi.png",
-    quote: "",
+    avatar: "/images/officers/2024-2025/aidan-averett.jpg",
+    quote:
+      "Hey there! I am Aidan. I am an upcoming senior majoring in Interdisciplinary Computing and the Arts (ICAM). In my downtime, I like reading, gaming, and drawing, but I am currently learning game development/design.",
   },
   {
     title: "Events Officer",
@@ -117,18 +118,19 @@ const officers: OfficerDetails[] = [
     title: "Outreach Officer",
     name: "Annie Wong",
     avatar: "/images/officers/placeholders/vivi.png",
-    quote: "",
+    quote:
+      "Hello! My name is Annie and I'm currently a 4th year ICAM-Music Major and CS minor.  I'm into anime, horror JRPGS, and J-music. I enjoy doing both programming and music production for the game I've developed. Feel free to reach out to me on Discord @ani_tired if you wanna say hi or ask any questions",
   },
   {
     title: "Outreach Officer",
     name: "Arihant Jain",
-    avatar: "/images/officers/placeholders/gigi.png",
+    avatar: "/images/officers/placeholders/doug.png",
     quote: "",
   },
   {
     title: "Outreach Officer",
     name: "Gabriel Ikezaki",
-    avatar: "/images/officers/placeholders/cici.png",
+    avatar: "/images/officers/2024-2025/gabriel-ikezaki.jpg",
     quote:
       "Hey. I'm Gabriel, a 4th year CS major. I enjoy drawing, playing games, practicing martial arts and talking about weird media on my spare time. Joining the VGDC this year, and I hope to meet new people!",
   },
@@ -136,7 +138,8 @@ const officers: OfficerDetails[] = [
     title: "Outreach Officer",
     name: "Ryan Fordham",
     avatar: "/images/officers/placeholders/doug.png",
-    quote: "",
+    quote:
+      "Hello!!! I'm Ryan, a 3rd-year math-cs major and music minor. In my spare time I play basketball and hit the gym, watch anime, and play games of course. In the future I'd love to be involved in the games industry and meet new people along the way!",
   },
 ]
 

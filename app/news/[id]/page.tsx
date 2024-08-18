@@ -73,8 +73,6 @@ import { Metadata } from "next"
 export async function generateMetadata({ params }: any) {
   const post = await getPostData(params.id)
 
-  // grab full url path
-
   if (post != null) {
     return {
       title: post.title,
@@ -83,11 +81,11 @@ export async function generateMetadata({ params }: any) {
         siteName: "Video Game Development Club",
         title: post.title,
         description: post.excerpt,
-        url: `https://vgdc.dev/news/${post.id}`,
+        url: `https://vgdc.dev/news/${params.id}`,
         type: "article",
         images: [
           {
-            url: `/_next/image?url=/images/blogs/${post.id}${post.coverImage}&w=828&q=75`,
+            url: `https://vgdc.dev/_next/image?url=/images/blogs/${post.id}${post.coverImage}&w=828&q=75`,
             width: 1280,
             height: 640,
           },
@@ -100,7 +98,7 @@ export async function generateMetadata({ params }: any) {
         description: post.excerpt,
         creator: "@vgdc",
         images: [
-          `/_next/image?url=/images/blogs/${post.id}${post.coverImage}&w=828&q=75`,
+          `https://vgdc.dev/_next/image?url=/images/blogs/${post.id}${post.coverImage}&w=828&q=75`,
         ],
       },
     }
