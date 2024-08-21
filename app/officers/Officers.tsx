@@ -38,7 +38,14 @@ function Officer({ title, name, avatar, quote }: OfficerDetails) {
     <div className="w-48">
       {/* Avatar */}
       <Avatar className="mx-8 h-32 w-32">
-        <AvatarImage src={avatar} />
+        {avatar && (
+          <Image
+            src={avatar}
+            width={300}
+            height={300}
+            alt={`Image of ${name}`}
+          />
+        )}
         <AvatarFallback>{name[0]}</AvatarFallback>
       </Avatar>
       {/* The hover card over the title and name */}
