@@ -1,25 +1,21 @@
 import React, { useContext } from "react"
 import { generateNeighbors, getPostData } from "@/lib/post"
-import ReactMarkdown from "react-markdown"
-import rehypeRaw from "rehype-raw"
 import { parseISO, format } from "date-fns"
 import Image from "next/image"
 import Navbar from "@/components/Navbar"
 import Link from "next/link"
-import styles from "./page.module.css"
 import { createAvatar } from "@dicebear/core"
 import { notionistsNeutral } from "@dicebear/collection"
 import { headers } from "next/headers"
-import TwitterButton from "@/components/ui/social-share-button"
 import { notFound } from "next/navigation"
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter"
 import { dracula } from "react-syntax-highlighter/dist/esm/styles/hljs"
-import { vscDarkPlus } from "react-syntax-highlighter/dist/esm/styles/prism"
 import BackButton from "@/components/ui/back-button"
 import Footer from "@/components/Footer"
 import SocialShareButton from "@/components/ui/social-share-button"
 import { vsDark } from "react-syntax-highlighter/dist/cjs/styles/prism"
 import { Metadata } from "next"
+import BlogView from "./components/BlogView"
 
 /**
  * This page holds the content for a
@@ -120,12 +116,6 @@ export default async function BlogPage({ params }: { params: { id: string } }) {
   // grab full url path
   const headerList = headers()
   const fullpath = headerList.get("x-current-path")
-  const hostname = headerList.get("x-host-name")
-
-  // For testing purposes only. Replace with your custom forwarded host
-  const testfullpath = `https://5742-2600-1700-7c01-1380-d136-ab79-e586-c1e3.ngrok-free.app/news/${post.id}`
-  const testhostname =
-    "https://5742-2600-1700-7c01-1380-d136-ab79-e586-c1e3.ngrok-free.app"
 
   const avatar = createAvatar(notionistsNeutral, {
     seed: post!.author,
@@ -157,170 +147,13 @@ export default async function BlogPage({ params }: { params: { id: string } }) {
           <BackButton />
         </div>
 
-        <article className="mx-8 align-middle">
-          {/**Blog MetaData */}
-          <div className="mb-4 flex w-full flex-row justify-between text-text-grey">
-            <div className="mt-1 flex h-fit flex-row align-middle">
-              <img
-                src={avatar}
-                className="mr-2 w-12"
-                alt="author cover image"
-              />
-              <div className="ml-1 flex flex-col justify-center">
-                <p className="text-sm sm:text-base">{post.author}</p>
-                {/* <p className="text-xs sm:text-sm">{calculateReadingTime(post.content)} Min Read</p>  */}
-                <DateFormat dateString={post.date} />
-              </div>
-            </div>
-
-            <div className="flex-right">
-              <p className="right m-0 hidden w-full text-center text-sm text-text-grey sm:block sm:text-base">
-                Share this blog
-              </p>
-              <div className="mt-1 hidden sm:flex">
-                <TwitterButton url={fullpath!} network="twitter" post={post} />
-                <TwitterButton url={fullpath!} network="facebook" post={post} />
-                <TwitterButton url={fullpath!} network="linkedin" post={post} />
-              </div>
-            </div>
-          </div>
-
-          {/**Cover Image */}
-          <Image
-            src={`/images/blogs/${post.id}${post.coverImage}`}
-            width={800}
-            height={600}
-            alt="Cover Image"
-            className="aspect-[8/5] w-full rounded-2xl object-cover"
-          />
-
-          <h1 className="mb-2 mt-8 text-3xl font-extrabold text-gray-200 md:text-4xl">
-            {post.title}
-          </h1>
-
-          {/**Blog Content */}
-          <ReactMarkdown
-            className={`${styles["markdown"]} mt-2 text-sm text-text-grey md:text-base`}
-            rehypePlugins={[rehypeRaw]}
-            components={{
-              // add a css for p tagsxs
-
-              img: (image) => {
-                return (
-                  <Image
-                    src={image.src!}
-                    alt={image.alt!}
-                    height="768"
-                    width="432"
-                    style={{ borderRadius: "12px", width: "100%" }}
-                  />
-                )
-              },
-              code({ children, className }) {
-                // Detect which programming language is being used
-                const match = /language-(\w+)/.exec(className || "")
-                const language = match ? match[1] : "" // Extract the language from className
-
-                return (
-                  <SyntaxHighlighter
-                    language={language}
-                    customStyle={{ borderRadius: "12px" }}
-                    style={vscDarkPlus}
-                  >
-                    {String(children).replace(/\n$/, "")}
-                  </SyntaxHighlighter>
-                )
-              },
-              a: ({ children, href }) => (
-                <a href={href} className="text-hot-pink" target="_blank">
-                  {children}
-                </a>
-              ),
-              em: ({ children }) => (
-                <em className="mt-2 block w-full text-center">{children}</em>
-              ),
-              h3({ node, className, children, ...props }) {
-                return (
-                  <h2
-                    style={{
-                      marginBottom: "0",
-                      color: "rgb(229 231 235)",
-                      transform: "translateY(6px)",
-                      fontSize: "1.2rem",
-                    }}
-                  >
-                    {String(children).replace(/\n$/, "")}
-                  </h2>
-                )
-              },
-              h2({ node, className, children, ...props }) {
-                return (
-                  <h2
-                    style={{
-                      marginBottom: "0",
-                      color: "rgb(229 231 235)",
-                      transform: "translateY(6px)",
-                      fontSize: "1.5rem",
-                    }}
-                  >
-                    {String(children).replace(/\n$/, "")}
-                  </h2>
-                )
-              },
-              h1({ node, className, children, ...props }) {
-                return (
-                  <h2
-                    style={{
-                      marginBottom: "0",
-                      color: "rgb(229 231 235)",
-                      transform: "translateY(6px)",
-                      fontSize: "1.8rem",
-                      lineHeight: "1.5rem",
-                    }}
-                  >
-                    {String(children).replace(/\n$/, "")}
-                  </h2>
-                )
-              },
-            }}
-          >
-            {post.content}
-          </ReactMarkdown>
-          {/** Section to view more blog posts */}
-
-          <p className="mt-8 text-sm text-text-grey sm:text-base">
-            Share this blog
-          </p>
-          <div className="mt-2 flex">
-            <TwitterButton url={testfullpath} network="twitter" post={post} />
-            <TwitterButton url={testfullpath} network="facebook" post={post} />
-            <TwitterButton url={testfullpath} network="linkedin" post={post} />
-          </div>
-          <section className="mt-12">
-            <hr></hr>
-            {/* <h2 className="text-2xl font-bold text-white mt-4">Read more</h2> */}
-
-            <div className="mt-8 flex w-full justify-between">
-              <div className="mr-8 flex items-center">
-                {previousPost && (
-                  <Link href={`/news/${previousPost.id}`}>
-                    <p className="mr-2 text-sm text-white">Previous</p>
-                    <p className="text-white">{previousPost.title}</p>
-                  </Link>
-                )}
-              </div>
-
-              <div className="ml-auto flex items-center">
-                {nextPost && (
-                  <Link href={`/news/${nextPost.id}`}>
-                    <p className="mr-2 text-sm text-white">Next</p>
-                    <p className="text-white">{nextPost.title}</p>
-                  </Link>
-                )}
-              </div>
-            </div>
-          </section>
-        </article>
+        <BlogView
+          post={post}
+          avatar={avatar}
+          fullpath={fullpath}
+          nextPost={nextPost}
+          previousPost={previousPost}
+        />
       </div>
 
       <Footer />
