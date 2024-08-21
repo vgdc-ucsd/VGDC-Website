@@ -56,7 +56,7 @@ export default function Companies() {
 
   return (
     <motion.div
-      initial={{ opacity: 0, scale: 0.7, translateY: 20 }}
+      initial={{ opacity: 0.6, scale: 0.8, translateY: 20 }}
       whileInView={{ opacity: 1, scale: 1, translateY: 0 }}
       viewport={{ once: true }}
       transition={{

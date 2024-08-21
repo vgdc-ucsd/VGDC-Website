@@ -11,8 +11,8 @@ export default function About() {
 
   return (
     <motion.section
-      initial={{ opacity: 0, scale: 0.7, translateY: -50 }}
-      whileInView={{ opacity: 1, scale: 1, translateY: 0 }}
+      initial={{ opacity: 0.6, scale: 0.8 }}
+      whileInView={{ opacity: 1, scale: 1 }}
       viewport={{ once: true }}
       transition={{ ease: "easeOut", duration: 0.4 }}
       className="mx-4 mb-36 mt-4 flex w-auto flex-col items-center"
