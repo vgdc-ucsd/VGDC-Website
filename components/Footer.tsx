@@ -33,7 +33,11 @@ const questions = [
     answer: (
       <p>
         The quickest way to get involved is to join our{" "}
-        <a href="https://bit.ly/VGDCUCSD" className="text-vgdc-light-green">
+        <a
+          href="https://bit.ly/VGDCUCSD"
+          className="text-vgdc-light-green"
+          target="_blank"
+        >
           <b>Discord server</b>
         </a>
         {"! "}
@@ -50,7 +54,11 @@ const questions = [
       <p>
         Yes! We open up applications to become a board member several times
         throughout the year, {"which we'll announce on our "}
-        <a href="https://bit.ly/VGDCUCSD" className="text-vgdc-light-green">
+        <a
+          href="https://bit.ly/VGDCUCSD"
+          className="text-vgdc-light-green"
+          target="_blank"
+        >
           <b>Discord server</b>
         </a>
         {
@@ -72,7 +80,11 @@ const questions = [
         }
         development as a beginner, but for now the best way to find resources is
         to join our{" "}
-        <a href="https://bit.ly/VGDCUCSD" className="text-vgdc-light-green">
+        <a
+          href="https://bit.ly/VGDCUCSD"
+          className="text-vgdc-light-green"
+          target="_blank"
+        >
           <b>Discord server</b>
         </a>
         . {"There, we'll be able to help "}
