@@ -30,49 +30,101 @@ import { FaInstagram, FaDiscord, FaFacebook } from "react-icons/fa"
 const questions = [
   {
     question: "How do I get involved?",
-    answer:
-      "The quickest way to get involved is to join our Discord server! " +
-      "There, we announce everything we have going on throughout the year, " +
-      "and you can also talk with other game developers. Our GBM at the start " +
-      "of every quarter is another great way to find out about everything " +
-      "we have planned, but any of our events are a perfect place to get started!",
+    answer: (
+      <p>
+        The quickest way to get involved is to join our{" "}
+        <a
+          href="https://bit.ly/VGDCUCSD"
+          className="text-vgdc-light-green"
+          target="_blank"
+        >
+          <b>Discord server</b>
+        </a>
+        {"! "}
+        There, we announce everything we have going on throughout the year, and
+        you can also talk with other game developers. Our GBM at the start of
+        every quarter is another great way to find out about everything we have
+        planned, but any of our events are a perfect place to get started!
+      </p>
+    ),
   },
   {
     question: "Can I join the board?",
-    answer:
-      "Yes! We open up applications to become a board member several " +
-      "times throughout the year, which we'll announce on our Discord " +
-      "and at our GBMs. You can also reach out to us directly if " +
-      "you'd like - we might not have a position for you right now, but " +
-      "we'll try to keep you in mind for the future.",
+    answer: (
+      <p>
+        Yes! We open up applications to become a board member several times
+        throughout the year, {"which we'll announce on our "}
+        <a
+          href="https://bit.ly/VGDCUCSD"
+          className="text-vgdc-light-green"
+          target="_blank"
+        >
+          <b>Discord server</b>
+        </a>
+        {
+          " and at our GBMs. You can also reach out to us directly if you'd like - "
+        }
+        {
+          "we might not have a position for you right now, but we'll try to keep "
+        }
+        you in mind for the future.
+      </p>
+    ),
   },
   {
     question: "Where can I find resources to creative tools?",
-    answer:
-      "We're working on building resources right now to help you " +
-      "start game development as a beginner, but for now the best way to " +
-      "find resources is to join our Discord. There, we'll be able to help " +
-      "you figure out what creative tools will be best for you based on the " +
-      "skills you want to develop and the games you want to make.",
+    answer: (
+      <p>
+        {
+          "We're working on building resources right now to help you start game "
+        }
+        development as a beginner, but for now the best way to find resources is
+        to join our{" "}
+        <a
+          href="https://bit.ly/VGDCUCSD"
+          className="text-vgdc-light-green"
+          target="_blank"
+        >
+          <b>Discord server</b>
+        </a>
+        . {"There, we'll be able to help "}
+        you figure out what creative tools will be best for you based on the
+        skills you want to develop and the games you want to make.
+      </p>
+    ),
   },
   {
     question: "What if I haven't made games before?",
-    answer:
-      "Everyone starts somewhere! This club exists to help people learn to make " +
-      "games, so if you're looking to get started, you've come to the right place. " +
-      "No matter what skillset you want to develop, whether it's art, design, " +
-      "programming, or any other part of game development, we're sure to have events " +
-      "and opportunities to help you build that skillset, and members with those skills " +
-      "who would love to help.",
+    answer: (
+      <p>
+        Everyone starts somewhere! This club exists to help people learn to make
+        {
+          " games, so if you're looking to get started, you've come to the right "
+        }
+        {
+          "place. No matter what skillset you want to develop, whether it's art, "
+        }
+        {
+          "design, programming, or any other part of game development, we're sure "
+        }
+        to have events and opportunities to help you build that skillset, and
+        members with those skills who would love to help.
+      </p>
+    ),
   },
   {
     question: "Do I need to be a programmer?",
-    answer:
-      "Not at all! Making a game takes people of all sorts of skillsets, " +
-      "and our club is filled with artists, writers, designers, voice actors, " +
-      "and even people completely new to game development. As long as you're " +
-      "interested in making (or even just playing) games, we'd love to have " +
-      "you join us!",
+    answer: (
+      <p>
+        Not at all! Making a game takes people of all sorts of skillsets, and
+        our club is filled with artists, writers, designers, voice actors, and
+        {" even people completely new to game development. As long as you're "}
+        {
+          "interested in making (or even just playing) games, we'd love to have you "
+        }
+        join us!
+      </p>
+    ),
   },
 ]
 
