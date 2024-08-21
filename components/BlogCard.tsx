@@ -5,9 +5,6 @@ import { Post } from "@/lib/post"
 import Image from "next/image"
 import Link from "next/link"
 import styles from "./BlogCard.module.css" // Import your CSS file
-import ReactMarkdown from "react-markdown"
-import { DateFormat } from "../app/news/[id]/page"
-import { blogger } from "googleapis/build/src/apis/blogger"
 import moment from "moment"
 import { motion } from "framer-motion"
 

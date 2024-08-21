@@ -161,14 +161,14 @@ export default async function BlogPage({ params }: { params: { id: string } }) {
   )
 }
 
-export function DateFormat({ dateString }: { dateString: string }) {
-  const date = parseISO(dateString)
-  return (
-    <time className="text-sm text-text-grey sm:text-base" dateTime={dateString}>
-      {format(date, "LLLL d, yyyy")}
-    </time>
-  )
-}
+// export function DateFormat({ dateString }: { dateString: string }) {
+//   const date = parseISO(dateString)
+//   return (
+//     <time className="text-sm text-text-grey sm:text-base" dateTime={dateString}>
+//       {format(date, "LLLL d, yyyy")}
+//     </time>
+//   )
+// }
 
 function calculateReadingTime(content: string) {
   const wordsPerMinute = 200 // Adjust according to your audience's reading speed
