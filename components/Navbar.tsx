@@ -60,7 +60,7 @@ export default function Navbar({ offsetSpace = true, hideOnScroll = true }) {
       {offsetSpace && <div className="relative h-16 bg-black" />}
       {/* Base navbar div, fixed with a blurred background */}
       <div
-        className={`fixed left-0 z-50 h-16 w-full bg-background-black/30 font-light text-text-grey backdrop-blur-lg transition-[top] ${show || !hideOnScroll ? "top-0" : "-top-20"}`}
+        className={`fixed left-0 z-50 h-16 w-full bg-background-black/30 font-light text-text-grey backdrop-blur-lg transition-[top] duration-300 ${show || !hideOnScroll ? "top-0" : "-top-20"}`}
       >
         {/* Contains all components inside navbar */}
         <div className="mx-auto w-full max-w-[1200px] px-8 py-2">
