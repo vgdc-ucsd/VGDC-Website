@@ -1,23 +1,28 @@
+"use client"
+
 import { Button } from "@/components/ui/button"
 import { Post } from "@/lib/post"
 import Image from "next/image"
 import Link from "next/link"
 import styles from "./BlogCard.module.css" // Import your CSS file
-import ReactMarkdown from "react-markdown"
-import { createAvatar } from "@dicebear/core"
-import { notionistsNeutral } from "@dicebear/collection"
-import { DateFormat } from "../app/news/[id]/page"
-import { blogger } from "googleapis/build/src/apis/blogger"
+import moment from "moment"
+import { motion } from "framer-motion"
 
-export default function BlogCard({ post }: { post: Post }) {
-  const avatar = createAvatar(notionistsNeutral, {
-    seed: post.author,
-    radius: 50,
-    size: 24,
-  }).toDataUriSync()
-
+export default function BlogCard({
+  post,
+  avatar,
+}: {
+  post: Post
+  avatar: string
+}) {
   return (
-    <section className="mb-8 flex h-fit w-full flex-col items-start rounded-lg pt-4 text-white md:flex-row md:items-center lg:items-start">
+    <motion.section
+      initial={{ opacity: 0, scale: 0.8, translateX: -60 }}
+      whileInView={{ opacity: 1, scale: 1, translateX: 0 }}
+      viewport={{ once: true }}
+      transition={{ ease: "easeOut", duration: 0.4 }}
+      className="mb-8 flex h-fit w-full flex-col items-start rounded-lg pt-4 text-white md:flex-row md:items-center lg:items-start"
+    >
       <div className="flex-shrink-0 bg-gray-950 pb-4 md:w-64 lg:w-96">
         <Image
           src={`/images/blogs/${post.id}${post.coverImage}`}
@@ -40,7 +45,7 @@ export default function BlogCard({ post }: { post: Post }) {
             {post.author}
           </p>
           <p className="mx-1">•</p>
-          <DateFormat dateString={post.date} />
+          {moment(post.date).format("MMMM DD, YYYY")}
         </div>
 
         {/** Truncated Card content */}
@@ -54,6 +59,6 @@ export default function BlogCard({ post }: { post: Post }) {
           <Button className="mt-2 lg:mt-4">Read More</Button>
         </Link>
       </div>
-    </section>
+    </motion.section>
   )
 }

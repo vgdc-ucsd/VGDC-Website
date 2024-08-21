@@ -4,6 +4,9 @@ import Navbar from "@/components/Navbar"
 import { Post, getSortedPostsData } from "@/lib/post"
 import Link from "next/link"
 
+import { createAvatar } from "@dicebear/core"
+import { notionistsNeutral } from "@dicebear/collection"
+
 export default async function News() {
   const posts = await getSortedPostsData(0)
 
@@ -23,7 +26,17 @@ export default async function News() {
 
         <div className="mx-auto flex w-fit flex-wrap px-8 sm:w-[36rem] sm:px-0 md:mx-auto md:w-[44rem] md:justify-start lg:mx-6 lg:w-[56rem]">
           {posts.map((post: Post, index) => {
-            return <BlogCard key={index} post={post} />
+            return (
+              <BlogCard
+                key={index}
+                post={post}
+                avatar={createAvatar(notionistsNeutral, {
+                  seed: post.author,
+                  radius: 50,
+                  size: 24,
+                }).toDataUriSync()}
+              />
+            )
           })}
         </div>
       </div>
