@@ -49,12 +49,16 @@ const questions = [
     answer: (
       <p>
         Yes! We open up applications to become a board member several times
-        throughout the year, which we'll announce on our{" "}
+        throughout the year, {"which we'll announce on our "}
         <a href="https://bit.ly/VGDCUCSD" className="text-vgdc-light-green">
           <b>Discord server</b>
-        </a>{" "}
-        and at our GBMs. You can also reach out to us directly if you'd like -
-        we might not have a position for you right now, but we'll try to keep
+        </a>
+        {
+          " and at our GBMs. You can also reach out to us directly if you'd like - "
+        }
+        {
+          "we might not have a position for you right now, but we'll try to keep "
+        }
         you in mind for the future.
       </p>
     ),
@@ -63,7 +67,9 @@ const questions = [
     question: "Where can I find resources to creative tools?",
     answer: (
       <p>
-        We're working on building resources right now to help you start game
+        {
+          "We're working on building resources right now to help you start game "
+        }
         development as a beginner, but for now the best way to find resources is
         to join our{" "}
         <a href="https://bit.ly/VGDCUCSD" className="text-vgdc-light-green">
@@ -80,9 +86,15 @@ const questions = [
     answer: (
       <p>
         Everyone starts somewhere! This club exists to help people learn to make
-        games, so if you're looking to get started, you've come to the right
-        place. No matter what skillset you want to develop, whether it's art,
-        design, programming, or any other part of game development, we're sure
+        {
+          " games, so if you're looking to get started, you've come to the right "
+        }
+        {
+          "place. No matter what skillset you want to develop, whether it's art, "
+        }
+        {
+          "design, programming, or any other part of game development, we're sure "
+        }
         to have events and opportunities to help you build that skillset, and
         members with those skills who would love to help.
       </p>
@@ -94,8 +106,10 @@ const questions = [
       <p>
         Not at all! Making a game takes people of all sorts of skillsets, and
         our club is filled with artists, writers, designers, voice actors, and
-        even people completely new to game development. As long as you're
-        interested in making (or even just playing) games, we'd love to have you
+        {" even people completely new to game development. As long as you're "}
+        {
+          "interested in making (or even just playing) games, we'd love to have you "
+        }
         join us!
       </p>
     ),
