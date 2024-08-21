@@ -26,7 +26,7 @@ import { useState, useEffect } from "react"
  *
  * @returns JSX representation of the navbar.
  */
-export default function Navbar({ offsetSpace = true, hideOnScroll = false }) {
+export default function Navbar({ offsetSpace = true, hideOnScroll = true }) {
   let menuButton: string = "hover:text-light-grey transition-colors text-lg"
 
   const [show, setShow] = useState(true)
@@ -60,7 +60,7 @@ export default function Navbar({ offsetSpace = true, hideOnScroll = false }) {
       {offsetSpace && <div className="relative h-16 bg-black" />}
       {/* Base navbar div, fixed with a blurred background */}
       <div
-        className={`fixed left-0 top-0 z-50 h-16 w-full bg-background-black/30 font-light text-text-grey backdrop-blur-lg transition-[top] ${show || !hideOnScroll ? "top-0" : "-top-20"}`}
+        className={`fixed left-0 z-50 h-16 w-full bg-background-black/30 font-light text-text-grey backdrop-blur-lg transition-[top] ${show || !hideOnScroll ? "top-0" : "-top-20"}`}
       >
         {/* Contains all components inside navbar */}
         <div className="mx-auto w-full max-w-[1200px] px-8 py-2">

@@ -8,15 +8,15 @@ import Image from "next/image"
  *
  * @returns JSX representation of the hero.
  */
-export function Hero() {
+export default function Hero() {
   return (
     <>
       {/* The full container */}
       {/* "relative h-[15rem] w-full sm:h-[20rem] md:h-[24rem] xl:h-[32rem]" */}
-      <div className="relative flex h-screen w-full items-center justify-center">
-        <div className="relative block h-fit w-fit overflow-hidden">
+      <div className="relative flex h-screen w-full items-center justify-center overflow-hidden">
+        <div className="relative block h-fit w-fit">
           <motion.div
-            initial={{ opacity: 0, scale: 0.7, rotate: -45, left: -30 }}
+            initial={{ opacity: 0, scale: 0.7, rotate: -15, left: -30 }}
             whileInView={{ opacity: 1, scale: 1, rotate: 0, left: 0 }}
             viewport={{ once: true }}
             transition={{ ease: "easeOut", duration: 0.4 }}
@@ -31,7 +31,7 @@ export function Hero() {
           </motion.div>
 
           <motion.div
-            initial={{ opacity: 0, scale: 0.7, rotate: 45, right: -30 }}
+            initial={{ opacity: 0, scale: 0.7, rotate: 15, right: -30 }}
             whileInView={{ opacity: 1, scale: 1, rotate: 0, right: 0 }}
             viewport={{ once: true }}
             transition={{ ease: "easeOut", duration: 0.4 }}
