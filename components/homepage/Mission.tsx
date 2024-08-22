@@ -70,7 +70,7 @@ export function Mission() {
         >
           VGDC is a student-run organization at UCSD dedicated to teaching and applying 
           software and artistic skills widely used in the video game industry. 
-          Since 2014, we've helped hundreds of people take their first steps into this amazing field. 
+          Since 2014, we have helped hundreds of people take their first steps into this amazing field. 
         </motion.p>
       </section>
     )
