@@ -103,6 +103,13 @@ function Hero() {
   )
 }
 
+
+
+/**
+ * Section that provides a descruption of the club's goals.
+ *
+ * @returns JSX representation of the content.
+ */
 function Mission() {
   return(
 
@@ -134,22 +141,7 @@ function Mission() {
         software and artistic skills widely used in the video game industry. 
         Since 2014, we've helped hundreds of people take their first steps into this amazing field. 
       </p>
-
-
-
-      {/* <Image
-        src = "/logos/GameControlsBlurry.png"
-        alt = "game controllers"
-        width = "300"
-        height = "500"
-        className="absolute z-0 w-fit h-fit"
-      
-      /> */}
-
     </section>
-
-
-
   )
 }
 
