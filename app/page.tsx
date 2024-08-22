@@ -26,14 +26,15 @@ import Games from "../components/homepage/Games"
 import Companies from "@/components/homepage/Companies"
 import { createAvatar } from "@dicebear/core"
 import { notionistsNeutral } from "@dicebear/collection"
+import Design from "@/components/homepage/Design"
 
 export default function Home() {
   return (
     <main className="min-h-screen bg-background-black">
       <Navbar offsetSpace={false} />
       <Hero />
-      <About />
       <EventList />
+      <Design/>
       <BlogPreview />
       <Games />
       <Companies />
