@@ -9,14 +9,12 @@ export default function Design() {
         <section className = {`
             mx-auto px-8 items-center flex flex-col justify-center w-fit md:h-screen
         `}>
-
-            <p className = "text-hot-pink text-xl mb-4">Workshops</p>
             <h1 className = "text-white text-7xl lg:text-9xl font-extrabold text-center">
-                Design
+                <span className="text-vgdc-light-green">Design.</span>
                 <br/>
-                Code
+                <span className="text-vgdc-light-green">Code.</span>
                 <br/>
-                Learn
+                Learn.
             </h1>
 
             <p className = "text-base text-text-grey xl:text-lg text-center  md:max-w-[300px] lg:max-w-[500px] mx-24 mt-4">
