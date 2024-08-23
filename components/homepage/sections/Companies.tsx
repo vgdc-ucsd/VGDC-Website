@@ -6,7 +6,7 @@ import {
   CarouselPrevious,
   CarouselNext,
   CarouselItem,
-} from "../ui/carousel"
+} from "../../ui/carousel"
 import Image from "next/image"
 import { motion } from "framer-motion"
 
