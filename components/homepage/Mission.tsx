@@ -1,7 +1,9 @@
 "use client"
 
 import { motion } from "framer-motion"
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import { Avatar, AvatarFallback } from "@/components/ui/avatar"
+import Image from "next/image"
+
 
 /**
  * Section that provides a descruption of the club's goals.
@@ -24,7 +26,7 @@ export function Mission() {
                     transition={{
                         delay: 0.1,
                         ease: "easeIn",
-                        duration: 0.5,
+                        duration: 0.6,
                         stiffness: 250, 
                         damping: 56
                     }}
@@ -33,9 +35,21 @@ export function Mission() {
                     Our <br /> Mission
                 </motion.h1>
 
-                <div className="mx-auto flex w-fit flex-row items-center lg:mx-0">
+                <motion.div 
+                    initial={{ opacity: 0 }}
+                    whileInView={{ opacity: 1 }}
+                    viewport={{ once: true }}
+                    transition={{
+                        delay: 0.1,
+                        ease: "easeIn",
+                        duration: 0.6,
+                        stiffness: 250, 
+                        damping: 56
+                    }}
+                    className="mx-auto flex w-fit flex-row items-center lg:mx-0"
+                >
                     <Avatar className="h-12 w-12">
-                        <AvatarImage src="/images/officers/2024-2025/kiichiro-wang.jpg" />
+                        <Image src= {"/images/officers/2024-2025/kiichiro-wang.jpg"} width ={300} height ={300} alt = "Image of the president"/>
                         <AvatarFallback>KW</AvatarFallback>
                     </Avatar>
                     <div className="mx-4">
@@ -46,7 +60,7 @@ export function Mission() {
                             Kiichiro Wang
                         </p>
                     </div>
-                </div>
+                </motion.div>
             </div>
 
             <motion.p
@@ -56,7 +70,7 @@ export function Mission() {
                 transition={{
                     delay: 0,
                     ease: "easeInOut",
-                    duration: 0.4,
+                    duration: 0.6,
                 }}
                 className="max-w-[480px] text-center text-base text-text-grey lg:text-left xl:text-lg"
             >
