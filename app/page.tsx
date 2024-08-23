@@ -24,6 +24,7 @@ import { motion } from "framer-motion"
 import { Mission } from "@/components/homepage/Mission"
 import Hero from "@/components/homepage/Hero"
 import Companies from "@/components/homepage/Companies"
+import Design from "@/components/homepage/Design"
 
 export default function Home() {
   return (
@@ -32,6 +33,7 @@ export default function Home() {
       <Hero />
       <Mission />
       <EventList />
+      <Design/>
       <BlogPreview />
       <Games />
       <Companies />
