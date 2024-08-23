@@ -7,7 +7,6 @@ import { FaInstagram, FaDiscord, FaFacebook } from "react-icons/fa"
 import { SiMinutemailer } from "react-icons/si"
 import Image from "next/image"
 import Link from "next/link"
-import { useSpring, animated } from "react-spring"
 import {
   Carousel,
   CarouselContent,
@@ -18,14 +17,13 @@ import {
 import { Post, getSortedPostsData } from "@/lib/post"
 import BlogCard from "@/components/BlogCard"
 import { Button } from "@/components/ui/button"
-import { useContext } from "react"
-import { GetServerSideProps } from "next"
-import About from "../components/homepage/About"
-import Hero from "../components/homepage/Hero"
 import Games from "../components/homepage/Games"
-import Companies from "@/components/homepage/Companies"
 import { createAvatar } from "@dicebear/core"
 import { notionistsNeutral } from "@dicebear/collection"
+import { motion } from "framer-motion"
+import { Mission } from "@/components/homepage/Mission"
+import Hero from "@/components/homepage/Hero"
+import Companies from "@/components/homepage/Companies"
 import Design from "@/components/homepage/Design"
 
 export default function Home() {
@@ -33,6 +31,7 @@ export default function Home() {
     <main className="min-h-screen bg-background-black">
       <Navbar offsetSpace={false} />
       <Hero />
+      <Mission />
       <EventList />
       <Design/>
       <BlogPreview />
