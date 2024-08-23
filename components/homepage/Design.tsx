@@ -28,7 +28,7 @@ export default function Design() {
                 viewport={{ once: true }}
                 transition={{
                     delay: 0,
-                    ease: "easeIn",
+                    ease: "easeInOut",
                     duration: 0.6,
                 }}
                 className="flex max-w-[36rem] flex-wrap justify-center mt-8 mx-auto"
