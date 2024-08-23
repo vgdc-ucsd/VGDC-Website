@@ -19,7 +19,7 @@ export default function Hero() {
             initial={{ opacity: 0, scale: 0.7, rotate: -15, left: -30 }}
             whileInView={{ opacity: 1, scale: 1, rotate: 0, left: 0 }}
             viewport={{ once: true }}
-            transition={{ ease: "easeOut", duration: 0.4 }}
+            transition={{ ease: "easeOut", duration: 0.4, delay: 0 }}
             className="absolute left-0 top-8 w-12 sm:w-20 md:w-28 lg:w-36"
           >
             <Image
