@@ -1,6 +1,6 @@
 import BlogCard from "@/components/BlogCard"
-import Footer from "@/components/Footer"
-import Navbar from "@/components/Navbar"
+import Footer from "@/components/global/Footer"
+import Navbar from "@/components/global/Navbar"
 import { Post, getSortedPostsData } from "@/lib/post"
 import Link from "next/link"
 

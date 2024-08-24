@@ -2,8 +2,8 @@
 
 import { EventDetails, getEvents } from "@/lib/events"
 
-import Navbar from "@/components/Navbar"
-import Footer from "@/components/Footer"
+import Navbar from "@/components/global/Navbar"
+import Footer from "@/components/global/Footer"
 import Custom404 from "@/app/not-found"
 import EventView from "./components/EventView"
 

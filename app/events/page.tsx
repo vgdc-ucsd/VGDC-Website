@@ -1,6 +1,6 @@
-import Navbar from "@/components/Navbar"
+import Navbar from "@/components/global/Navbar"
 import EventList from "@/components/EventList"
-import Footer from "@/components/Footer"
+import Footer from "@/components/global/Footer"
 import Link from "next/link"
 
 /** Dedicated events page. */
