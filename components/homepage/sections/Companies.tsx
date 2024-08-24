@@ -6,9 +6,10 @@ import {
   CarouselPrevious,
   CarouselNext,
   CarouselItem,
-} from "../ui/carousel"
+} from "../../ui/carousel"
 import Image from "next/image"
 import { motion } from "framer-motion"
+import { SectionHeader } from "../../global/SectionComponents"
 
 /**
  *
@@ -66,13 +67,11 @@ export default function Companies() {
       className="relative my-36 w-full"
     >
       {/* Text above carousel */}
-      <h2 className="text-center text-2xl font-bold text-white lg:text-4xl">
-        Our members are everywhere!
-      </h2>
-
-      <h4 className="text-center font-inter text-sm text-text-grey sm:text-base lg:mt-2 xl:text-lg">
-        Top companies our alumni work at!
-      </h4>
+      <SectionHeader
+        heading="Our members are everywhere!"
+        subheading="Top companies our alumni work at!"
+        textAlign="center"
+      />
 
       {/* List of companies */}
       <Carousel
