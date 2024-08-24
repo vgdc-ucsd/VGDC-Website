@@ -1,16 +1,37 @@
 import Link from "next/link"
-import { useMemo } from "react"
+import { ReactNode, useMemo } from "react"
+
+export function SectionComponent({
+  children,
+  id,
+}: {
+  children: ReactNode
+  id?: string
+}) {
+  return (
+    <section
+      id={id!}
+      className="mx-auto my-36 w-full justify-center px-8 sm:w-[36rem] md:w-[44rem] lg:w-[56rem]"
+    >
+      {children}
+    </section>
+  )
+}
 
 export function SectionHeader({
   heading,
   subheading,
   href,
-  textAlign,
+  textAlign = "left",
+  flip = false,
+  target = "_self",
 }: {
   heading: string
   subheading?: string
   href?: string
   textAlign?: "left" | "center" | "right"
+  flip?: boolean
+  target?: "_blank" | "_parent" | "_self" | "_top"
 }) {
   const alignStyle = useMemo(() => {
     switch (textAlign) {
@@ -26,28 +47,33 @@ export function SectionHeader({
 
   return (
     <div className={`mb-4 ${alignStyle}`}>
-      <SectionHeading text={heading} />
-      {subheading && <SectionSubheading text={subheading} href={href} />}
+      {flip || <SectionHeading text={heading} />}
+      {subheading && (
+        <SectionSubheading text={subheading} href={href} target={target} />
+      )}
+      {flip && <SectionHeading text={heading} />}
     </div>
   )
 }
 
 export function SectionHeading({ text }: { text: string }) {
-  return <h2 className="text-2xl font-bold text-white lg:text-4xl">{text}</h2>
+  return <h2 className="text-2xl font-bold text-white md:text-4xl">{text}</h2>
 }
 
 export function SectionSubheading({
   text,
   href,
+  target = "_self",
 }: {
   text: string
   href?: string
+  target?: "_blank" | "_parent" | "_self" | "_top"
 }) {
   const textStyle = "text-sm text-text-grey sm:text-base lg:text-lg"
 
   if (href) {
     return (
-      <Link href={href} target="_blank" className={textStyle}>
+      <Link href={href} target={target} className={textStyle}>
         {text}
       </Link>
     )

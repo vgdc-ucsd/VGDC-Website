@@ -9,7 +9,7 @@ import {
 } from "../../ui/carousel"
 import Image from "next/image"
 import { motion } from "framer-motion"
-import { SectionHeader } from "../shared/HomepageComponents"
+import { SectionHeader } from "../shared/SectionComponents"
 
 /**
  *

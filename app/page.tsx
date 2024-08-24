@@ -1,7 +1,7 @@
 import Navbar from "@/components/global/Navbar"
 import Hero from "@/components/homepage/sections/Hero"
 import Mission from "@/components/homepage/sections/Mission"
-import EventList from "@/components/EventList"
+import EventsPreview from "@/components/homepage/sections/EventsPreview"
 import Design from "@/components/homepage/sections/Design"
 import BlogPreview from "@/components/homepage/sections/BlogPreview"
 import Games from "@/components/homepage/sections/Games"
@@ -17,7 +17,7 @@ export default function Home() {
       <Navbar offsetSpace={false} />
       <Hero />
       <Mission />
-      <EventList />
+      <EventsPreview />
       <Design />
       <BlogPreview />
       <Games />

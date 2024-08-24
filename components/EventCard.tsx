@@ -12,7 +12,6 @@ export default function Event({
   description,
   image,
   slug,
-  homepage,
 }: any) {
   return (
     <motion.div
@@ -28,9 +27,7 @@ export default function Event({
       />
       <div className="relative w-full">
         <div className="mb-2 md:mt-2">
-          <Link
-            href={`./events/${slug}${homepage ? "?from=home" : "?from=events"}`}
-          >
+          <Link href={`./events`}>
             <h3 className="text-xl font-semibold text-text-white">{title}</h3>
           </Link>
           <h4 className="text-md font-semibold text-vgdc-light-green">

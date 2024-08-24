@@ -1,7 +1,7 @@
 "use client"
 
 import { motion } from "framer-motion"
-import { SectionHeader } from "../shared/HomepageComponents"
+import { SectionComponent, SectionHeader } from "../shared/SectionComponents"
 
 export default function Games() {
   const animSpeed = 0.05
@@ -22,11 +22,12 @@ export default function Games() {
   }
 
   return (
-    <section className="mx-auto my-36 w-full justify-center px-8 sm:w-[32rem] md:w-[44rem] lg:w-[56rem]">
+    <SectionComponent>
       <SectionHeader
         heading="A few of our favorite creations"
         subheading="Browse our itch.io for more ->"
         href="https://vgdc-ucsd.itch.io/"
+        target="_blank"
       />
       <div className="grid w-full grid-cols-2 grid-rows-4 gap-4 sm:grid-cols-4 sm:grid-rows-4 sm:gap-3 lg:gap-4">
         <motion.a
@@ -150,6 +151,6 @@ export default function Games() {
           {GameContent("Don't Space Out")}
         </motion.a>
       </div>
-    </section>
+    </SectionComponent>
   )
 }

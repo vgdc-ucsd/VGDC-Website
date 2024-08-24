@@ -8,17 +8,13 @@ import { Button } from "@/components/ui/button"
 
 import { createAvatar } from "@dicebear/core"
 import { notionistsNeutral } from "@dicebear/collection"
-import {
-  SectionHeader,
-  SectionHeading,
-  SectionSubheading,
-} from "../shared/HomepageComponents"
+import { SectionHeader, SectionComponent } from "../shared/SectionComponents"
 
 export default async function BlogPreview() {
   const posts = await getSortedPostsData(2)
 
   return (
-    <section className="mx-auto my-36 w-fit justify-center px-8 sm:w-[32rem] md:w-[44rem] lg:w-[56rem]">
+    <SectionComponent>
       <span className="mb-8 flex flex-col justify-between md:flex-row">
         <SectionHeader
           heading="VGDC News"
@@ -42,6 +38,6 @@ export default async function BlogPreview() {
           />
         ))}
       </div>
-    </section>
+    </SectionComponent>
   )
 }
