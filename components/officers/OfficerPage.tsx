@@ -21,6 +21,7 @@ export default async function OfficerPage({ year }: { year: string }) {
             heading={data[year]!.heading!}
             subheading="<- back"
             paragraph={data[year]!.paragraph!}
+            href="./"
             flip={true}
           />
 
