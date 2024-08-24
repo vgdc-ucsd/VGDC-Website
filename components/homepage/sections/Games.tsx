@@ -1,6 +1,7 @@
 "use client"
 
 import { motion } from "framer-motion"
+import { SectionHeader } from "../shared/HomepageComponents"
 
 export default function Games() {
   const animSpeed = 0.05
@@ -22,20 +23,11 @@ export default function Games() {
 
   return (
     <section className="mx-auto my-36 w-full justify-center px-8 sm:w-[32rem] md:w-[44rem] lg:w-[56rem]">
-      <span className="mb-4 flex flex-col justify-between md:flex-row">
-        <div>
-          <h2 className="text-2xl font-bold text-white lg:text-4xl">
-            A few of our favorite creations!
-          </h2>
-          <a
-            href="https://vgdc-ucsd.itch.io/"
-            target="_blank"
-            className="max-w-lg text-sm text-text-grey sm:text-base lg:text-lg"
-          >
-            {"Browse our itch.io for more ->"}
-          </a>
-        </div>
-      </span>
+      <SectionHeader
+        heading="A few of our favorite creations"
+        subheading="Browse our itch.io for more ->"
+        href="https://vgdc-ucsd.itch.io/"
+      />
       <div className="grid w-full grid-cols-2 grid-rows-4 gap-4 sm:grid-cols-4 sm:grid-rows-4 sm:gap-3 lg:gap-4">
         <motion.a
           initial={{ opacity: 0, scale: 0.7, translateY: 20 }}
