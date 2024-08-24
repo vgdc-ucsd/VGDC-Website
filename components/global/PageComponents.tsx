@@ -1,7 +1,7 @@
 import Link from "next/link"
 import { ReactNode, useMemo } from "react"
 
-export function SectionComponent({
+export function PageComponent({
   children,
   id,
 }: {
@@ -9,18 +9,16 @@ export function SectionComponent({
   id?: string
 }) {
   return (
-    <section
-      id={id!}
-      className="mx-auto my-36 w-full justify-center px-8 sm:w-[36rem] md:w-[44rem] lg:w-[56rem]"
-    >
+    <section id={id!} className="mx-auto my-20 max-w-[920px] px-8 pb-20">
       {children}
     </section>
   )
 }
 
-export function SectionHeader({
+export function PageHeader({
   heading,
   subheading,
+  paragraph,
   href,
   textAlign = "left",
   flip = false,
@@ -28,6 +26,7 @@ export function SectionHeader({
 }: {
   heading: string
   subheading?: string
+  paragraph?: string
   href?: string
   textAlign?: "left" | "center" | "right"
   flip?: boolean
@@ -47,20 +46,21 @@ export function SectionHeader({
 
   return (
     <div className={`mb-4 ${alignStyle}`}>
-      {flip || <SectionHeading text={heading} />}
+      {flip || <PageHeading text={heading} />}
       {subheading && (
-        <SectionSubheading text={subheading} href={href} target={target} />
+        <PageSubheading text={subheading} href={href} target={target} />
       )}
-      {flip && <SectionHeading text={heading} />}
+      {flip && <PageHeading text={heading} />}
+      {paragraph && <PageParagraph text={paragraph} />}
     </div>
   )
 }
 
-export function SectionHeading({ text }: { text: string }) {
-  return <h2 className="text-2xl font-bold text-white md:text-4xl">{text}</h2>
+export function PageHeading({ text }: { text: string }) {
+  return <h2 className="text-4xl font-bold text-white">{text}</h2>
 }
 
-export function SectionSubheading({
+export function PageSubheading({
   text,
   href,
   target = "_self",
@@ -69,7 +69,7 @@ export function SectionSubheading({
   href?: string
   target?: "_blank" | "_parent" | "_self" | "_top"
 }) {
-  const textStyle = "text-sm text-text-grey sm:text-base lg:text-lg"
+  const textStyle = "text-base text-text-grey lg:text-lg"
 
   if (href) {
     return (
@@ -82,6 +82,10 @@ export function SectionSubheading({
   }
 }
 
-export function SectionParagraph({ text }: { text: string }) {
-  return <p className="">{text}</p>
+export function PageParagraph({ text }: { text: string }) {
+  return (
+    <p className="mt-2 max-w-[600px] text-lg leading-6 text-text-white">
+      {text}
+    </p>
+  )
 }

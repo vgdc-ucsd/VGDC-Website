@@ -4,7 +4,7 @@ import Navbar from "@/components/global/Navbar"
 import EventList from "@/components/events/EventList"
 import Footer from "@/components/global/Footer"
 
-import { SectionHeader } from "@/components/global/SectionComponents"
+import { PageComponent, PageHeader } from "@/components/global/PageComponents"
 
 import { getEvents } from "@/lib/events"
 
@@ -18,15 +18,15 @@ export default async function Events() {
       <Navbar />
 
       {/* Page content */}
-      <div className="mx-auto my-20 max-w-[920px] px-8 pb-20 text-white">
-        <SectionHeader
+      <PageComponent>
+        <PageHeader
           heading="Explore Events"
           subheading="<- back"
           href="./"
           flip={true}
         />
         <EventList events={events} />
-      </div>
+      </PageComponent>
       <Footer />
     </main>
   )

@@ -22,7 +22,7 @@ export default function Officers({ officers }: { officers: OfficerDetails[] }) {
     /* Officers */
   }
   return (
-    <div className="flex-start flex flex-wrap justify-center gap-12">
+    <div className="flex-start flex flex-wrap justify-center gap-12 text-text-white">
       {officers.map((officer, index) => {
         return <Officer key={index} officer={officer} order={index} />
       })}
@@ -49,10 +49,10 @@ function Officer({
       animate={{ opacity: 1, scale: 1, translateY: 0 }}
       viewport={{ once: true }}
       transition={{ delay: 0.08 * order, ease: "easeOut", duration: 0.4 }}
-      className="w-48"
+      className="w-44"
     >
       {/* Avatar */}
-      <Avatar className="mx-8 h-32 w-32">
+      <Avatar className="mx-auto h-32 w-32">
         {officer.avatar && (
           <Image
             src={officer.avatar}

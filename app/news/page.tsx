@@ -1,12 +1,13 @@
 import BlogCard from "@/components/news/BlogCard"
 import Footer from "@/components/global/Footer"
 import Navbar from "@/components/global/Navbar"
+
+import { PageComponent, PageHeader } from "@/components/global/PageComponents"
+
 import { Post, getSortedPostsData } from "@/lib/post"
-import Link from "next/link"
 
 import { createAvatar } from "@dicebear/core"
 import { notionistsNeutral } from "@dicebear/collection"
-import { SectionHeader } from "@/components/global/SectionComponents"
 
 export default async function News() {
   const posts = await getSortedPostsData(0)
@@ -14,8 +15,8 @@ export default async function News() {
   return (
     <main className="min-h-screen bg-background-black">
       <Navbar />
-      <div className="mx-auto my-20 max-w-[920px] px-8 pb-20 text-white">
-        <SectionHeader
+      <PageComponent>
+        <PageHeader
           heading="VGDC News"
           subheading="<- back"
           href="./"
@@ -37,7 +38,7 @@ export default async function News() {
             )
           })}
         </div>
-      </div>
+      </PageComponent>
 
       <Footer />
     </main>
