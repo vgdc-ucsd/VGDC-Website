@@ -1,7 +1,7 @@
 "use client"
 
 import { motion } from "framer-motion"
-import { SectionComponent, SectionHeader } from "../shared/SectionComponents"
+import { SectionComponent, SectionHeader } from "../../global/SectionComponents"
 
 export default function Games() {
   const animSpeed = 0.05

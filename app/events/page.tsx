@@ -1,10 +1,10 @@
 "use server"
 
 import Navbar from "@/components/global/Navbar"
-import EventList from "@/components/EventList"
+import EventList from "@/components/events/EventList"
 import Footer from "@/components/global/Footer"
 
-import { SectionHeader } from "@/components/homepage/shared/SectionComponents"
+import { SectionHeader } from "@/components/global/SectionComponents"
 
 import { getEvents } from "@/lib/events"
 

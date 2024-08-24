@@ -1,4 +1,4 @@
-import BlogCard from "@/components/BlogCard"
+import BlogCard from "@/components/news/BlogCard"
 
 import { Post, getSortedPostsData } from "@/lib/post"
 
@@ -8,7 +8,7 @@ import { Button } from "@/components/ui/button"
 
 import { createAvatar } from "@dicebear/core"
 import { notionistsNeutral } from "@dicebear/collection"
-import { SectionHeader, SectionComponent } from "../shared/SectionComponents"
+import { SectionHeader, SectionComponent } from "../../global/SectionComponents"
 
 export default async function BlogPreview() {
   const posts = await getSortedPostsData(2)

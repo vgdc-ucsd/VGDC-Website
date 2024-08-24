@@ -2,8 +2,8 @@
 
 import { getEvents } from "@/lib/events"
 
-import { SectionComponent, SectionHeader } from "../shared/SectionComponents"
-import EventList from "@/components/EventList"
+import { SectionComponent, SectionHeader } from "../../global/SectionComponents"
+import EventList from "@/components/events/EventList"
 
 /** Returns a vertical list of events. */
 export default async function EventsPreview({

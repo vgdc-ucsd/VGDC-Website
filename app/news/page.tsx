@@ -1,4 +1,4 @@
-import BlogCard from "@/components/BlogCard"
+import BlogCard from "@/components/news/BlogCard"
 import Footer from "@/components/global/Footer"
 import Navbar from "@/components/global/Navbar"
 import { Post, getSortedPostsData } from "@/lib/post"
@@ -6,7 +6,7 @@ import Link from "next/link"
 
 import { createAvatar } from "@dicebear/core"
 import { notionistsNeutral } from "@dicebear/collection"
-import { SectionHeader } from "@/components/homepage/shared/SectionComponents"
+import { SectionHeader } from "@/components/global/SectionComponents"
 
 export default async function News() {
   const posts = await getSortedPostsData(0)
