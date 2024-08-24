@@ -21,17 +21,25 @@ export function SectionComponent({
 export function SectionHeader({
   heading,
   subheading,
+  paragraph,
   href,
   textAlign = "left",
   flip = false,
   target = "_self",
+  headingClassName,
+  subheadingClassName,
+  paragraphClassName,
 }: {
   heading: string
   subheading?: string
+  paragraph?: string
   href?: string
   textAlign?: "left" | "center" | "right"
   flip?: boolean
   target?: "_blank" | "_parent" | "_self" | "_top"
+  headingClassName?: string
+  subheadingClassName?: string
+  paragraphClassName?: string
 }) {
   const alignStyle = useMemo(() => {
     switch (textAlign) {
@@ -47,41 +55,67 @@ export function SectionHeader({
 
   return (
     <div className={`mb-4 ${alignStyle}`}>
-      {flip || <SectionHeading text={heading} />}
+      {flip || <SectionHeading text={heading} className={headingClassName} />}
       {subheading && (
-        <SectionSubheading text={subheading} href={href} target={target} />
+        <SectionSubheading
+          text={subheading}
+          href={href}
+          target={target}
+          className={subheadingClassName}
+        />
       )}
-      {flip && <SectionHeading text={heading} />}
+      {flip && <SectionHeading text={heading} className={headingClassName} />}
+      {paragraph && (
+        <SectionParagraph text={paragraph} className={paragraphClassName} />
+      )}
     </div>
   )
 }
 
-export function SectionHeading({ text }: { text: string }) {
-  return <h2 className="text-2xl font-bold text-white md:text-4xl">{text}</h2>
+export function SectionHeading({
+  text,
+  className,
+}: {
+  text: string
+  className?: string
+}) {
+  return (
+    <h2 className={`text-2xl font-bold text-white md:text-4xl ${className}`}>
+      {text}
+    </h2>
+  )
 }
 
 export function SectionSubheading({
   text,
   href,
   target = "_self",
+  className,
 }: {
   text: string
   href?: string
   target?: "_blank" | "_parent" | "_self" | "_top"
+  className?: string
 }) {
   const textStyle = "text-sm text-text-grey sm:text-base lg:text-lg"
 
   if (href) {
     return (
-      <Link href={href} target={target} className={textStyle}>
+      <Link href={href} target={target} className={`${textStyle} ${className}`}>
         {text}
       </Link>
     )
   } else {
-    return <h4 className={textStyle}>{text}</h4>
+    return <h4 className={`${textStyle} ${className}`}>{text}</h4>
   }
 }
 
-export function SectionParagraph({ text }: { text: string }) {
-  return <p className="">{text}</p>
+export function SectionParagraph({
+  text,
+  className,
+}: {
+  text: string
+  className?: string
+}) {
+  return <p className={`${className}`}>{text}</p>
 }

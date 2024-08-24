@@ -23,6 +23,9 @@ export function PageHeader({
   textAlign = "left",
   flip = false,
   target = "_self",
+  headingClassName,
+  subheadingClassName,
+  paragraphClassName,
 }: {
   heading: string
   subheading?: string
@@ -31,6 +34,9 @@ export function PageHeader({
   textAlign?: "left" | "center" | "right"
   flip?: boolean
   target?: "_blank" | "_parent" | "_self" | "_top"
+  headingClassName?: string
+  subheadingClassName?: string
+  paragraphClassName?: string
 }) {
   const alignStyle = useMemo(() => {
     switch (textAlign) {
@@ -46,45 +52,70 @@ export function PageHeader({
 
   return (
     <div className={`mb-4 ${alignStyle}`}>
-      {flip || <PageHeading text={heading} />}
+      {flip || <PageHeading text={heading} className={headingClassName} />}
       {subheading && (
-        <PageSubheading text={subheading} href={href} target={target} />
+        <PageSubheading
+          text={subheading}
+          href={href}
+          target={target}
+          className={subheadingClassName}
+        />
       )}
-      {flip && <PageHeading text={heading} />}
-      {paragraph && <PageParagraph text={paragraph} />}
+      {flip && <PageHeading text={heading} className={headingClassName} />}
+      {paragraph && (
+        <PageParagraph text={paragraph} className={paragraphClassName} />
+      )}
     </div>
   )
 }
 
-export function PageHeading({ text }: { text: string }) {
-  return <h2 className="text-4xl font-bold text-white">{text}</h2>
+export function PageHeading({
+  text,
+  className,
+}: {
+  text: string
+  className?: string
+}) {
+  return (
+    <h2 className={`text-4xl font-bold text-white ${className}`}>{text}</h2>
+  )
 }
 
 export function PageSubheading({
   text,
   href,
   target = "_self",
+  className,
 }: {
   text: string
   href?: string
   target?: "_blank" | "_parent" | "_self" | "_top"
+  className?: string
 }) {
   const textStyle = "text-base text-text-grey lg:text-lg"
 
   if (href) {
     return (
-      <Link href={href} target={target} className={textStyle}>
+      <Link href={href} target={target} className={`${textStyle} ${className}`}>
         {text}
       </Link>
     )
   } else {
-    return <h4 className={textStyle}>{text}</h4>
+    return <h4 className={`${textStyle} ${className}`}>{text}</h4>
   }
 }
 
-export function PageParagraph({ text }: { text: string }) {
+export function PageParagraph({
+  text,
+  className,
+}: {
+  text: string
+  className?: string
+}) {
   return (
-    <p className="mt-2 max-w-[600px] text-lg leading-6 text-text-white">
+    <p
+      className={`mt-2 max-w-[600px] text-lg leading-6 text-text-white ${className}`}
+    >
       {text}
     </p>
   )
