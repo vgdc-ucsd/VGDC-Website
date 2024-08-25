@@ -1,15 +1,25 @@
 import Link from "next/link"
 import { ReactNode, useMemo } from "react"
 
+
+/**
+ * Layout for pages. Max width is 920px by default
+ * @param id a string representing a unique id for the section
+ * @param componentStyle uses default styling if no customization is utilized, otherwise can override default width and other styles
+ * @returns JSX Element
+ */
 export function PageComponent({
   children,
   id,
+  componentStyle
 }: {
   children: ReactNode
   id?: string
+  componentStyle?: string
 }) {
+  const baseStyle = "mx-auto my-20 px-8 pb-20"
   return (
-    <section id={id!} className="mx-auto my-20 max-w-[920px] px-8 pb-20">
+    <section id={id!} className={componentStyle != undefined ? `${baseStyle} ${componentStyle}` : `${baseStyle} max-w-[920px]`}>
       {children}
     </section>
   )
