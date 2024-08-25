@@ -1,4 +1,3 @@
-import BlogCard from "@/components/news/BlogCard"
 import Footer from "@/components/global/Footer"
 import Navbar from "@/components/global/Navbar"
 
@@ -8,6 +7,7 @@ import { Post, getSortedPostsData } from "@/lib/post"
 
 import { createAvatar } from "@dicebear/core"
 import { notionistsNeutral } from "@dicebear/collection"
+import NewsBlogCard from "@/components/news/NewsBlogCard"
 
 export default async function News() {
   const posts = await getSortedPostsData(0)
@@ -15,18 +15,21 @@ export default async function News() {
   return (
     <main className="min-h-screen bg-background-black">
       <Navbar />
-      <PageComponent>
+      <PageComponent componentStyle="max-w-[68rem]">
         <PageHeader
-          heading="VGDC News"
-          subheading="<- back"
+          heading="Our News"
+          subheading="Insights, tips, and news curated by our own board members. "
           href="./"
-          flip={true}
+          flip={false}
+          textAlign="center"
+          headingClassName="mx-auto w-fit text-7xl lg:text-9xl mb-2"
+          subheadingClassName=""
         />
 
-        <div className="mx-auto flex w-fit flex-wrap px-8 sm:w-[36rem] sm:px-0 md:mx-auto md:w-[44rem] md:justify-start lg:mx-6 lg:w-[56rem]">
+        <div className="mt-12 grid gap-16 min-[968px]:grid-cols-2 mx-auto">
           {posts.map((post: Post, index) => {
             return (
-              <BlogCard
+              <NewsBlogCard
                 key={index}
                 post={post}
                 avatar={createAvatar(notionistsNeutral, {
@@ -34,6 +37,7 @@ export default async function News() {
                   radius: 50,
                   size: 24,
                 }).toDataUriSync()}
+      
               />
             )
           })}
