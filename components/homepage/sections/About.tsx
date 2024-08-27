@@ -1,7 +1,9 @@
 "use client"
 
-import { motion } from "framer-motion"
 import Image from "next/image"
+
+import { motion } from "framer-motion"
+
 import { FaFacebook, FaInstagram, FaDiscord } from "react-icons/fa"
 import { SiMinutemailer } from "react-icons/si"
 

@@ -16,8 +16,6 @@ import {
 } from "@/components/ui/drawer"
 
 import { Button } from "@/components/ui/button"
-import { GetServerSideProps } from "next"
-import { headers } from "next/headers"
 
 import { useState, useEffect } from "react"
 

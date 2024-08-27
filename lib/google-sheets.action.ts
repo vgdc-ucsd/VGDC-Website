@@ -16,10 +16,13 @@ export async function getSheetData() {
 
   const glSheets = google.sheets({ version: "v4", auth: glAuth })
 
-  const data = await glSheets.spreadsheets.values.get({
-    spreadsheetId: process.env.SHEET_ID,
-    range: "A4:Z",
-  })
-
-  return { data: data.data.values }
+  try {
+    const data = await glSheets.spreadsheets.values.get({
+      spreadsheetId: process.env.SHEET_ID,
+      range: "A4:Z",
+    })
+    return { data: data.data.values }
+  } catch (e) {
+    return { data: null }
+  }
 }
