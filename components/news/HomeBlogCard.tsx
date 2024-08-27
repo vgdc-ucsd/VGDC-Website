@@ -35,7 +35,7 @@ export default function HomeBlogCard({
       viewport={{ once: true }}
       transition={{ ease: "easeOut", duration: 0.4 }}
       onClick = {() => router.push(`news/${post.id}`)}
-      className= "mb-8 h-fit rounded-lg pt-4 text-white hover:cursor-pointer flex flex-col items-start text-white md:flex-row  lg:items-start"
+      className= "mb-4 h-fit rounded-lg pt-4 text-white hover:cursor-pointer flex flex-col items-start text-white md:flex-row  lg:items-start"
     >
       <div className="flex-shrink-0 bg-gray-950 pb-4 md:w-80 lg:w-96">
         <Image
@@ -53,7 +53,7 @@ export default function HomeBlogCard({
         </h2>
 
         {/** Card excerpt */}
-        <p className={`mt-1 max-w-sm text-sm text-text-grey sm:text-base lg:mt-2 ${styles["clamped-lines"]} `}>
+        <p className={`mt-1 w-full md:max-w-sm text-sm text-text-grey sm:text-base lg:mt-2 ${styles["clamped-lines"]} `}>
           {post.excerpt}
         </p>
 
@@ -66,11 +66,6 @@ export default function HomeBlogCard({
           <p className="mx-1">•</p>
           {moment(post.date).format("MMMM DD, YYYY")}
         </div>
-
-        
-        <Link href={`news/${post.id}`} className="hidden lg:block">
-          <Button className="mt-2 lg:mt-8">Read More</Button>
-        </Link>
         
       </div>
     </motion.section>

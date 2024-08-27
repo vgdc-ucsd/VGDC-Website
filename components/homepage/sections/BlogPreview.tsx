@@ -39,7 +39,7 @@ export default async function BlogPreview() {
       </div>
 
       <Link href="/news" className="block md:hidden mx-auto w-fit">
-          <Button className="mt-4">All Posts</Button>
+          <Button>All Posts</Button>
         </Link>
     </SectionComponent>
   )

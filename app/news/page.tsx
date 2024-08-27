@@ -26,7 +26,7 @@ export default async function News() {
           subheadingClassName=""
         />
 
-        <div className="mt-12 grid gap-16 min-[968px]:grid-cols-2 mx-auto">
+        <div className="mt-12 grid gap-8 min-[968px]:grid-cols-2 mx-auto">
           {posts.map((post: Post, index) => {
             return (
               <NewsBlogCard

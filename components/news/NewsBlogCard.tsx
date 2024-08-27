@@ -34,7 +34,7 @@ export default function NewsBlogCard({
       viewport={{ once: true }}
       transition={{ ease: "easeOut", duration: 0.4 }}
       onClick = {() => router.push(`news/${post.id}`)}
-      className= "mb-8 h-fit rounded-lg pt-4 text-white hover:cursor-pointer flex flex-col mx-auto w-fill" 
+      className= "h-fit rounded-lg pt-4 text-white hover:cursor-pointer flex flex-col mx-auto w-fill" 
     >
       <div className="flex-shrink-0 bg-gray-950 pb-4 md:w-[26rem] lg:w-[28rem]">
         <Image
@@ -46,13 +46,13 @@ export default function NewsBlogCard({
         />
       </div>
 
-      <div className= "pl-0 mt-2">
+      <div className= "pl-0">
         <h2 className="overflow-ellipsis text-2xl font-bold text-white md:truncate lg:text-wrap lg:text-2xl">
           {post.title}
         </h2>
 
         {/** Card excerpt */}
-        <p className={`mt-1 max-w-sm text-sm text-text-grey sm:text-base lg:mt-2 ${styles["clamped-lines"]} `}>
+        <p className={`mt-1 w-[95%] md:max-w-sm text-sm text-text-grey sm:text-base lg:mt-2 ${styles["clamped-lines"]} `}>
           {post.excerpt}
         </p>
 
