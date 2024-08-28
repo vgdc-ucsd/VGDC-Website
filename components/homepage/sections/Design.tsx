@@ -4,7 +4,7 @@ import { motion } from "framer-motion"
 
 export default function Design() {
   const pillStyle =
-    "bg-dark-grey rounded-2xl text-white py-4 md:px-8 m-2 hover:bg-hot-pink transition ease-in"
+    "bg-dark-grey rounded-2xl text-white py-4 px-8 m-2 hover:bg-hot-pink transition ease-in"
 
   return (
     <section
