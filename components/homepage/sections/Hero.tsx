@@ -1,8 +1,11 @@
 "use client"
 
 import { motion } from "framer-motion"
+
 import Image from "next/image"
-import { useMemo } from "react"
+
+import { SiMinutemailer } from "react-icons/si"
+import { FaInstagram, FaDiscord, FaFacebook } from "react-icons/fa"
 
 /**
  * The hero that appears at the top of the homepage.
@@ -11,16 +14,16 @@ import { useMemo } from "react"
  */
 export default function Hero() {
   return (
-    <>
+    <section className="mb-32">
       <HeroText />
-      <HeroGames />
-    </>
+      <HeroContent />
+    </section>
   )
 }
 
 function HeroText() {
   return (
-    <div className="relative flex h-[80vh] w-full items-center justify-center overflow-hidden">
+    <div className="relative flex h-[70vh] w-full items-center justify-center overflow-hidden pt-16">
       <div className="relative block h-fit w-fit">
         {/* <motion.div
           initial={{ opacity: 0, scale: 0.7, rotate: -15, left: -30 }}
@@ -93,9 +96,18 @@ function HeroText() {
   )
 }
 
+function HeroContent() {
+  return (
+    <div className="mx-auto h-fit w-[1200px]">
+      <HeroGames />
+      <HeroSocials />
+    </div>
+  )
+}
+
 function HeroGames() {
   return (
-    <div className="mx-auto grid aspect-square h-fit w-[1200px] -translate-y-[10vh] grid-cols-4 grid-rows-4 gap-4">
+    <div className="grid aspect-square h-fit grid-cols-4 grid-rows-4 gap-4">
       <Game
         style="big-block"
         name="Patrick's Parabox"
@@ -148,6 +160,33 @@ function HeroGames() {
         link="https://ethancreek.itch.io/dont-space-out"
         image="/images/games/dontspaceout.png"
       />
+    </div>
+  )
+}
+
+function HeroSocials() {
+  const socialLinkStyle =
+    "text-white transition ease-in duration-150 hover:cursor-pointer hover:text-hot-pink"
+
+  return (
+    <div className="ml-auto mr-0 mt-8 w-fit">
+      <h4 className="text-center text-xl text-text-white">
+        Follow us and stay connected!
+      </h4>
+      <div className="mx-auto mt-4 flex w-52 flex-row justify-between">
+        <a href="https://www.instagram.com/vgdc.ucsd/" target="_blank">
+          <FaInstagram className={socialLinkStyle} size={32} />
+        </a>
+        <a href="https://bit.ly/VGDCUCSD" target="_blank">
+          <FaDiscord className={socialLinkStyle} size={32} />
+        </a>
+        <a href="https://www.facebook.com/groups/VGDC.UCSD/" target="_blank">
+          <FaFacebook className={socialLinkStyle} size={28} />
+        </a>
+        <a href="mailto:vgdc@ucsd.edu" target="_blank">
+          <SiMinutemailer className={socialLinkStyle} size={28} />
+        </a>
+      </div>
     </div>
   )
 }
