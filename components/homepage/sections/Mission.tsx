@@ -14,7 +14,7 @@ export default function Mission() {
     <section
       className={`
         mx-auto flex w-fit flex-col items-center justify-center bg-[url('/logos/GameControlsBlurry.png')] bg-contain bg-center bg-no-repeat
-        px-8 lg:flex-row lg:justify-between lg:p-24`}
+        md:px-8 lg:flex-row lg:justify-between lg:p-24`}
     >
       <div className="mx-auto mb-12 w-fit lg:mr-24">
         <motion.h1
@@ -75,7 +75,7 @@ export default function Mission() {
           ease: "easeInOut",
           duration: 0.6,
         }}
-        className="max-w-[480px] text-center text-base text-text-grey lg:text-left xl:text-lg"
+        className="max-w-[480px] px-4 text-center text-base text-text-grey lg:text-left xl:text-lg"
       >
         VGDC is a student-run organization at UCSD dedicated to teaching and
         applying software and artistic skills widely used in the video game
