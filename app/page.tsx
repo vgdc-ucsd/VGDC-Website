@@ -14,7 +14,7 @@ import Footer from "@/components/global/Footer"
 export default function Home() {
   return (
     <main className="min-h-screen bg-background-black">
-      <Navbar offsetSpace={false} />
+      <Navbar offsetSpace={true} />
       <Hero />
       <Mission />
       <EventsPreview />

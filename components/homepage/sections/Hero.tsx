@@ -7,6 +7,9 @@ import Image from "next/image"
 import { SiMinutemailer } from "react-icons/si"
 import { FaInstagram, FaDiscord, FaFacebook } from "react-icons/fa"
 
+import React from "react"
+import UseEmblaCarousel from "embla-carousel-react"
+
 /**
  * The hero that appears at the top of the homepage.
  *
@@ -23,7 +26,7 @@ export default function Hero() {
 
 function HeroText() {
   return (
-    <div className="relative flex h-[70vh] w-full items-center justify-center overflow-hidden pt-16">
+    <div className="relative flex h-[40vh] min-h-80 w-full items-center justify-center overflow-hidden md:h-[70vh]">
       <div className="relative block h-fit w-fit">
         {/* <motion.div
           initial={{ opacity: 0, scale: 0.7, rotate: -15, left: -30 }}
@@ -98,7 +101,7 @@ function HeroText() {
 
 function HeroContent() {
   return (
-    <div className="mx-auto h-fit w-[1200px]">
+    <div className="mx-auto h-fit md:w-[45rem] lg:w-[60rem] xl:w-[75rem]">
       <HeroGames />
       <HeroSocials />
     </div>
@@ -106,61 +109,168 @@ function HeroContent() {
 }
 
 function HeroGames() {
+  const [emblaRef, embla] = UseEmblaCarousel({ loop: true })
+
+  const emblaStyle = "overflow-hidden md:hidden mb-16"
+  const emblaContainerStyle = "flex"
+  const emblaSlideStyle =
+    "min-w-0 flex-grow-0 flex-shrink-0 basis-3/4 min-[450px]:basis-1/2 text-text-white w-40 mx-2 min-[450px]:mx-4 select-none"
+
+  function EmblaSlide({
+    name,
+    link,
+    image,
+    year,
+  }: {
+    name: string
+    link: string
+    image: string
+    year: string
+  }) {
+    return (
+      <a href={link} target="_blank" className={emblaSlideStyle}>
+        <Image
+          className="aspect-[10/9] w-full rounded-xl object-cover"
+          src={image}
+          width={0}
+          height={0}
+          sizes="100vw"
+          alt={`Image of ${name}`}
+        />
+        <div className="relative mx-2 mt-2 block h-6 text-lg sm:mx-3 sm:mt-3 sm:text-xl">
+          <h3 className="absolute font-semibold text-text-white">{name}</h3>
+          <p className="absolute right-0 font-semibold text-hot-pink">{year}</p>
+        </div>
+      </a>
+    )
+  }
+
   return (
-    <div className="grid aspect-square h-fit grid-cols-4 grid-rows-4 gap-4">
-      <Game
-        style="big-block"
-        name="Patrick's Parabox"
-        link="https://www.indiecade.com/patricks-parabox/"
-        paragraph="An award-winning recursive puzzle game developed by Patrick Traynor."
-        image="/images/games/patricksparabox.png"
-      />
-      <Game
-        style="long-block"
-        name="Contract Killer"
-        paragraph="An action-packed 2D beat-em-up with single-player or co-op modes."
-        link="https://store.steampowered.com/app/1588250/Contract_Killer/"
-        image="/images/games/contractkiller.jpg"
-      />
-      <Game
-        style="small-block"
-        name="Sky Limit"
-        link="https://creikey.itch.io/skylimit"
-        image="/images/games/skylimit.png"
-      />
-      <Game
-        style="small-block"
-        name="Spellthief"
-        link="https://chaseplays.itch.io/spellthief"
-        image="/images/games/spellthief.png"
-      />
-      <Game
-        style="small-block"
-        name="Lamplight"
-        link="https://angelina007.itch.io/lamplight"
-        image="/images/games/lamplight.png"
-      />
-      <Game
-        style="small-block"
-        name="Takyon"
-        link="https://wabadaba.itch.io/takyon"
-        image="/images/games/takyon.jpg"
-      />
-      <Game
-        style="big-block"
-        name="Athanaeum"
-        paragraph="Our club's biggest project to date, focusing on cards, spells, and creepy bosses. Proudly led by Chanel Lim."
-        link="https://ethancreek.itch.io/athenaeum"
-        image="/images/games/athenaeum.webp"
-      />
-      <Game
-        style="long-block"
-        name="Don't Space Out"
-        paragraph="A thrilling space shooter with a spaceship that's out of control."
-        link="https://ethancreek.itch.io/dont-space-out"
-        image="/images/games/dontspaceout.png"
-      />
-    </div>
+    <>
+      {/* Mobile version */}
+      <motion.div
+        initial={{ opacity: 0, translateY: 50 }}
+        whileInView={{ opacity: 1, translateY: 0 }}
+        viewport={{ once: true }}
+        transition={{ delay: 0.4, ease: "easeOut", duration: 0.4 }}
+        className={emblaStyle}
+        ref={emblaRef}
+      >
+        <div className={emblaContainerStyle}>
+          <EmblaSlide
+            name="Patrick's Parabox"
+            link="https://www.indiecade.com/patricks-parabox/"
+            image="/images/games/patricksparabox.png"
+            year="2022"
+          />
+          <EmblaSlide
+            name="Contract Killer"
+            link="https://store.steampowered.com/app/1588250/Contract_Killer/"
+            image="/images/games/contractkiller.jpg"
+            year="2022"
+          />
+          <EmblaSlide
+            name="Sky Limit"
+            link="https://creikey.itch.io/skylimit"
+            image="/images/games/skylimit.png"
+            year="2023"
+          />
+          <EmblaSlide
+            name="Spellthief"
+            link="https://chaseplays.itch.io/spellthief"
+            image="/images/games/spellthief.png"
+            year="2023"
+          />
+          <EmblaSlide
+            name="Lamplight"
+            link="https://angelina007.itch.io/lamplight"
+            image="/images/games/lamplight.png"
+            year="2023"
+          />
+          <EmblaSlide
+            name="Takyon"
+            link="https://wabadaba.itch.io/takyon"
+            image="/images/games/takyon.jpg"
+            year="2022"
+          />
+          <EmblaSlide
+            name="Athanaeum"
+            link="https://ethancreek.itch.io/athenaeum"
+            image="/images/games/athenaeum.webp"
+            year="2024"
+          />
+          <EmblaSlide
+            name="Don't Space Out"
+            link="https://ethancreek.itch.io/dont-space-out"
+            image="/images/games/dontspaceout.png"
+            year="2024"
+          />
+        </div>
+      </motion.div>
+      {/* Desktop/tablet version */}
+      <div className="hidden aspect-square h-fit grid-cols-4 grid-rows-4 gap-2 md:grid lg:gap-4">
+        <Game
+          style="big-block"
+          name="Patrick's Parabox"
+          link="https://www.indiecade.com/patricks-parabox/"
+          paragraph="An award-winning recursive puzzle game developed by Patrick Traynor."
+          image="/images/games/patricksparabox.png"
+          order={1}
+        />
+        <Game
+          style="long-block"
+          name="Contract Killer"
+          paragraph="An action-packed 2D beat-em-up with single-player or co-op modes."
+          link="https://store.steampowered.com/app/1588250/Contract_Killer/"
+          image="/images/games/contractkiller.jpg"
+          order={2}
+        />
+        <Game
+          style="small-block"
+          name="Sky Limit"
+          link="https://creikey.itch.io/skylimit"
+          image="/images/games/skylimit.png"
+          order={3}
+        />
+        <Game
+          style="small-block"
+          name="Spellthief"
+          link="https://chaseplays.itch.io/spellthief"
+          image="/images/games/spellthief.png"
+          order={4}
+        />
+        <Game
+          style="small-block"
+          name="Lamplight"
+          link="https://angelina007.itch.io/lamplight"
+          image="/images/games/lamplight.png"
+          order={5}
+        />
+        <Game
+          style="small-block"
+          name="Takyon"
+          link="https://wabadaba.itch.io/takyon"
+          image="/images/games/takyon.jpg"
+          order={6}
+        />
+        <Game
+          style="big-block"
+          name="Athanaeum"
+          paragraph="Our biggest project ever, with cards, spells, and creepy bosses. Proudly led by Chanel Lim."
+          link="https://ethancreek.itch.io/athenaeum"
+          image="/images/games/athenaeum.webp"
+          order={8}
+        />
+        <Game
+          style="long-block"
+          name="Don't Space Out"
+          paragraph="A thrilling space shooter with a spaceship that's out of control."
+          link="https://ethancreek.itch.io/dont-space-out"
+          image="/images/games/dontspaceout.png"
+          order={7}
+        />
+      </div>
+    </>
   )
 }
 
@@ -169,7 +279,12 @@ function HeroSocials() {
     "text-white transition ease-in duration-150 hover:cursor-pointer hover:text-hot-pink"
 
   return (
-    <div className="ml-auto mr-0 mt-8 w-fit">
+    <motion.div
+      initial={{ opacity: 0, translateY: 50 }}
+      animate={{ opacity: 1, translateY: 0 }}
+      transition={{ delay: 0.8, ease: "easeOut", duration: 0.4 }}
+      className="mx-auto mt-8 w-fit md:ml-auto md:mr-0"
+    >
       <h4 className="text-center text-xl text-text-white">
         Follow us and stay connected!
       </h4>
@@ -187,7 +302,7 @@ function HeroSocials() {
           <SiMinutemailer className={socialLinkStyle} size={28} />
         </a>
       </div>
-    </div>
+    </motion.div>
   )
 }
 
@@ -197,88 +312,103 @@ function Game({
   link,
   paragraph,
   image,
+  order,
 }: {
   style: "small-block" | "long-block" | "big-block"
   name: string
   link: string
   paragraph?: string
   image: string
+  order: number
 }) {
   const gameStyle = "relative rounded-xl border border-gray-700 overflow-clip"
+  const headerStyle =
+    "text-md font-semibold text-text-white md:text-xl xl:text-2xl tracking-tight"
+  const paragraphStyle =
+    "text-sm w-full xl:w-[70%] text-text-grey lg:text-base leading-4 lg:leading-5 xl:leading-6"
 
   if (style == "small-block") {
     return (
-      <a
+      <motion.a
+        initial={{ opacity: 0, translateY: 50 }}
+        animate={{ opacity: 1, translateY: 0 }}
+        transition={{ delay: order * 0.1, ease: "easeOut", duration: 0.4 }}
         href={link}
         target="_blank"
         className={`${gameStyle} group col-span-1 row-span-1`}
       >
         <div className="absolute h-full w-full bg-black opacity-40 transition-opacity group-hover:opacity-0" />
-        <div className="text-md absolute bottom-1 left-2 select-none font-semibold text-text-white transition-all group-hover:-bottom-12 md:bottom-4 md:left-4 md:text-2xl">
+        <div
+          className={`${headerStyle} absolute bottom-2 left-2 select-none transition-[bottom] group-hover:-bottom-12 lg:bottom-3 lg:left-3 xl:bottom-4 xl:left-4`}
+        >
           {name}
         </div>
         <Image
           src={image}
-          alt="Image of Takyon"
-          width={500}
-          height={500}
+          alt={`Image of ${name}`}
+          width={0}
+          height={0}
+          sizes="100vw"
           className="h-full w-full object-cover"
         />
-      </a>
+      </motion.a>
     )
   }
 
   if (style == "long-block") {
     return (
-      <div className={`${gameStyle} group col-span-2 row-span-1`}>
-        <div className="flex h-[40%] flex-col justify-center p-4 align-middle">
+      <motion.div
+        initial={{ opacity: 0, translateY: 50 }}
+        animate={{ opacity: 1, translateY: 0 }}
+        transition={{ delay: order * 0.1, ease: "easeOut", duration: 0.4 }}
+        className={`${gameStyle} group col-span-2 row-span-1`}
+      >
+        <div className="flex h-[50%] flex-col justify-center p-2 align-middle lg:p-3 xl:h-[40%] xl:p-4">
           <div className="h-fit">
-            <a
-              href={link}
-              target="_blank"
-              className="text-md font-semibold text-text-white transition-all md:text-2xl"
-            >
+            <a href={link} target="_blank" className={headerStyle}>
               {name}
             </a>
-            <p className="w-[60%] text-text-grey">{paragraph}</p>
+            <p className={paragraphStyle}>{paragraph}</p>
           </div>
         </div>
         <a
           href={link}
           target="_blank"
-          className="absolute bottom-0 h-[60%] w-full"
+          className="absolute bottom-0 h-[50%] w-full xl:h-[60%]"
         >
           <div className="absolute h-full w-full bg-black opacity-20 transition-opacity hover:opacity-0" />
           <Image
             src={image}
-            alt="Image of Takyon"
-            width={2000}
-            height={1000}
+            alt={`Image of ${name}`}
+            width={0}
+            height={0}
+            sizes="100vw"
             className="h-full w-full object-cover"
           />
         </a>
-      </div>
+      </motion.div>
     )
   }
 
   if (style == "big-block") {
     return (
-      <div className={`${gameStyle} group col-span-2 row-span-2`}>
-        <div className="flex h-[30%] flex-col justify-center p-4 align-middle">
+      <motion.div
+        initial={{ opacity: 0, translateY: 50 }}
+        animate={{ opacity: 1, translateY: 0 }}
+        transition={{ delay: order * 0.1, ease: "easeOut", duration: 0.4 }}
+        className={`${gameStyle} group col-span-2 row-span-2`}
+      >
+        <div className="flex h-[30%] flex-col justify-center p-2 align-middle lg:p-3 xl:p-4">
           <div className="h-fit">
-            <a
-              href={link}
-              target="_blank"
-              className="text-md font-semibold text-text-white transition-all md:text-2xl"
-            >
+            <a href={link} target="_blank" className={headerStyle}>
               {name}
             </a>
-            <p className="w-[60%] text-text-grey">
+            <p className={paragraphStyle}>
               {paragraph}
               <a
                 href={link}
                 target="_blank"
-                className="block w-fit pt-1 font-bold text-hot-pink"
+                className="hidden w-fit font-bold text-hot-pink lg:block xl:pt-1"
               >
                 {"Learn more ->"}
               </a>
@@ -293,13 +423,14 @@ function Game({
           <div className="absolute h-full w-full bg-black opacity-20 transition-opacity hover:opacity-0" />
           <Image
             src={image}
-            alt="Image of Takyon"
-            width={1000}
-            height={1000}
+            alt={`Image of ${name}`}
+            width={0}
+            height={0}
+            sizes="100vw"
             className="h-full w-full object-cover"
           />
         </a>
-      </div>
+      </motion.div>
     )
   }
 
