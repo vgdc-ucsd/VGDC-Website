@@ -1,17 +1,27 @@
 import Link from "next/link"
 import { ReactNode, useMemo } from "react"
 
+
+/**
+ * Layout for sections. Default widths include sm:w-[36rem] md:w-[44rem] lg:w-[56rem]
+ * @param id a string representing a unique id for the section
+ * @param componentStyle uses default styling if no customization is utilized, otherwise can override default widths and other styles
+ * @returns JSX Element
+ */
 export function SectionComponent({
   children,
   id,
+  componentStyle
 }: {
   children: ReactNode
   id?: string
+  componentStyle?: string
 }) {
+  const baseStyle = "mx-auto my-36 w-full justify-center px-8"
   return (
     <section
       id={id!}
-      className="mx-auto my-36 w-full justify-center px-8 sm:w-[36rem] md:w-[44rem] lg:w-[56rem]"
+      className={componentStyle != undefined ? `${baseStyle} ${componentStyle}` : `${baseStyle} sm:w-[36rem] md:w-[44rem] lg:w-[56rem]`}
     >
       {children}
     </section>

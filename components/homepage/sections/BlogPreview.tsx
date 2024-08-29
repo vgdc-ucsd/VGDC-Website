@@ -1,4 +1,4 @@
-import BlogCard from "@/components/news/BlogCard"
+import HomeBlogCard from "@/components/news/HomeBlogCard"
 
 import { Post, getSortedPostsData } from "@/lib/post"
 
@@ -12,22 +12,21 @@ import { SectionHeader, SectionComponent } from "../../global/SectionComponents"
 
 export default async function BlogPreview() {
   const posts = await getSortedPostsData(2)
-
   return (
     <SectionComponent>
-      <span className="mb-8 flex flex-col justify-between md:flex-row">
+      <span className="flex flex-col justify-between md:flex-row">
         <SectionHeader
           heading="VGDC News"
           subheading="Stay up to date with the latest highlights of the club"
         />
-        <Link href="/news">
+        <Link href="/news" className="hidden md:block">
           <Button className="mt-4">All Posts</Button>
         </Link>
       </span>
 
       <div>
         {posts.map((post: Post) => (
-          <BlogCard
+          <HomeBlogCard
             key={post.id}
             post={post}
             avatar={createAvatar(notionistsNeutral, {
@@ -38,6 +37,10 @@ export default async function BlogPreview() {
           />
         ))}
       </div>
+
+      <Link href="/news" className="block md:hidden mx-auto w-fit">
+          <Button>All Posts</Button>
+        </Link>
     </SectionComponent>
   )
 }
