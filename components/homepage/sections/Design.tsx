@@ -9,7 +9,7 @@ export default function Design() {
   return (
     <section
       className={`
-            mx-auto flex w-fit flex-col items-center justify-center md:h-screen md:px-8
+            mx-auto flex w-fit flex-col items-center justify-center md:h-screen px-8
         `}
     >
       <h1 className="text-center text-7xl font-extrabold text-white lg:text-9xl">
