@@ -20,7 +20,7 @@ export default function Design() {
         Learn.
       </h1>
 
-      <p className="mx-8 mt-4 text-center text-base text-text-grey  md:mx-24 md:max-w-[300px] lg:max-w-[500px] xl:text-lg">
+      <p className="mt-4 text-center text-base text-text-grey px-8 max-w-[340px] md:max-w-[400px] lg:max-w-[500px] xl:text-lg">
         We also host workshops throughout the academic year to give our members
         a deeper dive into the tools and skills that power our creativity.
       </p>
