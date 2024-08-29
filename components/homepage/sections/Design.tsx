@@ -9,7 +9,7 @@ export default function Design() {
   return (
     <section
       className={`
-            mx-auto flex w-fit flex-col items-center justify-center px-8 md:h-screen
+            mx-auto flex w-fit flex-col items-center justify-center px-2 md:h-screen md:px-8
         `}
     >
       <h1 className="text-center text-7xl font-extrabold text-white lg:text-9xl">
@@ -20,7 +20,7 @@ export default function Design() {
         Learn.
       </h1>
 
-      <p className="mx-24 mt-4 text-center text-base  text-text-grey md:max-w-[300px] lg:max-w-[500px] xl:text-lg">
+      <p className="mt-4 max-w-[340px] px-8 text-center text-base text-text-grey md:max-w-[400px] lg:max-w-[500px] xl:text-lg">
         We also host workshops throughout the academic year to give our members
         a deeper dive into the tools and skills that power our creativity.
       </p>
