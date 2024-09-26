@@ -17,7 +17,7 @@ export default async function EventsPreview({
   reverseOrder = false,
 }) {
   // Gets the event data based on parameters passed in.
-  const events = await getEvents(
+  let events = await getEvents(
     homepage,
     includeOldEvents,
     includeNewEvents,
