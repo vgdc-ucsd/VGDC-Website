@@ -4,6 +4,8 @@ import { EventDetails } from "@/lib/events"
 
 import Event from "./EventCard"
 
+export const revalidate = 60
+
 /** Returns a vertical list of events. */
 export default async function EventList({
   events,
