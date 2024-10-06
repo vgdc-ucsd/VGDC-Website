@@ -1,4 +1,4 @@
-"use server"
+"use client"
 
 import { EventDetails } from "@/lib/events"
 
