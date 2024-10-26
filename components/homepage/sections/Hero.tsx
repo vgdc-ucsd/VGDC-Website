@@ -194,7 +194,7 @@ function HeroGames() {
             year="2022"
           />
           <EmblaSlide
-            name="Athanaeum"
+            name="Athenaeum"
             link="https://ethancreek.itch.io/athenaeum"
             image="/images/games/athenaeum.webp"
             year="2024"
@@ -255,7 +255,7 @@ function HeroGames() {
         />
         <Game
           style="big-block"
-          name="Athanaeum"
+          name="Athenaeum"
           paragraph="Our biggest project ever, with cards, spells, and creepy bosses. Proudly led by Chanel Lim."
           link="https://ethancreek.itch.io/athenaeum"
           image="/images/games/athenaeum.webp"
