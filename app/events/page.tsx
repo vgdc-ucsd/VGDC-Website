@@ -11,7 +11,7 @@ import { getEvents } from "@/lib/events"
 /** Dedicated events page. */
 export default async function Events() {
   // Gets the event data based on parameters passed in.
-  const events = await getEvents(false, false, true, false)
+  let events = await getEvents(false, false, true, false)
 
   return (
     <main className="min-h-screen bg-background-black">
