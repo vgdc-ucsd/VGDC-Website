@@ -158,16 +158,16 @@ function HeroGames() {
       >
         <div className={emblaContainerStyle}>
           <EmblaSlide
-            name="Patrick's Parabox"
-            link="https://www.indiecade.com/patricks-parabox/"
-            image="/images/games/patricksparabox.png"
-            year="2022"
+            name="Bedtime Beats"
+            link="https://anapostrophe.itch.io/bedtime-beats"
+            image="/images/games/bedtimebeats.png"
+            year="2024"
           />
           <EmblaSlide
-            name="Contract Killer"
-            link="https://store.steampowered.com/app/1588250/Contract_Killer/"
-            image="/images/games/contractkiller.jpg"
-            year="2022"
+            name="Tethered Spirit"
+            link="https://valius95.itch.io/tethered-spirit"
+            image="/images/games/tetheredspirit.png"
+            year="2024"
           />
           <EmblaSlide
             name="Sky Limit"
@@ -176,10 +176,10 @@ function HeroGames() {
             year="2023"
           />
           <EmblaSlide
-            name="Spellthief"
-            link="https://chaseplays.itch.io/spellthief"
-            image="/images/games/spellthief.png"
-            year="2023"
+            name="Overtime"
+            link="https://stickle.itch.io/overtime"
+            image="/images/games/overtime.png"
+            year="2024"
           />
           <EmblaSlide
             name="Lamplight"
@@ -211,18 +211,18 @@ function HeroGames() {
       <div className="hidden aspect-square h-fit grid-cols-4 grid-rows-4 gap-2 md:grid lg:gap-4">
         <Game
           style="big-block"
-          name="Patrick's Parabox"
-          link="https://www.indiecade.com/patricks-parabox/"
-          paragraph="An award-winning recursive puzzle game developed by Patrick Traynor."
-          image="/images/games/patricksparabox.png"
+          name="Bedtime Beats"
+          link="https://anapostrophe.itch.io/bedtime-beats"
+          paragraph="Stay up too late playing this rhythm game without getting caught by your mom."
+          image="/images/games/bedtimebeats.png"
           order={1}
         />
         <Game
           style="long-block"
-          name="Contract Killer"
-          paragraph="An action-packed 2D beat-em-up with single-player or co-op modes."
-          link="https://store.steampowered.com/app/1588250/Contract_Killer/"
-          image="/images/games/contractkiller.jpg"
+          name="Tethered Spirit"
+          paragraph="A fantasy escape room puzzle game made for the TritonWare Game Jam."
+          link="https://valius95.itch.io/tethered-spirit"
+          image="/images/games/tetheredspirit.png"
           order={2}
         />
         <Game
@@ -234,9 +234,9 @@ function HeroGames() {
         />
         <Game
           style="small-block"
-          name="Spellthief"
-          link="https://chaseplays.itch.io/spellthief"
-          image="/images/games/spellthief.png"
+          name="Overtime"
+          link="https://stickle.itch.io/overtime"
+          image="/images/games/overtime.png"
           order={4}
         />
         <Game
@@ -272,6 +272,134 @@ function HeroGames() {
       </div>
     </>
   )
+
+  // return (
+  //   <>
+  //     {/* Mobile version */}
+  //     <motion.div
+  //       initial={{ opacity: 0, translateY: 50 }}
+  //       whileInView={{ opacity: 1, translateY: 0 }}
+  //       viewport={{ once: true }}
+  //       transition={{ delay: 0.4, ease: "easeOut", duration: 0.4 }}
+  //       className={emblaStyle}
+  //       ref={emblaRef}
+  //     >
+  //       <div className={emblaContainerStyle}>
+  //         <EmblaSlide
+  //           name="Patrick's Parabox"
+  //           link="https://www.indiecade.com/patricks-parabox/"
+  //           image="/images/games/patricksparabox.png"
+  //           year="2022"
+  //         />
+  //         <EmblaSlide
+  //           name="Contract Killer"
+  //           link="https://store.steampowered.com/app/1588250/Contract_Killer/"
+  //           image="/images/games/contractkiller.jpg"
+  //           year="2022"
+  //         />
+  //         <EmblaSlide
+  //           name="Sky Limit"
+  //           link="https://creikey.itch.io/skylimit"
+  //           image="/images/games/skylimit.png"
+  //           year="2023"
+  //         />
+  //         <EmblaSlide
+  //           name="Spellthief"
+  //           link="https://chaseplays.itch.io/spellthief"
+  //           image="/images/games/spellthief.png"
+  //           year="2023"
+  //         />
+  //         <EmblaSlide
+  //           name="Lamplight"
+  //           link="https://angelina007.itch.io/lamplight"
+  //           image="/images/games/lamplight.png"
+  //           year="2023"
+  //         />
+  //         <EmblaSlide
+  //           name="Takyon"
+  //           link="https://wabadaba.itch.io/takyon"
+  //           image="/images/games/takyon.jpg"
+  //           year="2022"
+  //         />
+  //         <EmblaSlide
+  //           name="Athenaeum"
+  //           link="https://ethancreek.itch.io/athenaeum"
+  //           image="/images/games/athenaeum.webp"
+  //           year="2024"
+  //         />
+  //         <EmblaSlide
+  //           name="Don't Space Out"
+  //           link="https://ethancreek.itch.io/dont-space-out"
+  //           image="/images/games/dontspaceout.png"
+  //           year="2024"
+  //         />
+  //       </div>
+  //     </motion.div>
+  //     {/* Desktop/tablet version */}
+  //     <div className="hidden aspect-square h-fit grid-cols-4 grid-rows-4 gap-2 md:grid lg:gap-4">
+  //       <Game
+  //         style="big-block"
+  //         name="Patrick's Parabox"
+  //         link="https://www.indiecade.com/patricks-parabox/"
+  //         paragraph="An award-winning recursive puzzle game developed by Patrick Traynor."
+  //         image="/images/games/patricksparabox.png"
+  //         order={1}
+  //       />
+  //       <Game
+  //         style="long-block"
+  //         name="Contract Killer"
+  //         paragraph="An action-packed 2D beat-em-up with single-player or co-op modes."
+  //         link="https://store.steampowered.com/app/1588250/Contract_Killer/"
+  //         image="/images/games/contractkiller.jpg"
+  //         order={2}
+  //       />
+  //       <Game
+  //         style="small-block"
+  //         name="Sky Limit"
+  //         link="https://creikey.itch.io/skylimit"
+  //         image="/images/games/skylimit.png"
+  //         order={3}
+  //       />
+  //       <Game
+  //         style="small-block"
+  //         name="Spellthief"
+  //         link="https://chaseplays.itch.io/spellthief"
+  //         image="/images/games/spellthief.png"
+  //         order={4}
+  //       />
+  //       <Game
+  //         style="small-block"
+  //         name="Lamplight"
+  //         link="https://angelina007.itch.io/lamplight"
+  //         image="/images/games/lamplight.png"
+  //         order={5}
+  //       />
+  //       <Game
+  //         style="small-block"
+  //         name="Takyon"
+  //         link="https://wabadaba.itch.io/takyon"
+  //         image="/images/games/takyon.jpg"
+  //         order={6}
+  //       />
+  //       <Game
+  //         style="big-block"
+  //         name="Athenaeum"
+  //         paragraph="Our biggest project ever, with cards, spells, and creepy bosses. Proudly led by Chanel Lim."
+  //         link="https://ethancreek.itch.io/athenaeum"
+  //         image="/images/games/athenaeum.webp"
+  //         order={8}
+  //       />
+  //       <Game
+  //         style="long-block"
+  //         name="Don't Space Out"
+  //         paragraph="A thrilling space shooter with a spaceship that's out of control."
+  //         link="https://ethancreek.itch.io/dont-space-out"
+  //         image="/images/games/dontspaceout.png"
+  //         order={7}
+  //       />
+  //     </div>
+  //   </>
+  // )
 }
 
 function HeroSocials() {
