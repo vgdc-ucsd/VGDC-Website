@@ -105,16 +105,21 @@ export async function generateMetadata({ params }: any) {
   }
 }
 
-export default async function BlogPage({ params }: { params: { id: string } }) {
-  const post = await getPostData(params.id)
-  const { previousPost, nextPost } = await generateNeighbors(params.id)
+export default async function BlogPage({
+  params,
+}: {
+  params: Promise<{ id: string }>
+}) {
+  const slug = (await params).id
+  const post = await getPostData(slug)
+  const { previousPost, nextPost } = await generateNeighbors(slug)
 
   if (post == null) {
     notFound()
   }
 
   // grab full url path
-  const headerList = headers()
+  const headerList = await headers()
   const fullpath = headerList.get("x-current-path")
 
   const avatar = createAvatar(notionistsNeutral, {
