@@ -8,6 +8,8 @@ import { PageComponent, PageHeader } from "@/components/global/PageComponents"
 
 import { getEvents } from "@/lib/events"
 
+export const revalidate = 60;
+
 /** Dedicated events page. */
 export default async function Events() {
   // Gets the event data based on parameters passed in.

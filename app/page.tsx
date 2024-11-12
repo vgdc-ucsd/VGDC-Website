@@ -8,6 +8,8 @@ import Games from "@/components/homepage/sections/Games"
 import Companies from "@/components/homepage/sections/Companies"
 import Footer from "@/components/global/Footer"
 
+export const revalidate = 60;
+
 /**
  * The website homepage
  */
