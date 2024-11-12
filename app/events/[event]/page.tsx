@@ -7,12 +7,16 @@ import Footer from "@/components/global/Footer"
 import Custom404 from "@/app/not-found"
 import EventView from "./components/EventView"
 
-import Link from "next/link"
-
 /** The page for a single event. */
-export default async function Event({ params }: { params: { event: string } }) {
+export default async function Event({
+  params,
+}: {
+  params: Promise<{ event: string }>
+}) {
   // Get the event data, including old events.
   let events = await getEvents(false, true, true)
+
+  const slug = (await params).event
 
   // The details of the event.
   let eventDetails: EventDetails = {
@@ -28,7 +32,7 @@ export default async function Event({ params }: { params: { event: string } }) {
 
   // Find the corresponding event.
   events.forEach((e) => {
-    if (e.slug == params.event) eventDetails = e
+    if (e.slug == slug) eventDetails = e
   })
 
   // If an event was found, return the event page.
