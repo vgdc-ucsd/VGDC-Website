@@ -1,5 +1,3 @@
-"use server"
-
 import Navbar from "@/components/global/Navbar"
 import EventList from "@/components/events/EventList"
 import Footer from "@/components/global/Footer"
