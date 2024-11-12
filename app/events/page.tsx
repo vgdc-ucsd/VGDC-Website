@@ -1,5 +1,3 @@
-"use server"
-
 import Navbar from "@/components/global/Navbar"
 import EventList from "@/components/events/EventList"
 import Footer from "@/components/global/Footer"
@@ -7,6 +5,8 @@ import Footer from "@/components/global/Footer"
 import { PageComponent, PageHeader } from "@/components/global/PageComponents"
 
 import { getEvents } from "@/lib/events"
+
+export const revalidate = 60;
 
 /** Dedicated events page. */
 export default async function Events() {
