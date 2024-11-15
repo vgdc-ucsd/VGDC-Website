@@ -1,0 +1,75 @@
+{
+    "hero_games": [
+        {
+            "name": "Bedtime Beats",
+            "link": "https://anapostrophe.itch.io/bedtime-beats",
+            "image": "/images/games/bedtimebeats.png",
+            "year": "2024",
+            "style": "big-block",
+            "paragraph": "Stay up too late playing this rhythm game without getting caught by your mom.",
+            "order": 1
+        },
+        {
+            "name": "Tethered Spirit",
+            "link": "https://valius95.itch.io/tethered-spirit",
+            "image": "/images/games/tetheredspirit.png",
+            "year": "2024",
+            "style": "long-block",
+            "paragraph": "A fantasy escape room puzzle game made for the TritonWare Game Jam.",
+            "order": 2
+        },
+        {
+            "name": "Sky Limit",
+            "link": "https://creikey.itch.io/skylimit",
+            "image": "/images/games/skylimit.png",
+            "year": "2023",
+            "style": "small-block",
+            "paragraph": "",
+            "order": 3
+        },
+        {
+            "name": "Overtime",
+            "link": "https://stickle.itch.io/overtime",
+            "image": "/images/games/overtime.png",
+            "year": "2024",
+            "style": "small-block",
+            "paragraph": "",
+            "order": 4
+        },
+        {
+            "name": "Lamplight",
+            "link": "https://angelina007.itch.io/lamplight",
+            "image": "/images/games/lamplight.png",
+            "year": "2023",
+            "style": "small-block",
+            "paragraph": "",
+            "order": 5
+        },
+        {
+            "name": "Takyon",
+            "link": "https://wabadaba.itch.io/takyon",
+            "image": "/images/games/takyon.jpg",
+            "year": "2022",
+            "style": "small-block",
+            "order": 6
+        },
+        {
+            "name": "Athenaeum",
+            "link": "https://ethancreek.itch.io/athenaeum",
+            "image": "/images/games/athenaeum.webp",
+            "year": "2024",
+            "style": "big-block",
+            "paragraph": "Our biggest project ever, with cards, spells, and creepy bosses. Proudly led by Chanel Lim.",
+            "order": 8
+        },
+        {
+            "name": "Don't Space Out",
+            "link": "https://ethancreek.itch.io/dont-space-out",
+            "image": "/images/games/dontspaceout.png",
+            "year": "2024",
+            "style": "long-block",
+            "paragraph": "A thrilling space shooter with a spaceship that's out of control.",
+            "order": 7
+        }
+    ]
+}
