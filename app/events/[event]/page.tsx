@@ -7,6 +7,15 @@ import Footer from "@/components/global/Footer"
 import Custom404 from "@/app/not-found"
 import EventView from "./components/EventView"
 
+/** Generates static parameters for dynamic routes */
+export async function generateStaticParams() {
+  let events = await getEvents(false, true, true)
+
+  return events.map((event) => ({
+    event: event.slug,
+  }))
+}
+
 /** The page for a single event. */
 export default async function Event({
   params,
