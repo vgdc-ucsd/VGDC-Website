@@ -1,6 +1,7 @@
 "use client"
 
 import Link from "next/link"
+import Image from "next/image"
 import { motion } from "framer-motion"
 
 /** An event card to be shown in the events list. */
@@ -23,11 +24,11 @@ export default function Event({
     >
       <img
         src={`${image}`}
-        className="hidden w-40 rounded-xl sm:block md:w-48"
+        className="hidden w-40 rounded-xl sm:block md:w-48 aspect-square object-cover"
       />
       <div className="relative w-full">
         <div className="mb-2 md:mt-2">
-          <Link href={`./events`}>
+          <Link href={`./events/${slug}`}>
             <h3 className="text-xl font-semibold text-text-white">{title}</h3>
           </Link>
           <h4 className="text-md font-semibold text-vgdc-light-green">
@@ -41,7 +42,7 @@ export default function Event({
           {truncate(description, 120, true)}
         </p>
         <p className="w-full text-sm text-text-grey sm:hidden md:block md:w-80 lg:w-[440px] lg:leading-6">
-          {truncate(description, 200, true)}
+          {truncate(description, 180, true)}
         </p>
         <h4 className="invisible absolute right-2 text-right font-semibold text-text-grey lg:visible lg:top-2">
           {date}
