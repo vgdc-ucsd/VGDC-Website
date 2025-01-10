@@ -1,7 +1,6 @@
 "use client"
 
 import Link from "next/link"
-import Image from "next/image"
 import { motion } from "framer-motion"
 
 /** An event card to be shown in the events list. */
