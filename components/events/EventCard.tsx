@@ -26,7 +26,7 @@ export default function Event({
         className="hidden w-40 rounded-xl sm:block md:w-48 aspect-square object-cover"
       />
       <div className="relative w-full">
-        <div className="mb-2 md:mt-2">
+        <div className="mb-1 md:mt-2">
           <Link href={`./events/${slug}`}>
             <h3 className="text-xl font-semibold text-text-white">{title}</h3>
           </Link>
@@ -38,9 +38,9 @@ export default function Event({
           </h4>
         </div>
         <p className="hidden w-full text-sm text-text-grey sm:block md:hidden">
-          {truncate(description, 120, true)}
+          {truncate(description, 100, true)}
         </p>
-        <p className="w-full text-sm text-text-grey sm:hidden md:block md:w-80 lg:w-[440px] lg:leading-6">
+        <p className="w-full text-sm text-text-grey sm:hidden md:block lg:bottom-5 lg:w-[440px] lg:leading-6">
           {truncate(description, 180, true)}
         </p>
         <h4 className="invisible absolute right-2 text-right font-semibold text-text-grey lg:visible lg:top-2">
@@ -49,7 +49,7 @@ export default function Event({
           {time}
         </h4>
         <Link href={`./events/${slug}`}>
-          <button className="bottom-0 right-0 mt-4 h-10 w-28 rounded-lg bg-background-grey text-sm text-text-white transition-colors sm:absolute sm:right-auto md:bottom-2">
+          <button className="bottom-0 right-0 mt-4 h-10 w-28 rounded-lg bg-background-grey text-sm text-text-white transition-colors  sm:right-auto md:bottom-2">
             Event Details
           </button>
         </Link>
