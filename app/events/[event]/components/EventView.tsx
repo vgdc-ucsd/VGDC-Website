@@ -1,13 +1,10 @@
 "use client"
 
-import { useSearchParams } from "next/navigation"
 import Link from "next/link"
 import { EventDetails } from "@/lib/events"
 import { motion } from "framer-motion"
 
 export default function EventView({ event }: { event: EventDetails }) {
-  // Get the search parameters
-  const searchParams = useSearchParams()
 
   return (
     <section className="mx-auto mt-24 max-w-[920px]">
