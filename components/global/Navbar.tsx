@@ -3,6 +3,7 @@
 import Image from "next/image"
 import Link from "next/link"
 import { IoMenu } from "react-icons/io5"
+import { usePathname } from 'next/navigation';
 
 import {
   Drawer,
@@ -52,6 +53,13 @@ export default function Navbar({ offsetSpace = true, hideOnScroll = true }) {
     }
   }, [lastScrollY])
 
+  const pathname = usePathname()
+
+  const getStyle = (path: string) => {
+    const isActive = pathname == path
+    return `hover:text-gray-600 transition-colors text-lg ${isActive ? 'text-vgdc-light-green' : ''}`
+  }
+
   return (
     <>
       {/* Physically include navbar in page? */}
@@ -94,16 +102,16 @@ export default function Navbar({ offsetSpace = true, hideOnScroll = true }) {
               {/* Menu buttons */}
               <DrawerContent>
                 <DrawerFooter>
-                  <Button variant="link" className="text-base">
+                  <Button variant="link" className={getStyle('/')}>
                     <Link href="/">Home</Link>
                   </Button>
-                  <Button variant="link" className="text-base">
+                  <Button variant="link" className={getStyle('/officers')}>
                     <Link href="/officers">Team</Link>
                   </Button>
-                  <Button variant="link" className="text-base">
+                  <Button variant="link" className={getStyle('/events')}>
                     <Link href="/events">Events</Link>
                   </Button>
-                  <Button variant="link" className="text-base">
+                  <Button variant="link" className={getStyle('/news')}>
                     <Link href="/news">News</Link>
                   </Button>
                 </DrawerFooter>
@@ -113,16 +121,16 @@ export default function Navbar({ offsetSpace = true, hideOnScroll = true }) {
 
           {/* Basic menu, dynamically changes with screen size */}
           <div className="invisible relative top-3 float-right mx-auto w-fit space-x-12 align-middle text-base transition-transform sm:visible lg:float-none lg:space-x-16">
-            <Link href="/" className={menuButton}>
+            <Link href="/" className={getStyle('/')}>
               Home
             </Link>
-            <Link href="/officers" className={menuButton}>
+            <Link href="/officers" className={getStyle('/officers')}>
               Team
             </Link>
-            <Link href="/events" className={menuButton}>
+            <Link href="/events" className={getStyle('/events')}>
               Events
             </Link>
-            <Link href="/news" className={menuButton}>
+            <Link href="/news" className={getStyle('/news')}>
               News
             </Link>
           </div>
