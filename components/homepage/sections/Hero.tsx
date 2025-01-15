@@ -11,7 +11,6 @@ import React from "react"
 import UseEmblaCarousel from "embla-carousel-react"
 import heroGames from "@/public/data/hero_games.json"
 
-
 /**
  * The hero that appears at the top of the homepage.
  *
@@ -62,8 +61,8 @@ function HeroText() {
 
         {/* Text & button content */}
         <motion.div
-          initial={{ opacity: 0, translateY: 50 }}
-          whileInView={{ opacity: 1, translateY: 0 }}
+          initial={{ opacity: 0, filter: "blur(20px)" }}
+          whileInView={{ opacity: 1, filter: "blur(0px)" }}
           viewport={{ once: true }}
           transition={{ ease: "easeOut", duration: 0.4 }}
           className="mx-0 my-12 max-w-fit sm:my-16 md:mx-8 md:my-24"
@@ -110,7 +109,6 @@ function HeroContent() {
   )
 }
 
-
 // The type for the data for one hero game
 export type HeroGameDetails = {
   name: string
@@ -131,7 +129,7 @@ function HeroGames() {
     style: game.style!,
     paragraph: game.paragraph!,
     order: game.order!,
-  }));
+  }))
 
   const [emblaRef, embla] = UseEmblaCarousel({ loop: true })
 
@@ -181,27 +179,33 @@ function HeroGames() {
         ref={emblaRef}
       >
         <div className={emblaContainerStyle}>
-          {heroGamesList.map((game, index)=> {
-            return <EmblaSlide
-                      key={index}
-                      name={game.name}
-                      link={game.link}
-                      image={game.image}
-                      year={game.year} />
+          {heroGamesList.map((game, index) => {
+            return (
+              <EmblaSlide
+                key={index}
+                name={game.name}
+                link={game.link}
+                image={game.image}
+                year={game.year}
+              />
+            )
           })}
         </div>
       </motion.div>
       {/* Desktop/tablet version */}
       <div className="hidden aspect-square h-fit grid-cols-4 grid-rows-4 gap-2 md:grid lg:gap-4">
-        {heroGamesList.map((game, index)=> {
-          return <Game
-                    key={index}
-                    style={game.style}
-                    name={game.name}
-                    link={game.link}
-                    paragraph={game.paragraph}
-                    image={game.image}
-                    order={game.order} />
+        {heroGamesList.map((game, index) => {
+          return (
+            <Game
+              key={index}
+              style={game.style}
+              name={game.name}
+              link={game.link}
+              paragraph={game.paragraph}
+              image={game.image}
+              order={game.order}
+            />
+          )
         })}
       </div>
     </>
@@ -265,8 +269,9 @@ function Game({
     return (
       <motion.a
         initial={{ opacity: 0, translateY: 50 }}
-        animate={{ opacity: 1, translateY: 0 }}
-        transition={{ delay: order * 0.1, ease: "easeOut", duration: 0.4 }}
+        whileInView={{ opacity: 1, translateY: 0 }}
+        viewport={{ once: true }}
+        transition={{ delay: order * 0.05, ease: "easeOut", duration: 0.4 }}
         href={link}
         target="_blank"
         className={`${gameStyle} group col-span-1 row-span-1`}
@@ -293,8 +298,9 @@ function Game({
     return (
       <motion.div
         initial={{ opacity: 0, translateY: 50 }}
-        animate={{ opacity: 1, translateY: 0 }}
-        transition={{ delay: order * 0.1, ease: "easeOut", duration: 0.4 }}
+        whileInView={{ opacity: 1, translateY: 0 }}
+        viewport={{ once: true }}
+        transition={{ delay: order * 0.05, ease: "easeOut", duration: 0.4 }}
         className={`${gameStyle} group col-span-2 row-span-1`}
       >
         <div className="flex h-[50%] flex-col justify-center p-2 align-middle lg:p-3 xl:h-[40%] xl:p-4">
@@ -328,8 +334,9 @@ function Game({
     return (
       <motion.div
         initial={{ opacity: 0, translateY: 50 }}
-        animate={{ opacity: 1, translateY: 0 }}
-        transition={{ delay: order * 0.1, ease: "easeOut", duration: 0.4 }}
+        whileInView={{ opacity: 1, translateY: 0 }}
+        viewport={{ once: true }}
+        transition={{ delay: order * 0.05, ease: "easeOut", duration: 0.4 }}
         className={`${gameStyle} group col-span-2 row-span-2`}
       >
         <div className="flex h-[30%] flex-col justify-center p-2 align-middle lg:p-3 xl:p-4">

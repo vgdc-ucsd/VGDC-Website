@@ -15,8 +15,8 @@ export default function Event({
 }: any) {
   return (
     <motion.div
-      initial={{ opacity: 0, scale: 0.8, translateX: -60 }}
-      whileInView={{ opacity: 1, scale: 1, translateX: 0 }}
+      initial={{ opacity: 0, translateY: 100 }}
+      whileInView={{ opacity: 1, translateY: 0 }}
       viewport={{ once: true }}
       transition={{ ease: "easeOut", duration: 0.4 }}
       className="flex rounded-3xl bg-background-grey/50 p-5 align-middle sm:space-x-6 sm:p-6"

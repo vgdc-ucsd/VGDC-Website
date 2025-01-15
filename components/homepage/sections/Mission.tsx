@@ -18,13 +18,13 @@ export default function Mission() {
     >
       <div className="mx-auto mb-12 w-fit lg:mr-24">
         <motion.h1
-          initial={{ opacity: 0, translateX: -200 }}
-          whileInView={{ opacity: 1, translateX: 0 }}
+          initial={{ opacity: 0, scale: 0.8 }}
+          whileInView={{ opacity: 1, scale: 1 }}
           viewport={{ once: true }}
           transition={{
             delay: 0.1,
             ease: "easeIn",
-            duration: 0.6,
+            duration: 0.2,
             stiffness: 250,
             damping: 56,
           }}

@@ -1,5 +1,7 @@
 "use client"
 
+// UNUSED, OLD GAMES, NEW GAMES UNDER HERO
+
 import { motion } from "framer-motion"
 import { SectionComponent, SectionHeader } from "../../global/SectionComponents"
 
