@@ -60,7 +60,7 @@ function Officer({
         <HoverCardTrigger>
           {/* Avatar, Title, and Name */}
           {/* Avatar */}
-          <Avatar className="group mx-auto h-32 w-32">
+          <Avatar className="group mx-auto cursor-pointer h-32 w-32">
             {officer.avatar && (
               <Image
                 src={officer.avatar}
