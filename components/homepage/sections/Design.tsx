@@ -13,11 +13,34 @@ export default function Design() {
         `}
     >
       <h1 className="text-center text-7xl font-extrabold text-white lg:text-9xl">
-        <span className="text-vgdc-light-green">Design.</span>
+        <motion.div
+          initial={{ opacity: 0, translateX: -100 }}
+          whileInView={{ opacity: 1, translateX: 0 }}
+          transition={{ delay: 0.4 }}
+          viewport={{ once: true }}
+          className="inline-block text-vgdc-light-green"
+        >
+          Design.
+        </motion.div>
         <br />
-        <span className="text-vgdc-light-green">Code.</span>
+        <motion.div
+          initial={{ opacity: 0, translateX: 100 }}
+          whileInView={{ opacity: 1, translateX: 0 }}
+          transition={{ delay: 0.4 }}
+          viewport={{ once: true }}
+          className="inline-block text-vgdc-light-green"
+        >
+          Code.
+        </motion.div>
         <br />
-        Learn.
+        <motion.div
+          initial={{ opacity: 0, translateX: -100 }}
+          whileInView={{ opacity: 1, translateX: 0 }}
+          transition={{ delay: 0.4 }}
+          viewport={{ once: true }}
+        >
+          Learn.
+        </motion.div>
       </h1>
 
       <p className="mt-4 max-w-[340px] px-8 text-center text-base text-text-grey md:max-w-[400px] lg:max-w-[500px] xl:text-lg">

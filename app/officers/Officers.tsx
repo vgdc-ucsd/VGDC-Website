@@ -45,28 +45,32 @@ function Officer({
 }) {
   return (
     <motion.div
-      initial={{ opacity: 0, scale: 0.7, translateY: 20 }}
-      animate={{ opacity: 1, scale: 1, translateY: 0 }}
+      initial={{ opacity: 0, translateY: "100vh" }}
+      animate={{ opacity: 1, translateY: 0 }}
       viewport={{ once: true }}
-      transition={{ delay: 0.08 * order, ease: "easeOut", duration: 0.4 }}
+      transition={{
+        delay: 0.08 * order,
+        ease: "easeOut",
+        duration: 0.6,
+      }}
       className="w-44"
     >
-      {/* Avatar */}
-      <Avatar className="mx-auto h-32 w-32">
-        {officer.avatar && (
-          <Image
-            src={officer.avatar}
-            width={300}
-            height={300}
-            alt={`Image of ${officer.name}`}
-          />
-        )}
-        <AvatarFallback>{officer.name[0]}</AvatarFallback>
-      </Avatar>
       {/* The hover card over the title and name */}
       <HoverCard>
         <HoverCardTrigger>
-          {/* Title and Name */}
+          {/* Avatar, Title, and Name */}
+          {/* Avatar */}
+          <Avatar className="group mx-auto cursor-pointer h-32 w-32">
+            {officer.avatar && (
+              <Image
+                src={officer.avatar}
+                width={300}
+                height={300}
+                alt={`Image of ${officer.name}`}
+              />
+            )}
+            <AvatarFallback>{officer.name[0]}</AvatarFallback>
+          </Avatar>
           <div className="mx-auto mt-4 cursor-pointer text-center leading-5 transition-all">
             <h3 className="font-bold">{officer.title}</h3>
             <h4>{officer.name}</h4>
