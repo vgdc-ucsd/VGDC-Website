@@ -35,6 +35,10 @@ const config = {
         'text-grey': '#bebebe',
         'text-white': '#f1f1f1',
         'dark-grey': '#232528',
+        'v-color': '#267392',
+        'g-color': '#3c99aa',
+        'd-color': '#0eb9ae',
+        'c-color': '#50d0a1',
         primary: {
           DEFAULT: 'hsl(var(--primary))',
           foreground: 'hsl(var(--primary-foreground))',

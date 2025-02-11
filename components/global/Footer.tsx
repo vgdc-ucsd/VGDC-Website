@@ -25,6 +25,7 @@ import {
 
 import { SiMinutemailer } from "react-icons/si"
 import { FaInstagram, FaDiscord, FaFacebook } from "react-icons/fa"
+import RippleText from "../ui/ripple-text"
 
 // Questions and answers to fill the accordion with
 const questions = [
@@ -147,9 +148,31 @@ export default function Footer() {
         {/* Social links */}
         <div className="min-w-full p-8 sm:w-[540px] sm:min-w-0">
           <SocialLinks />
-
-          {/* Special box that does nothing (yet) */}
-          <Newsletter />
+          <div className="mt-10 box-border rounded-lg bg-background-grey/50 p-5">
+            <div className="text-center text-lg text-white">Contact us</div>
+            <div className="mx-auto w-fit text-center">
+              <a
+                href={`mailto:vgdc@ucsd.edu`}
+                className="text-center font-bold"
+              >
+                <RippleText className="text-4xl">
+                  <span className="text-v-color">v</span>
+                  <span className="text-g-color">g</span>
+                  <span className="text-d-color">d</span>
+                  <span className="text-c-color">c</span>
+                  <span className="text-lg text-[#A7E7D0]">@</span>
+                  <span className="text-[#D3F3E7]">u</span>
+                  <span className="text-[#D3F3E7]">c</span>
+                  <span className="text-[#D3F3E7]">s</span>
+                  <span className="text-[#A7E7D0]">d</span>
+                  <span className="text-c-color">.</span>
+                  <span className="text-d-color">e</span>
+                  <span className="text-g-color">d</span>
+                  <span className="text-v-color">u</span>
+                </RippleText>
+              </a>
+            </div>
+          </div>
         </div>
         {/* FAQs */}
         <div className="min-w-full p-8 sm:w-[540px] sm:min-w-0">
@@ -232,85 +255,5 @@ function FAQs() {
         </Accordion>
       </div>
     </>
-  )
-}
-
-function Newsletter() {
-  const { toast } = useToast()
-
-  // Define the form instance
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
-    defaultValues: {
-      email: "",
-    },
-  })
-
-  // Define a submit handler.
-  async function onSubmit(values: z.infer<typeof formSchema>) {
-    try {
-      const response = await fetch("api/subscribe", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ email: values.email }),
-      })
-
-      const data = await response.json()
-
-      if (response.status == 200) {
-        toast({
-          title: "Successfully signed up!",
-          description: "Make sure to check your email inbox.",
-          action: <ToastAction altText="Ok">Ok</ToastAction>,
-        })
-      } else {
-        toast({
-          title: "Something went wrong",
-          description: `${data.message}`,
-          action: <ToastAction altText="Ok">Ok</ToastAction>,
-        })
-      }
-    } catch (error: any) {
-      console.log(error.message)
-    }
-  }
-
-  return (
-    <div className="mt-10 box-border rounded-lg bg-background-grey/50 p-5">
-      <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-3">
-          <FormField
-            control={form.control}
-            name="email"
-            render={({ field }) => (
-              <FormItem className="space-y-2">
-                <FormLabel className="text-lg text-white">
-                  Join our newsletter!
-                </FormLabel>
-                <FormControl>
-                  <Input
-                    placeholder="Email"
-                    {...field}
-                    className="max-w-full border-none bg-footer-grey text-white"
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <Button
-            type="submit"
-            className="bg-background-grey"
-            onSubmit={() => {
-              onSubmit
-            }}
-          >
-            Subscribe
-          </Button>
-        </form>
-      </Form>
-    </div>
   )
 }
