@@ -3,9 +3,11 @@
 import Link from "next/link"
 import { EventDetails } from "@/lib/events"
 import { motion } from "framer-motion"
+import ReactMarkdown from "react-markdown"
+import rehypeRaw from "rehype-raw"
+import styles from "../page.module.css"
 
 export default function EventView({ event }: { event: EventDetails }) {
-
   return (
     <section className="mx-auto mt-24 max-w-[920px]">
       <div className="flex flex-col lg:flex-row">
@@ -36,9 +38,19 @@ export default function EventView({ event }: { event: EventDetails }) {
           <h4 className="text-xl font-semibold text-vgdc-light-green">
             {event.time}
           </h4>
-          <p className="mt-2 whitespace-pre-line text-lg text-text-white">
+          <ReactMarkdown
+            className={`${styles["markdown"]} mt-2 text-lg text-text-white`}
+            rehypePlugins={[rehypeRaw]}
+            components={{
+              a: ({ children, href }) => (
+                <a href={href} className="text-hot-pink" target="_blank">
+                  {children}
+                </a>
+              ),
+            }}
+          >
             {event.description}
-          </p>
+          </ReactMarkdown>
           {/* <button className="mt-4 h-10 rounded-xl bg-background-grey px-3 text-lg text-text-white transition-colors">
             Schedule
           </button> */}
