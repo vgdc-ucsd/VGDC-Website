@@ -1,5 +1,3 @@
-"use server"
-
 import { EventDetails, getEvents } from "@/lib/events"
 
 import Navbar from "@/components/global/Navbar"
@@ -15,6 +13,8 @@ export async function generateStaticParams() {
     event: event.slug,
   }))
 }
+
+export const revalidate = 60
 
 /** The page for a single event. */
 export default async function Event({
