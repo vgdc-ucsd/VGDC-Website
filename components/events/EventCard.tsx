@@ -2,6 +2,7 @@
 
 import Link from "next/link"
 import { motion } from "framer-motion"
+import removeMd from "remove-markdown"
 
 /** An event card to be shown in the events list. */
 export default function Event({
@@ -23,7 +24,7 @@ export default function Event({
     >
       <img
         src={`${image}`}
-        className="hidden w-40 rounded-xl sm:block md:w-48 aspect-square object-cover"
+        className="hidden aspect-square w-40 rounded-xl object-cover sm:block md:w-48"
       />
       <div className="relative w-full">
         <div className="mb-1 md:mt-2">
@@ -38,10 +39,10 @@ export default function Event({
           </h4>
         </div>
         <p className="hidden w-full text-sm text-text-grey sm:block md:hidden">
-          {truncate(description, 100, true)}
+          {truncate(removeMd(description), 100, true)}
         </p>
         <p className="w-full text-sm text-text-grey sm:hidden md:block lg:bottom-5 lg:w-[440px] lg:leading-6">
-          {truncate(description, 180, true)}
+          {truncate(removeMd(description), 180, true)}
         </p>
         <h4 className="invisible absolute right-2 text-right font-semibold text-text-grey lg:visible lg:top-2">
           {date}
