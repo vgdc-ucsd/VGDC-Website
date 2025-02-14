@@ -10,6 +10,7 @@ import { vscDarkPlus } from "react-syntax-highlighter/dist/esm/styles/prism"
 import SyntaxHighlighter from "react-syntax-highlighter/dist/esm/default-highlight"
 import Link from "next/link"
 import { motion } from "framer-motion"
+import AudioPlayer from "react-modern-audio-player"
 
 export default function BlogView({
   post,
@@ -104,7 +105,33 @@ export default function BlogView({
           rehypePlugins={[rehypeRaw]}
           components={{
             // add a css for p tagsxs
-
+            p: ({ children }) => {
+              return <div className={`${styles["mdblock"]}`}>{children}</div>
+            },
+            // For audio, use this in markdown:
+            // <audio>/audio/blogs/blog-post/song.mp3</audio>
+            // And use only mp3 and ogg files
+            audio: ({ node, className, children, ...props }) => {
+              let filename = children?.toString()
+              if (!filename) {
+                return "There was an issue with the audio file."
+              }
+              let extension = filename.split(".").pop()
+              let audioType = ""
+              if (extension == "ogg") {
+                audioType = "audio/ogg"
+              } else if (extension == "mp3") {
+                audioType = "audio/mpeg"
+              } else {
+                return "There was an issue with the audio file."
+              }
+              return (
+                <audio controls className={`${styles["audioblock"]}`}>
+                  <source src={children?.toString()} type={audioType} />
+                  Your browser does not support the audio element.
+                </audio>
+              )
+            },
             img: (image) => {
               return (
                 <Image
@@ -115,6 +142,7 @@ export default function BlogView({
                   style={{ borderRadius: "12px", width: "100%" }}
                 />
               )
+              // return <h1>Testing</h1>
             },
             code({ children, className }) {
               // Detect which programming language is being used
