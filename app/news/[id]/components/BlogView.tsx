@@ -141,7 +141,6 @@ export default function BlogView({
                   style={{ borderRadius: "12px", width: "100%" }}
                 />
               )
-              // return <h1>Testing</h1>
             },
             code({ children, className }) {
               // Detect which programming language is being used
