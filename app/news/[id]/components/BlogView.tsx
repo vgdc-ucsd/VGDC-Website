@@ -10,7 +10,6 @@ import { vscDarkPlus } from "react-syntax-highlighter/dist/esm/styles/prism"
 import SyntaxHighlighter from "react-syntax-highlighter/dist/esm/default-highlight"
 import Link from "next/link"
 import { motion } from "framer-motion"
-import AudioPlayer from "react-modern-audio-player"
 
 export default function BlogView({
   post,
