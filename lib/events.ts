@@ -28,7 +28,7 @@ export async function getEvents(
   reverseOrder = false
 ) {
   // Gets the raw data from getSheetData.
-  const response = await getSheetData()
+  const response = await getSheetData("Events")
   // Gets the current moment to filter out events before this time. Subtracts 1 day so events show a day after ending.
   const yesterday = moment().subtract(1, "day").format("YYYY-MM-DD HH:mm:ss")
   // Gets the current moment to filter out events after this time.
