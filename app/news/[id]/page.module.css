@@ -1,4 +1,12 @@
-
 .markdown > * {
-    all: revert;
-  }
+  all: revert;
+}
+
+.mdblock {
+  margin-top: 16px;
+  margin-bottom: 16px;
+}
+
+.audioblock {
+  width: 100%;
+}
