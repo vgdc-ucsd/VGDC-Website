@@ -130,6 +130,9 @@ export default function Navbar({ offsetSpace = true, hideOnScroll = true }) {
             <Link href="/events" className={getStyle("/events")}>
               Events
             </Link>
+            <Link href="/showcase" className={getStyle("/showcase")}>
+              Showcase
+            </Link>
             <Link href="/news" className={getStyle("/news")}>
               News
             </Link>
