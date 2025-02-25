@@ -173,6 +173,7 @@ export default function BlogView({
                     color: "rgb(229 231 235)",
                     transform: "translateY(6px)",
                     fontSize: "1.2rem",
+                    lineHeight: "1.75rem",
                   }}
                 >
                   {String(children).replace(/\n$/, "")}
@@ -187,6 +188,7 @@ export default function BlogView({
                     color: "rgb(229 231 235)",
                     transform: "translateY(6px)",
                     fontSize: "1.5rem",
+                    lineHeight: "2rem",
                   }}
                 >
                   {String(children).replace(/\n$/, "")}
@@ -201,7 +203,7 @@ export default function BlogView({
                     color: "rgb(229 231 235)",
                     transform: "translateY(6px)",
                     fontSize: "1.8rem",
-                    lineHeight: "1.5rem",
+                    lineHeight: "2.25rem",
                   }}
                 >
                   {String(children).replace(/\n$/, "")}
