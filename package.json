@@ -29,7 +29,6 @@
     "framer-motion": "^11.3.28",
     "googleapis": "^135.0.0",
     "gray-matter": "^4.0.3",
-    "gsap": "^3.12.7",
     "lucide-react": "^0.323.0",
     "marked": "^12.0.1",
     "moment": "^2.30.1",
