@@ -1,7 +1,7 @@
 "use server"
 import { google } from "googleapis"
 
-export async function getSheetData() {
+export async function getSheetData(sheetName: string) {
   const glAuth = await google.auth.getClient({
     credentials: {
       type: "service_account",
@@ -19,7 +19,7 @@ export async function getSheetData() {
   try {
     const data = await glSheets.spreadsheets.values.get({
       spreadsheetId: process.env.SHEET_ID,
-      range: "A4:Z",
+      range: `${sheetName}!${sheetName == "Events" ? "A4:Z" : "A2:Z"}`,
     })
     return { data: data.data.values }
   } catch (e) {
