@@ -431,7 +431,7 @@ const GamesCarousel: React.FC<GameCarouselProps> = ({
       </button>
 
       {/* Dots Indicator */}
-      <div className="mt-6 flex justify-center gap-2">
+      {/* <div className="mt-6 flex justify-center gap-2">
         {filteredItems.map((_, index) => (
           <button
             key={index}
@@ -442,7 +442,7 @@ const GamesCarousel: React.FC<GameCarouselProps> = ({
             aria-label={`Go to slide ${index + 1}`}
           />
         ))}
-      </div>
+      </div> */}
     </div>
   )
 }

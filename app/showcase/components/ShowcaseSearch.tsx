@@ -166,9 +166,10 @@ export default function ShowcaseCarousel({ data }: { data: ShowcaseData }) {
               <select
                 className="w-full rounded-md border border-background-grey bg-background-black p-2 text-white focus:outline-none"
                 value={filters.status}
-                onChange={(e) =>
+                onChange={(e) => {
                   setFilters({ ...filters, status: e.target.value })
-                }
+                  e.target.blur()
+                }}
               >
                 <option value="all">All Statuses</option>
                 <option value="true">Released</option>
@@ -184,9 +185,10 @@ export default function ShowcaseCarousel({ data }: { data: ShowcaseData }) {
               <select
                 className="w-full rounded-md border border-background-grey bg-background-black p-2 text-white focus:outline-none"
                 value={filters.web}
-                onChange={(e) =>
+                onChange={(e) => {
                   setFilters({ ...filters, web: e.target.value })
-                }
+                  e.target.blur()
+                }}
               >
                 <option value="all">All Platforms</option>
                 <option value="true">Web Available</option>
@@ -202,9 +204,10 @@ export default function ShowcaseCarousel({ data }: { data: ShowcaseData }) {
               <select
                 className="w-full rounded-md border border-background-grey bg-background-black p-2 text-white focus:outline-none"
                 value={filters.year}
-                onChange={(e) =>
+                onChange={(e) => {
                   setFilters({ ...filters, year: e.target.value })
-                }
+                  e.target.blur()
+                }}
               >
                 {getYears().map((year) => (
                   <option key={year} value={year}>
@@ -222,9 +225,10 @@ export default function ShowcaseCarousel({ data }: { data: ShowcaseData }) {
               <select
                 className="w-full rounded-md border border-background-grey bg-background-black p-2 text-white focus:outline-none"
                 value={filters.approved}
-                onChange={(e) =>
+                onChange={(e) => {
                   setFilters({ ...filters, approved: e.target.value })
-                }
+                  e.target.blur()
+                }}
               >
                 <option value="all">All Games</option>
                 <option value="true">Approved</option>
