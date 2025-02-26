@@ -51,9 +51,6 @@ export default function EventView({ event }: { event: EventDetails }) {
           >
             {event.description}
           </ReactMarkdown>
-          {/* <button className="mt-4 h-10 rounded-xl bg-background-grey px-3 text-lg text-text-white transition-colors">
-            Schedule
-          </button> */}
         </motion.div>
         <motion.div
           initial={{ opacity: 0.6, scale: 0.8, translateX: 50 }}
@@ -64,7 +61,7 @@ export default function EventView({ event }: { event: EventDetails }) {
             ease: "easeOut",
             duration: 0.4,
           }}
-          className="m-4 flex-1"
+          className="m-8 mt-14 flex-1"
         >
           <img src={`${event.image}`} className="rounded-xl" />
         </motion.div>
