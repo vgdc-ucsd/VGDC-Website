@@ -25,7 +25,7 @@
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.0",
     "date-fns": "^3.6.0",
-    "embla-carousel-react": "^8.2.0",
+    "embla-carousel-react": "^8.5.2",
     "framer-motion": "^11.3.28",
     "googleapis": "^135.0.0",
     "gray-matter": "^4.0.3",
