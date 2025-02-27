@@ -1,102 +1,56 @@
 {
-    "showcase_test": [
-        {
-            "title": "Athenaeum",
-            "released": "TBD",
-            "difficulty": 3,
-            "description": "Athenaeum is a rougelike deckbuilder where you venture through a mysterious library battling cultists and collecting cards.",
-            "credits": "too many people to list",
-            "link": "https://ethancreek.itch.io/athenaeum",
-            "status": false,
-            "image": "https://tonyshomefurnishings.com/cdn/shop/files/LakersLeBronRaymoneJamesBeddingSetPatternQuiltDuvetCover_10_17f9ed0e-fc37-4055-8047-fa6589502a0a.jpg",
-            "theme": "red",
-            "approved": true,
-            "web": true
-        },
-        {
-            "title": "Patrick's Parabox",
-            "released": "3/22/2022",
-            "difficulty": 2,
-            "description": "Patrick’s Parabox is an award-winning puzzle game about playing with recursion and infinities by pushing boxes into and out of each other.",
-            "credits": "Patrick Traynor",
-            "link": "https://www.indiecade.com/patricks-parabox/",
-            "status": true,
-            "image": "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/1260520/header.jpg?t=1724983368",
-            "theme": "blue",
-            "approved": true,
-            "web": true
-        }, {
-            "title": "Contract Killer",
-            "released": "5/19/2022",
-            "difficulty": 2,
-            "description": "Contract Killer is a 2.5D co-op beat ‘em up starring a diverse cast of angry writing utensils. Punch, snap, and clap your way through baddies and bosses in a comical campaign, clash against your friends, or survive endless swarms of corporate goons!",
-            "credits": "Alex Garza, Aiden Jauffret, Matthew Lawrence, and Leon Yang",
-            "link": "https://store.steampowered.com/app/1588250/Contract_Killer/",
-            "status": true,
-            "image": "https://i.ytimg.com/vi/II1uCunV3g8/sddefault.jpg",
-            "theme": "green",
-            "approved": false,
-            "web": true
-        }, {
-            "title": "Bedtime Beats",
-            "released": "10/22/2024",
-            "difficulty": 4,
-            "description": "You're a kid playing a rhythm game past your bedtime, try not to get caught!",
-            "credits": "Art: Erin, Programming: Din & Jonathan, Audio: Bree & Breanna",
-            "link": "https://anapostrophe.itch.io/bedtime-beats?secret=IQK29RkoYdk93FWUac7zmenRQ",
-            "status": 1,
-            "image": "https://i.scdn.co/image/ab67616d00001e02f5f8a9f37b5be0c7768ef4be",
-            "theme": "purple",
-            "approved": false,
-            "web": false
-        }, {
-            "title": "Gravitas",
-            "released": "10/22/2024",
-            "difficulty": 3,
-            "description": "Pixel-style Tower Defense Game with Gravity Mechanics",
-            "credits": "Programming, Art, Music: Yukun Li, Xinkai Wu, Script, Music: Xingyan Liu",
-            "link": "https://misakizzzzz.itch.io/gravitas",
-            "status": 1,
-            "image": "https://media.tenor.com/xTE1r8GznZgAAAAe/forest-minion-minion-forest.png",
-            "theme": "gray",
-            "approved": true,
-            "web": false
-        }, {
-            "title": "Gravitas",
-            "released": "10/22/2024",
-            "difficulty": 3,
-            "description": "Pixel-style Tower Defense Game with Gravity Mechanics",
-            "credits": "Programming, Art, Music: Yukun Li, Xinkai Wu, Script, Music: Xingyan Liu",
-            "link": "https://misakizzzzz.itch.io/gravitas",
-            "status": 1,
-            "image": "https://media.tenor.com/xTE1r8GznZgAAAAe/forest-minion-minion-forest.png",
-            "theme": "gray",
-            "approved": true,
-            "web": false
-        }, {
-            "title": "Gravitas",
-            "released": "10/22/2024",
-            "difficulty": 3,
-            "description": "Pixel-style Tower Defense Game with Gravity Mechanics",
-            "credits": "Programming, Art, Music: Yukun Li, Xinkai Wu, Script, Music: Xingyan Liu",
-            "link": "https://misakizzzzz.itch.io/gravitas",
-            "status": 1,
-            "image": "https://media.tenor.com/xTE1r8GznZgAAAAe/forest-minion-minion-forest.png",
-            "theme": "gray",
-            "approved": true,
-            "web": false
-        }, {
-            "title": "Gravitas",
-            "released": "10/22/2024",
-            "difficulty": 3,
-            "description": "Pixel-style Tower Defense Game with Gravity Mechanics",
-            "credits": "Programming, Art, Music: Yukun Li, Xinkai Wu, Script, Music: Xingyan Liu",
-            "link": "https://misakizzzzz.itch.io/gravitas",
-            "status": 1,
-            "image": "https://media.tenor.com/xTE1r8GznZgAAAAe/forest-minion-minion-forest.png",
-            "theme": "gray",
-            "approved": true,
-            "web": false
-        }
-    ]
+  "showcase_test": [
+    {
+      "title": "Athenaeum",
+      "released": "TBD",
+      "difficulty": 3,
+      "description": "Athenaeum is a rougelike deckbuilder where you venture through a mysterious library battling cultists and collecting cards. This was the original version of the game - it was remade to be fully released on Steam in 2025.",
+      "credits": "All of VGDC",
+      "link": "https://ethancreek.itch.io/athenaeum",
+      "status": false,
+      "image": "https://i.imgur.com/FSZxaOp.png",
+      "theme": "red",
+      "approved": true,
+      "web": true
+    },
+    {
+      "title": "Bedtime Beats",
+      "released": "10/22/2024",
+      "difficulty": 4,
+      "description": "You're a kid playing a rhythm game past your bedtime, try not to get caught!",
+      "credits": "Art: Erin, Programming: Din & Jonathan, Audio: Bree & Breanna",
+      "link": "https://anapostrophe.itch.io/bedtime-beats",
+      "status": true,
+      "image": "https://i.imgur.com/T1AzoPa.png",
+      "theme": "purple",
+      "approved": false,
+      "web": true
+    },
+    {
+      "title": "Spellthief",
+      "released": "11/11/2023",
+      "difficulty": 4,
+      "description": "A bullet hell game where you absorb mana from your enemies' spells to use against them!",
+      "credits": "Nick Droppa, Chase Peterson, Trey Shneour, Nick Petrone, James Villareal",
+      "link": "https://chaseplays.itch.io/spellthief",
+      "status": true,
+      "image": "https://i.imgur.com/46nDL5H.png",
+      "theme": "purple",
+      "approved": false,
+      "web": true
+    },
+    {
+      "title": "Don't Space Out",
+      "released": "5/1/2024",
+      "difficulty": 5,
+      "description": "Fast-paced bullet hell shoot 'em up where you fly a spaceship while outrunning enemies at the same time solving puzzles to fix your malfunctioning ship.",
+      "credits": "Annie Wong, Ethan Schwartzman, Breanna Lau, Jacky Mei, Zee Avila, Kevin Tang",
+      "link": "https://ethancreek.itch.io/dont-space-out",
+      "status": true,
+      "image": "https://i.imgur.com/HIvyg0m.png",
+      "theme": "purple",
+      "approved": true,
+      "web": true
+    }
+  ]
 }
