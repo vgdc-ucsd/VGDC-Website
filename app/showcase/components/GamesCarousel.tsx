@@ -416,19 +416,23 @@ const GamesCarousel: React.FC<GameCarouselProps> = ({
       </div>
 
       {/* Navigation Buttons */}
-      <button
-        className="absolute -left-2 top-1/2 z-10 -translate-y-1/2 rounded-full bg-black bg-opacity-70 p-3 text-white transition hover:scale-110 hover:bg-opacity-90 md:left-5"
-        onClick={scrollPrev}
-      >
-        <ChevronLeft size={24} />
-      </button>
+      {filteredItems.length > 3 && (
+        <button
+          className="absolute -left-2 top-1/2 z-10 -translate-y-1/2 rounded-full bg-black bg-opacity-70 p-3 text-white transition hover:scale-110 hover:bg-opacity-90 md:left-5"
+          onClick={scrollPrev}
+        >
+          <ChevronLeft size={24} />
+        </button>
+      )}
 
-      <button
-        className="absolute -right-2 top-1/2 z-10 -translate-y-1/2 rounded-full bg-black bg-opacity-70 p-3 text-white transition hover:scale-110 hover:bg-opacity-90 md:right-5"
-        onClick={scrollNext}
-      >
-        <ChevronRight size={24} />
-      </button>
+      {filteredItems.length > 3 && (
+        <button
+          className="absolute -right-2 top-1/2 z-10 -translate-y-1/2 rounded-full bg-black bg-opacity-70 p-3 text-white transition hover:scale-110 hover:bg-opacity-90 md:right-5"
+          onClick={scrollNext}
+        >
+          <ChevronRight size={24} />
+        </button>
+      )}
 
       {/* Dots Indicator */}
       {/* <div className="mt-6 flex justify-center gap-2">
