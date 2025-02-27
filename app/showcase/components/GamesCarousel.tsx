@@ -11,7 +11,7 @@ import { ShowcaseItem } from "@/lib/showcase"
 import { ChevronLeft, ChevronRight } from "lucide-react"
 
 // Constants for effects
-const TWEEN_FACTOR = 0.6
+const TWEEN_FACTOR = 0.8
 const PARALLAX_FACTOR = 2.0
 
 // Helper function to keep number within range
@@ -32,7 +32,7 @@ const GamesCarousel: React.FC<GameCarouselProps> = ({
   setShowModal,
 }) => {
   // Options for Embla Carousel - loop enabled and center alignment
-  const options: EmblaOptionsType = { loop: true, align: "center" }
+  const options: EmblaOptionsType = { loop: true }
   const [emblaRef, emblaApi] = useEmblaCarousel(options)
 
   // Refs for effects
@@ -46,27 +46,37 @@ const GamesCarousel: React.FC<GameCarouselProps> = ({
 
   // Setup for tween scaling effect
   const setTweenNodes = useCallback((emblaApi: EmblaCarouselType): void => {
-    tweenNodes.current = emblaApi.slideNodes().map((slideNode) => {
-      return slideNode.querySelector(".game-card") as HTMLElement
-    })
+    // tweenNodes.current = emblaApi.slideNodes().map((slideNode) => {
+    //   return slideNode.querySelector(".game-card") as HTMLElement
+    // })
   }, [])
 
   // Setup for parallax effect
   const setParallaxNodes = useCallback((emblaApi: EmblaCarouselType): void => {
-    parallaxNodes.current = emblaApi.slideNodes().map((slideNode) => {
-      return slideNode.querySelector(".parallax-layer") as HTMLElement
-    })
+    // parallaxNodes.current = emblaApi.slideNodes().map((slideNode) => {
+    //   return slideNode.querySelector(".parallax-layer") as HTMLElement
+    // })
   }, [])
 
   // Tween scaling effect implementation
   const tweenScale = useCallback(
     (emblaApi: EmblaCarouselType, eventName?: EmblaEventType) => {
       const engine = emblaApi.internalEngine()
-      const scrollProgress = emblaApi.scrollProgress()
-      const slidesInView = emblaApi.slidesInView()
+      let scrollProgress = emblaApi.scrollProgress()
+      let slidesInView = emblaApi.slidesInView()
       const isScrollEvent = eventName === "scroll"
 
+      // if (filteredItems.length == 4) {
+      //   scrollProgress /= 3
+      //   scrollProgress += 1 / 3
+      // } else if (filteredItems.length < 4) {
+      //   console.log(scrollProgress)
+      // }
+
+      // console.log(scrollProgress, slidesInView)
+
       emblaApi.scrollSnapList().forEach((scrollSnap, snapIndex) => {
+        const realIndex = filteredItems.length <= 4 ? snapIndex + 1 : snapIndex
         let diffToTarget = scrollSnap - scrollProgress
         const slidesInSnap = engine.slideRegistry[snapIndex]
 
@@ -92,7 +102,7 @@ const GamesCarousel: React.FC<GameCarouselProps> = ({
 
           const tweenValue = 1 - Math.abs(diffToTarget * tweenFactor.current)
           const scale = numberWithinRange(tweenValue, 0.8, 1).toString()
-          const tweenNode = tweenNodes.current[slideIndex]
+          const tweenNode = tweenNodes.current[realIndex]
           if (tweenNode) {
             tweenNode.style.transform = `scale(${scale})`
 
@@ -103,7 +113,7 @@ const GamesCarousel: React.FC<GameCarouselProps> = ({
         })
       })
     },
-    []
+    [filteredItems]
   )
 
   // Parallax effect implementation
@@ -142,7 +152,7 @@ const GamesCarousel: React.FC<GameCarouselProps> = ({
           const translate = diffToTarget * (-1 * PARALLAX_FACTOR) * 100
           const parallaxNode = parallaxNodes.current[slideIndex]
           if (parallaxNode) {
-            parallaxNode.style.transform = `translateX(${translate}%)`
+            // parallaxNode.style.transform = `translateX(${translate}%)`
           }
         })
       })
@@ -152,11 +162,15 @@ const GamesCarousel: React.FC<GameCarouselProps> = ({
 
   // Navigation functions
   const scrollPrev = useCallback(() => {
-    if (emblaApi) emblaApi.scrollPrev()
+    if (emblaApi) {
+      emblaApi.scrollPrev()
+    }
   }, [emblaApi])
 
   const scrollNext = useCallback(() => {
-    if (emblaApi) emblaApi.scrollNext()
+    if (emblaApi) {
+      emblaApi.scrollNext()
+    }
   }, [emblaApi])
 
   const onSelect = useCallback(() => {
@@ -166,17 +180,17 @@ const GamesCarousel: React.FC<GameCarouselProps> = ({
     setCurrentIndex(emblaApi.selectedScrollSnap())
 
     // With loop:true, we don't need to disable buttons, but keeping the states for consistency
-    setPrevBtnDisabled(false)
-    setNextBtnDisabled(false)
+    // setPrevBtnDisabled(false)
+    // setNextBtnDisabled(false)
 
     // Apply effects on selection
-    tweenScale(emblaApi)
-    parallaxEffect(emblaApi)
-  }, [emblaApi, setCurrentIndex, tweenScale, parallaxEffect])
+    // tweenScale(emblaApi)
+    // parallaxEffect(emblaApi)
+  }, [emblaApi, setCurrentIndex /*, tweenScale, parallaxEffect*/])
 
   const scrollTo = useCallback(
     (index: number) => {
-      if (emblaApi) emblaApi.scrollTo(index)
+      if (emblaApi) emblaApi.scrollTo(index, false)
     },
     [emblaApi]
   )
@@ -186,46 +200,43 @@ const GamesCarousel: React.FC<GameCarouselProps> = ({
     if (!emblaApi) return
 
     // Setup nodes for effects
-    setTweenNodes(emblaApi)
-    setParallaxNodes(emblaApi)
+    // setTweenNodes(emblaApi)
+    // setParallaxNodes(emblaApi)
 
     // Initial effects
-    tweenScale(emblaApi)
-    parallaxEffect(emblaApi)
+    // tweenScale(emblaApi)
+    // parallaxEffect(emblaApi)
 
     // Setup event listeners
-    emblaApi
-      .on("select", onSelect)
-      .on("reInit", setTweenNodes)
-      .on("reInit", setParallaxNodes)
-      .on("reInit", tweenScale)
-      .on("reInit", parallaxEffect)
-      .on("scroll", () => {
-        tweenScale(emblaApi, "scroll")
-        parallaxEffect(emblaApi, "scroll")
-      })
-      .on("slideFocus", () => {
-        tweenScale(emblaApi)
-        parallaxEffect(emblaApi)
-      })
+    emblaApi.on("select", onSelect)
+    // .on("reInit", setTweenNodes)
+    // .on("reInit", setParallaxNodes)
+    // .on("reInit", tweenScale)
+    // .on("reInit", parallaxEffect)
+    // .on("scroll", () => {
+    //   tweenScale(emblaApi, "scroll")
+    //   parallaxEffect(emblaApi, "scroll")
+    // })
+    // .on("slideFocus", () => {
+    //   tweenScale(emblaApi)
+    //   parallaxEffect(emblaApi)
+    // })
 
-    onSelect()
+    // onSelect()
 
     return () => {
-      emblaApi
-        .off("select", onSelect)
-        .off("reInit", setTweenNodes)
-        .off("reInit", setParallaxNodes)
-        .off("reInit", tweenScale)
-        .off("reInit", parallaxEffect)
-        .off("scroll", () => {
-          tweenScale(emblaApi, "scroll")
-          parallaxEffect(emblaApi, "scroll")
-        })
-        .off("slideFocus", () => {
-          tweenScale(emblaApi)
-          parallaxEffect(emblaApi)
-        })
+      emblaApi.off("select", onSelect).off("reInit", setTweenNodes)
+      // .off("reInit", setParallaxNodes)
+      // .off("reInit", tweenScale)
+      // .off("reInit", parallaxEffect)
+      // .off("scroll", () => {
+      //   tweenScale(emblaApi, "scroll")
+      //   parallaxEffect(emblaApi, "scroll")
+      // })
+      // .off("slideFocus", () => {
+      //   tweenScale(emblaApi)
+      //   parallaxEffect(emblaApi)
+      // })
     }
   }, [
     emblaApi,
@@ -243,9 +254,10 @@ const GamesCarousel: React.FC<GameCarouselProps> = ({
         scrollPrev()
       } else if (e.key === "ArrowRight") {
         scrollNext()
-      } else if (e.key === "Enter") {
-        setShowModal(true)
       }
+      // else if (e.key === "Enter") {
+      //   setShowModal(true)
+      // }
     }
 
     window.addEventListener("keydown", handleKeyDown)
@@ -253,11 +265,16 @@ const GamesCarousel: React.FC<GameCarouselProps> = ({
   }, [scrollPrev, scrollNext, setShowModal])
 
   // Sync carousel with currentIndex from parent
-  useEffect(() => {
-    if (emblaApi && emblaApi.selectedScrollSnap() !== currentIndex) {
-      scrollTo(currentIndex)
-    }
-  }, [currentIndex, emblaApi, scrollTo])
+  // useEffect(() => {
+  //   if (emblaApi && emblaApi.selectedScrollSnap() !== currentIndex) {
+  //     if (filteredItems.length > 4) {
+  //       scrollTo(currentIndex)
+  //     } else {
+  //       scrollTo(Math.min(currentIndex, filteredItems.length - 3))
+  //     }
+  //   }
+  //   console.log(currentIndex)
+  // }, [currentIndex, emblaApi, scrollTo])
 
   // Handle empty state
   if (filteredItems.length === 0) {
@@ -327,7 +344,7 @@ const GamesCarousel: React.FC<GameCarouselProps> = ({
                   )}
 
                   {/* Approval Sticker (SVG placeholder) */}
-                  {game.approved && (
+                  {/* {game.approved && (
                     <div className="absolute right-3 top-3 h-16 w-16 overflow-hidden">
                       <svg viewBox="0 0 100 100" className="h-full w-full">
                         <circle
@@ -378,7 +395,7 @@ const GamesCarousel: React.FC<GameCarouselProps> = ({
                         </text>
                       </svg>
                     </div>
-                  )}
+                  )} */}
                 </div>
 
                 {/* Game Info */}
@@ -416,7 +433,7 @@ const GamesCarousel: React.FC<GameCarouselProps> = ({
       </div>
 
       {/* Navigation Buttons */}
-      {filteredItems.length > 3 && (
+      {emblaApi?.canScrollPrev() && (
         <button
           className="absolute -left-2 top-1/2 z-10 -translate-y-1/2 rounded-full bg-black bg-opacity-70 p-3 text-white transition hover:scale-110 hover:bg-opacity-90 md:left-5"
           onClick={scrollPrev}
@@ -425,7 +442,7 @@ const GamesCarousel: React.FC<GameCarouselProps> = ({
         </button>
       )}
 
-      {filteredItems.length > 3 && (
+      {emblaApi?.canScrollNext() && (
         <button
           className="absolute -right-2 top-1/2 z-10 -translate-y-1/2 rounded-full bg-black bg-opacity-70 p-3 text-white transition hover:scale-110 hover:bg-opacity-90 md:right-5"
           onClick={scrollNext}

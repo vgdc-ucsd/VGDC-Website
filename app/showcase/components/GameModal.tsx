@@ -121,11 +121,11 @@ const GameModal: React.FC<GameModalProps> = ({
 
                           {/* Badges under the title */}
                           <div className="flex flex-wrap gap-2">
-                            <span
+                            {/* <span
                               className={`rounded-full px-3 py-1 text-xs font-medium text-white ${getThemeColor(game.theme)}`}
                             >
                               {game.theme || "General"}
-                            </span>
+                            </span> */}
                             <span className="rounded-full bg-gray-700 px-3 py-1 text-xs font-medium text-white">
                               {getStatusText(game.status)}
                             </span>
@@ -138,7 +138,7 @@ const GameModal: React.FC<GameModalProps> = ({
                         </div>
 
                         {/* Approval Seal moved to the right, centered vertically */}
-                        {game.approved && (
+                        {/* {game.approved && (
                           <div className="ml-4 h-12 w-12 flex-shrink-0 sm:h-14 sm:w-14">
                             <svg
                               viewBox="0 0 100 100"
@@ -192,7 +192,7 @@ const GameModal: React.FC<GameModalProps> = ({
                               </text>
                             </svg>
                           </div>
-                        )}
+                        )} */}
                       </div>
                     </div>
                   </div>

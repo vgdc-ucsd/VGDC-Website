@@ -51,6 +51,97 @@
       "theme": "purple",
       "approved": true,
       "web": true
+    },
+    {
+      "title": "Cloudburst",
+      "released": "4/30/2024",
+      "difficulty": 3,
+      "description": "2D 2 player side-scroller wave survival game.",
+      "credits": "Aslan Chan, Jonathan Renteria, Tiffany Phan, Jolina Leong",
+      "link": "https://aslanchan.itch.io/cloudburst",
+      "status": true,
+      "image": "https://i.imgur.com/vI3Dh9M.png",
+      "theme": "blue",
+      "approved": false,
+      "web": true
+    },
+    {
+      "title": "Sky Limit",
+      "released": "1/31/2023",
+      "difficulty": 2,
+      "description": "This was originally a game jam game with 3 hours put into it, 4 more hours were put in with the help of design oriented to make the game substantially more fun.",
+      "credits": "Creikey",
+      "link": "https://creikey.itch.io/skylimit",
+      "status": true,
+      "image": "https://i.imgur.com/7JA5Khr.png",
+      "theme": "blue",
+      "approved": false,
+      "web": true
+    },
+    {
+      "title": "Patrick's Parabox",
+      "released": "3/22/2022",
+      "difficulty": 2,
+      "description": "Patrick's Parabox is an award-winning puzzle game about playing with recursion and infinities by pushing boxes into and out of each other.",
+      "credits": "Patrick Traynor",
+      "link": "https://www.patricksparabox.com/",
+      "status": true,
+      "image": "https://i.imgur.com/GfNX0ak.jpeg",
+      "theme": "purple",
+      "approved": true,
+      "web": false
+    },
+    {
+      "title": "Tethered Spirit",
+      "released": "10/22/2024",
+      "difficulty": 3,
+      "description": "Tethered Spirit is a fantasy escape room puzzle game made for the UCSD TritonWare Game Jam 2024.",
+      "credits": "Caylin Canoy, Eugene Lee, Nick Mitroff, Grace Ortiz, Ethan Schwartzman, Nathan Scott, Tamika Hsieh",
+      "link": "https://valius95.itch.io/tethered-spirit",
+      "status": true,
+      "image": "https://img.itch.zone/aW1hZ2UvMzA1MzI3Mi8xODI3OTAwMi5wbmc=/original/YlgPin.png",
+      "theme": "blue",
+      "approved": false,
+      "web": true
+    },
+    {
+      "title": "Clovenward",
+      "released": "10/22/2024",
+      "difficulty": 3,
+      "description": "Stealth-based single player game focused on evading vampires and escaping a warehouse!",
+      "credits": "Owen Atis, Aldrin Llagan, Alexia Doan, Minothory, Maia Macahilig",
+      "link": "https://minothory.itch.io/clovenward",
+      "status": true,
+      "image": "https://i.imgur.com/PFrKFFl.png",
+      "theme": "red",
+      "approved": false,
+      "web": true
+    },
+    {
+      "title": "Ground Control",
+      "released": "5/1/2024",
+      "difficulty": 2,
+      "description": "You're the ground staff for the latest space mission, but there are unknown forces causing technical issues! Solve puzzles to help your astronauts come home safely",
+      "credits": "Olivia Tsui, Allison Kim, Aayush Motiani, Ilia Aballa, Katie Hanako, Arihant Jain, Chris Kreins",
+      "link": "https://ikeeah.itch.io/ground-control",
+      "status": true,
+      "image": "https://i.imgur.com/Q665iz3.png",
+      "theme": "blue",
+      "approved": false,
+      "web": true
+    },
+    {
+      "title": "Overtime",
+      "released": "10/22/2024",
+      "difficulty": 3,
+      "description": "Get rid of the viruses to avoid overtime",
+      "credits": "Maya Adenihun, Isabela Sanjume, Yoomee Ho, Bowen (Bee) Bothello, Neo, George Minasyan",
+      "link": "https://stickle.itch.io/overtime",
+      "status": true,
+      "image": "https://i.imgur.com/H7JKT4R.png",
+      "theme": "blue",
+      "approved": false,
+      "web": true
     }
   ]
 }

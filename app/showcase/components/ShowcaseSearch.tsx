@@ -130,7 +130,7 @@ export default function ShowcaseCarousel({ data }: { data: ShowcaseData }) {
   return (
     <div className="w-full">
       {/* Search and Filter Bar */}
-      <div className="mb-6 px-4 max-w-3xl mx-auto md:px-12">
+      <div className="mx-auto mb-6 max-w-3xl px-4 md:px-12">
         <div className="mb-3 flex flex-col gap-3 sm:flex-row">
           <div className="relative flex-grow">
             <input
@@ -157,7 +157,7 @@ export default function ShowcaseCarousel({ data }: { data: ShowcaseData }) {
 
         {/* Filter Options */}
         {showFilters && (
-          <div className="animate-fadeIn grid grid-cols-1 gap-4 rounded-lg border border-background-grey bg-background-black p-4 sm:grid-cols-2 md:grid-cols-4">
+          <div className="animate-fadeIn grid grid-cols-1 gap-4 rounded-lg border border-background-grey bg-background-black p-4 sm:grid-cols-2 md:grid-cols-3">
             {/* Status Filter */}
             <div>
               <label className="mb-1 block text-sm font-medium text-gray-300">
@@ -171,7 +171,7 @@ export default function ShowcaseCarousel({ data }: { data: ShowcaseData }) {
                   e.target.blur()
                 }}
               >
-                <option value="all">All Statuses</option>
+                <option value="all">Any</option>
                 <option value="true">Released</option>
                 <option value="false">In Development</option>
               </select>
@@ -190,7 +190,7 @@ export default function ShowcaseCarousel({ data }: { data: ShowcaseData }) {
                   e.target.blur()
                 }}
               >
-                <option value="all">All Platforms</option>
+                <option value="all">Any</option>
                 <option value="true">Web Available</option>
                 <option value="false">Not On Web</option>
               </select>
@@ -209,16 +209,16 @@ export default function ShowcaseCarousel({ data }: { data: ShowcaseData }) {
                   e.target.blur()
                 }}
               >
-                {getYears().map((year) => (
+                {getYears().map((year: string) => (
                   <option key={year} value={year}>
-                    {year === "all" ? "All Years" : year}
+                    {year === "all" ? "Any" : year}
                   </option>
                 ))}
               </select>
             </div>
 
             {/* Approved Filter */}
-            <div>
+            {/* <div>
               <label className="mb-1 block text-sm font-medium text-gray-300">
                 Approval Status
               </label>
@@ -230,11 +230,11 @@ export default function ShowcaseCarousel({ data }: { data: ShowcaseData }) {
                   e.target.blur()
                 }}
               >
-                <option value="all">All Games</option>
+                <option value="all">Any</option>
                 <option value="true">Approved</option>
                 <option value="false">Pending</option>
               </select>
-            </div>
+            </div> */}
           </div>
         )}
       </div>
@@ -244,9 +244,9 @@ export default function ShowcaseCarousel({ data }: { data: ShowcaseData }) {
         <p className="text-sm text-gray-400">
           {`Showing ${filteredItems.length} of ${data.showcase?.length || 0} games`}
         </p>
-        <p className="text-sm text-gray-500">
+        {/* <p className="text-sm text-gray-500">
           {`← Enter →`}
-        </p>
+        </p> */}
       </div>
 
       {/* Embla Carousel */}
