@@ -18,6 +18,17 @@ const PARALLAX_FACTOR = 2.0
 const numberWithinRange = (number: number, min: number, max: number): number =>
   Math.min(Math.max(number, min), max)
 
+const loopDistance = (num1: number, num2: number, length: number): number => {
+  let leftDistance = (num1 + length - num2) % length
+  let rightDistance = (num2 + length - num1) % length
+
+  if (leftDistance < rightDistance) {
+    return -leftDistance
+  } else {
+    return rightDistance
+  }
+}
+
 type GameCarouselProps = {
   filteredItems: ShowcaseItem[]
   currentIndex: number
@@ -32,7 +43,7 @@ const GamesCarousel: React.FC<GameCarouselProps> = ({
   setShowModal,
 }) => {
   // Options for Embla Carousel - loop enabled and center alignment
-  const options: EmblaOptionsType = { loop: true }
+  const options: EmblaOptionsType = { loop: true, align: "start" }
   const [emblaRef, emblaApi] = useEmblaCarousel(options)
 
   // Refs for effects
@@ -46,16 +57,16 @@ const GamesCarousel: React.FC<GameCarouselProps> = ({
 
   // Setup for tween scaling effect
   const setTweenNodes = useCallback((emblaApi: EmblaCarouselType): void => {
-    // tweenNodes.current = emblaApi.slideNodes().map((slideNode) => {
-    //   return slideNode.querySelector(".game-card") as HTMLElement
-    // })
+    tweenNodes.current = emblaApi.slideNodes().map((slideNode) => {
+      return slideNode.querySelector(".game-card") as HTMLElement
+    })
   }, [])
 
   // Setup for parallax effect
   const setParallaxNodes = useCallback((emblaApi: EmblaCarouselType): void => {
-    // parallaxNodes.current = emblaApi.slideNodes().map((slideNode) => {
-    //   return slideNode.querySelector(".parallax-layer") as HTMLElement
-    // })
+    parallaxNodes.current = emblaApi.slideNodes().map((slideNode) => {
+      return slideNode.querySelector(".parallax-layer") as HTMLElement
+    })
   }, [])
 
   // Tween scaling effect implementation
@@ -66,51 +77,34 @@ const GamesCarousel: React.FC<GameCarouselProps> = ({
       let slidesInView = emblaApi.slidesInView()
       const isScrollEvent = eventName === "scroll"
 
-      // if (filteredItems.length == 4) {
-      //   scrollProgress /= 3
-      //   scrollProgress += 1 / 3
-      // } else if (filteredItems.length < 4) {
-      //   console.log(scrollProgress)
-      // }
+      const emblaIndex = emblaApi.selectedScrollSnap()
 
-      // console.log(scrollProgress, slidesInView)
+      emblaApi.slideNodes().forEach((slide, index) => {
+        const slideDistance = loopDistance(
+          emblaIndex + 1,
+          index,
+          filteredItems.length
+        )
 
-      emblaApi.scrollSnapList().forEach((scrollSnap, snapIndex) => {
-        const realIndex = filteredItems.length <= 4 ? snapIndex + 1 : snapIndex
-        let diffToTarget = scrollSnap - scrollProgress
-        const slidesInSnap = engine.slideRegistry[snapIndex]
+        let tweenValue = 1
 
-        slidesInSnap.forEach((slideIndex) => {
-          if (isScrollEvent && !slidesInView.includes(slideIndex)) return
+        if (slideDistance == 0) {
+          tweenValue = 1
+        } else if (Math.abs(slideDistance) == 1) {
+          tweenValue = 0.95
+        } else {
+          tweenValue = 0.8
+        }
 
-          if (engine.options.loop) {
-            engine.slideLooper.loopPoints.forEach((loopItem) => {
-              const target = loopItem.target()
+        const scale = numberWithinRange(tweenValue, 0.8, 1).toString()
+        const tweenNode = tweenNodes.current[index]
+        if (tweenNode) {
+          tweenNode.style.transform = `scale(${scale})`
 
-              if (slideIndex === loopItem.index && target !== 0) {
-                const sign = Math.sign(target)
-
-                if (sign === -1) {
-                  diffToTarget = scrollSnap - (1 + scrollProgress)
-                }
-                if (sign === 1) {
-                  diffToTarget = scrollSnap + (1 - scrollProgress)
-                }
-              }
-            })
-          }
-
-          const tweenValue = 1 - Math.abs(diffToTarget * tweenFactor.current)
-          const scale = numberWithinRange(tweenValue, 0.8, 1).toString()
-          const tweenNode = tweenNodes.current[realIndex]
-          if (tweenNode) {
-            tweenNode.style.transform = `scale(${scale})`
-
-            // Adjust opacity based on scale to further emphasize the center card
-            const opacity = numberWithinRange(tweenValue, 0.6, 1).toString()
-            tweenNode.style.opacity = opacity
-          }
-        })
+          // Adjust opacity based on scale to further emphasize the center card
+          const opacity = numberWithinRange(tweenValue, 0.6, 1).toString()
+          // tweenNode.style.opacity = opacity
+        }
       })
     },
     [filteredItems]
@@ -124,37 +118,24 @@ const GamesCarousel: React.FC<GameCarouselProps> = ({
       const slidesInView = emblaApi.slidesInView()
       const isScrollEvent = eventName === "scroll"
 
-      emblaApi.scrollSnapList().forEach((scrollSnap, snapIndex) => {
-        let diffToTarget = scrollSnap - scrollProgress
-        const slidesInSnap = engine.slideRegistry[snapIndex]
+      const emblaIndex = emblaApi.selectedScrollSnap()
 
-        slidesInSnap.forEach((slideIndex) => {
-          if (isScrollEvent && !slidesInView.includes(slideIndex)) return
+      emblaApi.slideNodes().forEach((slide, index) => {
+        const slideDistance = loopDistance(
+          emblaIndex + 1,
+          index,
+          filteredItems.length
+        )
 
-          if (engine.options.loop) {
-            engine.slideLooper.loopPoints.forEach((loopItem) => {
-              const target = loopItem.target()
+        console.log(slideDistance)
 
-              if (slideIndex === loopItem.index && target !== 0) {
-                const sign = Math.sign(target)
+        let translate = slideDistance * 20
 
-                if (sign === -1) {
-                  diffToTarget = scrollSnap - (1 + scrollProgress)
-                }
-                if (sign === 1) {
-                  diffToTarget = scrollSnap + (1 - scrollProgress)
-                }
-              }
-            })
-          }
-
-          // Apply parallax effect to image
-          const translate = diffToTarget * (-1 * PARALLAX_FACTOR) * 100
-          const parallaxNode = parallaxNodes.current[slideIndex]
-          if (parallaxNode) {
-            // parallaxNode.style.transform = `translateX(${translate}%)`
-          }
-        })
+        // Apply parallax effect to image
+        const parallaxNode = parallaxNodes.current[index]
+        if (parallaxNode) {
+          parallaxNode.style.transform = `translateX(${translate}%)`
+        }
       })
     },
     []
@@ -184,9 +165,9 @@ const GamesCarousel: React.FC<GameCarouselProps> = ({
     // setNextBtnDisabled(false)
 
     // Apply effects on selection
-    // tweenScale(emblaApi)
-    // parallaxEffect(emblaApi)
-  }, [emblaApi, setCurrentIndex /*, tweenScale, parallaxEffect*/])
+    tweenScale(emblaApi, "scroll")
+    parallaxEffect(emblaApi)
+  }, [])
 
   const scrollTo = useCallback(
     (index: number) => {
@@ -200,43 +181,44 @@ const GamesCarousel: React.FC<GameCarouselProps> = ({
     if (!emblaApi) return
 
     // Setup nodes for effects
-    // setTweenNodes(emblaApi)
-    // setParallaxNodes(emblaApi)
+    setTweenNodes(emblaApi)
+    setParallaxNodes(emblaApi)
 
     // Initial effects
-    // tweenScale(emblaApi)
-    // parallaxEffect(emblaApi)
+    tweenScale(emblaApi)
+    parallaxEffect(emblaApi)
 
     // Setup event listeners
-    emblaApi.on("select", onSelect)
-    // .on("reInit", setTweenNodes)
-    // .on("reInit", setParallaxNodes)
-    // .on("reInit", tweenScale)
-    // .on("reInit", parallaxEffect)
-    // .on("scroll", () => {
-    //   tweenScale(emblaApi, "scroll")
-    //   parallaxEffect(emblaApi, "scroll")
-    // })
-    // .on("slideFocus", () => {
-    //   tweenScale(emblaApi)
-    //   parallaxEffect(emblaApi)
-    // })
-
-    // onSelect()
+    emblaApi
+      .on("select", onSelect)
+      .on("reInit", setTweenNodes)
+      .on("reInit", setParallaxNodes)
+      .on("reInit", tweenScale)
+      .on("reInit", parallaxEffect)
+      .on("scroll", () => {
+        tweenScale(emblaApi, "scroll")
+        parallaxEffect(emblaApi, "scroll")
+      })
+      .on("slideFocus", () => {
+        tweenScale(emblaApi)
+        parallaxEffect(emblaApi)
+      })
 
     return () => {
-      emblaApi.off("select", onSelect).off("reInit", setTweenNodes)
-      // .off("reInit", setParallaxNodes)
-      // .off("reInit", tweenScale)
-      // .off("reInit", parallaxEffect)
-      // .off("scroll", () => {
-      //   tweenScale(emblaApi, "scroll")
-      //   parallaxEffect(emblaApi, "scroll")
-      // })
-      // .off("slideFocus", () => {
-      //   tweenScale(emblaApi)
-      //   parallaxEffect(emblaApi)
-      // })
+      emblaApi
+        .off("select", onSelect)
+        .off("reInit", setTweenNodes)
+        .off("reInit", setParallaxNodes)
+        .off("reInit", tweenScale)
+        .off("reInit", parallaxEffect)
+        .off("scroll", () => {
+          tweenScale(emblaApi, "scroll")
+          parallaxEffect(emblaApi, "scroll")
+        })
+        .off("slideFocus", () => {
+          tweenScale(emblaApi)
+          parallaxEffect(emblaApi)
+        })
     }
   }, [
     emblaApi,
@@ -309,7 +291,7 @@ const GamesCarousel: React.FC<GameCarouselProps> = ({
             >
               {/* Game Card */}
               <div
-                className="game-card relative h-96 w-full cursor-pointer overflow-hidden rounded-lg border-4 border-light-grey border-opacity-20 bg-gradient-to-b from-gray-800 to-gray-900 shadow-lg transition-all will-change-transform"
+                className="game-card relative h-96 w-full cursor-pointer overflow-hidden rounded-lg border-4 border-light-grey border-opacity-20 bg-gradient-to-b from-gray-800 to-gray-900 shadow-lg transition-all duration-1000 will-change-transform"
                 onClick={() => {
                   // Update the current index first, then show the modal
                   setCurrentIndex(index)
@@ -323,7 +305,7 @@ const GamesCarousel: React.FC<GameCarouselProps> = ({
                     <div className="h-full w-full overflow-hidden">
                       {/* Parallax container */}
                       <div
-                        className="parallax-layer relative h-full w-full"
+                        className="parallax-layer relative h-full w-full transition-all duration-1000 ease-in-out"
                         style={{ transform: "translateX(0%)" }}
                       >
                         <div
