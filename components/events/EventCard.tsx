@@ -15,6 +15,9 @@ export default function Event({
   slug,
 }: any) {
   return (
+    <motion.div
+      whileHover={{ filter: "brightness(0.8)" }}
+    >
     <Link href={`./events/${slug}`}>
       <motion.div
         initial={{ opacity: 0, translateY: 100 }}
@@ -38,23 +41,21 @@ export default function Event({
               </h4>
             </div>
             <p className="hidden w-full text-sm text-text-grey sm:block md:hidden">
-              {truncate(removeMd(description), 100, true)}
+              {truncate(removeMd(description), 260, true)}
             </p>
             <p className="w-full text-sm text-text-grey sm:hidden md:block lg:bottom-5 lg:w-[440px] lg:leading-6">
-              {truncate(removeMd(description), 180, true)}
+              {truncate(removeMd(description), 320, true)}
             </p>
             <h4 className="invisible absolute right-2 text-right font-semibold text-text-grey lg:visible lg:top-2">
               {date}
               <br />
               {time}
             </h4>
-              <button className="bottom-0 right-0 mt-4 h-10 w-28 rounded-lg bg-background-grey text-sm text-text-white transition-colors  sm:right-auto md:bottom-2">
-                Event Details
-              </button>
           </div>
         
       </motion.div>
     </Link>
+    </motion.div>
   )
 }
 
