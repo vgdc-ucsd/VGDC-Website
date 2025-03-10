@@ -18,9 +18,9 @@ VGDC needed to fill the positions of President, Projects Director, and Treasurer
 
 It wouldn't be a quarter of VGDC without our events and workshops. We kicked off the new year with our Winter GBM, where we discussed our club and gave people a sneak peek at events we had coming up. 
 
-![image](/images/blogs/Winter-Quarter-25-Recap/WinterGBM1.jpg)
+![image](/images/blogs/Winter-Quarter-25-Recap/WinterGBM1.JPG)
 
-![image](/images/blogs/Winter-Quarter-25-Recap/WinterGBM2.jpg)
+![image](/images/blogs/Winter-Quarter-25-Recap/WinterGBM2.JPG)
   
 _Some photos from Winter GBM. Photos by Kevin ([@qiwenkevin](https://www.instagram.com/qiwenkevin) on Instagram)_
 
@@ -78,6 +78,6 @@ _Flyers from events mentioned. EOQ Social illustration & design by Olivia, with 
 
 ## What's Next? + Quarterly Goodbyes 
 
-In terms of game development projects, work on Mariposa is set to continue past the demo we showed off at our EOQ social throughout the spring quarter. Next quarter, we're also set to host TritonWare, our two-week game jam, open to people of any experience, including beginners! Check out some games made during it [here](https://docs.google.com/spreadsheets/d/1iZJJy-IDo0ivGX6r1TRcYeRWZvtlOpya_uvD-HblG1I/edit?gid=1693143655#gid=1693143655).   
+In terms of game development projects, work on Mariposa is set to continue past the demo we showed off at our EOQ social throughout the spring quarter. Next quarter, we're also set to host one of our game jams, open to people of any experience, including beginners! Check out some games made during it [here](https://docs.google.com/spreadsheets/d/1iZJJy-IDo0ivGX6r1TRcYeRWZvtlOpya_uvD-HblG1I/edit?gid=1693143655#gid=1693143655).   
 
 I'd like to acknowledge Breanna, Jess, and Olivia for their edits and suggestions to this post. Keep an eye out for more information on our Spring events towards the start of next quarter! Thanks to everyone reading and anyone who attended any of our events this quarter. It means the world to us. See you all in spring!
