@@ -2,12 +2,12 @@
 
 import { useState, useEffect } from "react"
 import { Search, Filter } from "lucide-react"
-import { ShowcaseData } from "@/lib/showcase"
+import { ShowcaseGamesDetails } from "@/lib/showcase_games"
 import GamesCarousel from "./GamesCarousel"
 import GameModal from "./GameModal"
 
-export default function ShowcaseCarousel({ data }: { data: ShowcaseData }) {
-  const [filteredItems, setFilteredItems] = useState(data.showcase || [])
+export default function ShowcaseCarousel({ data }: { data: ShowcaseGamesDetails[] }) {
+  const [filteredItems, setFilteredItems] = useState(data || [])
   const [currentIndex, setCurrentIndex] = useState(0)
   const [searchTerm, setSearchTerm] = useState("")
   const [showModal, setShowModal] = useState(false)
@@ -21,9 +21,9 @@ export default function ShowcaseCarousel({ data }: { data: ShowcaseData }) {
 
   // Filters and search
   useEffect(() => {
-    if (!data?.showcase?.length) return
+    if (!data?.length) return
 
-    let result = [...data.showcase]
+    let result = [...data]
 
     // Search
     if (searchTerm) {
@@ -51,16 +51,16 @@ export default function ShowcaseCarousel({ data }: { data: ShowcaseData }) {
 
     if (filters.approved !== "all") {
       result = result.filter(
-        (item) => item.approved === (filters.approved === "true")
+        (item) => item.vgdcApproved === (filters.approved === "true")
       )
     }
 
     if (filters.year !== "all") {
       result = result.filter((item) => {
-        if (item.released === "TBD") return filters.year === "TBD"
+        if (item.releaseDate === "TBD") return filters.year === "TBD"
         try {
           return (
-            new Date(item.released).getFullYear().toString() === filters.year
+            new Date(item.releaseDate).getFullYear().toString() === filters.year
           )
         } catch (e) {
           return false
@@ -73,7 +73,7 @@ export default function ShowcaseCarousel({ data }: { data: ShowcaseData }) {
       setCurrentIndex(0)
       setShowModal(false)
     }
-  }, [searchTerm, filters, data?.showcase])
+  }, [searchTerm, filters, data])
 
   // Handle Escape key for the modal
   useEffect(() => {
@@ -110,14 +110,14 @@ export default function ShowcaseCarousel({ data }: { data: ShowcaseData }) {
 
   const getYears = () => {
     const years = new Set<string>()
-    if (!data?.showcase) return ["all"]
+    if (!data) return ["all"]
 
-    data.showcase.forEach((item) => {
-      if (item.released === "TBD") {
+    data.forEach((item) => {
+      if (item.releaseDate === "TBD") {
         years.add("TBD")
       } else {
         try {
-          const year = new Date(item.released).getFullYear().toString()
+          const year = new Date(item.releaseDate).getFullYear().toString()
           if (!isNaN(Number(year))) years.add(year)
         } catch (e) {}
       }
@@ -242,7 +242,7 @@ export default function ShowcaseCarousel({ data }: { data: ShowcaseData }) {
       {/* Results Count */}
       <div className="mb-3 text-center">
         <p className="text-sm text-gray-400">
-          {`Showing ${filteredItems.length} of ${data.showcase?.length || 0} games`}
+          {`Showing ${filteredItems.length} of ${data.length || 0} games`}
         </p>
         {/* <p className="text-sm text-gray-500">
           {`← Enter →`}

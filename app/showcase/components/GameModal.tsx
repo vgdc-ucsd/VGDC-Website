@@ -1,12 +1,12 @@
 "use client"
 
 import React, { useEffect, useRef } from "react"
-import { ShowcaseItem } from "@/lib/showcase"
+import { ShowcaseGamesDetails } from "@/lib/showcase_games"
 import Image from "next/image"
 import { X, ExternalLink, Calendar, Users, Code } from "lucide-react"
 
 type GameModalProps = {
-  game: ShowcaseItem
+  game: ShowcaseGamesDetails
   onClose: () => void
   getStatusText: (status: boolean | number) => string
   getThemeColor: (theme: string) => string
@@ -213,7 +213,7 @@ const GameModal: React.FC<GameModalProps> = ({
                 <Calendar className="flex-shrink-0 text-gray-400" size={20} />
                 <div>
                   <p className="text-sm font-medium text-gray-400">Released</p>
-                  <p className="text-white">{game.released}</p>
+                  <p className="text-white">{game.releaseDate}</p>
                 </div>
               </div>
 
