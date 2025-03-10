@@ -42,7 +42,13 @@ _From left to right: Alex Ferbrache, Patrick Traynor, Stephen Trinh, and Alex Ha
 
 _Photos by Kevin._
 	
-Our End of Quarter Equinox Social just happened one week ago today! It was a ton of fun; we served loads of free food and handed out raffle tickets, doing about three waves of Pokemon card giveaways throughout the night for a total of nine packs. Boy did that get people's attention! We also showed off a live demo of Mariposa and had the project leads give a few words. 
+Our End of Quarter Equinox Social just happened one week ago today! It was a ton of fun; we served loads of free food and handed out raffle tickets, doing about three waves of Pokemon card giveaways throughout the night for a total of nine packs. Boy did that get people's attention! We also showed off a live demo of Mariposa and had the project leads give a few words.
+
+![image](/images/blogs/Winter-Quarter-25-Recap/EOQSocial1.JPG)
+
+![image](/images/blogs/Winter-Quarter-25-Recap/EOQSocial2.JPG)
+
+_Photos by Kevin._
 
 ![image](/images/blogs/Winter-Quarter-25-Recap/EOQSocialSpirigatito.png)
 
