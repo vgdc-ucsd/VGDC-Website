@@ -8,7 +8,7 @@ import { X, ExternalLink, Calendar, Users, Code } from "lucide-react"
 type GameModalProps = {
   game: ShowcaseGamesDetails
   onClose: () => void
-  getStatusText: (status: boolean | number) => string
+  getStatusText: (status: boolean) => string
   getThemeColor: (theme: string) => string
 }
 

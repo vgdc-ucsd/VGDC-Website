@@ -21,7 +21,7 @@ export default function ShowcaseCarousel({ data }: { data: ShowcaseGamesDetails[
 
   // Filters and search
   useEffect(() => {
-    if (!data?.length) return
+    if (!data.length) return
 
     let result = [...data]
 
@@ -40,8 +40,7 @@ export default function ShowcaseCarousel({ data }: { data: ShowcaseGamesDetails[
     if (filters.status !== "all") {
       const statusValue = filters.status === "true" ? true : false
       result = result.filter((item) => {
-        if (typeof item.status === "boolean") return item.status === statusValue
-        return filters.status === "true" ? item.status === 1 : item.status === 0
+        return item.status === statusValue
       })
     }
 
@@ -88,14 +87,9 @@ export default function ShowcaseCarousel({ data }: { data: ShowcaseGamesDetails[
   }, [showModal])
 
   // Helper functions
-  const getStatusText = (status: boolean | number) =>
-    typeof status === "boolean"
-      ? status
-        ? "Released"
-        : "In Development"
-      : status === 1
-        ? "Released"
-        : "In Development"
+  const getStatusText = (status: boolean) => {
+    return status ? "Released" : "In Development";
+  }
 
   const getThemeColor = (theme: string) => {
     const colors: Record<string, string> = {
