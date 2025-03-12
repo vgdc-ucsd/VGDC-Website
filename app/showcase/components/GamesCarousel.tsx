@@ -288,7 +288,7 @@ const GamesCarousel: React.FC<GameCarouselProps> = ({
   }
 
   // Get status text helper
-  const getStatusText = (status: boolean | number) => {
+  const getStatusText = (status: boolean) => {
     return status ? "Released" : "In Development"
   }
 
