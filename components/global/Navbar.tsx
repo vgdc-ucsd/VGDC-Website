@@ -111,6 +111,9 @@ export default function Navbar({ offsetSpace = true, hideOnScroll = true }) {
                   <Button variant="link" className={getStyle("/events")}>
                     <Link href="/events">Events</Link>
                   </Button>
+                  <Button variant="link" className={getStyle("/showcase")}>
+                    <Link href="/showcase">Games</Link>
+                  </Button>
                   <Button variant="link" className={getStyle("/news")}>
                     <Link href="/news">News</Link>
                   </Button>

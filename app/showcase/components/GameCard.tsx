@@ -1,14 +1,14 @@
 "use client"
 
 import React from 'react'
-import { ShowcaseItem } from '@/lib/showcase'
+import { ShowcaseGamesDetails } from '@/lib/showcase_games'
 import Image from 'next/image'
 import { ExternalLink } from 'lucide-react'
 
 type GameCardProps = {
-  game: ShowcaseItem
+  game: ShowcaseGamesDetails
   onClick: () => void
-  getStatusText: (status: boolean | number) => string
+  getStatusText: (status: boolean) => string
 }
 
 const GameCard: React.FC<GameCardProps> = ({ game, onClick, getStatusText }) => {

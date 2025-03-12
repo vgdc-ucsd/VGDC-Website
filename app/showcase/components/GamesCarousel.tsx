@@ -7,7 +7,7 @@ import {
   EmblaEventType,
   EmblaOptionsType,
 } from "embla-carousel"
-import { ShowcaseItem } from "@/lib/showcase"
+import { ShowcaseGamesDetails } from "@/lib/showcase_games"
 import { ChevronLeft, ChevronRight } from "lucide-react"
 
 // Constants for effects
@@ -19,7 +19,7 @@ const numberWithinRange = (number: number, min: number, max: number): number =>
   Math.min(Math.max(number, min), max)
 
 type GameCarouselProps = {
-  filteredItems: ShowcaseItem[]
+  filteredItems: ShowcaseGamesDetails[]
   currentIndex: number
   setCurrentIndex: (index: number) => void
   setShowModal: (show: boolean) => void
@@ -288,14 +288,9 @@ const GamesCarousel: React.FC<GameCarouselProps> = ({
   }
 
   // Get status text helper
-  const getStatusText = (status: boolean | number) =>
-    typeof status === "boolean"
-      ? status
-        ? "Released"
-        : "In Development"
-      : status === 1
-        ? "Released"
-        : "In Development"
+  const getStatusText = (status: boolean) => {
+    return status ? "Released" : "In Development"
+  }
 
   return (
     <div className="relative px-4 md:px-12">
