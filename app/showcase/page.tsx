@@ -1,10 +1,12 @@
 import Navbar from "@/components/global/Navbar"
 import Footer from "@/components/global/Footer"
-import { getShowcaseData } from "@/lib/showcase"
+import { getShowcaseGames } from "@/lib/showcase_games"
 import ShowcaseSearch from "./components/ShowcaseSearch"
 
+export const revalidate = 60;
+
 export default async function Showcase() {
-  const showcaseData = await getShowcaseData()
+  const showcaseData = await getShowcaseGames()
 
   return (
     <main className="min-h-screen bg-background-black">
