@@ -10,19 +10,19 @@ Welcome back everyone, happy spring quarter! We hope your break was as fun as it
 
 ## Game Development Projects
 
-We're starting the quarter's game development projects with our Tritonware Kickoff, taking place on April 4th! It'll mark the official start of Tritonware, our two week long game jam. The event itself will be a chance for everyone participating to meet one another, allowing participants to form teams and get started on brainstorming for their game right away. Keep an eye on the announcements channel in our Discord for more information soon! 
+We're starting the quarter's game development projects with our TritonWare Kickoff, taking place on April 4th! It'll mark the official start of TritonWare, our two week long game jam. The event itself will be a chance for everyone participating to meet one another, allowing participants to form teams and get started on brainstorming for their game right away. Keep an eye on the announcements channel in our Discord for more information soon! 
 
 If you want to be involved with a long term project, we're picking up where we left off with TCP on April 25th! Work is set to continue on the remaining stages from week 4 onwards, so whether you're a veteran or new to the project, come by the event to learn about the Projects Committee's plan for it this quarter! If you're unfamiliar with TCP, we recommend reading [this](https://www.vgdc.dev/news/Making-Mariposa) blog post. 
 
 We're eager to get started, but we also realize that the idea of diving into projects like these can feel like a big step. Luckily, we have some workshops planned to help you prepare!
 
-## Workshops 
+## Workshops & Tutorials
 
-First up on April 3rd is our Introduction to Programming Workshop, hosted by our two programming leads, Jonathan and Ethan! We'll be going over programming in the context of video game development, so this is especially good for anyone looking to get started with game development. This is scheduled one day before the Tritonware Kickoff, so we encourage stopping by if you're planning on participating. 
+In case you're using Unity, we'll be uploading a set of tutorials to our YouTube channel going over some key steps to kickstart your Tritonware Project! They're being taught by Ethan, one of our current Programming leads. These are especially good for anyone just getting started. They're being uploaded a few days before TritonWare, so we encourage watching these videos if you're planning on participating. 
 
 Following closely is our Writing Workshop on April 8th, spearheaded by Jess, our Writing Lead! We'll be talking about how to write dialogue for NPCs alongside a quick crash course in writing screenplays - this is a particularly good workshop for anyone currently a part of or interested in joining TCP's writing team! 
 
-Further into the month, we'll be collaborating with our friends at Artspark to host a Character Design Workshop, led by Chanel and Kaylee of Artspark! Drop in on April 29th to learn the process of designing a character, open to anyone of any skill level! Having visually memorable characters can go a long way in helping your game stand out, so attending this workshop could really benefit you in the long term.  
+Further into the month, we'll be collaborating with our friends at ArtSpark to host a Character Design Workshop, led by Chanel and Kaylee of ArtSpark! Drop in on April 29th to learn the process of designing a character, open to anyone of any skill level! Having visually memorable characters can go a long way in helping your game stand out, so attending this workshop could really benefit you in the long term.  
 
 ## Social Events
 
