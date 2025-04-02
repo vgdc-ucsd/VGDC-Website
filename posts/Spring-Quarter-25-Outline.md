@@ -18,7 +18,7 @@ We're eager to get started, but we also realize that the idea of diving into pro
 
 ## Workshops & Tutorials
 
-In case you're using Unity, we'll be uploading a set of tutorials to our YouTube channel going over some key steps to kickstart your Tritonware Project! They're being taught by Ethan, one of our current Programming leads. These are especially good for anyone just getting started. They're being uploaded a few days before TritonWare, so we encourage watching these videos if you're planning on participating. 
+In case you're using Unity, we'll be uploading a set of tutorials to our YouTube channel going over some key steps to kickstart your TritonWare Project! They're being taught by Ethan, one of our current Programming leads. These are especially good for anyone just getting started. They're being uploaded a few days before TritonWare, so we encourage watching these videos if you're planning on participating. 
 
 Following closely is our Writing Workshop on April 8th, spearheaded by Jess, our Writing Lead! We'll be talking about how to write dialogue for NPCs alongside a quick crash course in writing screenplays - this is a particularly good workshop for anyone currently a part of or interested in joining TCP's writing team! 
 
