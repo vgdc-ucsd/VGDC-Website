@@ -47,7 +47,7 @@ export default function About() {
         </div>
 
         <span className="align-center mt-4 flex w-56 flex-row justify-between">
-          <a href="https://www.instagram.com/vgdc.ucsd/" target="_blank">
+          <a href="https://www.instagram.com/vgdc.at.ucsd/" target="_blank">
             <FaInstagram className={socialLinkStyle} size={32} />
           </a>
           <a href="https://bit.ly/VGDCUCSD" target="_blank">

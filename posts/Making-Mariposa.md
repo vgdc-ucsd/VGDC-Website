@@ -12,7 +12,7 @@ Now that introductions are out of the way, I’d like to present you with this w
 
 ## What is TCP / Mariposa?
 
-Short for the Chanel Project, TCP is our long term community game development project open to all enrolled UC San Diego students. It all starts with a pitch submission from which a handful are chosen to be presented at our Pitch Showcase. From there, it is up to those in attendance to vote on the pitch they found most interesting and would personally love to work on the most. For more information on the last TCP season, you can click [here](https://www.instagram.com/vgdc.ucsd/reel/DE0ZLwiyzUl/).
+Short for the Chanel Project, TCP is our long term community game development project open to all enrolled UC San Diego students. It all starts with a pitch submission from which a handful are chosen to be presented at our Pitch Showcase. From there, it is up to those in attendance to vote on the pitch they found most interesting and would personally love to work on the most. For more information on the last TCP season, you can click [here](https://www.instagram.com/vgdc.at.ucsd/reel/DE0ZLwiyzUl/).
 
 Mariposa is the second iteration of this project, a 2D puzzle platformer that revolves around the relationship between Mariposa and the Unnamed along with the ability to swap between the two during gameplay. The two protagonists exist an indescribable amount of time apart, but are connected through their ability to communicate throughout their paralleling journeys. There’s a lot that can be done with the idea both in terms of narrative and gameplay, so it’s no surprise it won the vote at this year’s pitch showcase.
 

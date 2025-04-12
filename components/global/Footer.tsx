@@ -205,7 +205,7 @@ function SocialLinks() {
         Stay connected!
       </h4>
       <span className="align-center mx-auto mt-4 flex w-48 flex-row justify-between lg:mx-0">
-        <a href="https://www.instagram.com/vgdc.ucsd/" target="_blank">
+        <a href="https://www.instagram.com/vgdc.at.ucsd/" target="_blank">
           <FaInstagram className={socialLinkStyle} size={32} />
         </a>
         <a href="https://bit.ly/VGDCUCSD" target="_blank">

@@ -227,7 +227,7 @@ function HeroSocials() {
         Follow us and stay connected!
       </h4>
       <div className="mx-auto mt-4 flex w-52 flex-row justify-between">
-        <a href="https://www.instagram.com/vgdc.ucsd/" target="_blank">
+        <a href="https://www.instagram.com/vgdc.at.ucsd/" target="_blank">
           <FaInstagram className={socialLinkStyle} size={32} />
         </a>
         <a href="https://bit.ly/VGDCUCSD" target="_blank">
