@@ -117,6 +117,9 @@ export default function Navbar({ offsetSpace = true, hideOnScroll = true }) {
                   <Button variant="link" className={getStyle("/news")}>
                     <Link href="/news">News</Link>
                   </Button>
+                  <Button variant="link" className={getStyle("/store")}>
+                    <Link href="/store">Store</Link>
+                  </Button>
                 </DrawerFooter>
               </DrawerContent>
             </Drawer>

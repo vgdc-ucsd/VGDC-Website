@@ -3,7 +3,7 @@ import Footer from "@/components/global/Footer"
 import { getShowcaseGames } from "@/lib/showcase_games"
 import ShowcaseSearch from "./components/ShowcaseSearch"
 
-export const revalidate = 60;
+export const revalidate = 60
 
 export default async function Showcase() {
   const showcaseData = await getShowcaseGames()
@@ -18,7 +18,7 @@ export default async function Showcase() {
         <p className="mb-8 text-center text-sm text-gray-300">
           Explore amazing games created by our community members
         </p>
-        
+
         <ShowcaseSearch data={showcaseData} />
       </div>
       <Footer />
