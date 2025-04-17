@@ -4,6 +4,7 @@ import React, { useEffect, useRef } from "react"
 import { ShowcaseGamesDetails } from "@/lib/showcase_games"
 import Image from "next/image"
 import { X, ExternalLink, Calendar, Users, Code } from "lucide-react"
+import ApprovalSeal from "./ApprovalSeal"
 
 type GameModalProps = {
   game: ShowcaseGamesDetails
@@ -126,7 +127,9 @@ const GameModal: React.FC<GameModalProps> = ({
                             >
                               {game.theme || "General"}
                             </span> */}
-                            <span className="rounded-full bg-gray-700 px-3 py-1 text-xs font-medium text-white">
+                            <span
+                              className={`rounded-full ${getStatusText(game.status) === "Released" ? "bg-green-500" : "bg-yellow-500"} px-3 py-1 text-xs font-medium text-white`}
+                            >
                               {getStatusText(game.status)}
                             </span>
                             {game.web && (
@@ -138,61 +141,14 @@ const GameModal: React.FC<GameModalProps> = ({
                         </div>
 
                         {/* Approval Seal moved to the right, centered vertically */}
-                        {/* {game.approved && (
-                          <div className="ml-4 h-12 w-12 flex-shrink-0 sm:h-14 sm:w-14">
-                            <svg
-                              viewBox="0 0 100 100"
-                              className="h-full w-full drop-shadow-lg"
-                            >
-                              <circle
-                                cx="50"
-                                cy="50"
-                                r="48"
-                                fill="white"
-                                stroke="#0047AB"
-                                strokeWidth="4"
-                              />
-                              <circle
-                                cx="50"
-                                cy="50"
-                                r="42"
-                                fill="none"
-                                stroke="#0047AB"
-                                strokeWidth="2"
-                              />
-                              <text
-                                x="50"
-                                y="40"
-                                fontSize="14"
-                                fontWeight="bold"
-                                fill="#0047AB"
-                                textAnchor="middle"
-                              >
-                                OFFICIAL
-                              </text>
-                              <text
-                                x="50"
-                                y="55"
-                                fontSize="12"
-                                fontWeight="bold"
-                                fill="#0047AB"
-                                textAnchor="middle"
-                              >
-                                VGDC
-                              </text>
-                              <text
-                                x="50"
-                                y="70"
-                                fontSize="15"
-                                fontWeight="bold"
-                                fill="#0047AB"
-                                textAnchor="middle"
-                              >
-                                APPROVED
-                              </text>
-                            </svg>
+                        {game.vgdcApproved && (
+                          <div className="ml-4 flex-shrink-0">
+                            <ApprovalSeal
+                              color="#debb18ff"
+                              className="sm:h-20 sm:w-20"
+                            />
                           </div>
-                        )} */}
+                        )}
                       </div>
                     </div>
                   </div>
