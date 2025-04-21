@@ -16,7 +16,7 @@ export default function StoreVendor({ data }: StoreVendorProps) {
       <div className="grid grid-cols-2 gap-6 md:grid-cols-3 lg:grid-cols-4">
         {data.map((item, index) => (
           <div key={index} className="group overflow-hidden">
-            <Link href="https://forms.gle/rmnewibtNA8utxMh7">
+            <Link href="https://docs.google.com/forms/d/e/1FAIpQLSe6t-887BQ3EJnKMSihdEvyexDBpEX6ngOeY787Z0RHgafK4g/viewform">
             <div className="relative aspect-[3/4] overflow-hidden">
               {/* Fixed height of 16rem (h-64) */}
               {item.image2 ? (

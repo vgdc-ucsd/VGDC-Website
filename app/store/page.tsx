@@ -17,7 +17,7 @@ export default async function Store() {
           Club Merch
         </h1>
         <p className="mb-4 text-center text-sm text-gray-300">
-          Browse our current merch collection! Click on any item to purchase or <Link href="https://forms.gle/rmnewibtNA8utxMh7" className="text-hot-pink">here</Link>.
+          Browse our current merch collection! Click on any item to purchase or <Link href="https://docs.google.com/forms/d/e/1FAIpQLSe6t-887BQ3EJnKMSihdEvyexDBpEX6ngOeY787Z0RHgafK4g/viewform" className="text-hot-pink">here</Link>.
         </p>
         <StoreVendor data={storeData} />
       </div>
