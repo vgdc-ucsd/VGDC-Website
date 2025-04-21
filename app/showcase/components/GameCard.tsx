@@ -1,9 +1,9 @@
 "use client"
 
-import React from 'react'
-import { ShowcaseGamesDetails } from '@/lib/showcase_games'
-import Image from 'next/image'
-import { ExternalLink } from 'lucide-react'
+import React from "react"
+import { ShowcaseGamesDetails } from "@/lib/showcase_games"
+import Image from "next/image"
+import { ExternalLink } from "lucide-react"
 
 type GameCardProps = {
   game: ShowcaseGamesDetails
@@ -11,10 +11,14 @@ type GameCardProps = {
   getStatusText: (status: boolean) => string
 }
 
-const GameCard: React.FC<GameCardProps> = ({ game, onClick, getStatusText }) => {
+const GameCard: React.FC<GameCardProps> = ({
+  game,
+  onClick,
+  getStatusText,
+}) => {
   return (
-    <div 
-      className="group cursor-pointer perspective-1000 transform-gpu transition-all duration-500 hover:scale-105"
+    <div
+      className="perspective-1000 group transform-gpu cursor-pointer transition-all duration-500 hover:scale-105"
       onClick={onClick}
     >
       {/* Box Container */}
@@ -22,12 +26,12 @@ const GameCard: React.FC<GameCardProps> = ({ game, onClick, getStatusText }) => 
         {/* Game Cover Image */}
         <div className="h-3/4 w-full overflow-hidden">
           {game.image ? (
-            <div 
-              className="h-full w-full" 
+            <div
+              className="h-full w-full"
               style={{
                 backgroundImage: `url(${game.image})`,
-                backgroundSize: 'cover',
-                backgroundPosition: 'center'
+                backgroundSize: "cover",
+                backgroundPosition: "center",
               }}
             />
           ) : (
@@ -36,24 +40,30 @@ const GameCard: React.FC<GameCardProps> = ({ game, onClick, getStatusText }) => 
             </div>
           )}
         </div>
-        
+
         {/* Game Information - Bottom Info */}
         <div className="absolute bottom-0 w-full bg-footer-grey p-3">
-          <h3 className="mb-1 text-base font-bold text-white line-clamp-1">{game.title}</h3>
-          
+          <h3 className="mb-1 line-clamp-1 text-base font-bold text-white">
+            {game.title}
+          </h3>
+
           <div className="mb-2 flex flex-wrap gap-1">
-            <span className={`rounded-full ${getStatusText(game.status) === "Released" ? "bg-green-500" : "bg-yellow-500"} px-2 py-0.5 text-xs text-white`}>
+            <span
+              className={`rounded-full ${getStatusText(game.status) === "Released" ? "bg-green-500" : "bg-yellow-500"} px-2 py-0.5 text-xs text-white`}
+            >
               {getStatusText(game.status)}
             </span>
-            
+
             {game.web && (
               <span className="rounded-full bg-blue-500 px-2 py-0.5 text-xs text-white">
                 Web
               </span>
             )}
           </div>
-          
-          <p className="text-xs text-gray-300 line-clamp-2">{game.description}</p>
+
+          <p className="line-clamp-2 text-xs text-gray-300">
+            {game.description}
+          </p>
         </div>
       </div>
     </div>

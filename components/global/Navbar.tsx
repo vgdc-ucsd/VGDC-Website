@@ -102,9 +102,9 @@ export default function Navbar({ offsetSpace = true, hideOnScroll = true }) {
               {/* Menu buttons */}
               <DrawerContent>
                 <DrawerFooter>
-                  <Button variant="link" className={getStyle("/")}>
+                  {/* <Button variant="link" className={getStyle("/")}>
                     <Link href="/">Home</Link>
-                  </Button>
+                  </Button> */}
                   <Button variant="link" className={getStyle("/officers")}>
                     <Link href="/officers">Team</Link>
                   </Button>
@@ -117,6 +117,9 @@ export default function Navbar({ offsetSpace = true, hideOnScroll = true }) {
                   <Button variant="link" className={getStyle("/news")}>
                     <Link href="/news">News</Link>
                   </Button>
+                  <Button variant="link" className={getStyle("/store")}>
+                    <Link href="/store">Store</Link>
+                  </Button>
                 </DrawerFooter>
               </DrawerContent>
             </Drawer>
@@ -124,9 +127,9 @@ export default function Navbar({ offsetSpace = true, hideOnScroll = true }) {
 
           {/* Basic menu, dynamically changes with screen size */}
           <div className="invisible relative top-3 float-right mx-auto w-fit space-x-12 align-middle text-base transition-transform sm:visible lg:float-none lg:space-x-16">
-            <Link href="/" className={getStyle("/")}>
+            {/* <Link href="/" className={getStyle("/")}>
               Home
-            </Link>
+            </Link> */}
             <Link href="/officers" className={getStyle("/officers")}>
               Team
             </Link>
@@ -138,6 +141,9 @@ export default function Navbar({ offsetSpace = true, hideOnScroll = true }) {
             </Link>
             <Link href="/news" className={getStyle("/news")}>
               News
+            </Link>
+            <Link href="/store" className={getStyle("/store")}>
+              Store
             </Link>
           </div>
         </div>

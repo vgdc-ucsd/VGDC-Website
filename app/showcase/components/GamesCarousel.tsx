@@ -9,6 +9,7 @@ import {
 } from "embla-carousel"
 import { ShowcaseGamesDetails } from "@/lib/showcase_games"
 import { ChevronLeft, ChevronRight } from "lucide-react"
+import ApprovalSeal from "./ApprovalSeal"
 
 // Constants for effects
 const TWEEN_FACTOR = 0.8
@@ -338,66 +339,24 @@ const GamesCarousel: React.FC<GameCarouselProps> = ({
                     </div>
                   )}
 
-                  {/* Approval Sticker (SVG placeholder) */}
-                  {/* {game.approved && (
-                    <div className="absolute right-3 top-3 h-16 w-16 overflow-hidden">
-                      <svg viewBox="0 0 100 100" className="h-full w-full">
-                        <circle
-                          cx="50"
-                          cy="50"
-                          r="48"
-                          fill="white"
-                          stroke="#0047AB"
-                          strokeWidth="4"
-                        />
-                        <circle
-                          cx="50"
-                          cy="50"
-                          r="42"
-                          fill="none"
-                          stroke="#0047AB"
-                          strokeWidth="2"
-                        />
-                        <text
-                          x="50"
-                          y="40"
-                          fontSize="14"
-                          fontWeight="bold"
-                          fill="#0047AB"
-                          textAnchor="middle"
-                        >
-                          OFFICIAL
-                        </text>
-                        <text
-                          x="50"
-                          y="55"
-                          fontSize="12"
-                          fontWeight="bold"
-                          fill="#0047AB"
-                          textAnchor="middle"
-                        >
-                          VGDC
-                        </text>
-                        <text
-                          x="50"
-                          y="70"
-                          fontSize="15"
-                          fontWeight="bold"
-                          fill="#0047AB"
-                          textAnchor="middle"
-                        >
-                          APPROVED
-                        </text>
-                      </svg>
+                  {/* Approval Sticker */}
+                  {game.vgdcApproved && (
+                    <div className="absolute right-3 top-3 overflow-hidden">
+                      <ApprovalSeal
+                        color="#debb18ff"
+                        className="sm:h-20 sm:w-20"
+                      />
                     </div>
-                  )} */}
+                  )}
                 </div>
 
                 {/* Game Info */}
                 <div className="absolute bottom-0 w-full bg-gradient-to-t from-black to-transparent p-4">
                   {/* Status and Web badges */}
                   <div className="mb-2 flex flex-wrap gap-2">
-                    <span className="rounded-full bg-black bg-opacity-70 px-3 py-1 text-xs font-medium text-white">
+                    <span
+                      className={`rounded-full ${game.status ? "bg-green-500" : "bg-yellow-500"} px-3 py-1 text-xs font-medium text-white`}
+                    >
                       {getStatusText(game.status)}
                     </span>
 
