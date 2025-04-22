@@ -342,10 +342,7 @@ const GamesCarousel: React.FC<GameCarouselProps> = ({
                   {/* Approval Sticker */}
                   {game.vgdcApproved && (
                     <div className="absolute right-3 top-3 overflow-hidden">
-                      <ApprovalSeal
-                        color="#debb18ff"
-                        className="sm:h-20 sm:w-20"
-                      />
+                      <ApprovalSeal color="#debb18ff" className="h-20 w-20" />
                     </div>
                   )}
                 </div>
