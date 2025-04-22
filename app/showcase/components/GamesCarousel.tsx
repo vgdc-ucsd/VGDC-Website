@@ -305,7 +305,7 @@ const GamesCarousel: React.FC<GameCarouselProps> = ({
             >
               {/* Game Card */}
               <div
-                className="game-card relative h-96 w-full cursor-pointer overflow-hidden rounded-lg border-4 border-light-grey border-opacity-20 bg-gradient-to-b from-gray-800 to-gray-900 shadow-lg transition-all will-change-transform"
+                className="game-card relative aspect-[3/4] w-full cursor-pointer overflow-hidden rounded-lg bg-gradient-to-b from-gray-800 to-gray-900 shadow-lg transition-all will-change-transform"
                 onClick={() => {
                   // Update the current index first, then show the modal
                   setCurrentIndex(index)
