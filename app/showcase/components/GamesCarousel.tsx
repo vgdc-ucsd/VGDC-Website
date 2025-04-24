@@ -305,7 +305,7 @@ const GamesCarousel: React.FC<GameCarouselProps> = ({
             >
               {/* Game Card */}
               <div
-                className="game-card relative h-96 w-full cursor-pointer overflow-hidden rounded-lg border-4 border-light-grey border-opacity-20 bg-gradient-to-b from-gray-800 to-gray-900 shadow-lg transition-all will-change-transform"
+                className="game-card relative aspect-[3/4] w-full cursor-pointer overflow-hidden rounded-lg bg-gradient-to-b from-gray-800 to-gray-900 shadow-lg transition-all will-change-transform"
                 onClick={() => {
                   // Update the current index first, then show the modal
                   setCurrentIndex(index)
@@ -342,10 +342,7 @@ const GamesCarousel: React.FC<GameCarouselProps> = ({
                   {/* Approval Sticker */}
                   {game.vgdcApproved && (
                     <div className="absolute right-3 top-3 overflow-hidden">
-                      <ApprovalSeal
-                        color="#debb18ff"
-                        className="sm:h-20 sm:w-20"
-                      />
+                      <ApprovalSeal color="#debb18ff" className="h-20 w-20" />
                     </div>
                   )}
                 </div>

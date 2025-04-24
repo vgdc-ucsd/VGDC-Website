@@ -93,62 +93,64 @@ const GameModal: React.FC<GameModalProps> = ({
                 {/* General info section (image, title, and approval seal) */}
                 <div className="absolute bottom-0 left-0 w-full bg-gradient-to-t from-background-black p-6">
                   <div className="flex items-end gap-4">
-                    {/* Clear image */}
-                    <div
-                      className="relative flex-shrink-0 overflow-hidden rounded-lg shadow-lg"
-                      style={{ maxWidth: "150px", maxHeight: "200px" }}
-                    >
-                      <Image
-                        src={game.image}
-                        alt={game.title}
-                        width={150}
-                        height={200}
-                        className="h-auto w-auto object-contain"
-                        style={{ maxHeight: "200px" }}
-                      />
-                    </div>
+                    <div className="flex flex-grow flex-col gap-4 sm:flex-row sm:items-end">
+                      {/* Clear image */}
+                      <div
+                        className="relative flex-shrink-0 overflow-hidden rounded-lg shadow-lg"
+                        style={{ maxWidth: "150px", maxHeight: "200px" }}
+                      >
+                        <Image
+                          src={game.image}
+                          alt={game.title}
+                          width={150}
+                          height={200}
+                          className="h-auto w-auto object-contain"
+                          style={{ maxHeight: "200px" }}
+                        />
+                      </div>
 
-                    {/* Content container that keeps title, seal and badges aligned at the bottom */}
-                    <div className="flex-grow pb-1">
-                      <div className="flex items-center justify-between">
-                        <div>
-                          {/* Title and badges container */}
-                          <div className="mb-2 flex items-center gap-2">
-                            {/* Title */}
-                            <h2 className="text-2xl font-bold text-white sm:text-3xl">
-                              {game.title}
-                            </h2>
-                          </div>
+                      {/* Content container that keeps title, seal and badges aligned at the bottom */}
+                      <div className="flex-grow pb-1">
+                        <div className="flex items-center justify-between">
+                          <div>
+                            {/* Title and badges container */}
+                            <div className="mb-2 flex items-center gap-2">
+                              {/* Title */}
+                              <h2 className="text-2xl font-bold text-white sm:text-3xl">
+                                {game.title}
+                              </h2>
+                            </div>
 
-                          {/* Badges under the title */}
-                          <div className="flex flex-wrap gap-2">
-                            {/* <span
+                            {/* Badges under the title */}
+                            <div className="flex flex-wrap gap-2">
+                              {/* <span
                               className={`rounded-full px-3 py-1 text-xs font-medium text-white ${getThemeColor(game.theme)}`}
                             >
                               {game.theme || "General"}
                             </span> */}
-                            <span
-                              className={`rounded-full ${getStatusText(game.status) === "Released" ? "bg-green-500" : "bg-yellow-500"} px-3 py-1 text-xs font-medium text-white`}
-                            >
-                              {getStatusText(game.status)}
-                            </span>
-                            {game.web && (
-                              <span className="rounded-full bg-blue-600 px-3 py-1 text-xs font-medium text-white">
-                                Web
+                              <span
+                                className={`rounded-full ${getStatusText(game.status) === "Released" ? "bg-green-500" : "bg-yellow-500"} px-3 py-1 text-xs font-medium text-white`}
+                              >
+                                {getStatusText(game.status)}
                               </span>
-                            )}
+                              {game.web && (
+                                <span className="rounded-full bg-blue-600 px-3 py-1 text-xs font-medium text-white">
+                                  Web
+                                </span>
+                              )}
+                            </div>
                           </div>
-                        </div>
 
-                        {/* Approval Seal moved to the right, centered vertically */}
-                        {game.vgdcApproved && (
-                          <div className="ml-4 flex-shrink-0">
-                            <ApprovalSeal
-                              color="#debb18ff"
-                              className="sm:h-20 sm:w-20"
-                            />
-                          </div>
-                        )}
+                          {/* Approval Seal moved to the right, centered vertically */}
+                          {game.vgdcApproved && (
+                            <div className="ml-4 flex-shrink-0">
+                              <ApprovalSeal
+                                color="#debb18ff"
+                                className="h-20 w-20"
+                              />
+                            </div>
+                          )}
+                        </div>
                       </div>
                     </div>
                   </div>
