@@ -82,7 +82,7 @@ function HeroText() {
           </h1>
           {/* School Name */}
           <h3 className="mt-2 bg-gradient-to-r from-vgdc-light-blue to-vgdc-light-green bg-clip-text text-center font-inter text-xl font-semibold tracking-tight text-transparent sm:mt-4 sm:text-2xl md:mt-6 md:text-3xl lg:mt-8 lg:text-4xl">
-            @ UC San Diego
+            @ UC San Diego™
           </h3>
           {/* Email Button */}
           {/* <a
