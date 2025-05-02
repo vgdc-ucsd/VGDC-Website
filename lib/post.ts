@@ -17,6 +17,7 @@ export type Post = {
   author: string
   excerpt: string
   coverImage: string
+  coverCredit?: string
   content: string
 }
 
@@ -47,6 +48,7 @@ export async function getSortedPostsData(index: number) {
       author: matterResult.data.author,
       excerpt: matterResult.data.excerpt,
       coverImage: matterResult.data.coverImage,
+      coverCredit: matterResult.data.coverCredit,
       content: matterResult.content,
     }
   })
@@ -83,6 +85,7 @@ export async function getPostData(id: string) {
     author: matterResult.data.author,
     excerpt: matterResult.data.excerpt,
     coverImage: matterResult.data.coverImage,
+    coverCredit: matterResult.data.coverCredit,
     content: matterResult.content,
   }
 

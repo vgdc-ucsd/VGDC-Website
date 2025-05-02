@@ -72,6 +72,7 @@ export default function BlogView({
           alt="Cover Image"
           className="h-full w-full rounded-2xl"
         />
+        {post.coverCredit ? (<em className="mt-2 block w-full text-text-grey text-center">Photo by {post.coverCredit}</em>) : (<></>)}
       </motion.div>
 
       <motion.h1
@@ -163,7 +164,7 @@ export default function BlogView({
               </a>
             ),
             em: ({ children }) => (
-              <em className="mt-2 block w-full text-center">{children}</em>
+              <em className="mt-2 block w-full text-end">{children}</em>
             ),
             h3({ node, className, children, ...props }) {
               return (
