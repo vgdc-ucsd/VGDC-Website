@@ -6,7 +6,11 @@ import { ShowcaseGamesDetails } from "@/lib/showcase_games"
 import GamesCarousel from "./GamesCarousel"
 import GameModal from "./GameModal"
 
-export default function ShowcaseCarousel({ data }: { data: ShowcaseGamesDetails[] }) {
+export default function ShowcaseCarousel({
+  data,
+}: {
+  data: ShowcaseGamesDetails[]
+}) {
   const [filteredItems, setFilteredItems] = useState(data || [])
   const [currentIndex, setCurrentIndex] = useState(0)
   const [searchTerm, setSearchTerm] = useState("")
@@ -88,7 +92,7 @@ export default function ShowcaseCarousel({ data }: { data: ShowcaseGamesDetails[
 
   // Helper functions
   const getStatusText = (status: boolean) => {
-    return status ? "Released" : "In Development";
+    return status ? "Released" : "In Development"
   }
 
   const getThemeColor = (theme: string) => {
@@ -124,7 +128,7 @@ export default function ShowcaseCarousel({ data }: { data: ShowcaseGamesDetails[
   return (
     <div className="w-full">
       {/* Search and Filter Bar */}
-      <div className="mx-auto mb-6 max-w-3xl px-4 md:px-12">
+      <div className="mx-auto max-w-3xl px-4 md:px-12">
         <div className="mb-3 flex flex-col gap-3 sm:flex-row">
           <div className="relative flex-grow">
             <input
@@ -234,7 +238,7 @@ export default function ShowcaseCarousel({ data }: { data: ShowcaseGamesDetails[
       </div>
 
       {/* Results Count */}
-      <div className="mb-3 text-center">
+      <div className="text-center">
         <p className="text-sm text-gray-400">
           {`Showing ${filteredItems.length} of ${data.length || 0} games`}
         </p>
