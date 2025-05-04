@@ -148,7 +148,7 @@ export default function Footer() {
         {/* Social links */}
         <div className="min-w-full p-8 sm:w-[540px] sm:min-w-0">
           <SocialLinks />
-          <div className="mt-10 box-border rounded-lg bg-background-grey/50 p-5">
+          <div className="mt-10 box-border rounded-lg bg-background-grey/50 p-5 ">
             <div className="text-center text-lg text-white">Contact us</div>
             <div className="mx-auto w-fit text-center">
               <a
@@ -170,6 +170,19 @@ export default function Footer() {
                   <span className="text-g-color">d</span>
                   <span className="text-v-color">u</span>
                 </RippleText>
+              </a>
+            </div>
+          </div>
+          <div className="my-8 flex flex-col items-center gap-1 text-center text-sm text-text-grey ">
+            Support Us!
+            <div className="hover:animate-gradient rounded-lg bg-gradient-to-r from-[#267392] via-[#0eb9ae] via-[#0eb9ae] via-[#3c99aa] via-[#3c99aa] via-[#50d0a1] to-[#267392] bg-[length:200%_100%] p-1 text-lg transition-all hover:scale-105 hover:shadow-[0_0_20px_rgba(14,185,174,0.2)]">
+              {" "}
+              <a
+                href="https://ko-fi.com/vgdcatucsd"
+                target="_blank"
+                className="block rounded-lg bg-footer-grey px-4 py-2 font-bold text-white"
+              >
+                ☕ Become a Donor!
               </a>
             </div>
           </div>
