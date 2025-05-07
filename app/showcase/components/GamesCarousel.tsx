@@ -8,7 +8,7 @@ import {
   EmblaOptionsType,
 } from "embla-carousel"
 import { ShowcaseGamesDetails } from "@/lib/showcase_games"
-import { ChevronLeft, ChevronRight } from "lucide-react"
+import { ChevronLeft, ChevronRight, Eye } from "lucide-react"
 import ApprovalSeal from "./ApprovalSeal"
 
 // Constants for effects
@@ -305,7 +305,7 @@ const GamesCarousel: React.FC<GameCarouselProps> = ({
             >
               {/* Game Card */}
               <div
-                className="game-card relative aspect-[3/4] w-full cursor-pointer overflow-hidden rounded-lg bg-gradient-to-b from-gray-800 to-gray-900 shadow-lg transition-all will-change-transform"
+                className="game-card relative aspect-[5/6] w-full cursor-pointer overflow-hidden rounded-3xl bg-gradient-to-b from-gray-800 to-gray-900 shadow-lg transition-all will-change-transform"
                 onClick={() => {
                   // Update the current index first, then show the modal
                   setCurrentIndex(index)
@@ -372,8 +372,8 @@ const GamesCarousel: React.FC<GameCarouselProps> = ({
                 {/* Click overlay on hover*/}
                 <div className="absolute inset-0 bg-black bg-opacity-0 transition-all hover:bg-opacity-20">
                   <div className="flex h-full w-full items-center justify-center opacity-0 transition-opacity hover:opacity-100">
-                    <span className="rounded-full bg-background-black px-3 py-2 text-4xl text-white">
-                      👁
+                    <span className="rounded-full bg-background-black/50 p-5 text-4xl text-white">
+                      <Eye className="h-10 w-10" />
                     </span>
                   </div>
                 </div>
