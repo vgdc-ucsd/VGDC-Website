@@ -3,7 +3,7 @@ title: "2025 Graduating Executive Interview"
 date: "2025-05-12"
 author: "Joshua Nolasco"
 excerpt: "An exclusive interview with VGDC's graduating executives."
-coverImage: "/cover.jpeg"
+coverImage: "/cover.png"
 ---
 
 Hello everyone!  Welcome to our interview featuring graduating members of VGDC's executive board! This week, we're joined by Chase, Kiichi and Chanel as they share some of their insight on running VGDC. 
