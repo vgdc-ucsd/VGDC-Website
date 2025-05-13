@@ -8,6 +8,8 @@ coverImage: "/cover.png"
 
 Hello everyone!  Welcome to our interview featuring graduating members of VGDC's executive board! This week, we're joined by Chase, Kiichi and Chanel as they share some of their insight on running VGDC. 
 
+<hr />
+
 <i>**"I know you all, but could you tell the audience a bit about yourselves?"**</i>
 
 **Chase:** "I'm Chase, I'm the Treasurer and Tech Director of the club. I've been here for the last two years, I deal with finances and I lead the Tech Committee."
@@ -59,6 +61,8 @@ Hello everyone!  Welcome to our interview featuring graduating members of VGDC's
 **Chanel:** "We really encourage beginners and people who just want to be involved to join. Oftentimes, they do really well in the club and reach heights they probably wouldn't have expected."
 
 **Chase:** "If you're involved in a club for the first time, it doesn't take much to contribute a lot. If you do what you're supposed to do, and just a tiny bit extra, people notice."
+
+<hr />
 
 ## Special Thanks
 
