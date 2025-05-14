@@ -4,6 +4,7 @@ date: "2025-04-28"
 author: "Joshua Nolasco"
 excerpt: "Take a look back at our TritonWare game jam!"
 coverImage: "/cover.jpg"
+coverCredit: "Kevin"
 ---
 
 Hello everyone! Welcome back. At the time of posting, we've just concluded our two week long semi-annual TritonWare game jam. In this blog post, we'll be recapping the entirety of the project, including a few words from event attendees and TritonWare participants! 
