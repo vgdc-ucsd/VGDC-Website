@@ -5,8 +5,9 @@ import { Search, Filter } from "lucide-react"
 import { ShowcaseGamesDetails } from "@/lib/showcase_games"
 import GamesCarousel from "./GamesCarousel"
 import GameModal from "./GameModal"
+import GamesGrid from "./GamesGrid"
 
-export default function ShowcaseCarousel({
+export default function ShowcaseSearch({
   data,
 }: {
   data: ShowcaseGamesDetails[]
@@ -247,10 +248,8 @@ export default function ShowcaseCarousel({
         </p> */}
       </div>
 
-      {/* Embla Carousel */}
-      <GamesCarousel
-        filteredItems={filteredItems}
-        currentIndex={currentIndex}
+      <GamesGrid 
+        gameData={filteredItems}
         setCurrentIndex={setCurrentIndex}
         setShowModal={setShowModal}
       />
