@@ -8,6 +8,8 @@ coverImage: "/cover.png"
 
 Hi everyone! Welcome to the first of our 'topics in game development' blog posts! Today, we're joined by Annie, VGDC's current Audio Lead, as we delve into a discussion on her area of expertise. 
 
+<hr />
+
 <i>**"Congratulations on being VGDC's first ever guest speaker on our blog post! I know you, but you should tell the audience a bit about yourself."**</i>
 
 **Annie:** "If you don't know me, my name is Annie. I'm a senior ICAM music major with a CS minor, and I'm VGDC's Audio Lead." 
@@ -35,6 +37,8 @@ Hi everyone! Welcome to the first of our 'topics in game development' blog posts
 <i>**"We really appreciate the insight you brought today. Do you have any closing thoughts or anything to promote, and where can our readers find your work?"**</i>
 
 **Annie:** "I'd like to promote the game Mariposa. Even though my pitch didn't win first place, I decided to work on Mariposa because I thought the premise was good, and it'd be a project where I can help make some interesting music to coincide with the unique story. I'd also like to say check out my [SoundCloud](https://soundcloud.com/ani_03)!"
+
+<hr />
 
 ## Special Thanks
 

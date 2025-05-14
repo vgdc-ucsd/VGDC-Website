@@ -63,15 +63,21 @@ export default function BlogView({
           ease: "easeOut",
           duration: 0.4,
         }}
-        className="aspect-[8/5] w-full object-cover"
+        className="aspect-[16/9] w-full object-cover"
       >
         <Image
           src={`/images/blogs/${post.id}${post.coverImage}`}
           width={800}
           height={600}
           alt="Cover Image"
+          layout="responsive"
           className="h-full w-full rounded-2xl"
         />
+        {post.coverCredit && (
+          <em className="mt-2 block w-full text-text-grey text-center">
+            Photo by {post.coverCredit}
+          </em>
+        )}
       </motion.div>
 
       <motion.h1
@@ -138,6 +144,7 @@ export default function BlogView({
                   alt={image.alt!}
                   height="768"
                   width="432"
+                  layout="responsive"
                   style={{ borderRadius: "12px", width: "100%" }}
                 />
               )
