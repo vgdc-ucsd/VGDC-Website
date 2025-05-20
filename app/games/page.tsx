@@ -2,6 +2,7 @@ import Navbar from "@/components/global/Navbar"
 import Footer from "@/components/global/Footer"
 import { getShowcaseGames } from "@/lib/showcase_games"
 import ShowcaseSearch from "./components/ShowcaseSearch"
+import GamesGrid from "./components/GamesGrid"
 
 export const revalidate = 60
 
@@ -18,7 +19,6 @@ export default async function Showcase() {
         <p className="mb-2 text-center text-sm text-gray-500">
           Explore amazing games created by our community members
         </p>
-
         <ShowcaseSearch data={showcaseData} />
       </div>
       <Footer />
