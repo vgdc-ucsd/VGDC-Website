@@ -238,17 +238,7 @@ export default function ShowcaseSearch({
         )}
       </div>
 
-      {/* Results Count */}
-      <div className="text-center">
-        <p className="text-sm text-gray-400">
-          {`Showing ${filteredItems.length} of ${data.length || 0} games`}
-        </p>
-        {/* <p className="text-sm text-gray-500">
-          {`← Enter →`}
-        </p> */}
-      </div>
-
-      <GamesGrid 
+      <GamesGrid
         gameData={filteredItems}
         setCurrentIndex={setCurrentIndex}
         setShowModal={setShowModal}

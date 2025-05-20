@@ -71,7 +71,7 @@ const GameCard: React.FC<GameCardProps> = ({
             )}
           </div>
 
-          <p className="line-clamp-2 text-xs text-gray-300">
+          <p className="line-clamp-2 h-8 text-xs text-gray-300">
             {game.description}
           </p>
         </div>
@@ -79,7 +79,7 @@ const GameCard: React.FC<GameCardProps> = ({
         {/* Click overlay on hover*/}
         <div className="absolute inset-0 bg-black bg-opacity-0 transition-all hover:bg-opacity-20">
           <div className="flex h-full w-full items-start justify-center opacity-0 transition-opacity hover:opacity-100">
-            <div className="flex w-full h-3/4 items-center justify-center">
+            <div className="flex h-3/4 w-full items-center justify-center">
               <span className="rounded-full bg-background-black/50 p-5 text-4xl text-white">
                 <Eye className="h-10 w-10" />
               </span>
