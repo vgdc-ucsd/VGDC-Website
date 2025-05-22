@@ -42,9 +42,15 @@
       },
       {
         "title": "Marketing Officer",
-        "name": "Kevin Tang",
-        "avatar": "/images/officers/2024-2025/kevin-tang.jpg",
-        "quote": "Hi! I'm Kevin, a 4th year Math-CS Business-Econ Double Major and I take photos for the club during Events! I've played a lot of games (maybe too much) and really enjoy singleplayer indie games like outer wilds, factorio, case of the golden idol, rhythm doctor, nova drift, and 5D chess with multiverse time travel."
+        "name": "Allie Atkinson",
+        "avatar": "/images/officers/2024-2025/allie-atkinson.png",
+        "quote": "I'm a second year Math-CS major with a passion for art and video games! Some of my favorite games are Animal Crossing, Stardew Valley and Hollow Knight."
+      },
+      {
+        "title": "Marketing Officer",
+        "name": "Cass Adefuin",
+        "avatar": "/images/officers/2024-2025/cass-adefuin.jpg",
+        "quote": "HILLO I'm Cass, a 2nd year Computer Science major and Cognitive Science minor! I love trying various art forms - graphics, 3D modeling, music composition, whatever tickles my creativity. Some of my favorite games are NieR: Automata, Hollow Knight, and the To the Moon series. Reach out to me on Discord @fe.nyx :D"
       },
       {
         "title": "Marketing Officer",
@@ -60,15 +66,21 @@
       },
       {
         "title": "Marketing Officer",
-        "name": "Sofia Nguyen",
-        "avatar": "/images/officers/placeholders/vivi.png",
-        "quote": "Heyo! My name is Sofia, I'm a Computer Science major with a minor in ICAM. I love puzzles, manga, and reading. I am trying to learn game development and piano in my free time."
-      },
-      {
-        "title": "Marketing Officer",
         "name": "Zee Avila",
         "avatar": "/images/officers/2024-2025/zee-avila.jpg",
         "quote": "Hi! My name is Zee, I'm a second year majoring in ICAM and I'm a new Marketing officer with a focus on design. "
+      },
+      {
+        "title": "Photographer",
+        "name": "Kevin Tang",
+        "avatar": "/images/officers/2024-2025/kevin-tang.jpg",
+        "quote": "Hi! I'm Kevin, a 4th year Math-CS Business-Econ Double Major and I take photos for the club during Events! I've played a lot of games (maybe too much) and really enjoy singleplayer indie games like outer wilds, factorio, case of the golden idol, rhythm doctor, nova drift, and 5D chess with multiverse time travel."
+      },
+      {
+        "title": "Photographer",
+        "name": "Thomas Nguyen",
+        "avatar": "/images/officers/placeholders/doug.png",
+        "quote": ""
       },
       {
         "title": "Events Officer",
@@ -79,14 +91,32 @@
       {
         "title": "Events Officer",
         "name": "Andrew Khov",
-        "avatar": "/images/officers/2024-2025/andrew-khov.jpg",
-        "quote": "Yo! I’m Andrew and I am a current 3rd year Math-CS student. Still striving to break into the tech field, particularly game dev. I play a huge variety of games, but recently more strategy and roguelikes. Hit me up on discord (DrFreshPotato) if you would like, otherwise I hope to see you at our events."
+        "avatar": "/images/officers/2024-2025/andrew-khov.png",
+        "quote": "Yo! I’m Andrew and I am a 4th year Math-CS student. Still striving to break into the tech field, particularly game dev. I play a huge variety of games, but recently more strategy and roguelikes. Hit me up on discord (DrFreshPotato) if you would like, otherwise I hope to see you at our events."
+      },
+      {
+        "title": "Events Officer",
+        "name": "Elijah Garcia",
+        "avatar": "/images/officers/placeholders/cici.png",
+        "quote": ""
       },
       {
         "title": "Events Officer",
         "name": "Mina Hu",
         "avatar": "/images/officers/2024-2025/mina-hu.jpg",
         "quote": "Hi, I'm Mina! I've been hooked on game dev for a cool decade now, and I'm looking to break into the industry through production or concept art, with an interest in localization. I'm a 3rd year ICAM major, and I like roguelikes a lot."
+      },
+      {
+        "title": "Events Officer",
+        "name": "Sofia Nguyen",
+        "avatar": "/images/officers/placeholders/vivi.png",
+        "quote": "Heyo! My name is Sofia, I'm a Computer Science major with a minor in ICAM. I love puzzles, manga, and reading. I am trying to learn game development and piano in my free time."
+      },
+      {
+        "title": "Events Officer",
+        "name": "Xavier Chua",
+        "avatar": "/images/officers/2024-2025/xavier-chua.png",
+        "quote": "Hi! I’m Xavier, a 2nd year CS major. I enjoy outside walks, sports, and gaming. I play jrpg games in my free time and I’ve been taking an interest at learning more about graphics programming!"
       },
       {
         "title": "PR Officer",
@@ -99,6 +129,12 @@
         "name": "Gabriel Ikezaki",
         "avatar": "/images/officers/2024-2025/gabriel-ikezaki.jpg",
         "quote": "Hey. I'm Gabriel, a 4th year CS major. I enjoy drawing, playing games, practicing martial arts and talking about weird media on my spare time. Joining the VGDC this year, and I hope to meet new people!"
+      },
+      {
+        "title": "Tech Officer",
+        "name": "Ethan Carter",
+        "avatar": "/images/officers/2024-2025/ethan-carter.png",
+        "quote": "Hi! I'm Ethan, a Math CS major and Physics minor, and I'm one of your tech officers. In terms of game development, I like programming, game design, and making music. Some of my favorite games are the Witcher 3, Outer Wilds, Blue Prince, and Terraria."
       },
       {
         "title": "Tech Officer",
@@ -119,6 +155,12 @@
         "quote": "Hi I'm Kevin! I'm a 3rd CS major and one of the tech officers working on developing this website for the year. I like all things Pokemon, listening to music (esp. kpop), and watching kdramas! I'm excited to see where this website will be in the next year!"
       },
       {
+        "title": "Tech Officer",
+        "name": "Timothy Washburn",
+        "avatar": "/images/officers/placeholders/gigi.png",
+        "quote": ""
+      },
+      {
         "title": "Art Lead",
         "name": "Jolina Leong",
         "avatar": "/images/officers/2024-2025/jolina-leong.jpg",
@@ -127,14 +169,20 @@
       {
         "title": "Art Lead",
         "name": "Tamika Hsieh",
-        "avatar": "/images/officers/2024-2025/tamika-hsieh.jpg",
-        "quote": "I am a first year ICAM major (but will double major in cog sci d&i)! I like drawing, badminton, and watching tv shows and movies. I hope to go into the game industry after graduation!"
+        "avatar": "/images/officers/2024-2025/tamika-hsieh.png",
+        "quote": "I am an ICAM major and Cognitive Science with a Specialization in D&I. I like drawing, badminton, and watching tv shows and movies. I hope to go into the game industry after graduation!"
       },
       {
         "title": "Audio Lead",
         "name": "Annie Wong",
-        "avatar": "/images/officers/placeholders/vivi.png",
-        "quote": "Hello! My name is Annie and I'm currently a 4th year ICAM-Music Major and CS minor.  I'm into anime, horror JRPGS, and J-music. I enjoy doing both programming and music production for the game I've developed. Feel free to reach out to me on Discord @ani_tired if you wanna say hi or ask any questions"
+        "avatar": "/images/officers/2024-2025/annie-wong.jpg",
+        "quote": "Hello! My name is Annie and I'm currently a 4th year ICAM-Music Major and CS minor. I'm into anime, horror JRPGS, and J-music. I enjoy doing both programming and music production for the game I've developed. Feel free to reach out to me on Discord @ani_tired if you wanna say hi or ask any questions"
+      },
+      {
+        "title": "Audio Lead",
+        "name": "River Hsu",
+        "avatar": "/images/officers/2024-2025/river-hsu.jpg",
+        "quote": "Hello! I am a second year double majoring in ICAM-Music and Math-CS. I enjoy producing music, singing and playing games. I love games like Dark Souls 3, Elden Ring, Sekiro, Hollow Knight, Overwatch, Etc."
       },
       {
         "title": "Design Lead",
@@ -155,10 +203,22 @@
         "quote": "Heyo, I'm Jonathan, a 2nd year CE major. I love playing a variety of games from movement shooters and immersive sims to CRPGs and grand strategy. This year, I'm excited to help work on and organize VGDC's many game development projects and workshops!"
       },
       {
+        "title": "Programming Lead",
+        "name": "Nathan Scott",
+        "avatar": "/images/officers/2024-2025/nathan-scott.png",
+        "quote": "Hello! I'm Nathan, and I'm a first year CS major. I enjoy programming and game design, and I'm hoping to go into the industry after I graduate. I love playing roguelikes and souls-likes, and some of my favorite games are Hades, Black Myth: Wukong, and Jedi: Fallen Order. I'm looking forward to helping lead this year's game jams and projects!"
+      },
+      {
         "title": "UI/UX Lead",
         "name": "Carol Chen",
         "avatar": "/images/officers/2024-2025/carol-chen.jpg",
         "quote": "Hi! I'm Carol, third year cognitive science - design specialization major and marketing minor, joining VGDC this year to work on UI/UX! I'm a huge fan of matcha, collecting blind boxes, and games like val/league/hsr/hades, so feel free to reach out on Discord @rouuuu :D"
+      },
+      {
+        "title": "UI/UX Lead",
+        "name": "Valerie Djatikusuma",
+        "avatar": "/images/officers/placeholders/cici.png",
+        "quote": ""
       },
       {
         "title": "Writing Lead",
