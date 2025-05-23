@@ -1,5 +1,5 @@
 import React, { useContext } from "react"
-import { generateNeighbors, getPostData } from "@/lib/post"
+import { generateNeighbors, getPostData } from "@/lib/post_sheets"
 import { parseISO, format } from "date-fns"
 import Image from "next/image"
 import Navbar from "@/components/global/Navbar"

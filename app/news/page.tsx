@@ -3,7 +3,7 @@ import Navbar from "@/components/global/Navbar"
 
 import { PageComponent, PageHeader } from "@/components/global/PageComponents"
 
-import { Post, getSortedPostsData } from "@/lib/post"
+import { Post, getSortedPostsData } from "@/lib/post_sheets"
 
 import { createAvatar } from "@dicebear/core"
 import { notionistsNeutral } from "@dicebear/collection"
