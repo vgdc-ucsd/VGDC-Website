@@ -66,6 +66,8 @@ import BlogView from "./components/BlogView"
  */
 }
 
+export const revalidate = 60;
+
 export async function generateMetadata({ params }: any) {
   const post = await getPostData(params.id)
 

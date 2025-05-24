@@ -9,6 +9,7 @@ import { createAvatar } from "@dicebear/core"
 import { notionistsNeutral } from "@dicebear/collection"
 import NewsBlogCard from "@/components/news/NewsBlogCard"
 
+export const revalidate = 60;
 export default async function News() {
   const posts = await getSortedPostsData(0)
 
