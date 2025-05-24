@@ -1,6 +1,6 @@
 import HomeBlogCard from "@/components/news/HomeBlogCard"
 
-import { Post, getSortedPostsData } from "@/lib/post"
+import { Post, getSortedPostsData } from "@/lib/post_sheets"
 
 import Link from "next/link"
 
@@ -9,6 +9,8 @@ import { Button } from "@/components/ui/button"
 import { createAvatar } from "@dicebear/core"
 import { notionistsNeutral } from "@dicebear/collection"
 import { SectionHeader, SectionComponent } from "../../global/SectionComponents"
+
+export const revalidate = 60;
 
 export default async function BlogPreview() {
   const posts = await getSortedPostsData(2)
