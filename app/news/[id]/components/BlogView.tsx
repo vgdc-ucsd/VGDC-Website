@@ -75,7 +75,7 @@ export default function BlogView({
         />
         {post.coverCredit && (
           <em className="mt-2 block w-full text-text-grey text-center">
-            Photo by {post.coverCredit}
+            {post.coverCredit}
           </em>
         )}
       </motion.div>
