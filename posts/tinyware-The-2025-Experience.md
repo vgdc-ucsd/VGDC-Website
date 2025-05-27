@@ -1,22 +1,22 @@
 ---
-title: "The TinyWare 2025 Experience"
+title: "tinyware - The 2025 Experience"
 date: "2025-05-27"
 author: "Joshua Nolasco"
-excerpt: "Take a look back at our TinyWare 2025 event!"
+excerpt: "Take a look back at our tinyware 2025 event!"
 coverImage: "/cover.png"
 coverCredit: "Team MIT moments before the deadline. Photo by Kevin (@qiwenkevin on Instagram)."
 ---
 
-Hello everyone! Welcome to the final blog post of the '24 - '25 academic year! We've just wrapped up TinyWare, VGDC's 48 hour in person game jam. To take your mind off of the impending approach of finals week, we took the time to speak to as many teams as possible throughout the jam and gathered their thoughts on the whole experience! 
+Hello everyone! Welcome to the final blog post of the '24 - '25 academic year! We've just wrapped up tinyware, VGDC's 48 hour in person game jam. To take your mind off of the impending approach of finals week, we took the time to speak to as many teams as possible throughout the jam and gathered their thoughts on the whole experience! 
 
 <hr/>
 
-## TinyWare - Day One
+## tinyware - Day One
 
-![image](/images/blogs/The-Tinyware-2025-Experience/1.png)
-_Team Homunculus brainstorming during day one of TinyWare._
+![image](/images/blogs/tinyware-The-2025-Experience/1.png)
+_Team Homunculus brainstorming during day one of tinyware._
 
-<i>**TinyWare's just started. How are you feeling?**</i>
+<i>**tinyware's just started. How are you feeling?**</i>
 
 **Team Weapons of Mass Destruction:** "Honestly, I'm feeling good. I made good progress, so things are looking a little better than I anticipated. I had an idea coming in, and it's coming together well. I think I'll be proud of how this went."
 
@@ -32,10 +32,10 @@ _Team Homunculus brainstorming during day one of TinyWare._
 
 **Team Homunculus:** "I think we're cooking."
 
-## TinyWare - Day Two
+## tinyware - Day Two
 
-![image](/images/blogs/The-Tinyware-2025-Experience/2.png)
-_TinyWare participants sharing a toast late into day two._
+![image](/images/blogs/tinyware-The-2025-Experience/2.png)
+_tinyware participants sharing a toast late into day two._
 
 <i>**It's the second day, and it's 1:35 a.m. How's progress going?**</i>
 
@@ -57,8 +57,8 @@ _TinyWare participants sharing a toast late into day two._
 
 ## Day 3
 
-![image](/images/blogs/The-Tinyware-2025-Experience/3.png)
-_Team Nano / Goldfish Pride late into day three of TinyWare._
+![image](/images/blogs/tinyware-The-2025-Experience/3.png)
+_Team Nano / Goldfish Pride late into day three of tinyware._
 
 <i>**We're only a couple of hours from the deadline. How are things going?**</i>
 
@@ -70,8 +70,8 @@ _Team Nano / Goldfish Pride late into day three of TinyWare._
 
 **Team MIT:** "We had to redesign our whole game, like, thirty hours into this forty-eight hour game jam. It was not great. But, we're going to pull through, one hundred percent."
 
-![image](/images/blogs/The-Tinyware-2025-Experience/4.png)
-_Audience reactions to the TinyWare showcase presentations._
+![image](/images/blogs/tinyware-The-2025-Experience/4.png)
+_Audience reactions to the tinyware showcase presentations._
 
 <i>**Congratulations on winning the award for Audience's Choice tonight! What was the process of making your game like?**</i>
 
@@ -87,6 +87,6 @@ _Audience reactions to the TinyWare showcase presentations._
 
 ## Special Thanks
 
-Thank you to everyone who agreed to speak for the blog during TinyWare, we really appreciate that you took the time to in the middle of such a busy event. We'd also like to thank Red Bull for sponsoring the event! 
+Thank you to everyone who agreed to speak for the blog during tinyware, we really appreciate that you took the time to in the middle of such a busy event. We'd also like to thank Red Bull for sponsoring the event! 
 
 Most importantly, we at VGDC would like to thank everyone in the community for helping us make this such an amazing year. Thank you all for reading, we hope to see you again in the fall! 
