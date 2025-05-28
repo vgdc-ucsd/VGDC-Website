@@ -156,7 +156,7 @@ export default function ShowcaseSearch({
 
         {/* Filter Options */}
         {showFilters && (
-          <div className="animate-fadeIn grid grid-cols-1 gap-4 rounded-lg border border-background-grey bg-background-black p-4 sm:grid-cols-2 md:grid-cols-3">
+          <div className="animate-fadeIn mb-2 grid grid-cols-1 gap-4 rounded-lg border border-background-grey bg-background-black p-4 sm:grid-cols-2 md:grid-cols-3">
             {/* Status Filter */}
             <div>
               <label className="mb-1 block text-sm font-medium text-gray-300">
