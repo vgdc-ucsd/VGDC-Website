@@ -3,12 +3,15 @@
 import React from "react"
 import { ShowcaseGamesDetails } from "@/lib/showcase_games"
 import Image from "next/image"
-import { ExternalLink } from "lucide-react"
+import { ExternalLink, Eye } from "lucide-react"
+import ApprovalSeal from "./ApprovalSeal"
+
+export type GameStatus = "Released" | "In Development"
 
 type GameCardProps = {
   game: ShowcaseGamesDetails
   onClick: () => void
-  getStatusText: (status: boolean) => string
+  getStatusText: (status: boolean) => GameStatus
 }
 
 const GameCard: React.FC<GameCardProps> = ({
@@ -39,6 +42,13 @@ const GameCard: React.FC<GameCardProps> = ({
               <p className="text-center text-gray-400">No image</p>
             </div>
           )}
+
+          {/* Approval Sticker */}
+          {game.vgdcApproved && (
+            <div className="absolute right-3 top-3 overflow-hidden">
+              <ApprovalSeal color="#debb18ff" className="h-20 w-20" />
+            </div>
+          )}
         </div>
 
         {/* Game Information - Bottom Info */}
@@ -61,9 +71,20 @@ const GameCard: React.FC<GameCardProps> = ({
             )}
           </div>
 
-          <p className="line-clamp-2 text-xs text-gray-300">
+          <p className="line-clamp-2 h-8 text-xs text-gray-300">
             {game.description}
           </p>
+        </div>
+
+        {/* Click overlay on hover*/}
+        <div className="absolute inset-0 bg-black bg-opacity-0 transition-all hover:bg-opacity-20">
+          <div className="flex h-full w-full items-start justify-center opacity-0 transition-opacity hover:opacity-100">
+            <div className="flex h-3/4 w-full items-center justify-center">
+              <span className="rounded-full bg-background-black/50 p-5 text-4xl text-white">
+                <Eye className="h-10 w-10" />
+              </span>
+            </div>
+          </div>
         </div>
       </div>
     </div>
