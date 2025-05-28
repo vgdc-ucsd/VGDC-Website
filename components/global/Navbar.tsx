@@ -111,8 +111,8 @@ export default function Navbar({ offsetSpace = true, hideOnScroll = true }) {
                   <Button variant="link" className={getStyle("/events")}>
                     <Link href="/events">Events</Link>
                   </Button>
-                  <Button variant="link" className={getStyle("/showcase")}>
-                    <Link href="/showcase">Games</Link>
+                  <Button variant="link" className={getStyle("/games")}>
+                    <Link href="/games">Games</Link>
                   </Button>
                   <Button variant="link" className={getStyle("/news")}>
                     <Link href="/news">News</Link>
@@ -136,7 +136,7 @@ export default function Navbar({ offsetSpace = true, hideOnScroll = true }) {
             <Link href="/events" className={getStyle("/events")}>
               Events
             </Link>
-            <Link href="/showcase" className={getStyle("/showcase")}>
+            <Link href="/games" className={getStyle("/games")}>
               Games
             </Link>
             <Link href="/news" className={getStyle("/news")}>
