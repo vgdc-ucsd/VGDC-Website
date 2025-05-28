@@ -25,12 +25,12 @@ const GameCard: React.FC<GameCardProps> = ({
       onClick={onClick}
     >
       {/* Box Container */}
-      <div className="relative aspect-[2/3] w-full overflow-hidden rounded-lg bg-gradient-to-r from-background-black to-footer-grey shadow-lg">
+      <div className="relative w-full overflow-hidden rounded-lg bg-gradient-to-r from-background-black to-footer-grey shadow-lg">
         {/* Game Cover Image */}
         <div className="h-3/4 w-full overflow-hidden">
           {game.image ? (
             <div
-              className="h-full w-full"
+              className="aspect-square w-full"
               style={{
                 backgroundImage: `url(${game.image})`,
                 backgroundSize: "cover",
@@ -38,7 +38,7 @@ const GameCard: React.FC<GameCardProps> = ({
               }}
             />
           ) : (
-            <div className="flex h-full w-full items-center justify-center bg-background-black">
+            <div className="flex aspect-square w-full items-center justify-center bg-background-black">
               <p className="text-center text-gray-400">No image</p>
             </div>
           )}
@@ -52,7 +52,8 @@ const GameCard: React.FC<GameCardProps> = ({
         </div>
 
         {/* Game Information - Bottom Info */}
-        <div className="absolute bottom-0 w-full bg-footer-grey p-3">
+        <div className="w-full bg-footer-grey p-3">
+          {/* <div className="aspect-square w-full opacity-0"></div> */}
           <h3 className="mb-1 line-clamp-1 text-base font-bold text-white">
             {game.title}
           </h3>
