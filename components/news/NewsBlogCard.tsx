@@ -1,7 +1,7 @@
 "use client"
 
 import { Button } from "@/components/ui/button"
-import { Post } from "@/lib/post"
+import { Post } from "@/lib/post_sheets"
 import Image from "next/image"
 import Link from "next/link"
 import styles from "./BlogCard.module.css" // Import your CSS file
@@ -35,7 +35,7 @@ export default function NewsBlogCard({
     >
       <div className="flex-shrink-0 bg-gray-950 pb-4 md:w-[26rem] lg:w-[28rem]">
         <Image
-          src={`/images/blogs/${post.id}${post.coverImage}`}
+          src={post.coverImage}
           width={600}
           height={600}
           alt="Picture of the post"
