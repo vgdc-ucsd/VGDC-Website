@@ -6,22 +6,39 @@ import PageSection from "@/components/global/PageSection"
 
 import { getEvents } from "@/lib/events"
 
-export const revalidate = 60;
-
 /** Dedicated events page. */
 export default async function Events() {
-  // Gets the event data based on parameters passed in.
-  let events = await getEvents(false, true, true, false)
+  const upcomingEvents = await getEvents(false, false, true, false)
+  const allRecentEvents = await getEvents(false, true, false, true)
+  const recentEvents = allRecentEvents.slice(0, 5)
 
   return (
     <main className="min-h-screen bg-background-black">
       <Navbar />
 
       {/* Page content */}
-      <PageSection 
+      <PageSection
         heading="Explore Events"
       >
-        <EventList events={events} />
+        <div className="space-y-12">
+          {/* Upcoming Events Section */}
+          <div>
+            <h3 className="text-2xl font-bold text-white mb-6">Upcoming Events</h3>
+            {upcomingEvents.length > 0 ? (
+              <EventList events={upcomingEvents} />
+            ) : (
+              <p className="text-xl text-text-grey">No upcoming events, check back again soon!</p>
+            )}
+          </div>
+
+          {/* Recent Events Section */}
+          {recentEvents.length > 0 && (
+            <div>
+              <h3 className="text-2xl font-bold text-white mb-6">Recent Events</h3>
+              <EventList events={recentEvents} />
+            </div>
+          )}
+        </div>
       </PageSection>
       <Footer />
     </main>
