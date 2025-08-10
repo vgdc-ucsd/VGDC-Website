@@ -8,8 +8,18 @@ import { getEvents } from "@/lib/events"
 
 /** Dedicated events page. */
 export default async function Events() {
-  const upcomingEvents = await getEvents(false, false, true, false)
-  const allRecentEvents = await getEvents(false, true, false, true)
+  const upcomingEvents = await getEvents({
+    homepage: false,
+    includeOldEvents: false,
+    includeNewEvents: true,
+    reverseOrder: false,
+  });
+  const allRecentEvents = await getEvents({
+    homepage: false,
+    includeOldEvents: true,
+    includeNewEvents: false,
+    reverseOrder: true,
+  });
   const recentEvents = allRecentEvents.slice(0, 5)
 
   return (

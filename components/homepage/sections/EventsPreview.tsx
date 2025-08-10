@@ -1,6 +1,6 @@
 "use server"
 
-import { getEvents } from "@/lib/events"
+import { getEvents, GetEventsFlags } from "@/lib/events"
 
 import { SectionComponent, SectionHeader } from "../../global/SectionComponents"
 import EventList from "@/components/events/EventList"
@@ -15,14 +15,14 @@ export default async function EventsPreview({
   includeNewEvents = true,
   /** Reverse order of events? False by default, helpfulf or showing past events. */
   reverseOrder = false,
-}) {
+}: GetEventsFlags) {
   // Gets the event data based on parameters passed in.
-  let events = await getEvents(
+  let events = await getEvents({
     homepage,
     includeOldEvents,
     includeNewEvents,
     reverseOrder
-  )
+  });
 
   return (
     <SectionComponent>
