@@ -10,70 +10,52 @@ import RippleText from "../ui/ripple-text"
 import Socials from "@/components/ui/socials"
 import React from "react"
 
-// Questions and answers to fill the accordion with
+function Discord({ children = "Discord", className = "" }: { children?: React.ReactNode, className?: string }) {
+  return (
+    <a
+      href="https://bit.ly/VGDCUCSD"
+      className={`text-vgdc-light-green ${className}`}
+      target="_blank"
+      rel="noopener noreferrer"
+    >
+      <b>{children}</b>
+    </a>
+  )
+}
+
 const questions = [
   {
     question: "How do I get involved?",
     answer: (
       <p>
-        The quickest way to get involved is to join our{" "}
-        <a
-          href="https://bit.ly/VGDCUCSD"
-          className="text-vgdc-light-green"
-          target="_blank"
-        >
-          <b>Discord server</b>
-        </a>
-        {"! "}
-        There, we announce everything we have going on throughout the year, and
-        you can also talk with other game developers. Our GBM at the start of
-        every quarter is another great way to find out about everything we have
-        planned, but any of our events are a perfect place to get started!
+        The easiest way to get involved is to join our <Discord />! Every event, project, and
+        fundraiser we run is announced there, and it&apos;s also a great place to meet
+        and chat with other game developers. Our general body meeting (GBM) at the start of each quarter
+        is another great way to learn more about the club and our plans, but
+        you&apos;re welcome to show up to any of our events, no need to wait!
       </p>
     ),
   },
   {
-    question: "Can I join the board?",
+    question: "Are there any leadership opportunities?",
     answer: (
       <p>
-        Yes! We open up applications to become a board member several times
-        throughout the year, {"which we'll announce on our "}
-        <a
-          href="https://bit.ly/VGDCUCSD"
-          className="text-vgdc-light-green"
-          target="_blank"
-        >
-          <b>Discord server</b>
-        </a>
-        {
-          " and at our GBMs. You can also reach out to us directly if you'd like - "
-        }
-        {
-          "we might not have a position for you right now, but we'll try to keep "
-        }
-        you in mind for the future.
+        Yes! Our club recruits a couple times a year for a variety of positions,
+        and you can find more info about this in our <Discord />. This is a great
+        way to become more involved helping with the various things our club does
+        (game jams, marketing, our website, etc), while also developing your
+        industry skills!
       </p>
     ),
   },
   {
-    question: "Where can I find resources to creative tools?",
+    question: "What if I'm not a programmer?",
     answer: (
       <p>
-        {
-          "We're working on building resources right now to help you start game "
-        }
-        development as a beginner, but for now the best way to find resources is
-        to join our{" "}
-        <a
-          href="https://bit.ly/VGDCUCSD"
-          className="text-vgdc-light-green"
-          target="_blank"
-        >
-          <b>Discord server</b>
-        </a>
-        . {"There, we'll be able to help "}
-        you figure out what creative tools will be best for you based on the
-        skills you want to develop and the games you want to make.
+        Absolutely no problem! Making a game requires people to come together across
+        many different disciplines, so in addition to programmers, our club also
+        consists of many artists, writers, designers, voice actors, musicians, and
+        more!
       </p>
     ),
   },
@@ -81,35 +63,26 @@ const questions = [
     question: "What if I haven't made games before?",
     answer: (
       <p>
-        Everyone starts somewhere! This club exists to help people learn to make
-        {
-          " games, so if you're looking to get started, you've come to the right "
-        }
-        {
-          "place. No matter what skillset you want to develop, whether it's art, "
-        }
-        {
-          "design, programming, or any other part of game development, we're sure "
-        }
-        to have events and opportunities to help you build that skillset, and
-        members with those skills who would love to help.
+        No worries, Everyone starts somewhere!
+        Our club is designed to give not only active game developers but any interested
+        student an introduction to the world of game development. We regularly teach
+        workshops covering skills including (but not limited to): programming (Unity),
+        design, art, music, etc. These workshops tend to be more concentrated in Fall
+        Quarter, but are also run throughout the remainder of the academic year. In
+        addition, we also run a beginner-friendly Game Jam, where you get the chance
+        to get hands on experience working on a game in a team with other students!
       </p>
     ),
   },
   {
-    question: "Do I need to be a programmer?",
+    question: "I still have more questions!",
     answer: (
       <p>
-        Not at all! Making a game takes people of all sorts of skillsets, and
-        our club is filled with artists, writers, designers, voice actors, and
-        {" even people completely new to game development. As long as you're "}
-        {
-          "interested in making (or even just playing) games, we'd love to have you "
-        }
-        join us!
+        We&apos;d be happy to help! The best way to reach us is through <Discord />,
+        although you can also find us at those other socials (to the right).
       </p>
     ),
-  },
+  }
 ]
 
 const formSchema = z.object({
