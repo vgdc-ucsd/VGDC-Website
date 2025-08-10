@@ -1,31 +1,14 @@
 "use client"
 import { z } from "zod"
-import axios, { Axios } from "axios"
-import { useForm, FieldValues } from "react-hook-form"
-import { zodResolver } from "@hookform/resolvers/zod"
-import { Button } from "@/components/ui/button"
-import { ToastAction } from "@/components/ui/toast"
-import { useToast } from "@/components/ui/use-toast"
-import {
-  Form,
-  FormControl,
-  FormDescription,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form"
-import { Input } from "@/components/ui/input"
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion"
-
-import { SiMinutemailer } from "react-icons/si"
-import { FaInstagram, FaDiscord, FaFacebook } from "react-icons/fa"
 import RippleText from "../ui/ripple-text"
+import Socials from "@/components/ui/socials"
+import React from "react"
 
 // Questions and answers to fill the accordion with
 const questions = [
@@ -147,7 +130,8 @@ export default function Footer() {
       <div className="mx-auto mt-[4rem] flex w-full max-w-full flex-col justify-center pt-8 sm:w-fit md:mt-[8rem] lg:flex-row-reverse lg:space-x-4">
         {/* Social links */}
         <div className="min-w-full p-8 sm:w-[540px] sm:min-w-0">
-          <SocialLinks />
+          {/*<SocialLinks />*/}
+          <Socials variant="footer" />
           <div className="mt-10 box-border rounded-lg bg-background-grey/50 p-5">
             <div className="text-center text-lg text-white">Contact us</div>
             <div className="mx-auto w-fit text-center">
@@ -186,39 +170,6 @@ export default function Footer() {
         {new Date().getFullYear()}
       </div>
     </div>
-  )
-}
-
-/**
- * The social links in the footer.
- *
- * @returns The JSX of the social links.
- */
-function SocialLinks() {
-  // Style for the social links
-  const socialLinkStyle =
-    "text-white transition ease-in duration-150 hover:cursor-pointer hover:text-hot-pink"
-
-  return (
-    <>
-      <h4 className="text-center text-lg text-text-white lg:text-left">
-        Stay connected!
-      </h4>
-      <span className="align-center mx-auto mt-4 flex w-48 flex-row justify-between lg:mx-0">
-        <a href="https://www.instagram.com/vgdc.at.ucsd/" target="_blank">
-          <FaInstagram className={socialLinkStyle} size={32} />
-        </a>
-        <a href="https://bit.ly/VGDCUCSD" target="_blank">
-          <FaDiscord className={socialLinkStyle} size={32} />
-        </a>
-        <a href="https://www.facebook.com/groups/VGDC.UCSD/" target="_blank">
-          <FaFacebook className={socialLinkStyle} size={28} />
-        </a>
-        <a href="mailto:vgdc@ucsd.edu" target="_blank">
-          <SiMinutemailer className={socialLinkStyle} size={28} />
-        </a>
-      </span>
-    </>
   )
 }
 
