@@ -7,7 +7,11 @@ import EventView from "./components/EventView"
 
 /** Generates static parameters for dynamic routes */
 export async function generateStaticParams() {
-  let events = await getEvents(false, true, true)
+  let events = await getEvents({
+    homepage: false, 
+    includeOldEvents: true, 
+    includeNewEvents: true,
+  });
 
   return events.map((event) => ({
     event: event.slug,
@@ -23,7 +27,11 @@ export default async function Event({
   params: Promise<{ event: string }>
 }) {
   // Get the event data, including old events.
-  let events = await getEvents(false, true, true)
+  let events = await getEvents({
+    homepage: false, 
+    includeOldEvents: true, 
+    includeNewEvents: true,
+  });
 
   const slug = (await params).event
 

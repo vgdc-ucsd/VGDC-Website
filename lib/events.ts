@@ -13,6 +13,13 @@ export type EventDetails = {
   slug: string
 }
 
+export interface GetEventsFlags {
+  homepage?: boolean;
+  includeOldEvents?: boolean;
+  includeNewEvents?: boolean;
+  reverseOrder?: boolean;
+}
+
 /**
  * Gets the events from a spreadsheet, filters them, and sorts them.
  * @param homepage Only include events for the homepage? False by default.
@@ -21,12 +28,12 @@ export type EventDetails = {
  * @param reverseOrder Reverse order of events? False by default, helpful for showing past events.
  * @returns The list of events, sorted and filtered.
  */
-export async function getEvents(
+export async function getEvents({
   homepage = false,
   includeOldEvents = false,
   includeNewEvents = true,
   reverseOrder = false
-) {
+}: GetEventsFlags) {
   // Gets the raw data from getSheetData.
   const response = await getSheetData("Events")
   // Gets the current moment to filter out events before this time. Subtracts 1 day so events show a day after ending.
