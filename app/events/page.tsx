@@ -6,6 +6,8 @@ import PageSection from "@/components/global/PageSection"
 
 import { getEvents } from "@/lib/events"
 
+const maxNumOfRecentEvents = 5;
+
 /** Dedicated events page. */
 export default async function Events() {
   const upcomingEvents = await getEvents({
@@ -20,7 +22,7 @@ export default async function Events() {
     includeNewEvents: false,
     reverseOrder: true,
   });
-  const recentEvents = allRecentEvents.slice(0, 5)
+  const recentEvents = allRecentEvents.slice(0, maxNumOfRecentEvents);
 
   return (
     <main className="min-h-screen bg-background-black">
