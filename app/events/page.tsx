@@ -2,7 +2,7 @@ import Navbar from "@/components/global/Navbar"
 import EventList from "@/components/events/EventList"
 import Footer from "@/components/global/Footer"
 
-import { PageComponent, PageHeader } from "@/components/global/PageComponents"
+import PageSection from "@/components/global/PageSection"
 
 import { getEvents } from "@/lib/events"
 
@@ -11,22 +11,18 @@ export const revalidate = 60;
 /** Dedicated events page. */
 export default async function Events() {
   // Gets the event data based on parameters passed in.
-  let events = await getEvents(false, false, true, false)
+  let events = await getEvents(false, true, true, false)
 
   return (
     <main className="min-h-screen bg-background-black">
       <Navbar />
 
       {/* Page content */}
-      <PageComponent>
-        <PageHeader
-          heading="Explore Events"
-          subheading="<- back"
-          href="./"
-          flip={true}
-        />
+      <PageSection 
+        heading="Explore Events"
+      >
         <EventList events={events} />
-      </PageComponent>
+      </PageSection>
       <Footer />
     </main>
   )

@@ -13,7 +13,7 @@ interface StoreVendorProps {
 export default function StoreVendor({ data }: StoreVendorProps) {
   return (
     <div className="mx-auto px-4 py-8">
-      <div className="grid grid-cols-2 gap-6 md:grid-cols-3 lg:grid-cols-4">
+      <div className="grid grid-cols-2 gap-6 md:grid-cols-3 lg:grid-cols-3">
         {data.map((item, index) => (
           <div key={index} className="group overflow-hidden">
             <Link href={item.stock ? "https://docs.google.com/forms/d/e/1FAIpQLSe6t-887BQ3EJnKMSihdEvyexDBpEX6ngOeY787Z0RHgafK4g/viewform" : "#"} onClick={(e) => {
@@ -21,7 +21,7 @@ export default function StoreVendor({ data }: StoreVendorProps) {
                 e.preventDefault();
               }
             }}>
-            <div className="relative aspect-[3/4] overflow-hidden">
+            <div className="relative aspect-[3/4] overflow-hidden rounded-lg">
               {/* Fixed height of 16rem (h-64) */}
               {item.image2 ? (
                 <>
