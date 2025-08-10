@@ -8,6 +8,7 @@ import Officers from "@/app/officers/Officers"
 import data from "@/public/data/officers.json"
 
 export default async function OfficerPage({ year }: { year: string }) {
+  const showBackButton = year !== "current"
 
   return (
     <main className="min-h-screen bg-background-black">
@@ -16,6 +17,7 @@ export default async function OfficerPage({ year }: { year: string }) {
       <PageSection
         heading={data[year as keyof typeof data]!.heading!}
         subText={data[year as keyof typeof data]!.paragraph!}
+        backButton={showBackButton ? { text: "<- back", href: "/officers" } : undefined}
       >
         <div className="space-y-20">
           <Officers officers={data[year as keyof typeof data]!.officers!} />
