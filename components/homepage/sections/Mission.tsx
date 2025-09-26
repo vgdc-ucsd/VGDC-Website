@@ -48,7 +48,7 @@ export default function Mission() {
         >
           <Avatar className="h-12 w-12">
             <Image
-              src={"/images/officers/2024-2025/kiichiro-wang.jpg"}
+              src={"/images/officers/2024-2025/aslan-chan.jpg"}
               width={300}
               height={300}
               alt="Image of the president"
@@ -60,7 +60,7 @@ export default function Mission() {
               President
             </p>
             <p className=" mt-[-4px] text-base text-white xl:text-lg">
-              Kiichiro Wang
+              Aslan Chan
             </p>
           </div>
         </motion.div>

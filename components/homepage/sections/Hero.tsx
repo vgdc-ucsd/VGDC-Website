@@ -4,8 +4,7 @@ import { motion } from "framer-motion"
 
 import Image from "next/image"
 
-import { SiMinutemailer } from "react-icons/si"
-import { FaInstagram, FaDiscord, FaFacebook } from "react-icons/fa"
+import Socials from "@/components/ui/socials"
 
 import React from "react"
 import UseEmblaCarousel from "embla-carousel-react"
@@ -213,9 +212,6 @@ function HeroGames() {
 }
 
 function HeroSocials() {
-  const socialLinkStyle =
-    "text-white transition ease-in duration-150 hover:cursor-pointer hover:text-hot-pink"
-
   return (
     <motion.div
       initial={{ opacity: 0, translateY: 50 }}
@@ -223,23 +219,7 @@ function HeroSocials() {
       transition={{ delay: 0.8, ease: "easeOut", duration: 0.4 }}
       className="mx-auto mt-8 w-fit md:ml-auto md:mr-0"
     >
-      <h4 className="text-center text-xl text-text-white">
-        Follow us and stay connected!
-      </h4>
-      <div className="mx-auto mt-4 flex w-52 flex-row justify-between">
-        <a href="https://www.instagram.com/vgdc.at.ucsd/" target="_blank">
-          <FaInstagram className={socialLinkStyle} size={32} />
-        </a>
-        <a href="https://bit.ly/VGDCUCSD" target="_blank">
-          <FaDiscord className={socialLinkStyle} size={32} />
-        </a>
-        <a href="https://www.facebook.com/groups/VGDC.UCSD/" target="_blank">
-          <FaFacebook className={socialLinkStyle} size={28} />
-        </a>
-        <a href="mailto:vgdc@ucsd.edu" target="_blank">
-          <SiMinutemailer className={socialLinkStyle} size={28} />
-        </a>
-      </div>
+      <Socials variant="hero" />
     </motion.div>
   )
 }

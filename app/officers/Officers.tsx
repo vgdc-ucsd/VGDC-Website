@@ -56,7 +56,7 @@ function Officer({
       className="w-44"
     >
       {/* The hover card over the title and name */}
-      <HoverCard>
+      <HoverCard openDelay={0.3} closeDelay={0.3}>
         <HoverCardTrigger>
           {/* Avatar, Title, and Name */}
           {/* Avatar */}

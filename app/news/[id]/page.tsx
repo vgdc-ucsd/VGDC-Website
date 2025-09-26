@@ -1,5 +1,5 @@
 import React, { useContext } from "react"
-import { generateNeighbors, getPostData } from "@/lib/post"
+import { generateNeighbors, getPostData } from "@/lib/post_sheets"
 import { parseISO, format } from "date-fns"
 import Image from "next/image"
 import Navbar from "@/components/global/Navbar"
@@ -65,6 +65,8 @@ import BlogView from "./components/BlogView"
 <meta property="twitter:image" content={`${hostname}/_next/image?url=/images/blogs/${post.id}${post.coverImage}&w=828&q=75`} />
  */
 }
+
+export const revalidate = 60;
 
 export async function generateMetadata({ params }: any) {
   const post = await getPostData(params.id)
