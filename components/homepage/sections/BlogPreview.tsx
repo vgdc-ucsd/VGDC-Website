@@ -10,8 +10,6 @@ import { createAvatar } from "@dicebear/core"
 import { notionistsNeutral } from "@dicebear/collection"
 import { SectionHeader, SectionComponent } from "../../global/SectionComponents"
 
-export const revalidate = 60;
-
 export default async function BlogPreview() {
   const posts = await getSortedPostsData(2)
   return (

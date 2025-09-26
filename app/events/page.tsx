@@ -8,6 +8,8 @@ import { getEvents } from "@/lib/events"
 
 const maxNumOfRecentEvents = 5;
 
+export const revalidate = 60
+
 /** Dedicated events page. */
 export default async function Events() {
   const upcomingEvents = await getEvents({
