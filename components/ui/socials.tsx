@@ -32,10 +32,10 @@ const socialLinks = [
 export default function Socials({ variant = "hero", className = "" }: SocialsProps) {
   return (
     <div className={`${className}`}>
-      <h4 className='text-xl text-text-white'>
+      <h4 className='text-xl text-text-white text-center'>
         Follow us and stay connected!
       </h4>
-      <div className={`mt-4 flex w-40 flex-row justify-between mx-auto ${variant === 'footer' ? 'lg:mx-0' : ''}`}>
+      <div className={`mt-4 flex w-40 flex-row justify-between mx-auto ${variant === 'footer' ? '' : ''}`}>
         {socialLinks.map((social, index) => (
           <a
             key={index}
