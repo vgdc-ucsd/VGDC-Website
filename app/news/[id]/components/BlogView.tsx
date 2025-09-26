@@ -66,7 +66,7 @@ export default function BlogView({
         className="aspect-[16/9] w-full object-cover"
       >
         <Image
-          src={`/images/blogs/${post.id}${post.coverImage}`}
+          src={post.coverImage}
           width={800}
           height={600}
           alt="Cover Image"
