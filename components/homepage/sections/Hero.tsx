@@ -99,7 +99,7 @@ function HeroText() {
               style={{ rotate: "-15deg" }}
             >
               <p
-                className="text-base font-bold italic sm:text-lg md:text-xl lg:text-3xl"
+                className="text-base font-bold sm:text-lg md:text-xl lg:text-3xl"
                 style={{
                   fontFamily: "Mojangles, monospace",
                   color: "#FFFF55",
