@@ -67,18 +67,49 @@ function HeroText() {
           className="mx-0 my-12 max-w-fit sm:my-16 md:mx-8 md:my-24"
         >
           {/* Club Name */}
-          <h1
-            className="mx-auto block
-          text-center font-inter text-5xl font-extrabold tracking-tight text-text-white
-          sm:text-6xl md:text-7xl lg:text-8xl"
-          >
-            <b>
-              Video Game
-              <br />
-              Development
-              <br className="sm:hidden" /> Club
-            </b>
-          </h1>
+          <div className="relative">
+            <h1
+              className="mx-auto block
+            text-center font-inter text-5xl font-extrabold tracking-tight text-text-white
+            sm:text-6xl md:text-7xl lg:text-8xl"
+            >
+              <b>
+                Video Game
+                <br />
+                Development
+                <br className="sm:hidden" /> Club
+              </b>
+            </h1>
+            <motion.div
+              initial={{ opacity: 0, scale: 0 }}
+              animate={{
+                opacity: 1,
+                scale: [1, 1.05, 1],
+              }}
+              transition={{
+                opacity: { ease: "easeOut", duration: 0.5, delay: 0.3 },
+                scale: {
+                  repeat: Infinity,
+                  duration: 1.5,
+                  ease: "easeInOut",
+                  delay: 0.8,
+                },
+              }}
+              className="absolute top-[10rem] origin-center -right-[4rem] sm:-right-[4rem] md:-right-[8rem] lg:-right-[15rem]"
+              style={{ rotate: "-15deg" }}
+            >
+              <p
+                className="text-base font-bold italic sm:text-lg md:text-xl lg:text-3xl"
+                style={{
+                  fontFamily: "Mojangles, monospace",
+                  color: "#FFFF55",
+                  textShadow: "2px 2px 0px rgba(0, 0, 0, 0.5)",
+                }}
+              >
+                Voted Best Student Org 25-26!
+              </p>
+            </motion.div>
+          </div>
           {/* School Name */}
           <h3 className="mt-2 bg-gradient-to-r from-vgdc-light-blue to-vgdc-light-green bg-clip-text text-center font-inter text-xl font-semibold tracking-tight text-transparent sm:mt-4 sm:text-2xl md:mt-6 md:text-3xl lg:mt-8 lg:text-4xl">
             @ UC San Diego
