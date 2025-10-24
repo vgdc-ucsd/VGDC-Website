@@ -95,18 +95,19 @@ function HeroText() {
                   delay: 0.8,
                 },
               }}
-              className="absolute top-[10rem] origin-center -right-[4rem] sm:-right-[4rem] md:-right-[8rem] lg:-right-[15rem]"
-              style={{ rotate: "-15deg" }}
+              className="absolute origin-center
+                top-[-2rem] sm:top-[0.5rem] md:top-[1rem] lg:top-[1.5rem]
+                -right-[0rem] sm:-right-[4rem] md:-right-[5rem] lg:-right-[8rem]
+                [rotate:5deg] sm:[rotate:20deg]"
             >
               <p
-                className="text-base font-bold sm:text-lg md:text-xl lg:text-3xl"
+                className="text-base text-vgdc-light-blue font-bold sm:text-lg md:text-xl lg:text-3xl"
                 style={{
                   fontFamily: "Mojangles, monospace",
-                  color: "#FFFF55",
                   textShadow: "2px 2px 0px rgba(0, 0, 0, 0.5)",
                 }}
               >
-                Voted Best Student Org 25-26!
+                Voted Best Student Org 24-25!
               </p>
             </motion.div>
           </div>
