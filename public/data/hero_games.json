@@ -1,12 +1,12 @@
 {
     "hero_games": [
         {
-            "name": "Bedtime Beats",
-            "link": "https://anapostrophe.itch.io/bedtime-beats",
-            "image": "/images/games/bedtimebeats.png",
-            "year": "2024",
+            "name": "Mariposa",
+            "link": "https://store.steampowered.com/app/3991120/Mariposa/",
+            "image": "/images/games/mariposa.png",
+            "year": "2025",
             "style": "big-block",
-            "paragraph": "Stay up too late playing this rhythm game without getting caught by your mom.",
+            "paragraph": "Our biggest project ever! Experience the butterfly effect in this 2D puzzle-platformer. Proudly led by Chanel Lim and Ethan Schwartzman",
             "order": 1
         },
         {
@@ -19,28 +19,28 @@
             "order": 2
         },
         {
-            "name": "Sky Limit",
-            "link": "https://creikey.itch.io/skylimit",
-            "image": "/images/games/skylimit.png",
+            "name": "Patrick's Parabox",
+            "link": "https://store.steampowered.com/app/1260520/Patricks_Parabox/",
+            "image": "/images/games/patricksparabox.png",
             "year": "2023",
             "style": "small-block",
             "paragraph": "",
             "order": 3
         },
         {
-            "name": "Overtime",
-            "link": "https://stickle.itch.io/overtime",
-            "image": "/images/games/overtime.png",
+            "name": "Bedtime Beats",
+            "link": "https://anapostrophe.itch.io/bedtime-beats",
+            "image": "/images/games/bedtimebeats.png",
             "year": "2024",
             "style": "small-block",
-            "paragraph": "",
+            "paragraph": "Stay up too late playing this rhythm game without getting caught by your mom.",
             "order": 4
         },
         {
-            "name": "Lamplight",
-            "link": "https://angelina007.itch.io/lamplight",
-            "image": "/images/games/lamplight.png",
-            "year": "2023",
+            "name": "Let's Go Crambling!",
+            "link": "https://ani03.itch.io/lets-go-crambling",
+            "image": "/images/games/letsgocrambling.png",
+            "year": "2025",
             "style": "small-block",
             "paragraph": "",
             "order": 5
@@ -59,7 +59,7 @@
             "image": "/images/games/athenaeum.webp",
             "year": "2024",
             "style": "big-block",
-            "paragraph": "Our biggest project ever, with cards, spells, and creepy bosses. Proudly led by Chanel Lim.",
+            "paragraph": "Our second biggest project ever, with cards, spells, and creepy bosses. Proudly led by Chanel Lim.",
             "order": 8
         },
         {
