@@ -1,5 +1,6 @@
 import React from "react"
 import Image from "next/image"
+import { motion } from "framer-motion"
 
 interface ApprovalSealProps {
   width?: number
@@ -13,13 +14,32 @@ function ApprovalSeal({
   className = "",
 }: ApprovalSealProps) {
   return (
-    <Image
-      src="/icons/vgdc-doug-seal.svg"
-      alt="VGDC Approval Seal"
-      width={width}
-      height={height}
-      className={className}
-    />
+    <div className={`relative overflow-hidden rounded-full ${className}`} style={{ width, height }}>
+      <Image
+        src="/icons/vgdc-doug-seal.svg"
+        alt="VGDC Approval Seal"
+        width={width}
+        height={height}
+      />
+      {/* Shine effect */}
+      <motion.div
+        className="absolute top-0 h-full w-[30px] pointer-events-none"
+        style={{
+          background: "linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.6), transparent)",
+          transform: "skewX(-30deg)",
+        }}
+        animate={{
+          left: ["-100px", "100px"],
+        }}
+        transition={{
+          repeat: Infinity,
+          duration: 0.8,
+          ease: "linear",
+          delay: 2,
+          repeatDelay: 8,
+        }}
+      />
+    </div>
   )
   // return (
   //   <svg

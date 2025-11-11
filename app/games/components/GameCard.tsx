@@ -1,10 +1,11 @@
 "use client"
 
-import React from "react"
+import React, { useState } from "react"
 import { ShowcaseGamesDetails } from "@/lib/showcase_games"
 import Image from "next/image"
 import { ExternalLink, Eye } from "lucide-react"
 import ApprovalSeal from "./ApprovalSeal"
+import { motion } from "framer-motion"
 
 export type GameStatus = "Released" | "In Development"
 
@@ -25,9 +26,9 @@ const GameCard: React.FC<GameCardProps> = ({
       onClick={onClick}
     >
       {/* Box Container */}
-      <div className="relative w-full overflow-hidden rounded-lg bg-gradient-to-r from-background-black to-footer-grey shadow-lg">
+      <div className="relative w-full overflow-visible bg-gradient-to-r from-background-black to-footer-grey shadow-lg">
         {/* Game Cover Image */}
-        <div className="h-3/4 w-full overflow-hidden">
+        <div className="h-3/4 w-full overflow-hidden rounded-t-lg">
           {game.image ? (
             <div
               className="aspect-square w-full"
@@ -45,14 +46,25 @@ const GameCard: React.FC<GameCardProps> = ({
 
           {/* Approval Sticker */}
           {game.vgdcApproved && (
-            <div className="absolute right-3 top-3 overflow-hidden">
-              <ApprovalSeal color="#debb18ff" className="h-20 w-20" />
-            </div>
+            <motion.div
+              className="absolute -right-3 -top-5"
+              style={{ overflow: "visible" }}
+              animate={{
+                rotate: [15, 12, 15],
+              }}
+              transition={{
+                repeat: Infinity,
+                duration: 3,
+                ease: "easeInOut",
+              }}
+            >
+              <ApprovalSeal width={80} height={80} />
+            </motion.div>
           )}
         </div>
 
         {/* Game Information - Bottom Info */}
-        <div className="w-full bg-footer-grey p-3">
+        <div className="w-full rounded-b-lg bg-footer-grey p-3">
           {/* <div className="aspect-square w-full opacity-0"></div> */}
           <h3 className="mb-1 line-clamp-1 text-base font-bold text-white">
             {game.title}
