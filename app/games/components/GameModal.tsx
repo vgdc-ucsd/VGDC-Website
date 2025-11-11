@@ -141,12 +141,11 @@ const GameModal: React.FC<GameModalProps> = ({
                             </div>
                           </div>
 
-                          {/* Approval Seal moved to the right, centered vertically */}
                           {game.vgdcApproved && (
                             <div className="ml-4 flex-shrink-0">
                               <ApprovalSeal
-                                color="#debb18ff"
-                                className="h-20 w-20"
+                                width={80}
+                                height={80}
                               />
                             </div>
                           )}

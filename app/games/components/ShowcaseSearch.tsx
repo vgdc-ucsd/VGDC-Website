@@ -3,7 +3,6 @@
 import { useState, useEffect } from "react"
 import { Search, Filter } from "lucide-react"
 import { ShowcaseGamesDetails } from "@/lib/showcase_games"
-import GamesCarousel from "./GamesCarousel"
 import GameModal from "./GameModal"
 import GamesGrid from "./GamesGrid"
 
