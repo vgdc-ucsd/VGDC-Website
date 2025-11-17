@@ -147,6 +147,9 @@ export default function Navbar({ offsetSpace = true, hideOnScroll = true }) {
             <Link href="/store" className={getStyle("/store")}>
               Store
             </Link>
+          </div>
+          {/* account login on the corner */}
+          <div className="invisible absolute right-8 top-3 sm:visible">
             <LoginButton />
           </div>
         </div>

@@ -2,23 +2,36 @@
 
 import { signIn, signOut, useSession } from "next-auth/react";
 import { Button } from "@/components/ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+
 
 export default function LoginButton(){
     const { data: session } = useSession();
 
     if(session){
         return ( 
-            <div>
-                {/* maybe later add pfp and make the design better */}
-                <p>{session.user?.name}</p>
-                <button onClick={() => signOut()}>Sign Out</button>
-            </div>
-        );
+            <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                    {/* maybe later add pfp and make the design better */}
+                    <span>{session.user?.name || "User"}</span>
+                </DropdownMenuTrigger>
+                  <DropdownMenuContent align="end">
+                    <Button onClick={() => signOut()} variant="outline" className="w-full sm:w-auto">
+                        Sign Out
+                    </Button>
+                  </DropdownMenuContent>
+            </DropdownMenu>
+        ); 
     }
 
     return (
-        <button onClick={() => signIn("discord")}>
+        <Button onClick={() => signIn("discord")} className="w-full sm:w-auto">
             Sign in with Discord
-        </button>
+        </Button>
     );
 }
