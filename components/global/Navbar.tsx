@@ -4,6 +4,7 @@ import Image from "next/image"
 import Link from "next/link"
 import { IoMenu } from "react-icons/io5"
 import { usePathname } from "next/navigation"
+import LoginButton from "@/components/ui/login-button"
 
 import {
   Drawer,
@@ -120,6 +121,7 @@ export default function Navbar({ offsetSpace = true, hideOnScroll = true }) {
                   <Button variant="link" className={getStyle("/store")}>
                     <Link href="/store">Store</Link>
                   </Button>
+                  <LoginButton />
                 </DrawerFooter>
               </DrawerContent>
             </Drawer>
@@ -145,6 +147,7 @@ export default function Navbar({ offsetSpace = true, hideOnScroll = true }) {
             <Link href="/store" className={getStyle("/store")}>
               Store
             </Link>
+            <LoginButton />
           </div>
         </div>
       </div>
