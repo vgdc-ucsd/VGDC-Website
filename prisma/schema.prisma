@@ -1,0 +1,111 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client"
+  output   = "../lib/generated/prisma"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("POSTGRES_PRISMA_URL")
+  directUrl = env("POSTGRES_URL_NON_POOLING")
+}
+
+enum Role {
+  MEMBER
+  OFFICER
+  EXEC
+}
+
+model User {
+  id             Int          @id @default(autoincrement())
+  name           String
+  role           Role         @default(MEMBER)
+  profilePicture String?
+  discordHandle  String       @unique
+  officerBios    OfficerBio[]
+}
+
+model OfficerBio {
+  id          Int     @id @default(autoincrement())
+  year        Int
+  description String
+  image       String?
+  position    String
+  user        User    @relation(fields: [userId], references: [id])
+  userId      Int
+}
+
+model Event {
+  id          Int         @id @default(autoincrement())
+  name        String
+  location    String
+  date        DateTime    @db.Date
+  startTime   DateTime    @db.Time
+  endTime     DateTime    @db.Time
+  description String
+  image       String?
+  gallery     String[]
+  eventTags   EventTags[]
+  slug        String      @unique
+}
+
+enum GameStatus {
+  RELEASED
+  PROTOTYPE
+  UNRELEASED
+}
+
+model GameTags {
+  id     Int    @id @default(autoincrement())
+  text   String
+  color  String
+  games  Game[]
+}
+
+model EventTags {
+  id      Int    @id @default(autoincrement())
+  text    String
+  color   String
+  events  Event[]
+}
+
+model Game {
+  id            Int        @id @default(autoincrement())
+  title         String
+  credits       String[]
+  description   String
+  releaseDate   DateTime   @db.Date
+  difficulty    Int
+  link          String?
+  thumbnail     String?
+  gameTags      GameTags[]
+  isWebPlayable Boolean    @default(false)
+  status        GameStatus @default(UNRELEASED)
+  hasSeal       Boolean    @default(false)
+}
+
+model StoreItem {
+  id          Int      @id @default(autoincrement())
+  name        String
+  price       Decimal  @db.Decimal(10, 2)
+  description String
+  image       String?
+  gallery     String[]
+  stock       Int      @default(0)
+}
+
+model BlogPost {
+  id           Int      @id @default(autoincrement())
+  title        String
+  subtitle     String
+  date         DateTime @db.Date
+  authors      String[]
+  coverImage   String?
+  coverCaption String?
+  postData     String   @db.Text
+}
