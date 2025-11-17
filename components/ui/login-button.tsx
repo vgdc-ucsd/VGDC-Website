@@ -15,13 +15,13 @@ export default function LoginButton(){
 
     if(session){
         return ( 
-            <DropdownMenu>
+            <DropdownMenu modal={false}> 
                 <DropdownMenuTrigger asChild>
                     {/* maybe later add pfp and make the design better */}
                     <span>{session.user?.name || "User"}</span>
                 </DropdownMenuTrigger>
-                  <DropdownMenuContent align="end">
-                    <Button onClick={() => signOut()} variant="outline" className="w-full sm:w-auto">
+                  <DropdownMenuContent align="end" className="z-[60]">
+                    <Button onClick={() => signOut()} variant="outline"className="w-full sm:w-auto">
                         Sign Out
                     </Button>
                   </DropdownMenuContent>

@@ -70,7 +70,7 @@ export default function Navbar({ offsetSpace = true, hideOnScroll = true }) {
         className={`fixed left-0 z-50 h-16 w-full bg-background-black/30 font-light text-text-grey backdrop-blur-lg transition-[top] duration-300 ${show || !hideOnScroll ? "top-0" : "-top-20"}`}
       >
         {/* Contains all components inside navbar */}
-        <div className="mx-auto w-full max-w-[1200px] px-8 py-2">
+        <div className="mx-auto w-full max-w-[1200px] px-8 py-2 relative">
           {/* The logo, changes size and position dynamically */}
           <Link href="/" className="absolute top-3 block w-fit">
             <Image
@@ -128,7 +128,7 @@ export default function Navbar({ offsetSpace = true, hideOnScroll = true }) {
           </div>
 
           {/* Basic menu, dynamically changes with screen size */}
-          <div className="invisible relative top-3 float-right mx-auto w-fit space-x-12 align-middle text-base transition-transform sm:visible lg:float-none lg:space-x-16">
+          <div className="invisible relative top-3 mx-auto w-fit space-x-12 text-base sm:visible lg:space-x-16">
             {/* <Link href="/" className={getStyle("/")}>
               Home
             </Link> */}
