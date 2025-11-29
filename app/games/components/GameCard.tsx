@@ -20,29 +20,67 @@ const GameCard: React.FC<GameCardProps> = ({
   onClick,
   getStatusText,
 }) => {
+  const [isHovered, setIsHovered] = useState(false)
+
   return (
-    <div
-      className="perspective-1000 group transform-gpu cursor-pointer transition-all duration-500 hover:scale-105"
+    <motion.div
+      className="perspective-1000 cursor-pointer"
       onClick={onClick}
+      onHoverStart={() => setIsHovered(true)}
+      onHoverEnd={() => setIsHovered(false)}
+      whileHover={{ scale: 1.05 }}
+      transition={{ duration: 0.3, ease: "easeOut" }}
     >
       {/* Box Container */}
-      <div className="relative w-full overflow-visible bg-gradient-to-r from-background-black to-footer-grey shadow-lg">
+      <motion.div
+        className="relative w-full overflow-visible bg-gradient-to-r from-background-black to-footer-grey shadow-lg rounded-lg"
+        initial={{ boxShadow: "0 0 0 0px rgba(0, 0, 0, 0)" }}
+        animate={{
+          boxShadow: isHovered
+            ? "0 0 0 3px rgb(99, 193, 255)"
+            : "0 0 0 0px rgba(0, 0, 0, 0)",
+        }}
+        transition={{ duration: 0.3 }}
+      >
         {/* Game Cover Image */}
-        <div className="h-3/4 w-full overflow-hidden rounded-t-lg">
-          {game.image ? (
-            <div
-              className="aspect-square w-full"
-              style={{
-                backgroundImage: `url(${game.image})`,
-                backgroundSize: "cover",
-                backgroundPosition: "center",
-              }}
+        <div className="relative h-3/4 w-full overflow-visible">
+          <div className="relative h-full w-full overflow-hidden rounded-t-lg">
+            {game.image ? (
+              <div
+                className="aspect-square w-full"
+                style={{
+                  backgroundImage: `url(${game.image})`,
+                  backgroundSize: "cover",
+                  backgroundPosition: "center",
+                }}
+              />
+            ) : (
+              <div className="flex aspect-square w-full items-center justify-center bg-background-black">
+                <p className="text-center text-gray-400">No image</p>
+              </div>
+            )}
+
+            {/* Click overlay on hover*/}
+            <motion.div
+              className="absolute inset-0 bg-black pointer-events-none rounded-t-lg"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: isHovered ? 0.3 : 0 }}
+              transition={{ duration: 0.3 }}
             />
-          ) : (
-            <div className="flex aspect-square w-full items-center justify-center bg-background-black">
-              <p className="text-center text-gray-400">No image</p>
+            <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+              <motion.div
+                className="flex items-center justify-center"
+                initial={{ opacity: 0, y: 8 }}
+                animate={{
+                  opacity: isHovered ? 1 : 0,
+                  y: isHovered ? 0 : 8,
+                }}
+                transition={{ duration: 0.3, ease: "easeOut" }}
+              >
+                <Eye className="h-12 w-12 text-white" />
+              </motion.div>
             </div>
-          )}
+          </div>
 
           {/* Approval Sticker */}
           {game.vgdcApproved && (
@@ -88,19 +126,8 @@ const GameCard: React.FC<GameCardProps> = ({
             {game.description}
           </p>
         </div>
-
-        {/* Click overlay on hover*/}
-        <div className="absolute inset-0 bg-black bg-opacity-0 transition-all hover:bg-opacity-20">
-          <div className="flex h-full w-full items-start justify-center opacity-0 transition-opacity hover:opacity-100">
-            <div className="flex h-3/4 w-full items-center justify-center">
-              <span className="rounded-full bg-background-black/50 p-5 text-4xl text-white">
-                <Eye className="h-10 w-10" />
-              </span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+      </motion.div>
+    </motion.div>
   )
 }
 
