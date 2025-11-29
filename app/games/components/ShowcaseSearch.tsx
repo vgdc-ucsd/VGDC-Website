@@ -11,7 +11,29 @@ export default function ShowcaseSearch({
 }: {
   data: ShowcaseGamesDetails[]
 }) {
-  const [filteredItems, setFilteredItems] = useState(data || [])
+  const sortGames = (games: ShowcaseGamesDetails[]) => {
+    return [...games].sort((a, b) => {
+      if (a.status !== b.status) return a.status ? -1 : 1
+      if (a.vgdcApproved !== b.vgdcApproved) return b.vgdcApproved ? 1 : -1
+
+      const aIsTBD = a.releaseDate === "TBD"
+      const bIsTBD = b.releaseDate === "TBD"
+
+      if (aIsTBD && bIsTBD) return 0
+      if (aIsTBD) return 1
+      if (bIsTBD) return -1
+
+      try {
+        const dateA = new Date(a.releaseDate).getTime()
+        const dateB = new Date(b.releaseDate).getTime()
+        return dateB - dateA
+      } catch (e) {
+        return 0
+      }
+    })
+  }
+
+  const [filteredItems, setFilteredItems] = useState(sortGames(data || []))
   const [currentIndex, setCurrentIndex] = useState(0)
   const [searchTerm, setSearchTerm] = useState("")
   const [showModal, setShowModal] = useState(false)
@@ -71,7 +93,7 @@ export default function ShowcaseSearch({
       })
     }
 
-    setFilteredItems(result)
+    setFilteredItems(sortGames(result))
     if (result.length > 0) {
       setCurrentIndex(0)
       setShowModal(false)
@@ -92,7 +114,7 @@ export default function ShowcaseSearch({
 
   // Helper functions
   const getStatusText = (status: boolean) => {
-    return status ? "Released" : "In Development"
+    return status ? "Released" : "Unreleased"
   }
 
   const getThemeColor = (theme: string) => {
@@ -171,7 +193,7 @@ export default function ShowcaseSearch({
               >
                 <option value="all">Any</option>
                 <option value="true">Released</option>
-                <option value="false">In Development</option>
+                <option value="false">Unreleased</option>
               </select>
             </div>
 
