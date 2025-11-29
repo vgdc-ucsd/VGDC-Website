@@ -7,7 +7,7 @@ import { ExternalLink, Eye } from "lucide-react"
 import ApprovalSeal from "./ApprovalSeal"
 import { motion } from "framer-motion"
 
-export type GameStatus = "Released" | "In Development"
+export type GameStatus = "Released" | "Unreleased"
 
 type GameCardProps = {
   game: ShowcaseGamesDetails
