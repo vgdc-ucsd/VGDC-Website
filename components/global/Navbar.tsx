@@ -58,7 +58,7 @@ export default function Navbar({ offsetSpace = true, hideOnScroll = true }) {
 
   const getStyle = (path: string) => {
     const isActive = pathname == path
-    return `hover:text-gray-600 transition-colors text-lg ${isActive ? "text-vgdc-light-green" : ""}`
+    return `hover:text-gray-600 transition-colors text-lg ${isActive ? "text-vgdc-light-green" : "text-text-grey"}`
   }
 
   return (
@@ -101,7 +101,7 @@ export default function Navbar({ offsetSpace = true, hideOnScroll = true }) {
                 </svg> */}
               </DrawerTrigger>
               {/* Menu buttons */}
-              <DrawerContent>
+              <DrawerContent className="bg-black text-white border-white/20">
                 <DrawerFooter>
                   {/* <Button variant="link" className={getStyle("/")}>
                     <Link href="/">Home</Link>

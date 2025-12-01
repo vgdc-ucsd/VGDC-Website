@@ -55,22 +55,19 @@ export default function LoginButton() {
               </button>
             </DropdownMenuTrigger>
             <DropdownMenuContent 
-              align="center"
-              alignOffset={-100}
+              align="end"
               sideOffset={8}
-              className="z-[60] bg-black border-white/20"
-            >
+              className="z-[60] bg-black border-white/20 min-w-[100px] p-1">
               <DropdownMenuItem  
                 onClick={() => signOut()}
-                className="cursor-pointer text-text-grey hover:text-gray-600 transition-colors text-lg font-light focus:text-gray-600 focus:bg-transparent items-center text-center justify-center"
-              >
+                className=" cursor-pointer text-text-grey hover:text-gray-600 transition-colors text-sm font-light focus:text-gray-600 focus:bg-transparent items-center text-center justify-center">
                 Sign Out
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
         </div>
 
-        {/* Mobile View - Inline */}
+        {/* Mobile View*/}
         <div className="flex md:hidden items-center gap-3">
           <Avatar className="h-8 w-8">
             <AvatarImage src={userImage} alt={userName} />
@@ -78,12 +75,12 @@ export default function LoginButton() {
               {initials}
             </AvatarFallback>
           </Avatar>
-          <span className="text-white text-sm">{userName}</span>
+          <span className="text-text-grey text-lg font-light">{userName}</span>
           <Button
             onClick={() => signOut()}
             variant="outline"
             size="sm"
-            className="ml-auto"
+            className="ml-auto bg-black text-text-grey border-white/20 hover:text-gray-600 hover:bg-black"
           >
             Sign Out
           </Button>
@@ -93,7 +90,11 @@ export default function LoginButton() {
   }
 
   return (
-    <Button onClick={() => signIn("discord")} className="w-full md:w-auto">
+    <Button 
+      onClick={() => signIn("discord")} 
+      variant="outline"
+      className="w-full md:w-auto bg-black text-text-grey border-white/20 hover:text-gray-600 hover:bg-black"
+    >
       Sign in with Discord
     </Button>
   );
