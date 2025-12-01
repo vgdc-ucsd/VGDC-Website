@@ -60,7 +60,7 @@
     "autoprefixer": "^10.0.1",
     "dotenv": "^17.2.3",
     "eslint": "^8",
-    "eslint-config-next": "14.1.0",
+    "eslint-config-next": "^16.0.6",
     "postcss": "^8",
     "prettier": "^3.2.5",
     "prettier-plugin-tailwindcss": "^0.5.11",

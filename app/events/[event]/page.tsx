@@ -42,7 +42,6 @@ export default async function Event({
     location: "",
     date: "",
     time: "",
-    timestamp: "",
     image: "",
     slug: "",
   }

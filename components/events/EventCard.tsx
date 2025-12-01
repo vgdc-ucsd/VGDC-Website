@@ -5,7 +5,7 @@ import { motion } from "framer-motion"
 import removeMd from "remove-markdown"
 
 /** An event card to be shown in the events list. */
-export default function Event({
+export default function EventCard({
   title,
   location,
   date,
