@@ -10,7 +10,8 @@
     "prisma:generate": "prisma generate",
     "db:reset:dev": "dotenv -c development -- prisma migrate reset",
     "db:migrate:dev": "dotenv -c development -- prisma migrate dev",
-    "db:migrate:prod": "dotenv -c production -- prisma migrate deploy"
+    "db:migrate:prod": "dotenv -c production -- prisma migrate deploy",
+    "migrate:sheets:dev": "dotenv -c development -- tsx scripts/migrate-sheets-to-db.ts"
   },
   "dependencies": {
     "@dicebear/collection": "^8.0.1",
@@ -72,6 +73,7 @@
     "prisma": "^6.19.0",
     "react-icons": "^5.0.1",
     "tailwindcss": "^3.4.1",
+    "tsx": "^4.21.0",
     "typescript": "^5"
   }
 }
