@@ -84,7 +84,7 @@ export default function Navbar({ offsetSpace = true, hideOnScroll = true }) {
 
           {/* Hamburger menu for mobile, disappears on bigger screens */}
           <div className="absolute right-7 top-3 md:hidden">
-            <Drawer>
+            <Drawer modal={false}>
               {/* Hamburger icon */}
 
               <DrawerTrigger>

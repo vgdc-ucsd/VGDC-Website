@@ -9,13 +9,27 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { useState, useEffect } from "react";
 
 export default function LoginButton() {
   const { data: session } = useSession();
+  const [open, setOpen] = useState(false);
+
+  // Close dropdown when window is resized to mobile
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth < 768) { // md breakpoint
+        setOpen(false);
+      }
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   if (session) {
     const userName = session.user?.name || "User";
-    const userImage = session.user?.image ?? undefined; // Convert null to undefined
+    const userImage = session.user?.image ?? undefined;
     const initials = userName
       .split(" ")
       .map(n => n[0])
@@ -26,38 +40,38 @@ export default function LoginButton() {
     return (
       <>
         {/* Desktop View - Dropdown */}
-        <div className="hidden sm:block">
-          <DropdownMenu modal={false}>
+        {/* we love hamburgerrr */}
+        <div className="hidden md:block">
+          <DropdownMenu modal={false} open={open} onOpenChange={setOpen}>
             <DropdownMenuTrigger asChild>
-              <button className="flex items-center gap-2 hover:opacity-80 transition-opacity">
+              <button className="flex items-center gap-2 hover:text-gray-600 transition-colors">
                 <Avatar className="h-8 w-8">
                   <AvatarImage src={userImage} alt={userName} />
                   <AvatarFallback className="bg-white text-black text-xs">
                     {initials}
                   </AvatarFallback>
                 </Avatar>
-                <span className="text-white text-sm">{userName}</span>
+                <span className="text-text-grey text-lg font-light">{userName}</span>
               </button>
             </DropdownMenuTrigger>
             <DropdownMenuContent 
-              align="end" 
-              className="z-[60] bg-black border-white/20 text-white"
+              align="center"
+              alignOffset={-100}
+              sideOffset={8}
+              className="z-[60] bg-black border-white/20"
             >
-              <DropdownMenuItem asChild>
-                <Button
-                  onClick={() => signOut()}
-                  variant="ghost"
-                  className="w-full cursor-pointer hover:bg-white/10"
-                >
-                  Sign Out
-                </Button>
+              <DropdownMenuItem  
+                onClick={() => signOut()}
+                className="cursor-pointer text-text-grey hover:text-gray-600 transition-colors text-lg font-light focus:text-gray-600 focus:bg-transparent items-center text-center justify-center"
+              >
+                Sign Out
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
         </div>
 
         {/* Mobile View - Inline */}
-        <div className="flex sm:hidden items-center gap-3">
+        <div className="flex md:hidden items-center gap-3">
           <Avatar className="h-8 w-8">
             <AvatarImage src={userImage} alt={userName} />
             <AvatarFallback className="bg-white text-black text-xs">
@@ -79,7 +93,7 @@ export default function LoginButton() {
   }
 
   return (
-    <Button onClick={() => signIn("discord")} className="w-full sm:w-auto">
+    <Button onClick={() => signIn("discord")} className="w-full md:w-auto">
       Sign in with Discord
     </Button>
   );
