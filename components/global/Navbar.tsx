@@ -83,7 +83,7 @@ export default function Navbar({ offsetSpace = true, hideOnScroll = true }) {
           </Link>
 
           {/* Hamburger menu for mobile, disappears on bigger screens */}
-          <div className="absolute right-7 top-3 sm:hidden">
+          <div className="absolute right-7 top-3 md:hidden">
             <Drawer>
               {/* Hamburger icon */}
 
@@ -128,7 +128,7 @@ export default function Navbar({ offsetSpace = true, hideOnScroll = true }) {
           </div>
 
           {/* Basic menu, dynamically changes with screen size */}
-          <div className="invisible relative top-3 mx-auto w-fit space-x-12 text-base sm:visible lg:space-x-16">
+          <div className="invisible relative top-3 mx-auto w-fit space-x-12 text-base md:visible lg:space-x-16">
             {/* <Link href="/" className={getStyle("/")}>
               Home
             </Link> */}
@@ -149,7 +149,7 @@ export default function Navbar({ offsetSpace = true, hideOnScroll = true }) {
             </Link>
           </div>
           {/* account login on the corner */}
-          <div className="invisible absolute right-8 top-3 sm:visible">
+          <div className="invisible absolute right-8 top-3 md:visible">
             <LoginButton />
           </div>
         </div>
