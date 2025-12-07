@@ -1,11 +1,10 @@
 "use client"
 
-import React, { useState } from "react"
 import { ShowcaseGamesDetails } from "@/lib/showcase_games"
-import Image from "next/image"
-import { ExternalLink, Eye } from "lucide-react"
 import ApprovalSeal from "./ApprovalSeal"
 import { motion } from "framer-motion"
+import { GameStatusColor } from "./ShowcaseSearch"
+import { Eye } from "lucide-react"
 
 export type GameStatus = "Released" | "In Development"
 
@@ -18,7 +17,6 @@ type GameCardProps = {
 const GameCard: React.FC<GameCardProps> = ({
   game,
   onClick,
-  getStatusText,
 }) => {
   return (
     <div
@@ -72,9 +70,9 @@ const GameCard: React.FC<GameCardProps> = ({
 
           <div className="mb-2 flex flex-wrap gap-1">
             <span
-              className={`rounded-full ${getStatusText(game.status) === "Released" ? "bg-green-500" : "bg-yellow-500"} px-2 py-0.5 text-xs text-white`}
+              className={`rounded-full ${GameStatusColor[game.status]} px-2 py-0.5 text-xs text-white`}
             >
-              {getStatusText(game.status)}
+              {game.status}
             </span>
 
             {game.web && (

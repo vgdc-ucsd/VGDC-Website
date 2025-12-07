@@ -1,6 +1,12 @@
-import { getSheetData } from "./google-sheets.action"
+import { GameStatus } from "./generated/prisma/enums"
+import { prisma } from "./prisma"
 
-/** The details of a showcase game from the spreadsheet. */
+export type ShowcaseGameTag = {
+  text: string
+  color: string
+}
+
+/** The details of a showcase game. */
 export type ShowcaseGamesDetails = {
   title: string
   releaseDate: string
@@ -8,50 +14,41 @@ export type ShowcaseGamesDetails = {
   description: string
   credits: string
   link: string
-  status: boolean
+  status: GameStatus
   image: string
-  theme: string
+  tags: ShowcaseGameTag[]
   vgdcApproved: boolean
   web: boolean
 }
 
 /**
- * Gets the showcase game details from a spreadsheet.
- * @param includeIncompleteGames Include incomplete games? True by default.
+ * Gets the showcase game details
  * @returns List of showcase games details.
  */
 export async function getShowcaseGames() {
-  // Gets the raw data from getSheetData.
-  const response = await getSheetData("Games")
-
-  // The list that showcase games will be added to.
-  let gamesList = []
-
-  // As long as event data is present...
-  if (response.data != undefined && response.data != null) {
-    // Iterate through every event.
-    for (let i in response.data) {
-        if(response.data[i][0] == "") continue
-
-        // Get the details for the event.
-        let event: ShowcaseGamesDetails = {
-            title: response.data[i][0],
-            releaseDate: response.data[i][1],
-            difficulty: response.data[i][2],
-            description: response.data[i][3],
-            credits: response.data[i][4],
-            link: response.data[i][5],
-            status: response.data[i][6] === "TRUE",
-            image: response.data[i][7],
-            theme: response.data[i][8],
-            vgdcApproved: response.data[i][9] === "TRUE",
-            web: response.data[i][10] === "TRUE"
-        }
-
-        gamesList.push(event)
-    }
+  try {
+    const gamesList = await prisma.game.findMany({
+      include: { gameTags: true }
+    });
+    const gamesDetails: ShowcaseGamesDetails[] = gamesList.map((game) => ({
+      title: game.title,
+      releaseDate: game.releaseDate.toLocaleDateString(),
+      difficulty: game.difficulty,
+      description: game.description,
+      credits: game.credits.toString(),
+      link: game.link ?? "",
+      status: game.status,
+      image: game.thumbnail ?? "",
+      tags: game.gameTags.map((tag) => ({
+        text: tag.text,
+        color: tag.color,
+      })),
+      vgdcApproved: game.hasSeal,
+      web: game.isWebPlayable,
+    }));
+    return gamesDetails;
+  } catch (error) {
+    console.log(error);
+    return []
   }
-
-  // Return the completed list.
-  return gamesList
 }

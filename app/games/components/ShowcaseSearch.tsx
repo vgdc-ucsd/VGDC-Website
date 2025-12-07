@@ -2,9 +2,16 @@
 
 import { useState, useEffect } from "react"
 import { Search, Filter } from "lucide-react"
-import { ShowcaseGamesDetails } from "@/lib/showcase_games"
+import { ShowcaseGamesDetails, ShowcaseGameTag } from "@/lib/showcase_games"
 import GameModal from "./GameModal"
 import GamesGrid from "./GamesGrid"
+import { GameStatus } from "@/lib/generated/prisma/enums"
+
+export const GameStatusColor = {
+  RELEASED: "bg-green-500",
+  UNRELEASED: "bg-yellow-500",
+  PROTOTYPE: "bg-blue-500",
+} satisfies Record<GameStatus, string>
 
 export default function ShowcaseSearch({
   data,
@@ -42,10 +49,10 @@ export default function ShowcaseSearch({
 
     // Filters
     if (filters.status !== "all") {
-      const statusValue = filters.status === "true" ? true : false
+      const statusValue = filters.status;
       result = result.filter((item) => {
-        return item.status === statusValue
-      })
+        return item.status === statusValue;
+      });
     }
 
     if (filters.web !== "all") {
@@ -90,11 +97,6 @@ export default function ShowcaseSearch({
     return () => window.removeEventListener("keydown", handleKeyDown)
   }, [showModal])
 
-  // Helper functions
-  const getStatusText = (status: boolean) => {
-    return status ? "Released" : "In Development"
-  }
-
   const getThemeColor = (theme: string) => {
     const colors: Record<string, string> = {
       red: "bg-red-500",
@@ -117,7 +119,7 @@ export default function ShowcaseSearch({
         try {
           const year = new Date(item.releaseDate).getFullYear().toString()
           if (!isNaN(Number(year))) years.add(year)
-        } catch (e) {}
+        } catch (e) { }
       }
     })
     return ["all", ...Array.from(years).sort()]
@@ -170,8 +172,9 @@ export default function ShowcaseSearch({
                 }}
               >
                 <option value="all">Any</option>
-                <option value="true">Released</option>
-                <option value="false">In Development</option>
+                <option value={GameStatus.RELEASED}>{GameStatus.RELEASED}</option>
+                <option value={GameStatus.UNRELEASED}>{GameStatus.UNRELEASED}</option>
+                <option value={GameStatus.PROTOTYPE}>{GameStatus.PROTOTYPE}</option>
               </select>
             </div>
 
@@ -244,14 +247,15 @@ export default function ShowcaseSearch({
       />
 
       {/* Game Modal */}
-      {showModal && currentItem && (
-        <GameModal
-          game={currentItem}
-          onClose={() => setShowModal(false)}
-          getStatusText={getStatusText}
-          getThemeColor={getThemeColor}
-        />
-      )}
-    </div>
+      {
+        showModal && currentItem && (
+          <GameModal
+            game={currentItem}
+            onClose={() => setShowModal(false)}
+            getThemeColor={getThemeColor}
+          />
+        )
+      }
+    </div >
   )
 }
