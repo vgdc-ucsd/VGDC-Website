@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, useMemo } from "react"
 import { Search, Filter } from "lucide-react"
 import { ShowcaseGamesDetails } from "@/lib/showcase_games"
 import GameModal from "./GameModal"
@@ -11,7 +11,6 @@ export default function ShowcaseSearch({
 }: {
   data: ShowcaseGamesDetails[]
 }) {
-  const [filteredItems, setFilteredItems] = useState(data || [])
   const [currentIndex, setCurrentIndex] = useState(0)
   const [searchTerm, setSearchTerm] = useState("")
   const [showModal, setShowModal] = useState(false)
@@ -23,9 +22,8 @@ export default function ShowcaseSearch({
   })
   const [showFilters, setShowFilters] = useState(false)
 
-  // Filters and search
-  useEffect(() => {
-    if (!data.length) return
+  const filteredItems = useMemo(() => {
+    if (!data.length) return []
 
     let result = [...data]
 
@@ -71,12 +69,20 @@ export default function ShowcaseSearch({
       })
     }
 
-    setFilteredItems(result)
-    if (result.length > 0) {
-      setCurrentIndex(0)
-      setShowModal(false)
-    }
+    return result
   }, [searchTerm, filters, data])
+
+  const handleSearchChange = (value: string) => {
+    setSearchTerm(value)
+    setCurrentIndex(0)
+    setShowModal(false)
+  }
+
+  const handleFilterChange = (newFilters: typeof filters) => {
+    setFilters(newFilters)
+    setCurrentIndex(0)
+    setShowModal(false)
+  }
 
   // Handle Escape key for the modal
   useEffect(() => {
@@ -136,7 +142,7 @@ export default function ShowcaseSearch({
               placeholder="Search games..."
               className="w-full rounded-lg border border-background-grey bg-background-black px-4 py-2 pl-10 text-white focus:outline-none focus:ring-2 focus:ring-vgdc-light-blue"
               value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
+              onChange={(e) => handleSearchChange(e.target.value)}
             />
             <Search
               className="absolute left-3 top-1/2 -translate-y-1/2 transform text-gray-400"
@@ -165,7 +171,7 @@ export default function ShowcaseSearch({
                 className="w-full rounded-md border border-background-grey bg-background-black p-2 text-white focus:outline-none"
                 value={filters.status}
                 onChange={(e) => {
-                  setFilters({ ...filters, status: e.target.value })
+                  handleFilterChange({ ...filters, status: e.target.value })
                   e.target.blur()
                 }}
               >
@@ -184,7 +190,7 @@ export default function ShowcaseSearch({
                 className="w-full rounded-md border border-background-grey bg-background-black p-2 text-white focus:outline-none"
                 value={filters.web}
                 onChange={(e) => {
-                  setFilters({ ...filters, web: e.target.value })
+                  handleFilterChange({ ...filters, web: e.target.value })
                   e.target.blur()
                 }}
               >
@@ -203,7 +209,7 @@ export default function ShowcaseSearch({
                 className="w-full rounded-md border border-background-grey bg-background-black p-2 text-white focus:outline-none"
                 value={filters.year}
                 onChange={(e) => {
-                  setFilters({ ...filters, year: e.target.value })
+                  handleFilterChange({ ...filters, year: e.target.value })
                   e.target.blur()
                 }}
               >
