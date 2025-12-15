@@ -6,17 +6,18 @@ import Link from "next/link"
 
 import { StoreItemDetails } from "@/lib/store_items"
 
-interface StoreVendorProps {
-  data: StoreItemDetails[]
+export interface StoreVendorProps {
+  data: StoreItemDetails[],
+  formLink: string,
 }
 
-export default function StoreVendor({ data }: StoreVendorProps) {
+export default function StoreVendor({ data, formLink }: StoreVendorProps) {
   return (
     <div className="mx-auto px-4 py-8">
       <div className="grid grid-cols-2 gap-6 md:grid-cols-3 lg:grid-cols-3">
         {data.map((item, index) => (
           <div key={index} className="group overflow-hidden">
-            <Link href={item.stock ? "https://docs.google.com/forms/d/e/1FAIpQLSe6t-887BQ3EJnKMSihdEvyexDBpEX6ngOeY787Z0RHgafK4g/viewform" : "#"} onClick={(e) => {
+            <Link href={item.stock ? formLink : "#"} onClick={(e) => {
               if (!item.stock) {
                 e.preventDefault();
               }
