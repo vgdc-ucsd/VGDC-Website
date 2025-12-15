@@ -1,38 +1,29 @@
-import { getSheetData } from "./google-sheets.action"
+import { prisma } from "./prisma"
 
 /** The details of a showcase game from the spreadsheet. */
 export type StoreItemDetails = {
   name: string
   price: string
-  image1: string
-  image2?: string
+  description: string
+  image: string
   stock: boolean
 }
 
 export async function getStoreItems() {
-  const response = await getSheetData("Store")
+  const storeItems = await prisma.storeItem.findMany();
 
-  let storeItems = []
-  
-  if (response.data != undefined && response.data != null) {
-    for (let i in response.data) {
-        if(response.data[i][0] == "") continue
-
-        // Get the details for the event.
-        let storeItem: StoreItemDetails = {
-            name: response.data[i][0],
-            price: new Intl.NumberFormat('en-US', {
-              style: 'currency',
-              currency: 'USD',
-            }).format(response.data[i][1]),
-            image1: response.data[i][2],
-            image2: response.data[i][3] || null,
-            stock: response.data[i][4] === "TRUE",
-        }
-
-        storeItems.push(storeItem)
-    }
+  for (let i = 0; i < storeItems.length; ++i) {
+    console.log(storeItems[i].image);
   }
-  
-  return storeItems
+
+  return storeItems.map((item) => ({
+    name: item.name,
+    price: new Intl.NumberFormat('en-US', {
+      style: 'currency',
+      currency: 'USD',
+    }).format(item.price.toNumber()),
+    description: item.description,
+    image: item.image,
+    stock: item.stock > 0,
+  }));
 }
