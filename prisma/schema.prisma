@@ -77,7 +77,7 @@ model EventTags {
 model Game {
   id            Int        @id @default(autoincrement())
   title         String
-  credits       String[]
+  credits       String
   description   String
   releaseDate   DateTime   @db.Date
   difficulty    Int
@@ -107,5 +107,5 @@ model BlogPost {
   authors      String[]
   coverImage   String?
   coverCaption String?
-  postData     String   @db.Text
+  postFile     String
 }
