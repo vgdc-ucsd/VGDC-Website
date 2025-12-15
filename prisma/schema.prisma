@@ -107,5 +107,5 @@ model BlogPost {
   authors      String[]
   coverImage   String?
   coverCaption String?
-  postData     String   @db.Text
+  postFile     String
 }
