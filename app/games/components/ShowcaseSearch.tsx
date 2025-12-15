@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, useMemo } from "react"
 import { Search, Filter } from "lucide-react"
 import { ShowcaseGamesDetails } from "@/lib/showcase_games"
 import GameModal from "./GameModal"
@@ -11,7 +11,28 @@ export default function ShowcaseSearch({
 }: {
   data: ShowcaseGamesDetails[]
 }) {
-  const [filteredItems, setFilteredItems] = useState(data || [])
+  const sortGames = (games: ShowcaseGamesDetails[]) => {
+    return [...games].sort((a, b) => {
+      if (a.status !== b.status) return a.status ? -1 : 1
+      if (a.vgdcApproved !== b.vgdcApproved) return b.vgdcApproved ? 1 : -1
+
+      const aIsTBD = a.releaseDate === "TBD"
+      const bIsTBD = b.releaseDate === "TBD"
+
+      if (aIsTBD && bIsTBD) return 0
+      if (aIsTBD) return 1
+      if (bIsTBD) return -1
+
+      try {
+        const dateA = new Date(a.releaseDate).getTime()
+        const dateB = new Date(b.releaseDate).getTime()
+        return dateB - dateA
+      } catch (e) {
+        return 0
+      }
+    })
+  }
+
   const [currentIndex, setCurrentIndex] = useState(0)
   const [searchTerm, setSearchTerm] = useState("")
   const [showModal, setShowModal] = useState(false)
@@ -23,9 +44,9 @@ export default function ShowcaseSearch({
   })
   const [showFilters, setShowFilters] = useState(false)
 
-  // Filters and search
-  useEffect(() => {
-    if (!data.length) return
+  // Filters and search using useMemo for derived state
+  const filteredItems = useMemo(() => {
+    if (!data.length) return []
 
     let result = [...data]
 
@@ -71,12 +92,22 @@ export default function ShowcaseSearch({
       })
     }
 
-    setFilteredItems(result)
-    if (result.length > 0) {
-      setCurrentIndex(0)
-      setShowModal(false)
-    }
+    return sortGames(result)
   }, [searchTerm, filters, data])
+
+  // Handler for search term changes
+  const handleSearchChange = (value: string) => {
+    setSearchTerm(value)
+    setCurrentIndex(0)
+    setShowModal(false)
+  }
+
+  // Handler for filter changes
+  const handleFilterChange = (newFilters: typeof filters) => {
+    setFilters(newFilters)
+    setCurrentIndex(0)
+    setShowModal(false)
+  }
 
   // Handle Escape key for the modal
   useEffect(() => {
@@ -92,7 +123,7 @@ export default function ShowcaseSearch({
 
   // Helper functions
   const getStatusText = (status: boolean) => {
-    return status ? "Released" : "In Development"
+    return status ? "Released" : "Unreleased"
   }
 
   const getThemeColor = (theme: string) => {
@@ -136,7 +167,7 @@ export default function ShowcaseSearch({
               placeholder="Search games..."
               className="w-full rounded-lg border border-background-grey bg-background-black px-4 py-2 pl-10 text-white focus:outline-none focus:ring-2 focus:ring-vgdc-light-blue"
               value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
+              onChange={(e) => handleSearchChange(e.target.value)}
             />
             <Search
               className="absolute left-3 top-1/2 -translate-y-1/2 transform text-gray-400"
@@ -165,13 +196,13 @@ export default function ShowcaseSearch({
                 className="w-full rounded-md border border-background-grey bg-background-black p-2 text-white focus:outline-none"
                 value={filters.status}
                 onChange={(e) => {
-                  setFilters({ ...filters, status: e.target.value })
+                  handleFilterChange({ ...filters, status: e.target.value })
                   e.target.blur()
                 }}
               >
                 <option value="all">Any</option>
                 <option value="true">Released</option>
-                <option value="false">In Development</option>
+                <option value="false">Unreleased</option>
               </select>
             </div>
 
@@ -184,7 +215,7 @@ export default function ShowcaseSearch({
                 className="w-full rounded-md border border-background-grey bg-background-black p-2 text-white focus:outline-none"
                 value={filters.web}
                 onChange={(e) => {
-                  setFilters({ ...filters, web: e.target.value })
+                  handleFilterChange({ ...filters, web: e.target.value })
                   e.target.blur()
                 }}
               >
@@ -203,7 +234,7 @@ export default function ShowcaseSearch({
                 className="w-full rounded-md border border-background-grey bg-background-black p-2 text-white focus:outline-none"
                 value={filters.year}
                 onChange={(e) => {
-                  setFilters({ ...filters, year: e.target.value })
+                  handleFilterChange({ ...filters, year: e.target.value })
                   e.target.blur()
                 }}
               >
