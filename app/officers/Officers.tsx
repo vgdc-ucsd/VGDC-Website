@@ -8,19 +8,10 @@ import {
 } from "@/components/ui/hover-card"
 import Image from "next/image"
 import { motion } from "framer-motion"
-
-// The type for the data for one officer
-export type OfficerDetails = {
-  title: string
-  name: string
-  avatar: string
-  quote: string
-}
+import { OfficerDetails } from "@/lib/officers"
 
 export default function Officers({ officers }: { officers: OfficerDetails[] }) {
-  {
-    /* Officers */
-  }
+  { /* Officers */ }
   return (
     <div className="flex-start flex flex-wrap justify-center gap-12 text-text-white">
       {officers.map((officer, index) => {

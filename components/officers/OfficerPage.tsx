@@ -5,23 +5,31 @@ import PageSection from "../global/PageSection"
 
 import OtherYears from "@/components/officers/OtherYears"
 import Officers from "@/app/officers/Officers"
-import data from "@/public/data/officers.json"
+import { GetAllYears, GetOfficerYear } from "@/lib/officers"
 
-export default async function OfficerPage({ year }: { year: string }) {
-  const showBackButton = year !== "current"
+export default async function OfficerPage({ schoolYear }: { schoolYear: string }) {
+  const isCurrentYear = schoolYear === "current";
+
+  const officerYear = await GetOfficerYear(schoolYear);
+
+  if (!officerYear) return <div>Loading...</div>
+
+  const currentYearSubtext = "We're a growing body of talented individuals with a passion for making game development exciting in every way. Hover over each profile!";
+
+  const otherSchoolYears = await GetAllYears(schoolYear);
 
   return (
     <main className="min-h-screen bg-background-black">
       <Navbar />
 
       <PageSection
-        heading={data[year as keyof typeof data]!.heading!}
-        subText={data[year as keyof typeof data]!.paragraph!}
-        backButton={showBackButton ? { text: "<- back", href: "/officers" } : undefined}
+        heading={isCurrentYear ? "Our Team" : `${schoolYear} Officers`}
+        subText={isCurrentYear ? currentYearSubtext : officerYear.excerpt}
+        backButton={!isCurrentYear ? { text: "<- back", href: "/officers" } : undefined}
       >
         <div className="space-y-20">
-          <Officers officers={data[year as keyof typeof data]!.officers!} />
-          <OtherYears data={data} exclude={year} />
+          <Officers officers={officerYear.officerDetails} />
+          <OtherYears otherYears={otherSchoolYears} />
         </div>
       </PageSection>
 
