@@ -18,18 +18,23 @@ export type OfficerDetails = {
 }
 
 export async function GetAllYears(yearToExclude: string) {
-  const years = await prisma.officerYear.findMany({
-    where: { 
-      year: {
-        not: yearToExclude,
+  try {
+    const years = await prisma.officerYear.findMany({
+      where: { 
+        year: {
+          not: yearToExclude,
+        },
       },
-    },
-    select: {
-      year: true,
-    }
-  });
+      select: {
+        year: true,
+      }
+    });
 
-  return years.map(yearObj => yearObj.year);
+    return years.map(yearObj => yearObj.year);
+  } catch (error) {
+    console.log(error);
+    return [];
+  }
 }
 
 /**
@@ -38,40 +43,49 @@ export async function GetAllYears(yearToExclude: string) {
  * @returns An OfficerYear object containing the query results.
  */
 export async function GetOfficerYear(yearText: string) {
-  console.log("Getting year: " + yearText);
-  const officerYear = await prisma.officerYear.findUnique({
-    where: {
-      year: yearText
-    },
-    include: {
-      officerBios: {
-        include: {
-          user: true
+  try {
+    const officerYear = await prisma.officerYear.findUnique({
+      where: {
+        year: yearText
+      },
+      include: {
+        officerBios: {
+          include: {
+            user: true
+          }
         }
       }
+    });
+
+    if (!officerYear) return;
+
+    const officerDetailPromises = officerYear.officerBios.map(async (officer) => {
+      const avatar = officer.image
+        ? await GetStoredImageUrl(officer.image)
+        : undefined;
+
+      return {
+        name: officer.user.name,
+        title: officer.position,
+        avatar: avatar ?? GetRandomMascotImageFallback(),
+        quote: officer.description,
+      } satisfies OfficerDetails;
+    });
+
+    const result: OfficerYear = {
+      year: officerYear.year,
+      excerpt: officerYear.excerpt,
+      officerDetails: await Promise.all(officerDetailPromises),
+      startTimestamp: officerYear.startTimestamp,
     }
-  });
-
-  if (!officerYear) return;
-
-  const officerDetailPromises = officerYear.officerBios.map(async (officer) => {
-    const avatar = officer.image
-      ? await GetStoredImageUrl(officer.image)
-      : undefined;
-
+    return result;
+  } catch (error) {
+    console.error(error);
     return {
-      name: officer.user.name,
-      title: officer.position,
-      avatar: avatar ?? GetRandomMascotImageFallback(),
-      quote: officer.description,
-    } satisfies OfficerDetails;
-  });
-
-  const result: OfficerYear = {
-    year: officerYear.year,
-    excerpt: officerYear.excerpt,
-    officerDetails: await Promise.all(officerDetailPromises),
-    startTimestamp: officerYear.startTimestamp,
+      year: "Our Team",
+      excerpt: "We're a growing body of talented individuals with a passion for making game development exciting in every way. Hover over each profile!",
+      officerDetails: [],
+      startTimestamp: new Date(), 
+    } satisfies OfficerYear;
   }
-  return result;
 }

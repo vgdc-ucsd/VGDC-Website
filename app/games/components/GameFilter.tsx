@@ -4,7 +4,7 @@ import { ChangeEventHandler } from "react"
 
 export type GameFilterProps = {
   name: string,
-  onChange: ChangeEventHandler<HTMLSelectElement>,
+  onChangeAction: ChangeEventHandler<HTMLSelectElement>,
   filterValue: any
   options: {
     value: string,
@@ -20,7 +20,7 @@ export default function GameFilter(props: GameFilterProps) {
     <select
       className="w-full rounded-md border border-background-grey bg-background-black p-2 text-white focus:outline-none"
       value={props.filterValue}
-      onChange={props.onChange}
+      onChange={props.onChangeAction}
     >
       <option value="all">Any</option>
       {props.options.map((option) => (

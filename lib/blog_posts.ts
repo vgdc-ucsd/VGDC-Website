@@ -13,26 +13,31 @@ export type BlogPostData = {
 }
 
 export async function getBlogPostsData() {
-  const blogPosts = await prisma.blogPost.findMany({
-    orderBy: { date: "desc" }
-  });
+  try {
+    const blogPosts = await prisma.blogPost.findMany({
+      orderBy: { date: "desc" }
+    });
 
-  const resultPromises = blogPosts.map(async (post) => {
-    const coverImageURL = post.coverImage
-      ? await GetStoredImageUrl(post.coverImage)
-      : undefined;
+    const resultPromises = blogPosts.map(async (post) => {
+      const coverImageURL = post.coverImage
+        ? await GetStoredImageUrl(post.coverImage)
+        : undefined;
 
-    return {
-      title: post.title,
-      date: post.date.toLocaleDateString(),
-      authors: post.authors.join(", "),
-      subtitle: post.subtitle,
-      coverImage: coverImageURL,
-      coverCredit: post.coverCaption ?? undefined,
-      content: post.postData,
-      slug: post.slug,
-    } satisfies BlogPostData;
-  });
+      return {
+        title: post.title,
+        date: post.date.toLocaleDateString(),
+        authors: post.authors.join(", "),
+        subtitle: post.subtitle,
+        coverImage: coverImageURL,
+        coverCredit: post.coverCaption ?? undefined,
+        content: post.postData,
+        slug: post.slug,
+      } satisfies BlogPostData;
+    });
 
-  return await Promise.all(resultPromises);
+    return await Promise.all(resultPromises);
+  } catch (error) {
+    console.error(error);
+    return [];
+  }
 }

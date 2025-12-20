@@ -1,6 +1,8 @@
 import moment from "moment"
 import { prisma } from "./prisma"
 import { EventWhereInput } from "./generated/prisma/models"
+import { GetStoredImageUrl } from "./images"
+import { supabase } from "./supabase"
 
 /** The details of an event from the spreadsheet. */
 export type EventDetails = {
@@ -54,18 +56,24 @@ export async function getEvents({
       ]
     });
 
-    const eventsDetails: EventDetails[] = Array.from(events, (event) => ({
-      title: event.name,
-      description: event.description,
-      location: event.location,
-      date: moment(event.date).format("MMMM Do"),
-      time: moment(event.startTime).utc().format("LT") 
-        + " - " 
-        + moment(event.endTime).utc().format("LT"),
-      image: event.image ?? "",
-      slug: event.slug,
-    }));
-    return eventsDetails;
+    const eventsDetailsPromises = events.map(async (event) => {
+      const eventImage = event.image 
+        ? await GetStoredImageUrl(event.image)
+        : "";
+
+      return {
+        title: event.name,
+        description: event.description,
+        location: event.location,
+        date: moment(event.date).format("MMMM Do"),
+        time: moment(event.startTime).utc().format("LT") 
+          + " - " 
+          + moment(event.endTime).utc().format("LT"),
+        image: eventImage,
+        slug: event.slug,
+      } satisfies EventDetails;
+    });
+    return await Promise.all(eventsDetailsPromises);
   } catch (e) {
     return [];
   }

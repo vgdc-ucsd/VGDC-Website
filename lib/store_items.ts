@@ -1,3 +1,4 @@
+import { GetStoredImageUrl } from "./images"
 import { prisma } from "./prisma"
 
 /** The details of a showcase game from the spreadsheet. */
@@ -10,20 +11,27 @@ export type StoreItemDetails = {
 }
 
 export async function getStoreItems() {
-  const storeItems = await prisma.storeItem.findMany();
+  try {
+    const storeItems = await prisma.storeItem.findMany();
 
-  for (let i = 0; i < storeItems.length; ++i) {
-    console.log(storeItems[i].image);
+    const storeItemDetailsPromises = storeItems.map(async (item) => {
+      const itemImage = item.image 
+        ? await GetStoredImageUrl(item.image)
+        : "";
+        return {
+        name: item.name,
+        price: new Intl.NumberFormat('en-US', {
+          style: 'currency',
+          currency: 'USD',
+        }).format(item.price.toNumber()),
+        description: item.description,
+        image: itemImage,
+        stock: item.stock > 0,
+      } satisfies StoreItemDetails;
+    });
+    return await Promise.all(storeItemDetailsPromises);
+  } catch (error) {
+    console.error(error);
+    return [];
   }
-
-  return storeItems.map((item) => ({
-    name: item.name,
-    price: new Intl.NumberFormat('en-US', {
-      style: 'currency',
-      currency: 'USD',
-    }).format(item.price.toNumber()),
-    description: item.description,
-    image: item.image,
-    stock: item.stock > 0,
-  }));
 }
