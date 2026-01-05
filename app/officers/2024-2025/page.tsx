@@ -1,5 +1,5 @@
 import OfficerPage from "@/components/officers/OfficerPage"
 
 export default function Officers() {
-  return <OfficerPage year="2024-2025" />
+  return <OfficerPage schoolYear="2024-2025" />
 }

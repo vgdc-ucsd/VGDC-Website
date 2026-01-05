@@ -5,6 +5,7 @@ import ApprovalSeal from "./ApprovalSeal"
 import { motion } from "framer-motion"
 import { GameStatusColor } from "./ShowcaseSearch"
 import { Eye } from "lucide-react"
+import { useState } from "react"
 
 export type GameStatus = "Released" | "Unreleased"
 

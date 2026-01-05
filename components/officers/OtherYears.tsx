@@ -16,7 +16,7 @@ export default function OtherYears({
             className="block text-text-grey transition-all hover:text-white"
             key={year}
           >
-            {value.link}
+            {year}
           </Link>
         )
       })}

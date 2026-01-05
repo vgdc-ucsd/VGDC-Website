@@ -23,8 +23,8 @@ export default function GameFilter(props: GameFilterProps) {
       onChange={props.onChangeAction}
     >
       <option value="all">Any</option>
-      {props.options.map((option) => (
-        <option value={option.value}>{option.text}</option>
+      {props.options.map((option, index) => (
+        <option key={index} value={option.value}>{option.text}</option>
       ))}
     </select>
   </div>
