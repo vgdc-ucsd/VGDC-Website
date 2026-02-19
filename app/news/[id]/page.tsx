@@ -83,7 +83,7 @@ export async function generateMetadata({ params }: any) {
                 type: "article",
                 images: [
                     {
-                        url: `${post.coverImage}&w=828&q=75`,
+                        url: post.coverImage,
                         width: 1280,
                         height: 640,
                     },
