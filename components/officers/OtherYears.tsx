@@ -1,4 +1,4 @@
-import { GetAllYears } from "@/lib/officers"
+import { getAllYears } from "@/lib/officers"
 import Link from "next/link"
 
 export default function OtherYears({

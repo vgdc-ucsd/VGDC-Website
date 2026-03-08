@@ -1,4 +1,4 @@
-import { GetStoredImageUrl } from "./images"
+import { getStoredImageUrl } from "./images"
 import { prisma } from "./prisma"
 
 export type BlogPostData = {
@@ -12,7 +12,7 @@ export type BlogPostData = {
   slug: string
 }
 
-export async function getBlogPostsData() {
+export async function getBlogPostsData() : Promise<BlogPostData[]> {
   try {
     const blogPosts = await prisma.blogPost.findMany({
       orderBy: { date: "desc" }
@@ -20,7 +20,7 @@ export async function getBlogPostsData() {
 
     const resultPromises = blogPosts.map(async (post) => {
       const coverImageURL = post.coverImage
-        ? await GetStoredImageUrl(post.coverImage)
+        ? await getStoredImageUrl(post.coverImage)
         : undefined;
 
       return {

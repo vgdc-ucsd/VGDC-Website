@@ -1,5 +1,5 @@
 import { prisma } from "./prisma"
-import { GetRandomMascotImageFallback, GetStoredImageUrl, imageFallbacks } from "./images"
+import { getRandomMascotImageFallback, getStoredImageUrl, imageFallbacks } from "./images"
 import { Role } from "./generated/prisma/enums";
 import { getRandomElementFromArray } from "./utils";
 
@@ -17,12 +17,20 @@ export type OfficerDetails = {
   quote: string,
 }
 
-export async function GetAllYears(yearToExclude: string) {
+export type SchoolYear = {
+  type: "current" | "year"
+  value: string
+}
+
+export const currentYearHeaderText = "Our Team"
+export const currentYearExcerpt = "We're a growing body of talented individuals with a passion for making game development exciting in every way. Hover over each profile!"
+
+export async function getAllYears(yearToExclude: SchoolYear) {
   try {
     const years = await prisma.officerYear.findMany({
       where: { 
         year: {
-          not: yearToExclude,
+          not: await getSchoolYearText(yearToExclude),
         },
       },
       select: {
@@ -37,16 +45,37 @@ export async function GetAllYears(yearToExclude: string) {
   }
 }
 
+export async function updateCurrentYear(newCurrentYear: string) {
+  await prisma.config.upsert({
+    where: { key: "currentYear" },
+    update: { value: newCurrentYear },
+    create: { key: "currentYear", value: newCurrentYear }
+  });
+}
+
+export async function getCurrentYear() {
+  const currentYear = await prisma.config.findUnique({
+    where: { key: "currentYear" }
+  });
+  return currentYear?.value;
+}
+
+export async function getSchoolYearText(schoolYear: SchoolYear) {
+  return schoolYear.value === "current"
+    ? await getCurrentYear()
+    : schoolYear.value
+}
+
 /**
  * Gets all of the officer information from a given school year.
  * @param yearText A school year. Ex: "2024-2025" 
  * @returns An OfficerYear object containing the query results.
  */
-export async function GetOfficerYear(yearText: string) {
+export async function getOfficerYear(yearInput: SchoolYear) {
   try {
     const officerYear = await prisma.officerYear.findUnique({
       where: {
-        year: yearText
+        year: await getSchoolYearText(yearInput)
       },
       include: {
         officerBios: {
@@ -57,17 +86,17 @@ export async function GetOfficerYear(yearText: string) {
       }
     });
 
-    if (!officerYear) return;
+    if (!officerYear) throw new Error(`${yearInput.value} could not be found`);
 
     const officerDetailPromises = officerYear.officerBios.map(async (officer) => {
       const avatar = officer.image
-        ? await GetStoredImageUrl(officer.image)
+        ? await getStoredImageUrl(officer.image)
         : undefined;
 
       return {
         name: officer.user.name,
         title: officer.position,
-        avatar: avatar ?? GetRandomMascotImageFallback(),
+        avatar: avatar ?? getRandomMascotImageFallback(),
         quote: officer.description,
       } satisfies OfficerDetails;
     });
@@ -82,8 +111,8 @@ export async function GetOfficerYear(yearText: string) {
   } catch (error) {
     console.error(error);
     return {
-      year: "Our Team",
-      excerpt: "We're a growing body of talented individuals with a passion for making game development exciting in every way. Hover over each profile!",
+      year: currentYearHeaderText,
+      excerpt: currentYearExcerpt,
       officerDetails: [],
       startTimestamp: new Date(), 
     } satisfies OfficerYear;

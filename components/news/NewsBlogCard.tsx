@@ -9,7 +9,7 @@ import moment from "moment"
 import { motion } from "framer-motion"
 import { useRouter } from "next/navigation"
 import { BlogPostData } from "@/lib/blog_posts"
-import { GetStoredImageUrl } from "@/lib/images"
+import { getStoredImageUrl } from "@/lib/images"
 
 /**
  * Renders a card with information about a blog post for the news page

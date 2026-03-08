@@ -6,6 +6,7 @@ import { ShowcaseGamesDetails, ShowcaseGameTag } from "@/lib/showcase_games"
 import GameModal from "./GameModal"
 import GamesGrid from "./GamesGrid"
 import { GameStatus } from "@/lib/generated/prisma/enums"
+import GameFilter from "./GameFilter"
 
 export const GameStatusColor = {
   RELEASED: "bg-green-500",
@@ -190,83 +191,66 @@ export default function ShowcaseSearch({
         {showFilters && (
           <div className="animate-fadeIn mb-2 grid grid-cols-1 gap-4 rounded-lg border border-background-grey bg-background-black p-4 sm:grid-cols-2 md:grid-cols-3">
             {/* Status Filter */}
-            <div>
-              <label className="mb-1 block text-sm font-medium text-gray-300">
-                Status
-              </label>
-              <select
-                className="w-full rounded-md border border-background-grey bg-background-black p-2 text-white focus:outline-none"
-                value={filters.status}
-                onChange={(e) => {
-                  handleFilterChange({ ...filters, status: e.target.value })
-                  e.target.blur()
-                }}
-              >
-                <option value="all">Any</option>
-                <option value={GameStatus.RELEASED}>{GameStatus.RELEASED}</option>
-                <option value={GameStatus.UNRELEASED}>{GameStatus.UNRELEASED}</option>
-                <option value={GameStatus.PROTOTYPE}>{GameStatus.PROTOTYPE}</option>
-              </select>
-            </div>
+            <GameFilter
+              name={"Status"}
+              filterValue={filters.status}
+              onChangeAction={(e) => {
+                handleFilterChange({ ...filters, status: e.target.value })
+                e.target.blur()
+              }}
+              options={[
+                { value: "all", text: "Any" },
+                { value: GameStatus.RELEASED, text: GameStatus.RELEASED },
+                { value: GameStatus.UNRELEASED, text: GameStatus.UNRELEASED },
+                { value: GameStatus.PROTOTYPE, text: GameStatus.PROTOTYPE },
+              ]}
+            />
 
             {/* Web Filter */}
-            <div>
-              <label className="mb-1 block text-sm font-medium text-gray-300">
-                Platform
-              </label>
-              <select
-                className="w-full rounded-md border border-background-grey bg-background-black p-2 text-white focus:outline-none"
-                value={filters.web}
-                onChange={(e) => {
-                  handleFilterChange({ ...filters, web: e.target.value })
-                  e.target.blur()
-                }}
-              >
-                <option value="all">Any</option>
-                <option value="true">Web Available</option>
-                <option value="false">Not On Web</option>
-              </select>
-            </div>
+            <GameFilter
+              name={"Platform"}
+              filterValue={filters.web}
+              onChangeAction={(e) => {
+                handleFilterChange({ ...filters, web: e.target.value })
+                e.target.blur()
+              }}
+              options={[
+                { value: "all", text: "Any" },
+                { value: "true", text: "Web Available" },
+                { value: "false", text: "Not On Web" },
+              ]}
+            />
 
             {/* Year Filter */}
-            <div>
-              <label className="mb-1 block text-sm font-medium text-gray-300">
-                Release Year
-              </label>
-              <select
-                className="w-full rounded-md border border-background-grey bg-background-black p-2 text-white focus:outline-none"
-                value={filters.year}
-                onChange={(e) => {
-                  handleFilterChange({ ...filters, year: e.target.value })
-                  e.target.blur()
-                }}
-              >
-                {getYears().map((year: string) => (
-                  <option key={year} value={year}>
-                    {year === "all" ? "Any" : year}
-                  </option>
-                ))}
-              </select>
-            </div>
+            <GameFilter
+              name={"Release Year"}
+              filterValue={filters.year}
+              onChangeAction={(e) => {
+                handleFilterChange({ ...filters, year: e.target.value })
+                e.target.blur()
+              }}
+              options={getYears().map((year: string) => ({
+                value: year,
+                text: year === "all" ? "Any" : year
+              }))}
+            />
 
             {/* Approved Filter */}
-            {/* <div>
-              <label className="mb-1 block text-sm font-medium text-gray-300">
-                Approval Status
-              </label>
-              <select
-                className="w-full rounded-md border border-background-grey bg-background-black p-2 text-white focus:outline-none"
-                value={filters.approved}
-                onChange={(e) => {
-                  setFilters({ ...filters, approved: e.target.value })
+            {/*
+            <GameFilter 
+              name={"Approval Status"}
+              filterValue={filters.approved}
+              onChangeAction={(e) => {
+                  handleFilterChange({ ...filters, approved: e.target.value })
                   e.target.blur()
                 }}
-              >
-                <option value="all">Any</option>
-                <option value="true">Approved</option>
-                <option value="false">Pending</option>
-              </select>
-            </div> */}
+              options={[
+                {value: "all", text: "Any"},
+                {value: "true", text: "Approved"},
+                {value: "false", text: "Pending"},
+              ]}
+            />
+            */}
           </div>
         )}
       </div>

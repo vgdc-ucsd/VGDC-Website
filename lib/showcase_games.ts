@@ -1,5 +1,5 @@
 import { GameStatus } from "./generated/prisma/enums"
-import { GetStoredImageUrl } from "./images"
+import { getStoredImageUrl } from "./images"
 import { prisma } from "./prisma"
 
 export type ShowcaseGameTag = {
@@ -34,7 +34,7 @@ export async function getShowcaseGames() {
 
     const gamesDetailsPromises = gamesList.map(async (game) => {
       const gameThumbnail = game.thumbnail 
-        ? await GetStoredImageUrl(game.thumbnail)
+        ? await getStoredImageUrl(game.thumbnail)
         : "";
 
       return {

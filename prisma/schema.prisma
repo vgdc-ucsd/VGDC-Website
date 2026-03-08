@@ -21,6 +21,11 @@ enum Role {
   EXEC
 }
 
+model Config {
+  key String @id
+  value String
+}
+
 model OfficerYear {
   id             Int          @id @default(autoincrement())
   year           String       @unique

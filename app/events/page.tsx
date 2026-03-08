@@ -16,13 +16,13 @@ export default async function Events() {
     homepage: false,
     includeOldEvents: false,
     includeNewEvents: true,
-    latestFirst: false,
+    latestOnTop: false,
   });
   const allRecentEvents = await getEvents({
     homepage: false,
     includeOldEvents: true,
     includeNewEvents: false,
-    latestFirst: true,
+    latestOnTop: true,
   });
   const recentEvents = allRecentEvents.slice(0, maxNumOfRecentEvents);
 

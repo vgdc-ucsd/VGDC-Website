@@ -5,7 +5,7 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
 }
 
-export function getRandomElementFromArray(arr: Array<any>) {
+export function getRandomElementFromArray<T>(arr: Array<T | null>) {
   if (!arr || arr.length === 0) return null;
 
   const randIdx = Math.floor(Math.random() * arr.length);

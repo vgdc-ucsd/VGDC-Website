@@ -1,7 +1,7 @@
 import moment from "moment"
 import { prisma } from "./prisma"
 import { EventWhereInput } from "./generated/prisma/models"
-import { GetStoredImageUrl } from "./images"
+import { getStoredImageUrl } from "./images"
 import { supabase } from "./supabase"
 
 /** The details of an event from the spreadsheet. */
@@ -58,7 +58,7 @@ export async function getEvents({
 
     const eventsDetailsPromises = events.map(async (event) => {
       const eventImage = event.image 
-        ? await GetStoredImageUrl(event.image)
+        ? await getStoredImageUrl(event.image)
         : "";
 
       return {

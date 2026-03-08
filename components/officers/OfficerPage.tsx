@@ -5,26 +5,24 @@ import PageSection from "../global/PageSection"
 
 import OtherYears from "@/components/officers/OtherYears"
 import Officers from "@/app/officers/Officers"
-import { GetAllYears, GetOfficerYear } from "@/lib/officers"
+import { currentYearExcerpt, currentYearHeaderText, getAllYears, getOfficerYear, SchoolYear } from "@/lib/officers"
 
-export default async function OfficerPage({ schoolYear }: { schoolYear: string }) {
-  const isCurrentYear = schoolYear === "current";
+export default async function OfficerPage(schoolYear: SchoolYear) {
+  const isCurrentYear = schoolYear.type === "current";
 
-  const officerYear = await GetOfficerYear(schoolYear);
+  const officerYear = await getOfficerYear(schoolYear);
 
   if (!officerYear) return <div>Loading...</div>
 
-  const currentYearSubtext = "We're a growing body of talented individuals with a passion for making game development exciting in every way. Hover over each profile!";
-
-  const otherSchoolYears = await GetAllYears(schoolYear);
+  const otherSchoolYears = await getAllYears(schoolYear);
 
   return (
     <main className="min-h-screen bg-background-black">
       <Navbar />
 
       <PageSection
-        heading={isCurrentYear ? "Our Team" : `${schoolYear} Officers`}
-        subText={isCurrentYear ? currentYearSubtext : officerYear.excerpt}
+        heading={isCurrentYear ? currentYearHeaderText : `${schoolYear} Officers`}
+        subText={isCurrentYear ? currentYearExcerpt : officerYear.excerpt}
         backButton={!isCurrentYear ? { text: "<- back", href: "/officers" } : undefined}
       >
         <div className="space-y-20">

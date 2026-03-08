@@ -1,4 +1,4 @@
-import { GetStoredImageUrl } from "./images"
+import { getStoredImageUrl } from "./images"
 import { prisma } from "./prisma"
 
 /** The details of a showcase game from the spreadsheet. */
@@ -16,7 +16,7 @@ export async function getStoreItems() {
 
     const storeItemDetailsPromises = storeItems.map(async (item) => {
       const itemImage = item.image 
-        ? await GetStoredImageUrl(item.image)
+        ? await getStoredImageUrl(item.image)
         : "";
         return {
         name: item.name,
