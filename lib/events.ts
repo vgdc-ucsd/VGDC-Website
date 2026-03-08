@@ -24,6 +24,35 @@ export interface GetEventsFlags {
 }
 
 /**
+ * Gets a single event from the database
+ */
+export async function getSingleEvent(slug: string): Promise<Result<EventDetails>> {
+  const event = await prisma.event.findUnique({
+    where: { slug: slug }
+  })
+
+  if (!event) return { ok: false, error: `Failed to get event ${slug}` }
+
+  const eventImage = event.image 
+    ? await getStoredImageUrl(event.image)
+    : "";
+  return {
+    ok: true,
+    data: {
+      title: event.name,
+      description: event.description,
+      location: event.location,
+      date: moment(event.date).format("MMMM Do"),
+      time: moment(event.startTime).utc().format("LT") 
+        + " - " 
+        + moment(event.endTime).utc().format("LT"),
+      image: eventImage,
+      slug: event.slug,
+    }
+  };
+}
+
+/**
  * Gets the events from a spreadsheet, filters them, and sorts them.
  * @param homepage Only include events for the homepage? False by default.
  * @param includeOldEvents Include events that have already passed? False by default.
