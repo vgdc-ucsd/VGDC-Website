@@ -1,38 +1,44 @@
-import { getSheetData } from "./google-sheets.action"
+import { getStoredImageUrl } from "./images"
+import { prisma } from "./prisma"
+import { Result } from "./utils"
 
 /** The details of a showcase game from the spreadsheet. */
 export type StoreItemDetails = {
   name: string
   price: string
-  image1: string
-  image2?: string
+  description: string
+  image: string
   stock: boolean
 }
 
-export async function getStoreItems() {
-  const response = await getSheetData("Store")
+export async function getStoreItems(): Promise<Result<StoreItemDetails[]>> {
+  try {
+    const storeItems = await prisma.storeItem.findMany();
 
-  let storeItems = []
-  
-  if (response.data != undefined && response.data != null) {
-    for (let i in response.data) {
-        if(response.data[i][0] == "") continue
+    if (!storeItems) return { ok: false, error: "Failed to get store items" }
 
-        // Get the details for the event.
-        let storeItem: StoreItemDetails = {
-            name: response.data[i][0],
-            price: new Intl.NumberFormat('en-US', {
-              style: 'currency',
-              currency: 'USD',
-            }).format(response.data[i][1]),
-            image1: response.data[i][2],
-            image2: response.data[i][3] || null,
-            stock: response.data[i][4] === "TRUE",
-        }
+    const storeItemDetailsPromises = storeItems.map(async (item) => {
+      const itemImage = item.image 
+        ? await getStoredImageUrl(item.image)
+        : "";
+        return {
+        name: item.name,
+        price: new Intl.NumberFormat('en-US', {
+          style: 'currency',
+          currency: 'USD',
+        }).format(item.price.toNumber()),
+        description: item.description,
+        image: itemImage,
+        stock: item.stock > 0,
+      } satisfies StoreItemDetails;
+    });
 
-        storeItems.push(storeItem)
-    }
+    return {
+      ok: true,
+      data: await Promise.all(storeItemDetailsPromises)
+    };
+  } catch (error) {
+    console.error(error);
+    return { ok: false, error: "Internal server error" }
   }
-  
-  return storeItems
 }

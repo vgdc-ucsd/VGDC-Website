@@ -38,19 +38,20 @@ export default function EventView({ event }: { event: EventDetails }) {
           <h4 className="text-xl font-semibold text-vgdc-light-green">
             {event.time}
           </h4>
-          <ReactMarkdown
-            className={`${styles["markdown"]} mt-2 text-lg text-text-white`}
-            rehypePlugins={[rehypeRaw]}
-            components={{
-              a: ({ children, href }) => (
-                <a href={href} className="text-hot-pink" target="_blank">
-                  {children}
-                </a>
-              ),
-            }}
-          >
-            {event.description}
-          </ReactMarkdown>
+          <div className={`${styles["markdown"]} mt-2 text-lg text-text-white`}>
+            <ReactMarkdown
+              rehypePlugins={[rehypeRaw]}
+              components={{
+                a: ({ children, href }) => (
+                  <a href={href} className="text-hot-pink" target="_blank">
+                    {children}
+                  </a>
+                ),
+              }}
+            >
+              {event.description}
+            </ReactMarkdown>
+          </div>
         </motion.div>
         <motion.div
           initial={{ opacity: 0.6, scale: 0.8, translateX: 50 }}
