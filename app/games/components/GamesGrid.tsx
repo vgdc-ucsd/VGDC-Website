@@ -22,7 +22,7 @@ export default function GamesGrid({
         <div className="m-2 w-80 sm:w-56" key={index}>
           <GameCard
             game={game}
-            getStatusText={(status) => (status ? "Released" : "In Development")}
+            getStatusText={(status) => (status ? "Released" : "Unreleased")}
             onClick={() => {
               setCurrentIndex(index)
               setShowModal(true)

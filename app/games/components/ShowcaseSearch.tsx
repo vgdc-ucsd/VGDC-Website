@@ -1,17 +1,46 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, useMemo } from "react"
 import { Search, Filter } from "lucide-react"
-import { ShowcaseGamesDetails } from "@/lib/showcase_games"
+import { ShowcaseGamesDetails, ShowcaseGameTag } from "@/lib/showcase_games"
 import GameModal from "./GameModal"
 import GamesGrid from "./GamesGrid"
+import { GameStatus } from "@/lib/generated/prisma/enums"
+import GameFilter from "./GameFilter"
+
+export const GameStatusColor = {
+  RELEASED: "bg-green-500",
+  UNRELEASED: "bg-yellow-500",
+  PROTOTYPE: "bg-blue-500",
+} satisfies Record<GameStatus, string>
 
 export default function ShowcaseSearch({
   data,
 }: {
   data: ShowcaseGamesDetails[]
 }) {
-  const [filteredItems, setFilteredItems] = useState(data || [])
+  const sortGames = (games: ShowcaseGamesDetails[]) => {
+    return [...games].sort((a, b) => {
+      if (a.status !== b.status) return a.status ? -1 : 1
+      if (a.vgdcApproved !== b.vgdcApproved) return b.vgdcApproved ? 1 : -1
+
+      const aIsTBD = a.releaseDate === "TBD"
+      const bIsTBD = b.releaseDate === "TBD"
+
+      if (aIsTBD && bIsTBD) return 0
+      if (aIsTBD) return 1
+      if (bIsTBD) return -1
+
+      try {
+        const dateA = new Date(a.releaseDate).getTime()
+        const dateB = new Date(b.releaseDate).getTime()
+        return dateB - dateA
+      } catch (e) {
+        return 0
+      }
+    })
+  }
+
   const [currentIndex, setCurrentIndex] = useState(0)
   const [searchTerm, setSearchTerm] = useState("")
   const [showModal, setShowModal] = useState(false)
@@ -23,9 +52,9 @@ export default function ShowcaseSearch({
   })
   const [showFilters, setShowFilters] = useState(false)
 
-  // Filters and search
-  useEffect(() => {
-    if (!data.length) return
+  // Filters and search using useMemo for derived state
+  const filteredItems = useMemo(() => {
+    if (!data.length) return []
 
     let result = [...data]
 
@@ -42,10 +71,10 @@ export default function ShowcaseSearch({
 
     // Filters
     if (filters.status !== "all") {
-      const statusValue = filters.status === "true" ? true : false
+      const statusValue = filters.status;
       result = result.filter((item) => {
-        return item.status === statusValue
-      })
+        return item.status === statusValue;
+      });
     }
 
     if (filters.web !== "all") {
@@ -71,12 +100,22 @@ export default function ShowcaseSearch({
       })
     }
 
-    setFilteredItems(result)
-    if (result.length > 0) {
-      setCurrentIndex(0)
-      setShowModal(false)
-    }
+    return sortGames(result)
   }, [searchTerm, filters, data])
+
+  // Handler for search term changes
+  const handleSearchChange = (value: string) => {
+    setSearchTerm(value)
+    setCurrentIndex(0)
+    setShowModal(false)
+  }
+
+  // Handler for filter changes
+  const handleFilterChange = (newFilters: typeof filters) => {
+    setFilters(newFilters)
+    setCurrentIndex(0)
+    setShowModal(false)
+  }
 
   // Handle Escape key for the modal
   useEffect(() => {
@@ -89,11 +128,6 @@ export default function ShowcaseSearch({
     window.addEventListener("keydown", handleKeyDown)
     return () => window.removeEventListener("keydown", handleKeyDown)
   }, [showModal])
-
-  // Helper functions
-  const getStatusText = (status: boolean) => {
-    return status ? "Released" : "In Development"
-  }
 
   const getThemeColor = (theme: string) => {
     const colors: Record<string, string> = {
@@ -117,7 +151,7 @@ export default function ShowcaseSearch({
         try {
           const year = new Date(item.releaseDate).getFullYear().toString()
           if (!isNaN(Number(year))) years.add(year)
-        } catch (e) {}
+        } catch (e) { }
       }
     })
     return ["all", ...Array.from(years).sort()]
@@ -136,7 +170,7 @@ export default function ShowcaseSearch({
               placeholder="Search games..."
               className="w-full rounded-lg border border-background-grey bg-background-black px-4 py-2 pl-10 text-white focus:outline-none focus:ring-2 focus:ring-vgdc-light-blue"
               value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
+              onChange={(e) => handleSearchChange(e.target.value)}
             />
             <Search
               className="absolute left-3 top-1/2 -translate-y-1/2 transform text-gray-400"
@@ -157,82 +191,66 @@ export default function ShowcaseSearch({
         {showFilters && (
           <div className="animate-fadeIn mb-2 grid grid-cols-1 gap-4 rounded-lg border border-background-grey bg-background-black p-4 sm:grid-cols-2 md:grid-cols-3">
             {/* Status Filter */}
-            <div>
-              <label className="mb-1 block text-sm font-medium text-gray-300">
-                Status
-              </label>
-              <select
-                className="w-full rounded-md border border-background-grey bg-background-black p-2 text-white focus:outline-none"
-                value={filters.status}
-                onChange={(e) => {
-                  setFilters({ ...filters, status: e.target.value })
-                  e.target.blur()
-                }}
-              >
-                <option value="all">Any</option>
-                <option value="true">Released</option>
-                <option value="false">In Development</option>
-              </select>
-            </div>
+            <GameFilter
+              name={"Status"}
+              filterValue={filters.status}
+              onChangeAction={(e) => {
+                handleFilterChange({ ...filters, status: e.target.value })
+                e.target.blur()
+              }}
+              options={[
+                { value: "all", text: "Any" },
+                { value: GameStatus.RELEASED, text: GameStatus.RELEASED },
+                { value: GameStatus.UNRELEASED, text: GameStatus.UNRELEASED },
+                { value: GameStatus.PROTOTYPE, text: GameStatus.PROTOTYPE },
+              ]}
+            />
 
             {/* Web Filter */}
-            <div>
-              <label className="mb-1 block text-sm font-medium text-gray-300">
-                Platform
-              </label>
-              <select
-                className="w-full rounded-md border border-background-grey bg-background-black p-2 text-white focus:outline-none"
-                value={filters.web}
-                onChange={(e) => {
-                  setFilters({ ...filters, web: e.target.value })
-                  e.target.blur()
-                }}
-              >
-                <option value="all">Any</option>
-                <option value="true">Web Available</option>
-                <option value="false">Not On Web</option>
-              </select>
-            </div>
+            <GameFilter
+              name={"Platform"}
+              filterValue={filters.web}
+              onChangeAction={(e) => {
+                handleFilterChange({ ...filters, web: e.target.value })
+                e.target.blur()
+              }}
+              options={[
+                { value: "all", text: "Any" },
+                { value: "true", text: "Web Available" },
+                { value: "false", text: "Not On Web" },
+              ]}
+            />
 
             {/* Year Filter */}
-            <div>
-              <label className="mb-1 block text-sm font-medium text-gray-300">
-                Release Year
-              </label>
-              <select
-                className="w-full rounded-md border border-background-grey bg-background-black p-2 text-white focus:outline-none"
-                value={filters.year}
-                onChange={(e) => {
-                  setFilters({ ...filters, year: e.target.value })
-                  e.target.blur()
-                }}
-              >
-                {getYears().map((year: string) => (
-                  <option key={year} value={year}>
-                    {year === "all" ? "Any" : year}
-                  </option>
-                ))}
-              </select>
-            </div>
+            <GameFilter
+              name={"Release Year"}
+              filterValue={filters.year}
+              onChangeAction={(e) => {
+                handleFilterChange({ ...filters, year: e.target.value })
+                e.target.blur()
+              }}
+              options={getYears().map((year: string) => ({
+                value: year,
+                text: year === "all" ? "Any" : year
+              }))}
+            />
 
             {/* Approved Filter */}
-            {/* <div>
-              <label className="mb-1 block text-sm font-medium text-gray-300">
-                Approval Status
-              </label>
-              <select
-                className="w-full rounded-md border border-background-grey bg-background-black p-2 text-white focus:outline-none"
-                value={filters.approved}
-                onChange={(e) => {
-                  setFilters({ ...filters, approved: e.target.value })
+            {/*
+            <GameFilter 
+              name={"Approval Status"}
+              filterValue={filters.approved}
+              onChangeAction={(e) => {
+                  handleFilterChange({ ...filters, approved: e.target.value })
                   e.target.blur()
                 }}
-              >
-                <option value="all">Any</option>
-                <option value="true">Approved</option>
-                <option value="false">Pending</option>
-              </select>
-            </div> */}
+              options={[
+                {value: "all", text: "Any"},
+                {value: "true", text: "Approved"},
+                {value: "false", text: "Pending"},
+              ]}
+            />
+            */}
           </div>
         )}
       </div>
@@ -244,14 +262,15 @@ export default function ShowcaseSearch({
       />
 
       {/* Game Modal */}
-      {showModal && currentItem && (
-        <GameModal
-          game={currentItem}
-          onClose={() => setShowModal(false)}
-          getStatusText={getStatusText}
-          getThemeColor={getThemeColor}
-        />
-      )}
-    </div>
+      {
+        showModal && currentItem && (
+          <GameModal
+            game={currentItem}
+            onClose={() => setShowModal(false)}
+            getThemeColor={getThemeColor}
+          />
+        )
+      }
+    </div >
   )
 }

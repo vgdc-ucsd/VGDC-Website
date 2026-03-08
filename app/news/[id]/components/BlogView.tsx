@@ -104,9 +104,9 @@ export default function BlogView({
           ease: "easeOut",
           duration: 0.4,
         }}
+        className={`${styles["markdown"]} mt-2 text-sm text-text-grey md:text-base`}
       >
         <ReactMarkdown
-          className={`${styles["markdown"]} mt-2 text-sm text-text-grey md:text-base`}
           rehypePlugins={[rehypeRaw]}
           components={{
             // add a css for p tagsxs

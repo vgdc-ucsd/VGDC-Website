@@ -21,6 +21,19 @@ enum Role {
   EXEC
 }
 
+model Config {
+  key String @id
+  value String
+}
+
+model OfficerYear {
+  id             Int          @id @default(autoincrement())
+  year           String       @unique
+  startTimestamp DateTime
+  excerpt        String
+  officerBios    OfficerBio[]
+}
+
 model User {
   id             Int          @id @default(autoincrement())
   name           String
@@ -31,13 +44,14 @@ model User {
 }
 
 model OfficerBio {
-  id          Int     @id @default(autoincrement())
-  year        Int
-  description String
-  image       String?
-  position    String
-  user        User    @relation(fields: [userId], references: [id])
-  userId      Int
+  id            Int         @id @default(autoincrement())
+  year          OfficerYear @relation(fields: [officerYearId], references: [id])
+  description   String
+  image         String?
+  position      String
+  user          User        @relation(fields: [userId], references: [id])
+  userId        Int
+  officerYearId Int
 }
 
 model Event {
@@ -61,23 +75,23 @@ enum GameStatus {
 }
 
 model GameTags {
-  id     Int    @id @default(autoincrement())
-  text   String
-  color  String
-  games  Game[]
+  id    Int    @id @default(autoincrement())
+  text  String
+  color String
+  games Game[]
 }
 
 model EventTags {
-  id      Int    @id @default(autoincrement())
-  text    String
-  color   String
-  events  Event[]
+  id     Int     @id @default(autoincrement())
+  text   String
+  color  String
+  events Event[]
 }
 
 model Game {
   id            Int        @id @default(autoincrement())
   title         String
-  credits       String[]
+  credits       String
   description   String
   releaseDate   DateTime   @db.Date
   difficulty    Int
@@ -108,4 +122,5 @@ model BlogPost {
   coverImage   String?
   coverCaption String?
   postData     String   @db.Text
+  slug         String   @unique
 }
