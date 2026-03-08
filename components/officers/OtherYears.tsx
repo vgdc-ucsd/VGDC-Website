@@ -1,10 +1,10 @@
-import { getAllYears } from "@/lib/officers"
+import { currentSchoolYear, getAllYears, SchoolYear } from "@/lib/officers"
 import Link from "next/link"
 
 export default function OtherYears({
   otherYears,
 }: {
-  otherYears: string[]
+  otherYears: SchoolYear[]
 }) {
   return (
     <div className="text-text-white">
@@ -12,11 +12,11 @@ export default function OtherYears({
       {otherYears.map((year) => {
         return (
           <Link
-            href={`/officers${year != "current" ? "/" + year : ""}`}
+            href={`/officers${year.type != "current" ? "/" + year.value : ""}`}
             className="block text-text-grey transition-all hover:text-white"
-            key={year}
+            key={year.value}
           >
-            {year}
+            {year.type === "current" ? "Current" : year.value} Officers
           </Link>
         )
       })}

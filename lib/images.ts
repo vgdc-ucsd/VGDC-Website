@@ -16,6 +16,9 @@ export function getRandomMascotImageFallback(): string {
   return getRandomElementFromArray(Object.values(imageFallbacks))!;
 }
 
-export async function uploadImage(image: ImageData) {
-  console.error("Upload image not implemented yet");
+export async function uploadImage(name: string, file: File) {
+  const { data, error } = await supabase.storage.from("Images").upload(name, file)
+
+  if (error) throw error;
+  return data;
 }

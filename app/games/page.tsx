@@ -3,11 +3,14 @@ import Footer from "@/components/global/Footer"
 import { getShowcaseGames } from "@/lib/showcase_games"
 import ShowcaseSearch from "./components/ShowcaseSearch"
 import GamesGrid from "./components/GamesGrid"
+import { notFound } from "next/navigation"
 
 export const revalidate = 60
 
 export default async function Showcase() {
-  const showcaseData = await getShowcaseGames()
+  const result = await getShowcaseGames();
+  if (!result.ok) notFound();
+  const showcaseData = result.data;
 
   return (
     <main className="min-h-screen bg-background-black">

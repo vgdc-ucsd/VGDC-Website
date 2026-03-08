@@ -3,6 +3,7 @@ import { prisma } from "./prisma"
 import { EventWhereInput } from "./generated/prisma/models"
 import { getStoredImageUrl } from "./images"
 import { supabase } from "./supabase"
+import { Result } from "./utils"
 
 /** The details of an event from the spreadsheet. */
 export type EventDetails = {
@@ -35,7 +36,7 @@ export async function getEvents({
   includeOldEvents = false,
   includeNewEvents = true,
   latestFirst = false
-}: GetEventsFlags) {
+}: GetEventsFlags): Promise<Result<EventDetails[]>> {
   //
   // Gets the current moment to filter out events after this time.
   const today = moment().startOf("day").toDate();
@@ -56,6 +57,8 @@ export async function getEvents({
       ]
     });
 
+    if (!events) return { ok: false, error: "Failed to get events"}
+
     const eventsDetailsPromises = events.map(async (event) => {
       const eventImage = event.image 
         ? await getStoredImageUrl(event.image)
@@ -73,8 +76,13 @@ export async function getEvents({
         slug: event.slug,
       } satisfies EventDetails;
     });
-    return await Promise.all(eventsDetailsPromises);
-  } catch (e) {
-    return [];
+
+    return {
+      ok: true,
+      data: await Promise.all(eventsDetailsPromises)
+    };
+  } catch (error) {
+    console.log(error)
+    return { ok: false, error: "Internal server error"}
   }
 }

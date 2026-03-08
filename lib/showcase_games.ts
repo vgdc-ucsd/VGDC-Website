@@ -1,6 +1,7 @@
 import { GameStatus } from "./generated/prisma/enums"
 import { getStoredImageUrl } from "./images"
 import { prisma } from "./prisma"
+import { Result } from "./utils"
 
 export type ShowcaseGameTag = {
   text: string
@@ -26,11 +27,13 @@ export type ShowcaseGamesDetails = {
  * Gets the showcase game details
  * @returns List of showcase games details.
  */
-export async function getShowcaseGames() {
+export async function getShowcaseGames(): Promise<Result<ShowcaseGamesDetails[]>> {
   try {
     const gamesList = await prisma.game.findMany({
       include: { gameTags: true }
     });
+
+    if (!gamesList) return { ok: false, error: "Failed to get showcase games" }
 
     const gamesDetailsPromises = gamesList.map(async (game) => {
       const gameThumbnail = game.thumbnail 
@@ -54,9 +57,13 @@ export async function getShowcaseGames() {
         web: game.isWebPlayable,
       } satisfies ShowcaseGamesDetails;
     });
-    return await Promise.all(gamesDetailsPromises);
+
+    return {
+      ok: true,
+      data: await Promise.all(gamesDetailsPromises)
+    };
   } catch (error) {
     console.log(error);
-    return []
+    return { ok: false, error: "Internal server error" }
   }
 }

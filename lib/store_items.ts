@@ -1,5 +1,6 @@
 import { getStoredImageUrl } from "./images"
 import { prisma } from "./prisma"
+import { Result } from "./utils"
 
 /** The details of a showcase game from the spreadsheet. */
 export type StoreItemDetails = {
@@ -10,9 +11,11 @@ export type StoreItemDetails = {
   stock: boolean
 }
 
-export async function getStoreItems() {
+export async function getStoreItems(): Promise<Result<StoreItemDetails[]>> {
   try {
     const storeItems = await prisma.storeItem.findMany();
+
+    if (!storeItems) return { ok: false, error: "Failed to get store items" }
 
     const storeItemDetailsPromises = storeItems.map(async (item) => {
       const itemImage = item.image 
@@ -29,9 +32,13 @@ export async function getStoreItems() {
         stock: item.stock > 0,
       } satisfies StoreItemDetails;
     });
-    return await Promise.all(storeItemDetailsPromises);
+
+    return {
+      ok: true,
+      data: await Promise.all(storeItemDetailsPromises)
+    };
   } catch (error) {
     console.error(error);
-    return [];
+    return { ok: false, error: "Internal server error" }
   }
 }

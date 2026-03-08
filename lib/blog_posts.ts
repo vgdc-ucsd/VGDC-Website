@@ -1,5 +1,6 @@
 import { getStoredImageUrl } from "./images"
 import { prisma } from "./prisma"
+import { Result } from "./utils"
 
 export type BlogPostData = {
   title: string
@@ -12,11 +13,13 @@ export type BlogPostData = {
   slug: string
 }
 
-export async function getBlogPostsData() : Promise<BlogPostData[]> {
+export async function getBlogPostsData() : Promise<Result<BlogPostData[]>> {
   try {
     const blogPosts = await prisma.blogPost.findMany({
       orderBy: { date: "desc" }
     });
+
+    if (!blogPosts) return { ok: false, error: "Failed to get blog posts" }
 
     const resultPromises = blogPosts.map(async (post) => {
       const coverImageURL = post.coverImage
@@ -35,9 +38,12 @@ export async function getBlogPostsData() : Promise<BlogPostData[]> {
       } satisfies BlogPostData;
     });
 
-    return await Promise.all(resultPromises);
+    return {
+      ok: true,
+      data: await Promise.all(resultPromises)
+    };
   } catch (error) {
     console.error(error);
-    return [];
+    return { ok: false, error: "Internal server error" }
   }
 }

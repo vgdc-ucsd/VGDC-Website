@@ -9,10 +9,13 @@ import { createAvatar } from "@dicebear/core"
 import { notionistsNeutral } from "@dicebear/collection"
 import NewsBlogCard from "@/components/news/NewsBlogCard"
 import { BlogPostData, getBlogPostsData } from "@/lib/blog_posts"
+import { notFound } from "next/navigation"
 
 export const revalidate = 60;
 export default async function News() {
-  const posts = await getBlogPostsData();
+  const result = await getBlogPostsData();
+  if (!result.ok) notFound();
+  const posts = result.data;
 
   return (
     <main className="min-h-screen bg-background-black">
