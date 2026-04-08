@@ -1,5 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+    serverExternalPackages: ['@dicebear/core', '@dicebear/collection', '@dicebear/converter', '@resvg/resvg-js'],
     async redirects() {
         return [
         {
