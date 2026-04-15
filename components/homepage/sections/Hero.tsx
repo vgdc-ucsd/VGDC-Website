@@ -9,6 +9,7 @@ import Socials from "@/components/ui/socials"
 import React from "react"
 import UseEmblaCarousel from "embla-carousel-react"
 import heroGames from "@/public/data/hero_games.json"
+import RetroWindowHero from "@/components/homepage/retro-hero/RetroWindowHero"
 
 /**
  * The hero that appears at the top of the homepage.
@@ -18,8 +19,12 @@ import heroGames from "@/public/data/hero_games.json"
 export default function Hero() {
   return (
     <section className="mb-32">
-      <HeroText />
-      <HeroContent />
+      <div className="flex min-h-screen items-center justify-center">
+        <RetroWindowHero />
+      </div>
+      <div id="hero-content" className="px-8 md:px-12">
+        <HeroContent />
+      </div>
     </section>
   )
 }
