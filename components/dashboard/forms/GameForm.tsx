@@ -143,7 +143,7 @@ export default function GameForm() {
             </FormItem>
           )} />
 
-          <TagInput tags={tags} onChange={setTags} />
+          <TagInput type="game" tags={tags} onChange={setTags} />
 
           <FormField control={form.control} name="thumbnail" render={({ field }) => (
             <FormItem>

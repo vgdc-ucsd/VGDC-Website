@@ -108,7 +108,7 @@ export default function EventForm() {
             </FormItem>
           )} />
 
-          <TagInput tags={tags} onChange={setTags} />
+          <TagInput type="event" tags={tags} onChange={setTags} />
 
           <FormField control={form.control} name="slug" render={({ field }) => (
             <FormItem>
