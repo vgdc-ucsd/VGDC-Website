@@ -166,6 +166,12 @@
         "quote": "Hi I'm Timothy, a second year CS major at Seventh! I'm writing this comment retroactively so there's no point in really saying much here as this year already ended, but I figured I was updating the website anyway so I may as well put something here."
       },
       {
+        "title": "Tech Officer",
+        "name": "Seven Flaminiano",
+        "avatar": "/images/officers/2024-2025/7.png",
+        "quote": "G'day mate! And yes, you read that right--my name IS the number. I'm a first year Computer Science major. I love programming, specifically game engines and anything low-level using languages like C, C++, and Rust. I also like to read. My favorite book series is Dune! My career goal would be a job in the game industry working on in-house game engines, or some other industry related to embedded systems. My favorite video game is probably Elden Ring. When I'm not being a nerd...Ahh I think I'm just a nerd. Anyways, if you have a cool idea, and think I can help you execute it, hit me up!"
+      },
+      {
         "title": "Outreach Officer",
         "name": "Hadi Natour",
         "avatar": "/images/officers/2024-2025/hadi-natour.png",
@@ -176,12 +182,6 @@
         "name": "Samantha Iwashita",
         "avatar": "/images/officers/2024-2025/samantha-iwashita.jpg",
         "quote": "Hi!! I'm Sam, a 2nd year CogSci Design & Interaction major! I'm super into game design and writing, as well as more managerial roles like game direction! I've been playing video games for as long as I can remember, but my favs are Hades, Genshin, Minecraft, FE3H, and Love and Deepspace! Besides gaming, I enjoy anime (Black Butler & OHSHC >>) and storytelling! Don’t be a stranger and feel free to reach out on Discord @sammifebruary06 or IG @iwst.samantha! :3c"
-      },
-      {
-        "title": "Tech Officer",
-        "name": "Seven Flaminiano",
-        "avatar": "/images/officers/2024-2025/7.png",
-        "quote": "G'day mate! And yes, you read that right--my name IS the number. I'm a first year Computer Science major. I love programming, specifically game engines and anything low-level using languages like C, C++, and Rust. I also like to read. My favorite book series is Dune! My career goal would be a job in the game industry working on in-house game engines, or some other industry related to embedded systems. My favorite video game is probably Elden Ring. When I'm not being a nerd...Ahh I think I'm just a nerd. Anyways, if you have a cool idea, and think I can help you execute it, hit me up!"
       }
     ]
   },
