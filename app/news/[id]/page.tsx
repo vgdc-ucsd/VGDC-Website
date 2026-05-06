@@ -28,144 +28,144 @@ import BlogView from "./components/BlogView"
  */
 
 {
-  /* test meta tags
-<meta property="og:site_name" content="Video Game Development Club" />
-<meta property="og:title" content={post.title} />
-<meta property="og:description" content={post.excerpt} />
-<meta property="og:url" content={testfullpath}/>
-<meta property="og:type" content="article" />
-<meta property="og:image" content={`${testhostname}/_next/image?url=/images/blogs/${post.id}${post.coverImage}&w=828&q=75`} />
-<meta property="og:image:width" content="1280" />
-<meta property="og:image:height" content="640" />
-
-<meta property="twitter:card" content="summary_large_image" />
-<meta property="twitter:site" content ="@vgdc"/>
-<meta property="twitter:title" content={post.title}/>
-<meta property="twitter:description" content = {post.excerpt} />
-<meta property="twitter:image" content={`${testhostname}/_next/image?url=/images/blogs/${post.id}${post.coverImage}&w=828&q=75`} />
- */
+    /* test meta tags
+  <meta property="og:site_name" content="Video Game Development Club" />
+  <meta property="og:title" content={post.title} />
+  <meta property="og:description" content={post.excerpt} />
+  <meta property="og:url" content={testfullpath}/>
+  <meta property="og:type" content="article" />
+  <meta property="og:image" content={`${testhostname}/_next/image?url=/images/blogs/${post.id}${post.coverImage}&w=828&q=75`} />
+  <meta property="og:image:width" content="1280" />
+  <meta property="og:image:height" content="640" />
+  
+  <meta property="twitter:card" content="summary_large_image" />
+  <meta property="twitter:site" content ="@vgdc"/>
+  <meta property="twitter:title" content={post.title}/>
+  <meta property="twitter:description" content = {post.excerpt} />
+  <meta property="twitter:image" content={`${testhostname}/_next/image?url=/images/blogs/${post.id}${post.coverImage}&w=828&q=75`} />
+   */
 }
 
 {
-  /*
-<meta property="og:site_name" content="Video Game Development Club" />
-<meta property="og:title" content={post.title} />
-<meta property="og:description" content={post.excerpt} />
-<meta property="og:url" content={fullpath!}/>
-<meta property="og:type" content="article" />
-<meta property="og:image" content={`${hostname}/_next/image?url=/images/blogs/${post.id}${post.coverImage}&w=828&q=75`} />
-<meta property="og:image:width" content="1280" />
-<meta property="og:image:height" content="640" />
-
-{/** metadata to define content for twitter previews 
-<meta property="twitter:card" content="summary_large_image" />
-<meta property="twitter:site" content ="@vgdc"/>
-<meta property="twitter:title" content={post.title}/>
-<meta property="twitter:description" content = {post.excerpt} />
-<meta property="twitter:image" content={`${hostname}/_next/image?url=/images/blogs/${post.id}${post.coverImage}&w=828&q=75`} />
- */
+    /*
+  <meta property="og:site_name" content="Video Game Development Club" />
+  <meta property="og:title" content={post.title} />
+  <meta property="og:description" content={post.excerpt} />
+  <meta property="og:url" content={fullpath!}/>
+  <meta property="og:type" content="article" />
+  <meta property="og:image" content={`${hostname}/_next/image?url=/images/blogs/${post.id}${post.coverImage}&w=828&q=75`} />
+  <meta property="og:image:width" content="1280" />
+  <meta property="og:image:height" content="640" />
+  
+  {/** metadata to define content for twitter previews 
+  <meta property="twitter:card" content="summary_large_image" />
+  <meta property="twitter:site" content ="@vgdc"/>
+  <meta property="twitter:title" content={post.title}/>
+  <meta property="twitter:description" content = {post.excerpt} />
+  <meta property="twitter:image" content={`${hostname}/_next/image?url=/images/blogs/${post.id}${post.coverImage}&w=828&q=75`} />
+   */
 }
 
 export const revalidate = 60;
 
 export async function generateMetadata({ params }: any) {
-  const post = await getPostData(params.id)
+    const post = await getPostData(params.id)
 
-  if (post != null) {
-    return {
-      title: post.title,
-      description: post.excerpt,
-      openGraph: {
-        siteName: "Video Game Development Club",
-        title: post.title,
-        description: post.excerpt,
-        url: `https://vgdc.dev/news/${params.id}`,
-        type: "article",
-        images: [
-          {
-            url: `https://vgdc.dev/_next/image?url=/images/blogs/${post.id}${post.coverImage}&w=828&q=75`,
-            width: 1280,
-            height: 640,
-          },
-        ],
-      },
-      twitter: {
-        card: "summary_large_image",
-        site: "@UCSDVGDC",
-        title: post.title,
-        description: post.excerpt,
-        creator: "@vgdc",
-        images: [
-          `https://vgdc.dev/_next/image?url=/images/blogs/${post.id}${post.coverImage}&w=828&q=75`,
-        ],
-      },
+    if (post != null) {
+        return {
+            title: post.title,
+            description: post.excerpt,
+            openGraph: {
+                siteName: "Video Game Development Club",
+                title: post.title,
+                description: post.excerpt,
+                url: `https://vgdc.dev/news/${params.id}`,
+                type: "article",
+                images: [
+                    {
+                        url: post.coverImage,
+                        width: 1280,
+                        height: 640,
+                    },
+                ],
+            },
+            twitter: {
+                card: "summary_large_image",
+                site: "@UCSDVGDC",
+                title: post.title,
+                description: post.excerpt,
+                creator: "@vgdc",
+                images: [
+                    `https://vgdc.dev/_next/image?url=/images/blogs/${post.id}${post.coverImage}&w=828&q=75`,
+                ],
+            },
+        }
+    } else {
+        return {
+            title: "VGDC @ UCSD",
+        }
     }
-  } else {
-    return {
-      title: "VGDC @ UCSD",
-    }
-  }
 }
 
 export default async function BlogPage({
-  params,
+    params,
 }: {
-  params: Promise<{ id: string }>
+    params: Promise<{ id: string }>
 }) {
-  const slug = (await params).id
-  const post = await getPostData(slug)
-  const { previousPost, nextPost } = await generateNeighbors(slug)
+    const slug = (await params).id
+    const post = await getPostData(slug)
+    const { previousPost, nextPost } = await generateNeighbors(slug)
 
-  if (post == null) {
-    notFound()
-  }
+    if (post == null) {
+        notFound()
+    }
 
-  // grab full url path
-  const headerList = await headers()
-  const fullpath = headerList.get("x-current-path")
+    // grab full url path
+    const headerList = await headers()
+    const fullpath = headerList.get("x-current-path")
 
-  const avatar = createAvatar(notionistsNeutral, {
-    seed: post!.author,
-    radius: 50,
-    size: 24,
-  }).toDataUriSync()
+    const avatar = createAvatar(notionistsNeutral, {
+        seed: post!.author,
+        radius: 50,
+        size: 24,
+    }).toDataUriSync()
 
-  // const transformUri = (uri: string) => {
-  //     if (uri.startsWith('/images/')) {
-  //         console.log('hit')
-  //       // Assuming images are in public/images directory
-  //       return `${uri}`;
-  //     }
-  //     return uri;
-  //   };
+    // const transformUri = (uri: string) => {
+    //     if (uri.startsWith('/images/')) {
+    //         console.log('hit')
+    //       // Assuming images are in public/images directory
+    //       return `${uri}`;
+    //     }
+    //     return uri;
+    //   };
 
-  function ImageRenderer(src: string, alt: string, title: string) {
+    function ImageRenderer(src: string, alt: string, title: string) {
+        return (
+            <img src={src} alt={alt} title={title} style={{ maxWidth: "100%" }} />
+        )
+    }
+
     return (
-      <img src={src} alt={alt} title={title} style={{ maxWidth: "100%" }} />
+        <main className="min-h-screen bg-background-black">
+            <Navbar />
+
+            <div className="mx-auto mt-6 flex max-w-[920px] flex-col justify-center pb-20 text-white md:mt-20 lg:flex-row">
+                <div className="sticky left-0 top-0 mx-8 mb-4 mr-8">
+                    <BackButton />
+                </div>
+
+                <BlogView
+                    post={post}
+                    avatar={avatar}
+                    fullpath={fullpath}
+                    nextPost={nextPost}
+                    previousPost={previousPost}
+                />
+            </div>
+
+            <Footer />
+        </main>
     )
-  }
-
-  return (
-    <main className="min-h-screen bg-background-black">
-      <Navbar />
-
-      <div className="mx-auto mt-6 flex max-w-[920px] flex-col justify-center pb-20 text-white md:mt-20 lg:flex-row">
-        <div className="sticky left-0 top-0 mx-8 mb-4 mr-8">
-          <BackButton />
-        </div>
-
-        <BlogView
-          post={post}
-          avatar={avatar}
-          fullpath={fullpath}
-          nextPost={nextPost}
-          previousPost={previousPost}
-        />
-      </div>
-
-      <Footer />
-    </main>
-  )
 }
 
 // export function DateFormat({ dateString }: { dateString: string }) {
@@ -178,8 +178,8 @@ export default async function BlogPage({
 // }
 
 function calculateReadingTime(content: string) {
-  const wordsPerMinute = 200 // Adjust according to your audience's reading speed
-  const wordCount = content.split(/\s+/).length
-  const readingTime = Math.ceil(wordCount / wordsPerMinute)
-  return readingTime
+    const wordsPerMinute = 200 // Adjust according to your audience's reading speed
+    const wordCount = content.split(/\s+/).length
+    const readingTime = Math.ceil(wordCount / wordsPerMinute)
+    return readingTime
 }

@@ -4,16 +4,11 @@ import Image from "next/image"
 import Link from "next/link"
 import { IoMenu } from "react-icons/io5"
 import { usePathname } from "next/navigation"
-import LoginButton from "@/components/ui/login-button"
 
 import {
   Drawer,
-  DrawerClose,
   DrawerContent,
-  DrawerDescription,
   DrawerFooter,
-  DrawerHeader,
-  DrawerTitle,
   DrawerTrigger,
 } from "@/components/ui/drawer"
 
@@ -30,6 +25,7 @@ export default function Navbar({ offsetSpace = true, hideOnScroll = true }) {
   let menuButton: string = "hover:text-light-grey transition-colors text-lg"
 
   const [show, setShow] = useState(true)
+  const [openHamburger, setOpenHamburger] = useState(false)
   const [lastScrollY, setLastScrollY] = useState(0)
 
   const controlNavbar = () => {
@@ -58,7 +54,11 @@ export default function Navbar({ offsetSpace = true, hideOnScroll = true }) {
 
   const getStyle = (path: string) => {
     const isActive = pathname == path
-    return `hover:text-gray-600 transition-colors text-lg ${isActive ? "text-vgdc-light-green" : "text-text-grey"}`
+    return `hover:text-gray-600 transition-colors text-lg ${isActive ? "text-vgdc-light-green" : ""}`
+  }
+
+  const closeHamburger = () => {
+    setOpenHamburger(false)
   }
 
   return (
@@ -70,7 +70,7 @@ export default function Navbar({ offsetSpace = true, hideOnScroll = true }) {
         className={`fixed left-0 z-50 h-16 w-full bg-background-black/30 font-light text-text-grey backdrop-blur-lg transition-[top] duration-300 ${show || !hideOnScroll ? "top-0" : "-top-20"}`}
       >
         {/* Contains all components inside navbar */}
-        <div className="mx-auto w-full max-w-[1200px] px-8 py-2 relative">
+        <div className="mx-auto w-full max-w-[1200px] px-8 py-2">
           {/* The logo, changes size and position dynamically */}
           <Link href="/" className="absolute top-3 block w-fit">
             <Image
@@ -83,8 +83,8 @@ export default function Navbar({ offsetSpace = true, hideOnScroll = true }) {
           </Link>
 
           {/* Hamburger menu for mobile, disappears on bigger screens */}
-          <div className="absolute right-7 top-3 md:hidden">
-            <Drawer modal={false}>
+          <div className="absolute right-7 top-3 sm:hidden">
+            <Drawer open={openHamburger} onOpenChange={setOpenHamburger}>
               {/* Hamburger icon */}
 
               <DrawerTrigger>
@@ -101,34 +101,53 @@ export default function Navbar({ offsetSpace = true, hideOnScroll = true }) {
                 </svg> */}
               </DrawerTrigger>
               {/* Menu buttons */}
-              <DrawerContent className="bg-black text-white border-white/20">
+              <DrawerContent>
                 <DrawerFooter>
                   {/* <Button variant="link" className={getStyle("/")}>
                     <Link href="/">Home</Link>
                   </Button> */}
-                  <Button variant="link" className={getStyle("/officers")}>
+                  <Button
+                    variant="link"
+                    className={getStyle("/officers")}
+                    onClick={closeHamburger}
+                  >
                     <Link href="/officers">Team</Link>
                   </Button>
-                  <Button variant="link" className={getStyle("/events")}>
+                  <Button
+                    variant="link"
+                    className={getStyle("/events")}
+                    onClick={closeHamburger}
+                  >
                     <Link href="/events">Events</Link>
                   </Button>
-                  <Button variant="link" className={getStyle("/games")}>
+                  <Button
+                    variant="link"
+                    className={getStyle("/games")}
+                    onClick={closeHamburger}
+                  >
                     <Link href="/games">Games</Link>
                   </Button>
-                  <Button variant="link" className={getStyle("/news")}>
+                  <Button
+                    variant="link"
+                    className={getStyle("/news")}
+                    onClick={closeHamburger}
+                  >
                     <Link href="/news">News</Link>
                   </Button>
-                  <Button variant="link" className={getStyle("/store")}>
+                  <Button
+                    variant="link"
+                    className={getStyle("/store")}
+                    onClick={closeHamburger}
+                  >
                     <Link href="/store">Store</Link>
                   </Button>
-                  <LoginButton />
                 </DrawerFooter>
               </DrawerContent>
             </Drawer>
           </div>
 
           {/* Basic menu, dynamically changes with screen size */}
-          <div className="invisible relative top-3 mx-auto w-fit space-x-12 text-base md:visible lg:space-x-16">
+          <div className="invisible relative top-3 float-right mx-auto w-fit space-x-12 align-middle text-base transition-transform sm:visible lg:float-none lg:space-x-16">
             {/* <Link href="/" className={getStyle("/")}>
               Home
             </Link> */}
@@ -147,10 +166,6 @@ export default function Navbar({ offsetSpace = true, hideOnScroll = true }) {
             <Link href="/store" className={getStyle("/store")}>
               Store
             </Link>
-          </div>
-          {/* account login on the corner */}
-          <div className="invisible absolute right-8 top-3 md:visible">
-            <LoginButton />
           </div>
         </div>
       </div>
