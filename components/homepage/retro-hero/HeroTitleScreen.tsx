@@ -3,9 +3,13 @@
 import { motion } from "framer-motion"
 import Image from "next/image"
 
-export default function HeroTitleScreen() {
+interface HeroTitleScreenProps {
+  onStart?: () => void
+}
+
+export default function HeroTitleScreen({ onStart }: HeroTitleScreenProps) {
   return (
-    <div className="relative flex h-full w-full items-center justify-center overflow-hidden" style={{ backgroundColor: "#1e2235" }}>
+    <div className="relative flex h-full w-full items-center justify-center overflow-hidden bg-vgdc-light-blue/50">
       {/* CRT scanline overlay */}
       <div
         className="pointer-events-none absolute inset-0 z-10"
@@ -21,7 +25,7 @@ export default function HeroTitleScreen() {
         whileInView={{ opacity: 1, filter: "blur(0px)" }}
         viewport={{ once: true }}
         transition={{ ease: "easeOut", duration: 0.4 }}
-        className="relative z-20 mx-0 my-8 max-w-fit px-6 sm:my-12 md:mx-8 md:my-16"
+        className="relative z-20 mx-0 my-3 max-w-fit px-6 sm:my-4 md:mx-8 md:my-6"
       >
         {/* Title image */}
         <div className="relative">
@@ -64,15 +68,37 @@ export default function HeroTitleScreen() {
           </motion.div>
         </div>
 
-        {/* Club name — smaller subtitle */}
-        <h2 className="mt-2 text-center text-lg font-extrabold tracking-tight text-text-white sm:mt-3 sm:text-xl md:text-2xl lg:text-3xl" style={{ fontFamily: "Mojangles, monospace" }}>
+        {/* Club name */}
+        <h2
+          className="mt-2 text-center text-lg font-extrabold tracking-tight text-text-white sm:text-xl md:text-2xl lg:text-3xl"
+          style={{ fontFamily: "Mojangles, monospace" }}
+        >
           Video Game Development Club
         </h2>
 
         {/* School name */}
-        <h3 className="mt-1 bg-gradient-to-r from-vgdc-light-blue to-vgdc-light-green bg-clip-text text-center text-base font-semibold tracking-tight text-transparent sm:mt-2 sm:text-lg md:mt-3 md:text-xl lg:mt-4 lg:text-2xl" style={{ fontFamily: "Mojangles, monospace" }}>
+        <h3
+          className="mt-1 bg-gradient-to-r from-vgdc-light-blue to-vgdc-light-green bg-clip-text text-center text-base font-semibold tracking-tight text-transparent sm:text-lg md:text-xl lg:text-2xl"
+          style={{ fontFamily: "Mojangles, monospace" }}
+        >
           @ UC San Diego
         </h3>
+
+        {/* START button */}
+        {onStart && (
+          <motion.button
+            onClick={onStart}
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 1.0, duration: 0.4, ease: "easeOut" }}
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.96 }}
+            className="mx-auto mt-5 block border-2 border-white bg-black px-8 py-2 text-sm text-white hover:bg-white hover:text-black md:mt-6 md:text-base"
+            style={{ fontFamily: "Mojangles, monospace" }}
+          >
+            ▶ START
+          </motion.button>
+        )}
       </motion.div>
     </div>
   )

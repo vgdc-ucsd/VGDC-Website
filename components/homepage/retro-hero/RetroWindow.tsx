@@ -12,7 +12,7 @@ interface RetroWindowProps {
 }
 
 export default function RetroWindow({
-  title = "VGDC.EXE",
+  title = "VGDC.HOMESCREEN",
   onClose,
   onScrollDown,
   children,
