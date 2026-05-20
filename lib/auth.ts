@@ -1,5 +1,11 @@
 import { NextAuthOptions } from "next-auth"
 import DiscordProvider from "next-auth/providers/discord"
+import type {
+  GetServerSidePropsContext,
+  NextApiRequest,
+  NextApiResponse,
+} from "next"
+import { getServerSession } from "next-auth"
 
 export const authOptions: NextAuthOptions = {
   providers: [
@@ -40,4 +46,14 @@ export const authOptions: NextAuthOptions = {
       return session
     },
   },
+}
+
+// Use it in server contexts
+export function auth(
+  ...args:
+    | [GetServerSidePropsContext["req"], GetServerSidePropsContext["res"]]
+    | [NextApiRequest, NextApiResponse]
+    | []
+) {
+  return getServerSession(...args, authOptions)
 }
