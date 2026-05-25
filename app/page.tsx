@@ -7,6 +7,7 @@ import BlogPreview from "@/components/homepage/sections/BlogPreview"
 import Games from "@/components/homepage/sections/Games"
 import Companies from "@/components/homepage/sections/Companies"
 import Footer from "@/components/global/Footer"
+import WTTriggerErrorButton from "@/components/global/WTTriggerErrorButton"
 
 export const revalidate = 60;
 
@@ -23,6 +24,7 @@ export default function Home() {
       <Design />
       <BlogPreview />
       {/* <Games /> */}
+      <WTTriggerErrorButton />
       <Companies />
       <Footer />
     </main>
