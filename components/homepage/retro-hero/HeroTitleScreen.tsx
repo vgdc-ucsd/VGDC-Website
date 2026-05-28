@@ -41,7 +41,7 @@ export default function HeroTitleScreen({ onStart }: HeroTitleScreenProps) {
           width={400}
           height={300}
           aria-hidden
-          className="w-[100%] object-contain"
+          className="w-[100%] object-contain [image-rendering:pixelated]"
         />
       </motion.div>
 
@@ -52,7 +52,7 @@ export default function HeroTitleScreen({ onStart }: HeroTitleScreenProps) {
           whileInView={{ opacity: 1, filter: "blur(0px)" }}
           viewport={{ once: true }}
           transition={{ ease: "easeOut", duration: 0.4 }}
-          className="flex w-full flex-col items-center px-[6%]"
+          className="flex w-full flex-col items-center px-[6%] mt-[9%] "
         >
           {/* Title image */}
           <div className="relative w-[42%]">
@@ -95,7 +95,7 @@ export default function HeroTitleScreen({ onStart }: HeroTitleScreenProps) {
 
           {/* Club name */}
           <h2
-            className="mt-[1%] text-center font-extrabold tracking-tight text-text-white"
+            className="mt-[8%] text-center font-extrabold tracking-tight text-text-white "
             style={{
               fontFamily: "Mojangles, monospace",
               fontSize: "clamp(0.6rem, 1.6vw, 1.6rem)",

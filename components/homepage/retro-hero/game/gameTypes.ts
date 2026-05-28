@@ -42,6 +42,11 @@ export interface GameState {
   nextFlashTime: number,
   flashTimer: number,
   scoreVisible: boolean
+  spriteImg: HTMLImageElement | null  // loaded sprite sheet (4 frames, horizontal)
+  spriteFrame: number                 // current frame index 0–3
+  spriteLastFrameTime: number         // timestamp of last frame advance
+  bgImg: HTMLImageElement | null      // parallax background image
+  bgX: number                         // current scroll offset in pixels
   // bgX: number
   // frameId: number
   // obstacleTimer: number
@@ -75,7 +80,12 @@ export function createDefaultGameState(): GameState {
     playerScale: 0,
     nextFlashTime: 100,
     flashTimer: 0,
-    scoreVisible: true
+    scoreVisible: true,
+    spriteImg: null,
+    spriteFrame: 0,
+    spriteLastFrameTime: 0,
+    bgImg: null,
+    bgX: 0,
   };
 }
 

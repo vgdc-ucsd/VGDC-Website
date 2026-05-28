@@ -17,13 +17,22 @@ import {
 function drawScene(canvas: HTMLCanvasElement, gameState: GameState) {
   const ctx = canvas.getContext("2d")
   if (!ctx) return
+  ctx.imageSmoothingEnabled = false
   const { width: W, height: H } = canvas;
 
   ctx.clearRect(0, 0, W, H)
-  // Background
 
-  ctx.fillStyle = "#000000"
-  ctx.fillRect(0, 0, W, H);
+  if (gameState.bgImg) {
+    const img = gameState.bgImg
+    const bgW = Math.round(img.naturalWidth * (H / img.naturalHeight))
+    const offset = ((gameState.bgX % bgW) + bgW) % bgW
+    ctx.drawImage(img, offset - bgW, 0, bgW, H)
+    ctx.drawImage(img, offset,       0, bgW, H)
+    if (offset + bgW < W) ctx.drawImage(img, offset + bgW, 0, bgW, H)
+  } else {
+    ctx.fillStyle = "#000000"
+    ctx.fillRect(0, 0, W, H)
+  }
 
   ctx.fillStyle = "#ffffff"
   ctx.fillRect(0, gameState.groundY, W, 2)
@@ -33,13 +42,29 @@ function drawScene(canvas: HTMLCanvasElement, gameState: GameState) {
     ctx.fillRect(obstacle.posX, gameState.groundY - obstacle.scaleY, obstacle.scaleX, obstacle.scaleY);
   }
 
-  ctx.fillStyle = "#ffffff"
-  ctx.fillRect(
-    Math.round(W * 0.12),
-    gameState.groundY - gameState.playerScale - gameState.playerY,
-    gameState.playerScale,
-    gameState.playerScale
-  );
+  const px = Math.round(W * 0.12)
+
+  if (gameState.spriteImg) {
+    const TOTAL_FRAMES = 4
+    const FRAME_DURATION = 120 // ms per frame — adjust animation speed here
+    const frameW = gameState.spriteImg.naturalWidth / TOTAL_FRAMES
+    const frameH = gameState.spriteImg.naturalHeight
+    const py = gameState.groundY - frameH - gameState.playerY
+    const now = performance.now()
+    if (gameState.phase !== "dead" && now - gameState.spriteLastFrameTime > FRAME_DURATION) {
+      gameState.spriteFrame = (gameState.spriteFrame + 1) % TOTAL_FRAMES
+      gameState.spriteLastFrameTime = now
+    }
+    ctx.drawImage(
+      gameState.spriteImg,
+      gameState.spriteFrame * frameW, 0, frameW, frameH,
+      px, py, frameW, frameH
+    )
+  } else {
+    const py = gameState.groundY - gameState.playerScale - gameState.playerY
+    ctx.fillStyle = "#ffffff"
+    ctx.fillRect(px, py, gameState.playerScale, gameState.playerScale)
+  }
 
   if (gameState.phase != "idle") {
     ctx.strokeStyle = "white";
@@ -84,10 +109,12 @@ function updateObstacles(gameState: GameState, delta: number) {
       continue;
     }
 
+    const spriteW = gameState.spriteImg ? gameState.spriteImg.naturalWidth / 4 : gameState.playerScale
+    const spriteH = gameState.spriteImg ? gameState.spriteImg.naturalHeight : gameState.playerScale
     let playerAABB: AABB = {
       minX: gameState.playerX,
-      maxX: gameState.playerX + gameState.playerScale,
-      minY: gameState.groundY - gameState.playerScale - gameState.playerY,
+      maxX: gameState.playerX + spriteW,
+      minY: gameState.groundY - spriteH - gameState.playerY,
       maxY: gameState.groundY - gameState.playerY
     };
 
@@ -136,6 +163,8 @@ function updateGame(gameState: GameState, canvas: HTMLCanvasElement) {
     gameState.flashTimer = 0;
   }
 
+  gameState.bgX -= gameState.gameSpeed * delta * 0.9
+
   gameState.spawnTimer += delta;
 
   gameState.playerVY -= gameState.gravity * delta;
@@ -176,12 +205,28 @@ function startGame(canvas: HTMLCanvasElement, gameState: GameState) {
 }
 
 function endGame(gameState: GameState) {
-  Object.assign(gameState, createDefaultGameState());
+  const sprite = gameState.spriteImg
+  const bg = gameState.bgImg
+  Object.assign(gameState, createDefaultGameState())
+  gameState.spriteImg = sprite
+  gameState.bgImg = bg
 }
 
 export default function VGDCGame({ isActive }: VGDCGameProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const gameRef = useRef<GameState>(createDefaultGameState());
+
+  useEffect(() => {
+    const img = new Image()
+    img.onload = () => { gameRef.current.spriteImg = img }
+    img.src = "/logos/Vivi.png"
+  }, [])
+
+  useEffect(() => {
+    const img = new Image()
+    img.onload = () => { gameRef.current.bgImg = img }
+    img.src = "/bg.png"
+  }, [])
 
   // ResizeObserver: keeps the canvas pixel buffer matched to its CSS layout size.
   // Without this, canvas.width/height defaults to 300x150 regardless of CSS.
