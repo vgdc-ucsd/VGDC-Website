@@ -46,6 +46,10 @@ export const authOptions: NextAuthOptions = {
       return session
     },
   },
+  pages: {
+    signIn: "/",
+    error: "/unauthorized?redirect=/"
+  }
 }
 
 // Use it in server contexts
