@@ -13,19 +13,27 @@ export default function ShowcaseSearch({
 }) {
   const sortGames = (games: ShowcaseGamesDetails[]) => {
     return [...games].sort((a, b) => {
-      if (a.status !== b.status) return a.status ? -1 : 1
-      if (a.vgdcApproved !== b.vgdcApproved) return b.vgdcApproved ? 1 : -1
+      /*
+        if (a.status !== b.status) return a.status ? -1 : 1
+        if (a.vgdcApproved !== b.vgdcApproved) return b.vgdcApproved ? 1 : -1
 
-      const aIsTBD = a.releaseDate === "TBD"
-      const bIsTBD = b.releaseDate === "TBD"
+        const aIsTBD = a.releaseDate === "TBD"
+        const bIsTBD = b.releaseDate === "TBD"
 
-      if (aIsTBD && bIsTBD) return 0
-      if (aIsTBD) return 1
-      if (bIsTBD) return -1
+        if (aIsTBD && bIsTBD) return 0
+        if (aIsTBD) return 1
+        if (bIsTBD) return -1
+      */
+
+      if (a.releaseDate == "") return 1;
+      if (b.releaseDate == "") return -1;
+
+      const [aMonth, aDay, aYear] = a.releaseDate.split("/").map(Number);
+      const [bMonth, bDay, bYear] = b.releaseDate.split("/").map(Number);
 
       try {
-        const dateA = new Date(a.releaseDate).getTime()
-        const dateB = new Date(b.releaseDate).getTime()
+        const dateA = new Date(aYear, aMonth - 1, aDay).getTime()
+        const dateB = new Date(bYear, bMonth - 1, bDay).getTime()
         return dateB - dateA
       } catch (e) {
         return 0
@@ -148,7 +156,7 @@ export default function ShowcaseSearch({
         try {
           const year = new Date(item.releaseDate).getFullYear().toString()
           if (!isNaN(Number(year))) years.add(year)
-        } catch (e) {}
+        } catch (e) { }
       }
     })
     return ["all", ...Array.from(years).sort()]
