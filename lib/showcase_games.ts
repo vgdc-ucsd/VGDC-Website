@@ -31,27 +31,27 @@ export async function getShowcaseGames() {
   if (response.data != undefined && response.data != null) {
     // Iterate through every event.
     for (let i in response.data) {
-        if(response.data[i][0] == "") continue
+      if (response.data[i][0] == "") continue
 
-        // Get the details for the event.
-        let event: ShowcaseGamesDetails = {
-            title: response.data[i][0],
-            releaseDate: response.data[i][1],
-            difficulty: response.data[i][2],
-            description: response.data[i][3],
-            credits: response.data[i][4],
-            link: response.data[i][5],
-            status: response.data[i][6] === "TRUE",
-            image: response.data[i][7],
-            theme: response.data[i][8],
-            vgdcApproved: response.data[i][9] === "TRUE",
-            web: response.data[i][10] === "TRUE"
-        }
+      // Get the details for the event.
+      let event: ShowcaseGamesDetails = {
+        title: response.data[i][0],
+        releaseDate: response.data[i][1],
+        difficulty: response.data[i][2],
+        description: response.data[i][3],
+        credits: response.data[i][4],
+        link: response.data[i][5],
+        status: response.data[i][6] === "TRUE",
+        image: response.data[i][7],
+        theme: response.data[i][8],
+        vgdcApproved: response.data[i][9] === "TRUE",
+        web: response.data[i][10] === "TRUE"
+      }
 
-        gamesList.push(event)
+      gamesList.push(event)
     }
   }
 
   // Return the completed list.
-  return gamesList
+  return gamesList;
 }
