@@ -31,8 +31,6 @@ export default function ShowcaseSearch({
       const [aMonth, aDay, aYear] = a.releaseDate.split("/").map(Number);
       const [bMonth, bDay, bYear] = b.releaseDate.split("/").map(Number);
 
-      console.log(a.releaseDate, b.releaseDate);
-
       try {
         const dateA = new Date(aYear, aMonth - 1, aDay).getTime()
         const dateB = new Date(bYear, bMonth - 1, bDay).getTime()
