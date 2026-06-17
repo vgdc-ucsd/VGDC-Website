@@ -19,7 +19,7 @@ export const MIN_GAME_SPEED = 0.35;
 export const VIRTUAL_WIDTH = 640;
 export const VIRTUAL_HEIGHT = 480;
 
-const JUMP_VELOCITY = 14;
+const JUMP_VELOCITY = 16;
 
 export interface Obstacle {
   posX: number

@@ -92,13 +92,14 @@ function drawScene(canvas: HTMLCanvasElement, gameState: GameState) {
 }
 
 //hard coded trees lol
+// allocatedartist: XD
 const TREE_NATURAL_DIMS = [
   { w: 40, h: 130 },  // Tree1.png
   { w: 30, h: 90 },   // Tree2.png
   { w: 95, h: 100 },  // Tree3.png
 ] as const
 
-function spawnObstacle(gameState: GameState, canvasWidth: number, canvasHeight: number) {
+function spawnObstacle(gameState: GameState) {
   const obstaclesCount = gameState.obstacles.length;
   const lastObstacle = gameState.obstacles[obstaclesCount - 1];
 
@@ -107,7 +108,7 @@ function spawnObstacle(gameState: GameState, canvasWidth: number, canvasHeight: 
 
   const imgIndex = Math.floor(Math.random() * 3)
   const nat = TREE_NATURAL_DIMS[imgIndex]
-  const scaleY = Math.min(Math.round(canvasHeight * 0.20), 80)
+  const scaleY = Math.min(Math.round(VIRTUAL_HEIGHT * 0.20), 80)
   const scaleX = Math.round(nat.w * scaleY / nat.h)
 
   let obstacle: Obstacle = { posX: 0, scaleX, scaleY, imgIndex };
