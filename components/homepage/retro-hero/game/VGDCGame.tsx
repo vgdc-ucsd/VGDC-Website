@@ -6,10 +6,12 @@ import {
   MAX_GAME_SPEED,
   MIN_OBSTACLE_GAP,
   MAX_OBSTACLE_GAP,
+  OBSTACLE_SIZE,
   createDefaultGameState,
   getNextSpawnTime,
-  checkAABB
-
+  checkAABB,
+  VIRTUAL_WIDTH,
+  VIRTUAL_HEIGHT
 } from "./gameTypes"
 
 // Draws the static game scene onto the canvas.
@@ -18,38 +20,38 @@ function drawScene(canvas: HTMLCanvasElement, gameState: GameState) {
   const ctx = canvas.getContext("2d")
   if (!ctx) return
   ctx.imageSmoothingEnabled = false
-  const { width: W, height: H } = canvas;
 
-  ctx.clearRect(0, 0, W, H)
+  ctx.clearRect(0, 0, VIRTUAL_WIDTH, VIRTUAL_HEIGHT)
 
   if (gameState.bgImg) {
-    const img = gameState.bgImg
-    const bgW = Math.round(img.naturalWidth * (H / img.naturalHeight))
-    const offset = ((gameState.bgX % bgW) + bgW) % bgW
-    ctx.drawImage(img, offset - bgW, 0, bgW, H)
-    ctx.drawImage(img, offset,       0, bgW, H)
-    if (offset + bgW < W) ctx.drawImage(img, offset + bgW, 0, bgW, H)
+    const img = gameState.bgImg;
+    const scale = VIRTUAL_HEIGHT / img.naturalHeight;
+    const bgW = Math.round(img.naturalWidth * scale);
+    const offset = Math.round(((gameState.bgX % bgW) + bgW) % bgW);
+    ctx.drawImage(img, offset - bgW, 0, bgW, VIRTUAL_HEIGHT);
+    ctx.drawImage(img, offset, 0, bgW, VIRTUAL_HEIGHT);
   } else {
     ctx.fillStyle = "#000000"
-    ctx.fillRect(0, 0, W, H)
+    ctx.fillRect(0, 0, VIRTUAL_WIDTH, VIRTUAL_HEIGHT)
   }
 
   ctx.fillStyle = "#ffffff"
-  ctx.fillRect(0, gameState.groundY, W, 2)
+  ctx.fillRect(0, gameState.groundY, VIRTUAL_WIDTH, 2.0)
 
   for (let obstacle of gameState.obstacles) {
     ctx.fillStyle = "#aa0000";
-    ctx.fillRect(obstacle.posX, gameState.groundY - obstacle.scaleY, obstacle.scaleX, obstacle.scaleY);
+    ctx.fillRect(obstacle.posX, (gameState.groundY - obstacle.scaleY), obstacle.scaleX, obstacle.scaleY);
   }
 
-  const px = Math.round(W * 0.12)
+  const px = Math.round(VIRTUAL_WIDTH * 0.12);
 
   if (gameState.spriteImg) {
     const TOTAL_FRAMES = 4
     const FRAME_DURATION = 120 // ms per frame — adjust animation speed here
+    const scale = gameState.spriteImg.naturalHeight / VIRTUAL_HEIGHT;
     const frameW = gameState.spriteImg.naturalWidth / TOTAL_FRAMES
     const frameH = gameState.spriteImg.naturalHeight
-    const py = gameState.groundY - frameH - gameState.playerY
+    const py = gameState.groundY - (frameH * scale) - gameState.playerY
     const now = performance.now()
     if (gameState.phase !== "dead" && now - gameState.spriteLastFrameTime > FRAME_DURATION) {
       gameState.spriteFrame = (gameState.spriteFrame + 1) % TOTAL_FRAMES
@@ -58,21 +60,25 @@ function drawScene(canvas: HTMLCanvasElement, gameState: GameState) {
     ctx.drawImage(
       gameState.spriteImg,
       gameState.spriteFrame * frameW, 0, frameW, frameH,
-      px, py, frameW, frameH
+      px, py, frameW * scale, frameH * scale
     )
   } else {
-    const py = gameState.groundY - gameState.playerScale - gameState.playerY
-    ctx.fillStyle = "#ffffff"
-    ctx.fillRect(px, py, gameState.playerScale, gameState.playerScale)
+    const py = gameState.groundY - OBSTACLE_SIZE - gameState.playerY
+    ctx.fillStyle = "#ffffff";
+    ctx.fillRect(px, py, OBSTACLE_SIZE, OBSTACLE_SIZE);
   }
 
   if (gameState.phase != "idle") {
-    ctx.strokeStyle = "white";
+    ctx.strokeStyle = "black";
     ctx.lineWidth = 2;
     ctx.font = "16px monospace";
-    if (gameState.scoreVisible) {
-      let score = gameState.score >= gameState.nextFlashTime ? gameState.nextFlashTime : gameState.score;
-      ctx.strokeText(`Score: ${Math.round(score)}`, Math.round(W * 0.8), Math.round(H * 0.1));
+    if (gameState.scoreVisible || gameState.phase == "dead") {
+      let score = gameState.score >=
+        gameState.nextFlashTime ?
+        gameState.nextFlashTime : gameState.score;
+
+      ctx.strokeText(`Score: ${Math.round(score)}`,
+        Math.round(VIRTUAL_WIDTH * 0.8), Math.round(VIRTUAL_HEIGHT * 0.1));
     }
 
     updateGame(gameState, canvas);
@@ -80,18 +86,17 @@ function drawScene(canvas: HTMLCanvasElement, gameState: GameState) {
   }
 }
 
-function spawnObstacle(gameState: GameState, canvasWidth: number) {
+function spawnObstacle(gameState: GameState) {
   const obstaclesCount = gameState.obstacles.length;
   const lastObstacle = gameState.obstacles[obstaclesCount - 1];
 
   let obstacleDiff = MAX_OBSTACLE_GAP - MIN_OBSTACLE_GAP;
   let gap = Math.random() * obstacleDiff + MIN_OBSTACLE_GAP;
 
-  const obstacleSize = Math.min(Math.round(canvasWidth * 0.06), 48)
-  let obstacle: Obstacle = { posX: 0, scaleX: obstacleSize, scaleY: obstacleSize };
+  let obstacle: Obstacle = { posX: 0, scaleX: OBSTACLE_SIZE, scaleY: OBSTACLE_SIZE };
   obstacle.posX = lastObstacle ?
-    Math.max(lastObstacle.posX, canvasWidth) + gap :
-    canvasWidth + MIN_OBSTACLE_GAP;
+    Math.max(lastObstacle.posX, VIRTUAL_WIDTH) + gap :
+    VIRTUAL_WIDTH + MIN_OBSTACLE_GAP;
 
   gameState.obstacles.push(obstacle);
 }
@@ -104,17 +109,16 @@ function playerLose(gameState: GameState) {
 function updateObstacles(gameState: GameState, delta: number) {
   for (let obstacle of gameState.obstacles) {
     obstacle.posX -= gameState.gameSpeed * delta;
-    if (obstacle.posX > gameState.playerX + gameState.playerScale ||
-      obstacle.posX < -gameState.playerScale) {
-      continue;
-    }
 
-    const spriteW = gameState.spriteImg ? gameState.spriteImg.naturalWidth / 4 : gameState.playerScale
-    const spriteH = gameState.spriteImg ? gameState.spriteImg.naturalHeight : gameState.playerScale
+    const scale = (gameState.spriteImg?.naturalHeight ?? OBSTACLE_SIZE) / VIRTUAL_HEIGHT;
+
+    const spriteW = gameState.spriteImg ? gameState.spriteImg.naturalWidth * scale * 0.2 : OBSTACLE_SIZE;
+    const spriteH = gameState.spriteImg ? gameState.spriteImg.naturalHeight : OBSTACLE_SIZE;
+
     let playerAABB: AABB = {
       minX: gameState.playerX,
       maxX: gameState.playerX + spriteW,
-      minY: gameState.groundY - spriteH - gameState.playerY,
+      minY: gameState.groundY - (spriteH * scale) - gameState.playerY,
       maxY: gameState.groundY - gameState.playerY
     };
 
@@ -163,7 +167,7 @@ function updateGame(gameState: GameState, canvas: HTMLCanvasElement) {
     gameState.flashTimer = 0;
   }
 
-  gameState.bgX -= gameState.gameSpeed * delta * 0.9
+  gameState.bgX -= gameState.gameSpeed * delta;
 
   gameState.spawnTimer += delta;
 
@@ -186,7 +190,7 @@ function updateGame(gameState: GameState, canvas: HTMLCanvasElement) {
   }
 
   if (gameState.spawnTimer >= gameState.nextSpawnTime) {
-    spawnObstacle(gameState, canvas.width);
+    spawnObstacle(gameState);
     getNextSpawnTime(gameState);
   }
 }
@@ -194,11 +198,10 @@ function updateGame(gameState: GameState, canvas: HTMLCanvasElement) {
 function startGame(canvas: HTMLCanvasElement, gameState: GameState) {
   gameState.phase = "running";
   gameState.lastTime = performance.now();
-  gameState.playerX = Math.round(canvas.width * 0.12);
-  gameState.playerScale = Math.min(Math.round(canvas.width * 0.06), 48);
+  gameState.playerX = Math.round(VIRTUAL_WIDTH * 0.12);
 
-  // Ground — 2px white bar at 82% of canvas height
-  gameState.groundY = Math.round(canvas.height * 0.82);
+  // Ground — 2px white bar at 82% of virtual height
+  gameState.groundY = Math.round(VIRTUAL_HEIGHT * 0.82);
 
   getNextSpawnTime(gameState);
   requestAnimationFrame(() => drawScene(canvas, gameState));
@@ -237,10 +240,13 @@ export default function VGDCGame({ isActive }: VGDCGameProps) {
 
     const ro = new ResizeObserver(([entry]) => {
       const { width, height } = entry.contentRect;
-      canvas.width = Math.round(width);
-      canvas.height = Math.round(height);
+      const scale = Math.min(width / VIRTUAL_WIDTH, height / VIRTUAL_HEIGHT);
+      canvas.width = VIRTUAL_WIDTH;
+      canvas.height = VIRTUAL_HEIGHT;
+      canvas.style.width = VIRTUAL_WIDTH * scale + "px";
+      canvas.style.height = VIRTUAL_HEIGHT * scale + "px";
       drawScene(canvas, gameRef.current);
-    })
+    });
 
     ro.observe(canvas);
     return () => ro.disconnect();
@@ -304,10 +310,12 @@ export default function VGDCGame({ isActive }: VGDCGameProps) {
   }, [isActive])
 
   return (
-    <canvas
-      ref={canvasRef}
-      className="block h-full w-full"
-      aria-label="VGDC mini game"
-    />
+    <div className="flex h-full w-full items-center justify-center">
+      <canvas
+        ref={canvasRef}
+        className="block w-full h-full"
+        aria-label="VGDC mini game"
+      />
+    </div>
   )
 }

@@ -8,11 +8,18 @@ export interface VGDCGameProps {
 export type GamePhase = "idle" | "running" | "dead"
 
 // In px
-export const MIN_OBSTACLE_GAP = 250;
-export const MAX_OBSTACLE_GAP = 600;
+export const MIN_OBSTACLE_GAP = 300;
+export const MAX_OBSTACLE_GAP = 800;
 
-export const MAX_GAME_SPEED = 1.3;
-export const MIN_GAME_SPEED = 0.25;
+export const OBSTACLE_SIZE = 32;
+
+export const MAX_GAME_SPEED = 1.5;
+export const MIN_GAME_SPEED = 0.35;
+
+export const VIRTUAL_WIDTH = 640;
+export const VIRTUAL_HEIGHT = 480;
+
+const JUMP_VELOCITY = 14;
 
 export interface Obstacle {
   posX: number
@@ -38,7 +45,6 @@ export interface GameState {
   spawnTimer: number
   nextSpawnTime: number
   gameSpeed: number
-  playerScale: number
   nextFlashTime: number,
   flashTimer: number,
   scoreVisible: boolean
@@ -73,11 +79,10 @@ export function createDefaultGameState(): GameState {
     gravity: 0.048,
     onGround: true,
     jump: false,
-    jumpVelocity: 12,
+    jumpVelocity: JUMP_VELOCITY,
     spawnTimer: 0,
     nextSpawnTime: 0,
     gameSpeed: MIN_GAME_SPEED,
-    playerScale: 0,
     nextFlashTime: 100,
     flashTimer: 0,
     scoreVisible: true,
