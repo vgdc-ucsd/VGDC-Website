@@ -44,7 +44,7 @@ export default function NewsBlogCard({
       </div>
 
       <div className="pl-0">
-        <h2 className="overflow-ellipsis text-2xl font-bold text-white md:truncate lg:text-wrap lg:text-2xl">
+        <h2 className="text-2xl font-bold text-white lg:text-2xl md:w-[26rem] lg:w-[28rem]">
           {post.title}
         </h2>
 

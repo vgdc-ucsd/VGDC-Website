@@ -39,8 +39,13 @@ function drawScene(canvas: HTMLCanvasElement, gameState: GameState) {
   ctx.fillRect(0, gameState.groundY, VIRTUAL_WIDTH, 2.0)
 
   for (let obstacle of gameState.obstacles) {
-    ctx.fillStyle = "#aa0000";
-    ctx.fillRect(obstacle.posX, (gameState.groundY - obstacle.scaleY), obstacle.scaleX, obstacle.scaleY);
+    const treeImg = gameState.treeImgs[obstacle.imgIndex]
+    if (treeImg && treeImg.naturalWidth > 0) {
+      ctx.drawImage(treeImg, obstacle.posX, gameState.groundY - obstacle.scaleY, obstacle.scaleX, obstacle.scaleY)
+    } else {
+      ctx.fillStyle = "#aa0000"
+      ctx.fillRect(obstacle.posX, gameState.groundY - obstacle.scaleY, obstacle.scaleX, obstacle.scaleY)
+    }
   }
 
   const px = Math.round(VIRTUAL_WIDTH * 0.12);
@@ -86,14 +91,26 @@ function drawScene(canvas: HTMLCanvasElement, gameState: GameState) {
   }
 }
 
-function spawnObstacle(gameState: GameState) {
+//hard coded trees lol
+const TREE_NATURAL_DIMS = [
+  { w: 40, h: 130 },  // Tree1.png
+  { w: 30, h: 90 },   // Tree2.png
+  { w: 95, h: 100 },  // Tree3.png
+] as const
+
+function spawnObstacle(gameState: GameState, canvasWidth: number, canvasHeight: number) {
   const obstaclesCount = gameState.obstacles.length;
   const lastObstacle = gameState.obstacles[obstaclesCount - 1];
 
   let obstacleDiff = MAX_OBSTACLE_GAP - MIN_OBSTACLE_GAP;
   let gap = Math.random() * obstacleDiff + MIN_OBSTACLE_GAP;
 
-  let obstacle: Obstacle = { posX: 0, scaleX: OBSTACLE_SIZE, scaleY: OBSTACLE_SIZE };
+  const imgIndex = Math.floor(Math.random() * 3)
+  const nat = TREE_NATURAL_DIMS[imgIndex]
+  const scaleY = Math.min(Math.round(canvasHeight * 0.20), 80)
+  const scaleX = Math.round(nat.w * scaleY / nat.h)
+
+  let obstacle: Obstacle = { posX: 0, scaleX, scaleY, imgIndex };
   obstacle.posX = lastObstacle ?
     Math.max(lastObstacle.posX, VIRTUAL_WIDTH) + gap :
     VIRTUAL_WIDTH + MIN_OBSTACLE_GAP;
@@ -210,9 +227,11 @@ function startGame(canvas: HTMLCanvasElement, gameState: GameState) {
 function endGame(gameState: GameState) {
   const sprite = gameState.spriteImg
   const bg = gameState.bgImg
+  const trees = gameState.treeImgs
   Object.assign(gameState, createDefaultGameState())
   gameState.spriteImg = sprite
   gameState.bgImg = bg
+  gameState.treeImgs = trees
 }
 
 export default function VGDCGame({ isActive }: VGDCGameProps) {
@@ -229,6 +248,15 @@ export default function VGDCGame({ isActive }: VGDCGameProps) {
     const img = new Image()
     img.onload = () => { gameRef.current.bgImg = img }
     img.src = "/bg.png"
+  }, [])
+
+  useEffect(() => {
+    const srcs = ["/logos/Tree1.png", "/logos/Tree2.png", "/logos/Tree3.png"]
+    srcs.forEach((src, i) => {
+      const img = new Image()
+      img.onload = () => { gameRef.current.treeImgs[i] = img }
+      img.src = src
+    })
   }, [])
 
   // ResizeObserver: keeps the canvas pixel buffer matched to its CSS layout size.

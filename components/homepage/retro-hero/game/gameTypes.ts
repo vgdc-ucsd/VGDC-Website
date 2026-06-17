@@ -24,7 +24,8 @@ const JUMP_VELOCITY = 14;
 export interface Obstacle {
   posX: number
   scaleX: number,
-  scaleY: number
+  scaleY: number,
+  imgIndex: number  // 0=Tree1, 1=Tree2, 2=Tree3
 }
 
 // Full game state lives in a useRef so it never triggers re-renders during the loop.
@@ -53,6 +54,7 @@ export interface GameState {
   spriteLastFrameTime: number         // timestamp of last frame advance
   bgImg: HTMLImageElement | null      // parallax background image
   bgX: number                         // current scroll offset in pixels
+  treeImgs: (HTMLImageElement | null)[]  // [Tree1, Tree2, Tree3]
   // bgX: number
   // frameId: number
   // obstacleTimer: number
@@ -91,6 +93,7 @@ export function createDefaultGameState(): GameState {
     spriteLastFrameTime: 0,
     bgImg: null,
     bgX: 0,
+    treeImgs: [null, null, null],
   };
 }
 
