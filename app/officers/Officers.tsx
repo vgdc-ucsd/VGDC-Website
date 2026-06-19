@@ -89,7 +89,7 @@ function OfficerAnim( { order, children }: { order: number, children: React.Reac
         ease: "easeOut",
         duration: 0.6,
       }}
-      className="w-44"
+      className="w-44 flex flex-col items-center"
     >
       {children}
     </motion.div>
