@@ -182,6 +182,16 @@ export default function ShowcaseSearch({
             <Filter size={18} className="mr-2" />
             Filters
           </button>
+
+
+          {/* TODO: Replace with link to the actual update request form */}
+          <a
+            className="flex items-center justify-center rounded-lg bg-vgdc-light-blue px-4 py-2 text-white transition-colors hover:bg-opacity-90"
+            href="about:blank"
+            target="_blank"
+          >
+            Request an Update
+          </a>
         </div>
 
         {/* Filter Options */}
