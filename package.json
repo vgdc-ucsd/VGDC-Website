@@ -9,8 +9,8 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@dicebear/collection": "^9.4.2",
-    "@dicebear/core": "^10.7.0",
+    "@dicebear/collection": "^9.4.3",
+    "@dicebear/core": "^9.4.3",
     "@hookform/resolvers": "^3.9.0",
     "@mailchimp/mailchimp_marketing": "^3.0.80",
     "@prisma/client": "^6.19.0",
