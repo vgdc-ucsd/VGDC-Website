@@ -149,11 +149,30 @@ export default function Footer() {
           <FAQs />
         </div>
       </div>
-      <div className="py-8 text-center font-medium text-text-grey">
+      <LegalInfo />
+    </div>
+  )
+}
+
+/**
+ * The club's info for legal purposes.
+ *
+ * @returns The JSX of the legal info.
+ */
+function LegalInfo() {
+  return (
+    <div className="py-8 text-center font-medium text-text-grey">
+      <div>
         Video Game Development Club
         <br className="visible sm:hidden" />
         {" © "}
         {new Date().getFullYear()}
+      </div>
+      <div>
+        <strong>EIN:</strong> 99-0770153
+      </div>
+      <div>
+        9500 GILMAN DRIVE LA JOLLA, CA 92093
       </div>
     </div>
   )

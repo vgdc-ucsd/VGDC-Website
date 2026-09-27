@@ -8,12 +8,8 @@ import LoginButton from "@/components/ui/login-button"
 
 import {
   Drawer,
-  DrawerClose,
   DrawerContent,
-  DrawerDescription,
   DrawerFooter,
-  DrawerHeader,
-  DrawerTitle,
   DrawerTrigger,
 } from "@/components/ui/drawer"
 
@@ -30,6 +26,7 @@ export default function Navbar({ offsetSpace = true, hideOnScroll = true }) {
   let menuButton: string = "hover:text-light-grey transition-colors text-lg"
 
   const [show, setShow] = useState(true)
+  const [openHamburger, setOpenHamburger] = useState(false)
   const [lastScrollY, setLastScrollY] = useState(0)
 
   const controlNavbar = () => {
@@ -61,6 +58,10 @@ export default function Navbar({ offsetSpace = true, hideOnScroll = true }) {
     return `hover:text-gray-600 transition-colors text-lg ${isActive ? "text-vgdc-light-green" : "text-text-grey"}`
   }
 
+  const closeHamburger = () => {
+    setOpenHamburger(false)
+  }
+
   return (
     <>
       {/* Physically include navbar in page? */}
@@ -84,7 +85,7 @@ export default function Navbar({ offsetSpace = true, hideOnScroll = true }) {
 
           {/* Hamburger menu for mobile, disappears on bigger screens */}
           <div className="absolute right-7 top-3 md:hidden">
-            <Drawer modal={false}>
+            <Drawer open={openHamburger} onOpenChange={setOpenHamburger} modal={false}>
               {/* Hamburger icon */}
 
               <DrawerTrigger>
@@ -106,19 +107,39 @@ export default function Navbar({ offsetSpace = true, hideOnScroll = true }) {
                   {/* <Button variant="link" className={getStyle("/")}>
                     <Link href="/">Home</Link>
                   </Button> */}
-                  <Button variant="link" className={getStyle("/officers")}>
+                  <Button
+                    variant="link"
+                    className={getStyle("/officers")}
+                    onClick={closeHamburger}
+                  >
                     <Link href="/officers">Team</Link>
                   </Button>
-                  <Button variant="link" className={getStyle("/events")}>
+                  <Button
+                    variant="link"
+                    className={getStyle("/events")}
+                    onClick={closeHamburger}
+                  >
                     <Link href="/events">Events</Link>
                   </Button>
-                  <Button variant="link" className={getStyle("/games")}>
+                  <Button
+                    variant="link"
+                    className={getStyle("/games")}
+                    onClick={closeHamburger}
+                  >
                     <Link href="/games">Games</Link>
                   </Button>
-                  <Button variant="link" className={getStyle("/news")}>
+                  <Button
+                    variant="link"
+                    className={getStyle("/news")}
+                    onClick={closeHamburger}
+                  >
                     <Link href="/news">News</Link>
                   </Button>
-                  <Button variant="link" className={getStyle("/store")}>
+                  <Button
+                    variant="link"
+                    className={getStyle("/store")}
+                    onClick={closeHamburger}
+                  >
                     <Link href="/store">Store</Link>
                   </Button>
                   <LoginButton />
