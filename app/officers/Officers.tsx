@@ -12,7 +12,9 @@ import { OfficerDetails } from "@/lib/officers"
 import { Popover, PopoverContent, PopoverTrigger } from "@radix-ui/react-popover"
 
 export default function Officers({ officers }: { officers: OfficerDetails[] }) {
-  { /* Officers */ }
+  {
+    /* Officers */
+  }
   return (
     <div className="flex-start flex flex-wrap justify-center gap-12 text-text-white">
       {officers.map((officer, index) => {
