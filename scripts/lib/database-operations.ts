@@ -1,4 +1,4 @@
-import { PrismaClient } from '@/lib/generated/prisma/client';
+import type { Prisma, PrismaClient } from '@/lib/generated/prisma/client';
 import type {
   TransformedGame,
   TransformedEvent,
@@ -7,20 +7,30 @@ import type {
   GameTagData,
 } from './data-transformers';
 
-export class DatabaseMigrator {
-  constructor(private prisma: PrismaClient) {}
+export interface MigrationData {
+  games: TransformedGame[];
+  events: TransformedEvent[];
+  blogPosts: TransformedBlogPost[];
+  storeItems: TransformedStoreItem[];
+  gameTags: GameTagData[];
+}
+
+/**
+ * Runs inside a single transaction: if any step fails, every change
+ * (including the initial clear) is rolled back and the database is untouched.
+ */
+class MigrationSteps {
+  constructor(private tx: Prisma.TransactionClient) {}
 
   async clearDatabase(): Promise<void> {
     console.log('🗑️  Clearing existing data...');
 
-    await this.prisma.$transaction([
-      this.prisma.blogPost.deleteMany(),
-      this.prisma.storeItem.deleteMany(),
-      this.prisma.event.deleteMany(),
-      this.prisma.game.deleteMany(), // Must come before GameTags due to relation
-      this.prisma.gameTags.deleteMany(),
-      this.prisma.eventTags.deleteMany(),
-    ]);
+    await this.tx.blogPost.deleteMany();
+    await this.tx.storeItem.deleteMany();
+    await this.tx.event.deleteMany();
+    await this.tx.game.deleteMany(); // Must come before GameTags due to relation
+    await this.tx.gameTags.deleteMany();
+    await this.tx.eventTags.deleteMany();
 
     console.log('✅ Database cleared');
   }
@@ -31,7 +41,7 @@ export class DatabaseMigrator {
     const tagMap = new Map<string, number>();
 
     for (const tag of tags) {
-      const created = await this.prisma.gameTags.create({
+      const created = await this.tx.gameTags.create({
         data: {
           text: tag.text,
           color: tag.color,
@@ -50,18 +60,15 @@ export class DatabaseMigrator {
   ): Promise<void> {
     console.log(`🎮 Creating ${games.length} games...`);
 
-    let created = 0;
-    let failed = 0;
-
     for (const game of games) {
-      try {
-        // Find the tag ID for this game's theme
-        const tagIds =
-          game.themeText && tagMap.has(game.themeText)
-            ? [tagMap.get(game.themeText)!]
-            : [];
+      // Find the tag ID for this game's theme
+      const tagIds =
+        game.themeText && tagMap.has(game.themeText)
+          ? [tagMap.get(game.themeText)!]
+          : [];
 
-        await this.prisma.game.create({
+      await withContext(`game "${game.title}"`, () =>
+        this.tx.game.create({
           data: {
             title: game.title,
             credits: game.credits,
@@ -76,126 +83,118 @@ export class DatabaseMigrator {
             gameTags: {
               connect: tagIds.map((id) => ({ id })),
             },
-          },
-        });
-        created++;
-      } catch (error) {
-        console.error(`❌ Failed to create game "${game.title}":`, error);
-        failed++;
-      }
+          } satisfies Prisma.GameCreateInput,
+        })
+      );
     }
 
-    console.log(`✅ Created ${created} games${failed > 0 ? ` (${failed} failed)` : ''}`);
+    console.log(`✅ Created ${games.length} games`);
   }
 
   async createEvents(events: TransformedEvent[]): Promise<void> {
     console.log(`📅 Creating ${events.length} events...`);
 
-    let created = 0;
-    let failed = 0;
+    await withContext('events', () =>
+      this.tx.event.createMany({
+        data: events.map(
+          (event) =>
+            ({
+              name: event.name,
+              location: event.location,
+              date: event.date,
+              startTime: event.startTime,
+              endTime: event.endTime,
+              description: event.description,
+              image: event.image,
+              gallery: event.gallery,
+              slug: event.slug,
+            }) satisfies Prisma.EventCreateManyInput
+        ),
+      })
+    );
 
-    for (const event of events) {
-      try {
-        await this.prisma.event.create({
-          data: {
-            name: event.name,
-            location: event.location,
-            date: event.date,
-            startTime: event.startTime,
-            endTime: event.endTime,
-            description: event.description,
-            image: event.image,
-            gallery: event.gallery,
-            slug: event.slug,
-          },
-        });
-        created++;
-      } catch (error) {
-        console.error(`❌ Failed to create event "${event.name}":`, error);
-        failed++;
-      }
-    }
-
-    console.log(`✅ Created ${created} events${failed > 0 ? ` (${failed} failed)` : ''}`);
+    console.log(`✅ Created ${events.length} events`);
   }
 
   async createBlogPosts(posts: TransformedBlogPost[]): Promise<void> {
     console.log(`📝 Creating ${posts.length} blog posts...`);
 
-    let created = 0;
-    let failed = 0;
+    await withContext('blog posts', () =>
+      this.tx.blogPost.createMany({
+        data: posts.map(
+          (post) =>
+            ({
+              title: post.title,
+              subtitle: post.subtitle,
+              date: post.date,
+              authors: post.authors,
+              coverImage: post.coverImage,
+              coverCaption: post.coverCaption,
+              postData: post.postData,
+              slug: post.slug,
+            }) satisfies Prisma.BlogPostCreateManyInput
+        ),
+      })
+    );
 
-    for (const post of posts) {
-      try {
-        await this.prisma.blogPost.create({
-          data: {
-            title: post.title,
-            subtitle: post.subtitle,
-            date: post.date,
-            authors: post.authors,
-            coverImage: post.coverImage,
-            coverCaption: post.coverCaption,
-            postData: post.postData,
-          },
-        });
-        created++;
-      } catch (error) {
-        console.error(
-          `❌ Failed to create blog post "${post.title}":`,
-          error
-        );
-        failed++;
-      }
-    }
-
-    console.log(`✅ Created ${created} blog posts${failed > 0 ? ` (${failed} failed)` : ''}`);
+    console.log(`✅ Created ${posts.length} blog posts`);
   }
 
   async createStoreItems(items: TransformedStoreItem[]): Promise<void> {
     console.log(`🛍️  Creating ${items.length} store items...`);
 
-    let created = 0;
-    let failed = 0;
+    await withContext('store items', () =>
+      this.tx.storeItem.createMany({
+        data: items.map(
+          (item) =>
+            ({
+              name: item.name,
+              price: item.price,
+              description: item.description,
+              image: item.image,
+              gallery: item.gallery,
+              stock: item.stock,
+            }) satisfies Prisma.StoreItemCreateManyInput
+        ),
+      })
+    );
 
-    for (const item of items) {
-      try {
-        await this.prisma.storeItem.create({
-          data: {
-            name: item.name,
-            price: item.price,
-            description: item.description,
-            image: item.image,
-            gallery: item.gallery,
-            stock: item.stock,
-          },
-        });
-        created++;
-      } catch (error) {
-        console.error(`❌ Failed to create store item "${item.name}":`, error);
-        failed++;
-      }
-    }
-
-    console.log(`✅ Created ${items.length} store items${failed > 0 ? ` (${failed} failed)` : ''}`);
+    console.log(`✅ Created ${items.length} store items`);
   }
+}
 
-  async migrate(data: {
-    games: TransformedGame[];
-    events: TransformedEvent[];
-    blogPosts: TransformedBlogPost[];
-    storeItems: TransformedStoreItem[];
-    gameTags: GameTagData[];
-  }): Promise<void> {
+/** Re-throws an error with the record that caused it, since the whole migration aborts. */
+async function withContext<T>(what: string, fn: () => Promise<T>): Promise<T> {
+  try {
+    return await fn();
+  } catch (error) {
+    throw new Error(`Failed to create ${what}: ${(error as Error).message}`, {
+      cause: error,
+    });
+  }
+}
+
+export class DatabaseMigrator {
+  constructor(private prisma: PrismaClient) {}
+
+  async migrate(data: MigrationData): Promise<void> {
     try {
-      await this.clearDatabase();
-      const tagMap = await this.createGameTags(data.gameTags);
-      await this.createGames(data.games, tagMap);
-      await this.createEvents(data.events);
-      await this.createBlogPosts(data.blogPosts);
-      await this.createStoreItems(data.storeItems);
+      await this.prisma.$transaction(
+        async (tx) => {
+          const steps = new MigrationSteps(tx);
+          await steps.clearDatabase();
+          const tagMap = await steps.createGameTags(data.gameTags);
+          await steps.createGames(data.games, tagMap);
+          await steps.createEvents(data.events);
+          await steps.createBlogPosts(data.blogPosts);
+          await steps.createStoreItems(data.storeItems);
+        },
+        // The default 5s timeout is too short for a remote database
+        { maxWait: 10_000, timeout: 120_000 }
+      );
       console.log('\n🎉 Migration completed successfully!');
     } catch (error) {
-      console.error('\n💥 Migration failed:', error);
+      console.error('\n💥 Migration failed, all changes were rolled back');
       throw error;
     }
   }

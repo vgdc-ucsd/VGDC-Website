@@ -10,6 +10,7 @@ import {
   extractUniqueGameTags,
 } from './lib/data-transformers';
 import { DatabaseMigrator } from './lib/database-operations';
+import { ImageUploader } from './lib/image-uploader';
 import * as readline from 'readline';
 
 async function confirmAction(message: string): Promise<boolean> {
@@ -24,6 +25,26 @@ async function confirmAction(message: string): Promise<boolean> {
       resolve(answer.toLowerCase() === 'yes');
     });
   });
+}
+
+/** Host of the database the script will write to, without credentials. */
+function databaseHost(): string {
+  try {
+    return new URL(process.env.POSTGRES_PRISMA_URL ?? '').host || 'unknown';
+  } catch {
+    return 'unknown';
+  }
+}
+
+/** Returns the values that appear more than once. */
+function findDuplicates(values: string[]): string[] {
+  const seen = new Set<string>();
+  const duplicates = new Set<string>();
+  for (const value of values) {
+    if (seen.has(value)) duplicates.add(value);
+    seen.add(value);
+  }
+  return Array.from(duplicates);
 }
 
 async function validateMigration(prisma: PrismaClient): Promise<void> {
@@ -61,20 +82,8 @@ async function main() {
 
   console.log('🚀 Starting Google Sheets to Prisma migration\n');
 
-  // Environment check
-  const isProd = process.argv.includes('--prod');
-  const environment = isProd ? 'PRODUCTION' : 'DEVELOPMENT';
-  console.log(`Environment: ${environment}`);
-
-  if (isProd) {
-    const confirmed = await confirmAction(
-      '\n⚠️  This will DELETE all data in production and replace it. Are you sure?'
-    );
-    if (!confirmed) {
-      console.log('Migration cancelled by user');
-      process.exit(0);
-    }
-  }
+  // Which database is used is decided by the env file dotenv loads, not by a flag
+  console.log(`Target database: ${databaseHost()}`);
 
   // Initialize Prisma
   const prisma = new PrismaClient({
@@ -86,16 +95,16 @@ async function main() {
     console.log('\n' + '='.repeat(50));
     const rawData = await fetchAllSheetData();
 
-    // Validate fetched data
-    if (!rawData.games && !rawData.events && !rawData.blog && !rawData.store) {
-      throw new Error('No data fetched from any sheet');
+    // Every table is cleared before inserting, so a sheet that failed to load
+    // would wipe that table. Abort instead.
+    const missingSheets = Object.entries(rawData)
+      .filter(([, rows]) => !rows || rows.length === 0)
+      .map(([sheet]) => sheet);
+    if (missingSheets.length > 0) {
+      throw new Error(
+        `No data fetched for: ${missingSheets.join(', ')}. Aborting before any changes.`
+      );
     }
-
-    // Warn about missing sheets
-    if (!rawData.games) console.warn('⚠️  No games data found');
-    if (!rawData.events) console.warn('⚠️  No events data found');
-    if (!rawData.blog) console.warn('⚠️  No blog data found');
-    if (!rawData.store) console.warn('⚠️  No store data found');
 
     // Transform data
     console.log('\n' + '='.repeat(50));
@@ -110,6 +119,32 @@ async function main() {
       `  - Transformed ${games.length} games, ${events.length} events, ${blogPosts.length} posts, ${storeItems.length} items`
     );
     console.log(`  - Extracted ${gameTags.length} unique game tags`);
+
+    // Slugs are unique in the database; catch collisions before changing anything
+    const duplicateSlugs = [
+      ...findDuplicates(events.map((e) => e.slug)).map((slug) => `event "${slug}"`),
+      ...findDuplicates(blogPosts.map((p) => p.slug)).map((slug) => `blog post "${slug}"`),
+    ];
+    if (duplicateSlugs.length > 0) {
+      throw new Error(
+        `Duplicate slugs: ${duplicateSlugs.join(', ')}. Fix them in the sheet and re-run.`
+      );
+    }
+
+    const confirmed =
+      process.argv.includes('--yes') ||
+      (await confirmAction(
+        `\n⚠️  This will DELETE all games, events, blog posts and store items on ${databaseHost()} and replace them. Continue?`
+      ));
+    if (!confirmed) {
+      console.log('Migration cancelled by user');
+      return;
+    }
+
+    // Upload images first: replaces sheet URLs/public paths with storage paths.
+    // Kept outside the database transaction, which would time out on downloads.
+    console.log('\n' + '='.repeat(50));
+    await new ImageUploader().uploadAll({ games, events, blogPosts, storeItems });
 
     // Run migration
     console.log('\n' + '='.repeat(50));

@@ -3,7 +3,7 @@ import { GameStatus } from '@/lib/generated/prisma/client';
 
 export interface TransformedGame {
   title: string;
-  credits: string[];
+  credits: string;
   description: string;
   releaseDate: Date;
   difficulty: number;
@@ -35,6 +35,7 @@ export interface TransformedBlogPost {
   coverImage: string | null;
   coverCaption: string | null;
   postData: string;
+  slug: string;
 }
 
 export interface TransformedStoreItem {
@@ -49,6 +50,51 @@ export interface TransformedStoreItem {
 export interface GameTagData {
   text: string;
   color: string;
+}
+
+// Sheet data starts at row 2 (row 4 for Events); used to report real row numbers
+const FIRST_ROW = { default: 2, events: 4 };
+
+// Games and Events use M/D/YYYY; Blog uses YYYY-M-D, sometimes with only a
+// month (YYYY-M), which is treated as the 1st of that month.
+// Leading zeros are optional in both.
+const US_DATE = /^(\d{1,2})\/(\d{1,2})\/(\d{4})$/;
+const ISO_DATE = /^(\d{4})-(\d{1,2})(?:-(\d{1,2}))?$/;
+
+/**
+ * Parses a sheet date as UTC midnight, so the @db.Date column gets the same
+ * calendar date regardless of the time zone the script runs in.
+ */
+function parseSheetDate(value: string | undefined, label: string): Date {
+  const text = (value ?? '').trim();
+
+  let year, month, day;
+  let match;
+  if ((match = US_DATE.exec(text))) {
+    [, month, day, year] = match;
+  } else if ((match = ISO_DATE.exec(text))) {
+    [, year, month, day = '1'] = match;
+  }
+
+  if (year && month && day) {
+    // moment months are 0-based; isValid() rejects dates like 2/30
+    const parsed = moment.utc({ year: +year, month: +month - 1, date: +day });
+    if (parsed.isValid()) return parsed.toDate();
+  }
+
+  console.warn(`⚠️  ${label}: invalid date "${text}", using 1/1/2000`);
+  return new Date(Date.UTC(2000, 0, 1));
+}
+
+/**
+ * Parses a h:mm A sheet time as a UTC wall-clock time. lib/events.ts reads
+ * these @db.Time columns back with moment.utc(), so they must be stored in UTC.
+ */
+function parseSheetTime(value: string, fallback: string, label: string): Date {
+  const parsed = moment.utc(value, 'h:mm A', true);
+  if (parsed.isValid()) return parsed.toDate();
+  console.warn(`⚠️  ${label}: invalid time "${value}", using ${fallback}`);
+  return moment.utc(fallback, 'h:mm A', true).toDate();
 }
 
 /**
@@ -76,27 +122,17 @@ function transformGame(row: string[], index: number): TransformedGame | null {
     // Skip empty rows
     if (!row[0] || row[0] === '') return null;
 
-    // Parse credits: split by comma and trim
-    const credits = row[4]
-      ? row[4]
-          .split(',')
-          .map((c) => c.trim())
-          .filter((c) => c !== '')
-      : [];
-
     // Parse status: boolean to enum
     const status =
       row[6] === 'TRUE' ? GameStatus.RELEASED : GameStatus.UNRELEASED;
 
-    // Parse date: M/D/YYYY format, fallback to 1/1/2000 if invalid
-    const releaseDate = moment(row[1], 'M/D/YYYY', true);
-    const validDate = releaseDate.isValid() ? releaseDate.toDate() : new Date('2000-01-01');
+    const label = `Game "${row[0]}" (row ${index + FIRST_ROW.default})`;
 
     return {
       title: row[0],
-      credits,
+      credits: row[4]?.trim() || '',
       description: row[3] || '',
-      releaseDate: validDate,
+      releaseDate: parseSheetDate(row[1], label),
       difficulty: parseInt(row[2]) || 0,
       link: row[5] || null,
       thumbnail: row[7] || null,
@@ -107,7 +143,7 @@ function transformGame(row: string[], index: number): TransformedGame | null {
     };
   } catch (error) {
     console.warn(
-      `⚠️  Skipping malformed game at row ${index + 2}:`,
+      `⚠️  Skipping malformed game at row ${index + FIRST_ROW.default}:`,
       (error as Error).message
     );
     return null;
@@ -136,16 +172,10 @@ function transformEvent(
   try {
     if (!row[0] || row[0] === '') return null;
 
-    // Parse date: M/D/YYYY format, fallback to 1/1/2000 if invalid
-    const dateParsed = moment(row[3], 'M/D/YYYY', true);
-    const date = dateParsed.isValid() ? dateParsed.toDate() : new Date('2000-01-01');
-
-    // Parse times: h:mm A format, fallback to midnight if invalid
-    const startTimeParsed = moment(row[4], 'h:mm A', true);
-    const startTime = startTimeParsed.isValid() ? startTimeParsed.toDate() : moment('12:00 AM', 'h:mm A').toDate();
-
-    const endTimeParsed = moment(row[5], 'h:mm A', true);
-    const endTime = endTimeParsed.isValid() ? endTimeParsed.toDate() : moment('11:59 PM', 'h:mm A').toDate();
+    const label = `Event "${row[0]}" (row ${index + FIRST_ROW.events})`;
+    const date = parseSheetDate(row[3], label);
+    const startTime = parseSheetTime(row[4], '12:00 AM', label);
+    const endTime = parseSheetTime(row[5], '11:59 PM', label);
 
     // Use provided slug or generate from title
     const slug = row[9] || formatTitleToSlugClean(row[0]);
@@ -163,7 +193,7 @@ function transformEvent(
     };
   } catch (error) {
     console.warn(
-      `⚠️  Skipping malformed event at row ${index + 2}:`,
+      `⚠️  Skipping malformed event at row ${index + FIRST_ROW.events}:`,
       (error as Error).message
     );
     return null;
@@ -199,22 +229,22 @@ function transformBlogPost(
           .filter((a) => a !== '')
       : [];
 
-    // Parse date: M/D/YYYY format, fallback to 1/1/2000 if invalid
-    const date = moment(row[1], 'M/D/YYYY', true);
-    const validDate = date.isValid() ? date.toDate() : new Date('2000-01-01');
+    const label = `Blog post "${row[0]}" (row ${index + FIRST_ROW.default})`;
 
     return {
       title: row[0],
       subtitle: row[3] || '',
-      date: validDate,
+      date: parseSheetDate(row[1], label),
       authors,
       coverImage: row[4] || null,
-      coverCaption: row[5] === '' ? null : row[5],
+      coverCaption: row[5] || null,
       postData: row[6] || '',
+      // Same slug the Sheets-backed /news/[id] pages use, so existing links keep working
+      slug: formatTitleToSlugClean(row[0]),
     };
   } catch (error) {
     console.warn(
-      `⚠️  Skipping malformed blog post at row ${index + 2}:`,
+      `⚠️  Skipping malformed blog post at row ${index + FIRST_ROW.default}:`,
       (error as Error).message
     );
     return null;
@@ -246,6 +276,9 @@ function transformStoreItem(
     // Parse price: remove currency formatting
     const priceStr = row[1]?.replace(/[$,]/g, '') || '0';
     const price = parseFloat(priceStr);
+    if (Number.isNaN(price)) {
+      throw new Error(`invalid price "${row[1]}"`);
+    }
 
     // Build gallery array from image2
     const gallery: string[] = [];
@@ -263,7 +296,7 @@ function transformStoreItem(
     };
   } catch (error) {
     console.warn(
-      `⚠️  Skipping malformed store item at row ${index + 2}:`,
+      `⚠️  Skipping malformed store item at row ${index + FIRST_ROW.default}:`,
       (error as Error).message
     );
     return null;

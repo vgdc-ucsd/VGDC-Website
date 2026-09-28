@@ -1,3 +1,4 @@
+import type { SupabaseClient } from "@supabase/supabase-js";
 import { supabase } from "./supabase";
 import { getRandomElementFromArray } from "./utils";
 
@@ -16,8 +17,15 @@ export function getRandomMascotImageFallback(): string {
   return getRandomElementFromArray(Object.values(imageFallbacks))!;
 }
 
-export async function uploadImage(name: string, file: File) {
-  const { data, error } = await supabase.storage.from("Images").upload(name, file)
+export type UploadImageOptions = {
+  /** Defaults to the anon client; server-side scripts can pass a service-role client. */
+  client?: SupabaseClient
+  /** Overwrite an existing file at the same path instead of failing. */
+  upsert?: boolean
+}
+
+export async function uploadImage(name: string, file: File, { client = supabase, upsert = false }: UploadImageOptions = {}) {
+  const { data, error } = await client.storage.from("Images").upload(name, file, { upsert })
 
   if (error) throw error;
   return data;
