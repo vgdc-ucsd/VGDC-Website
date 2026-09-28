@@ -128,7 +128,7 @@ export default async function BlogPage({
         seed: post!.author,
         radius: 50,
         size: 24,
-    }).toDataUriSync()
+    }).toDataUri()
 
     // const transformUri = (uri: string) => {
     //     if (uri.startsWith('/images/')) {

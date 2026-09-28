@@ -33,7 +33,7 @@ export default async function BlogPreview() {
               seed: post.author,
               radius: 50,
               size: 24,
-            }).toDataUriSync()}
+            }).toDataUri()}
           />
         ))}
       </div>

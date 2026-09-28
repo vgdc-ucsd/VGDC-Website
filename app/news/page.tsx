@@ -35,7 +35,7 @@ export default async function News() {
                   seed: post.authors,
                   radius: 50,
                   size: 24,
-                }).toDataUriSync()}
+                }).toDataUri()}
               />
             )
           })}
