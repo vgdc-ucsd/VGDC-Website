@@ -2,36 +2,19 @@
 
 import { useState } from "react"
 import { useForm } from "react-hook-form"
-import { z } from "zod"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { Button } from "@/components/ui/button"
-import { BlogPostSchema } from "@/lib/generated/zod/modelSchema/BlogPostSchema"
+import { blogPostFormSchema, type BlogPostFormValues } from "@/lib/schemas/blog-post"
 import { cx, toSlug, SubmitButton } from "./shared"
-
-const { shape } = BlogPostSchema
-
-const schema = z.object({
-  title:        shape.title.min(1, "Title is required"),
-  subtitle:     shape.subtitle.min(1, "Subtitle is required"),
-  // Date input produces a string; convert it to a Date when saving
-  date:         z.string().min(1, "Date is required"),
-  // File; upload it and save the storage path as `coverImage`
-  coverImage:   z.any().optional(),
-  coverCaption: shape.coverCaption.unwrap().optional(),
-  slug:         shape.slug.min(1, "Slug is required"),
-  postData:     shape.postData.min(1, "Content is required"),
-})
-
-type Values = z.infer<typeof schema>
 
 export default function BlogPostForm() {
   const [authors, setAuthors] = useState<string[]>([""])
 
-  const form = useForm<Values>({
-    resolver: zodResolver(schema),
+  const form = useForm<BlogPostFormValues>({
+    resolver: zodResolver(blogPostFormSchema),
     defaultValues: { title: "", subtitle: "", date: "", coverCaption: "", slug: "", postData: "" },
   })
 
@@ -41,7 +24,7 @@ export default function BlogPostForm() {
       form.setValue("slug", toSlug(value))
   }
 
-  function onSubmit(_values: Values) {
+  function onSubmit(_values: BlogPostFormValues) {
     //TODO: wire up API route
   }
 

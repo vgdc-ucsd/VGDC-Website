@@ -2,45 +2,24 @@
 
 import { useState } from "react"
 import { useForm } from "react-hook-form"
-import { z } from "zod"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { Switch } from "@/components/ui/switch"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { GameSchema } from "@/lib/generated/zod/modelSchema/GameSchema"
+import { gameFormSchema, type GameFormValues } from "@/lib/schemas/game"
 import { cx, TagInput, SubmitButton, type Tag } from "./shared"
-
-const { shape } = GameSchema
-
-const schema = z.object({
-  title:         shape.title.min(1, "Title is required"),
-  credits:       shape.credits.min(1, "Credits are required"),
-  description:   shape.description.min(1, "Description is required"),
-  // Date input produces a string; convert it to a Date when saving
-  releaseDate:   z.string().min(1, "Release date is required"),
-  status:        shape.status,
-  // Number inputs produce strings, so coerce before applying the model's int check
-  difficulty:    z.coerce.number().pipe(shape.difficulty.min(1).max(5)),
-  isWebPlayable: shape.isWebPlayable,
-  hasSeal:       shape.hasSeal,
-  link:          shape.link.unwrap().optional(),
-  // File; upload it and save the storage path as `thumbnail`
-  thumbnail:     z.any().optional(),
-})
-
-type Values = z.infer<typeof schema>
 
 export default function GameForm() {
   const [tags, setTags] = useState<Tag[]>([])
 
-  const form = useForm<Values>({
-    resolver: zodResolver(schema),
+  const form = useForm<GameFormValues>({
+    resolver: zodResolver(gameFormSchema),
     defaultValues: { title: "", credits: "", description: "", releaseDate: "", status: "UNRELEASED", difficulty: 1, isWebPlayable: false, hasSeal: false, link: "" },
   })
 
-  function onSubmit(_values: Values) {
+  function onSubmit(_values: GameFormValues) {
     // TODO: wire up API route
   }
 

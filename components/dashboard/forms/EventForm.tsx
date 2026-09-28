@@ -2,37 +2,18 @@
 
 import { useState } from "react"
 import { useForm } from "react-hook-form"
-import { z } from "zod"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
-import { EventSchema } from "@/lib/generated/zod/modelSchema/EventSchema"
+import { eventFormSchema, type EventFormValues } from "@/lib/schemas/event"
 import { cx, toSlug, TagInput, SubmitButton, type Tag } from "./shared"
-
-const { shape } = EventSchema
-
-const schema = z.object({
-  name:        shape.name.min(1, "Name is required"),
-  location:    shape.location.min(1, "Location is required"),
-  // Date/time inputs produce strings; convert them to Dates when saving
-  date:        z.string().min(1, "Date is required"),
-  startTime:   z.string().min(1, "Start time is required"),
-  endTime:     z.string().min(1, "End time is required"),
-  description: shape.description.min(1, "Description is required"),
-  // Files; upload them and save the storage paths as `image` / `gallery`
-  coverImage:  z.any().optional(),
-  gallery:     z.any().optional(),
-  slug:        shape.slug.min(1, "Slug is required"),
-})
-
-type Values = z.infer<typeof schema>
 
 export default function EventForm() {
   const [tags, setTags] = useState<Tag[]>([])
 
-  const form = useForm<Values>({
-    resolver: zodResolver(schema),
+  const form = useForm<EventFormValues>({
+    resolver: zodResolver(eventFormSchema),
     defaultValues: { name: "", location: "", date: "", startTime: "", endTime: "", description: "", slug: "" },
   })
 
@@ -42,7 +23,7 @@ export default function EventForm() {
       form.setValue("slug", toSlug(value))
   }
 
-  function onSubmit(_values: Values) {
+  function onSubmit(_values: EventFormValues) {
     // TODO: wire up API route
   }
 
