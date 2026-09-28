@@ -8,16 +8,21 @@ import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, For
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { Button } from "@/components/ui/button"
+import { BlogPostSchema } from "@/lib/generated/zod/modelSchema/BlogPostSchema"
 import { cx, toSlug, SubmitButton } from "./shared"
 
+const { shape } = BlogPostSchema
+
 const schema = z.object({
-  title:        z.string().min(1, "Title is required"),
-  subtitle:     z.string().min(1, "Subtitle is required"),
+  title:        shape.title.min(1, "Title is required"),
+  subtitle:     shape.subtitle.min(1, "Subtitle is required"),
+  // Date input produces a string; convert it to a Date when saving
   date:         z.string().min(1, "Date is required"),
+  // File; upload it and save the storage path as `coverImage`
   coverImage:   z.any().optional(),
-  coverCaption: z.string().optional(),
-  slug:         z.string().min(1, "Slug is required"),
-  postData:     z.string().min(1, "Content is required"),
+  coverCaption: shape.coverCaption.unwrap().optional(),
+  slug:         shape.slug.min(1, "Slug is required"),
+  postData:     shape.postData.min(1, "Content is required"),
 })
 
 type Values = z.infer<typeof schema>

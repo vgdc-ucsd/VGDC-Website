@@ -7,18 +7,23 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
+import { EventSchema } from "@/lib/generated/zod/modelSchema/EventSchema"
 import { cx, toSlug, TagInput, SubmitButton, type Tag } from "./shared"
 
+const { shape } = EventSchema
+
 const schema = z.object({
-  name:        z.string().min(1, "Name is required"),
-  location:    z.string().min(1, "Location is required"),
+  name:        shape.name.min(1, "Name is required"),
+  location:    shape.location.min(1, "Location is required"),
+  // Date/time inputs produce strings; convert them to Dates when saving
   date:        z.string().min(1, "Date is required"),
   startTime:   z.string().min(1, "Start time is required"),
   endTime:     z.string().min(1, "End time is required"),
-  description: z.string().min(1, "Description is required"),
+  description: shape.description.min(1, "Description is required"),
+  // Files; upload them and save the storage paths as `image` / `gallery`
   coverImage:  z.any().optional(),
   gallery:     z.any().optional(),
-  slug:        z.string().min(1, "Slug is required"),
+  slug:        shape.slug.min(1, "Slug is required"),
 })
 
 type Values = z.infer<typeof schema>

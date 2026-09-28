@@ -1,6 +1,5 @@
 import { prisma } from "./prisma"
 import { getRandomMascotImageFallback, getStoredImageUrl, imageFallbacks } from "./images"
-import { Role } from "./generated/prisma/enums";
 import { getRandomElementFromArray, Result } from "./utils";
 
 export type OfficerYear = {

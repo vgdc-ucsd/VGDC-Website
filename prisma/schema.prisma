@@ -9,6 +9,14 @@ generator client {
   output   = "../lib/generated/prisma"
 }
 
+generator zod {
+  provider                         = "zod-prisma-types"
+  output                           = "../lib/generated/zod"
+  useMultipleFiles                 = true // lets client components import one model schema without the Prisma runtime
+  createOptionalDefaultValuesTypes = true
+  useTypeAssertions                = true // works around a known zod >3.21.1 type error
+}
+
 datasource db {
   provider  = "postgresql"
   url       = env("POSTGRES_PRISMA_URL")

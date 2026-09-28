@@ -1,4 +1,4 @@
-import { GameStatus } from "./generated/prisma/enums"
+import type { GameStatusType } from "./generated/zod/inputTypeSchemas/GameStatusSchema"
 import { getStoredImageUrl } from "./images"
 import { prisma } from "./prisma"
 import { Result } from "./utils"
@@ -16,7 +16,7 @@ export type ShowcaseGamesDetails = {
   description: string
   credits: string
   link: string
-  status: GameStatus
+  status: GameStatusType
   image: string
   tags: ShowcaseGameTag[]
   vgdcApproved: boolean

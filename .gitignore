@@ -38,4 +38,7 @@ next-env.d.ts
 
 # IntelliJ
 .idea/
+
+# prisma
 /lib/generated/prisma
+/lib/generated/zod

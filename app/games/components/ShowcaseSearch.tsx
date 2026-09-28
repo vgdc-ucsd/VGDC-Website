@@ -5,14 +5,14 @@ import { Search, Filter } from "lucide-react"
 import { ShowcaseGamesDetails, ShowcaseGameTag } from "@/lib/showcase_games"
 import GameModal from "./GameModal"
 import GamesGrid from "./GamesGrid"
-import { GameStatus } from "@/lib/generated/prisma/enums"
+import type { GameStatusType } from "@/lib/generated/zod/inputTypeSchemas/GameStatusSchema"
 import GameFilter from "./GameFilter"
 
 export const GameStatusColor = {
   RELEASED: "bg-green-500",
   UNRELEASED: "bg-yellow-500",
   PROTOTYPE: "bg-blue-500",
-} satisfies Record<GameStatus, string>
+} satisfies Record<GameStatusType, string>
 
 export default function ShowcaseSearch({
   data,
@@ -208,9 +208,9 @@ export default function ShowcaseSearch({
               }}
               options={[
                 { value: "all", text: "Any" },
-                { value: GameStatus.RELEASED, text: GameStatus.RELEASED },
-                { value: GameStatus.UNRELEASED, text: GameStatus.UNRELEASED },
-                { value: GameStatus.PROTOTYPE, text: GameStatus.PROTOTYPE },
+                { value: "RELEASED", text: "RELEASED" },
+                { value: "UNRELEASED", text: "UNRELEASED" },
+                { value: "PROTOTYPE", text: "PROTOTYPE" },
               ]}
             />
 

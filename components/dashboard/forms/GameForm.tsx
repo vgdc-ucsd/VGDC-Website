@@ -9,18 +9,24 @@ import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { Switch } from "@/components/ui/switch"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { GameSchema } from "@/lib/generated/zod/modelSchema/GameSchema"
 import { cx, TagInput, SubmitButton, type Tag } from "./shared"
 
+const { shape } = GameSchema
+
 const schema = z.object({
-  title:         z.string().min(1, "Title is required"),
-  credits:       z.string().min(1, "Credits are required"),
-  description:   z.string().min(1, "Description is required"),
+  title:         shape.title.min(1, "Title is required"),
+  credits:       shape.credits.min(1, "Credits are required"),
+  description:   shape.description.min(1, "Description is required"),
+  // Date input produces a string; convert it to a Date when saving
   releaseDate:   z.string().min(1, "Release date is required"),
-  status:        z.enum(["RELEASED", "PROTOTYPE", "UNRELEASED"]),
-  difficulty:    z.coerce.number().min(1).max(5),
-  isWebPlayable: z.boolean(),
-  hasSeal:       z.boolean(),
-  link:          z.string().optional(),
+  status:        shape.status,
+  // Number inputs produce strings, so coerce before applying the model's int check
+  difficulty:    z.coerce.number().pipe(shape.difficulty.min(1).max(5)),
+  isWebPlayable: shape.isWebPlayable,
+  hasSeal:       shape.hasSeal,
+  link:          shape.link.unwrap().optional(),
+  // File; upload it and save the storage path as `thumbnail`
   thumbnail:     z.any().optional(),
 })
 
