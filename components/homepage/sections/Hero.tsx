@@ -139,9 +139,28 @@ function HeroText() {
 function HeroContent() {
   return (
     <div className="mx-auto h-fit md:w-[45rem] lg:w-[60rem] xl:w-[75rem]">
+      <FeaturedGamesTitle />
       <HeroGames />
       <HeroSocials />
     </div>
+  )
+}
+
+// Big section title, styled like the Mission / Design headings
+function FeaturedGamesTitle() {
+  return (
+    <motion.h1
+      initial={{ opacity: 0, scale: 0.8 }}
+      whileInView={{ opacity: 1, scale: 1 }}
+      viewport={{ once: true }}
+      transition={{ delay: 0.1, ease: "easeIn", duration: 0.2 }}
+      className="mb-12 text-center text-6xl font-extrabold text-white sm:text-7xl lg:mb-16 lg:text-9xl"
+    >
+      Featured <br />
+      <span className="bg-gradient-to-r from-vgdc-light-blue to-vgdc-light-green bg-clip-text text-transparent">
+        Games
+      </span>
+    </motion.h1>
   )
 }
 
