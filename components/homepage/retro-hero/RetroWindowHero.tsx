@@ -1,6 +1,6 @@
 "use client"
 
-import { useCallback, useState } from "react"
+import { useCallback, useEffect, useRef, useState } from "react"
 import { AnimatePresence, motion } from "framer-motion"
 import RetroWindow from "./RetroWindow"
 import HeroTitleScreen from "./HeroTitleScreen"
@@ -18,6 +18,12 @@ export default function RetroWindowHero() {
   const [started, setStarted] = useState(false)
   const [runId, setRunId] = useState(0)
   const [gameOver, setGameOver] = useState<GameOverInfo | null>(null)
+  const titleRef = useRef<HTMLDivElement>(null)
+
+  // Hidden title screen must not be focusable while playing (React 18 has no inert prop)
+  useEffect(() => {
+    if (titleRef.current) titleRef.current.inert = started
+  }, [started])
 
   function scrollToContent() {
     document.getElementById("hero-content")?.scrollIntoView({ behavior: "smooth" })
@@ -32,6 +38,12 @@ export default function RetroWindowHero() {
   function quit() {
     setGameOver(null)
     setStarted(false)
+  }
+
+  // End the run before leaving, so game keys stop capturing Space/arrows on the page
+  function learnMore() {
+    quit()
+    scrollToContent()
   }
 
   const restart = useCallback(() => {
@@ -63,13 +75,14 @@ export default function RetroWindowHero() {
                 key={runId}
                 {...gameOver}
                 onRestart={restart}
-                onLearnMore={scrollToContent}
+                onLearnMore={learnMore}
                 onQuit={quit}
               />
             )}
           </AnimatePresence>
 
           <motion.div
+            ref={titleRef}
             className="absolute inset-0 z-30"
             animate={{ y: started ? "-100%" : "0%" }}
             transition={{ duration: 0.55, ease: [0.4, 0, 0.2, 1] }}

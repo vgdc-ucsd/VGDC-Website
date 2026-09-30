@@ -418,7 +418,8 @@ export default function VGDCGame({ isActive, runId = 0, onGameOver }: VGDCGamePr
       const phase = gameRef.current.phase
       if (phase === "idle" || !JUMP_KEYS.has(e.code)) return
       const target = e.target as HTMLElement | null
-      if (target?.closest("input, textarea, select, [contenteditable]")) return
+      // Leave focused controls alone so Space/Enter still activate them
+      if (target?.closest("button, a, input, textarea, select, [contenteditable]")) return
       // Also swallow jump keys after death so a mashed Space doesn't scroll the page
       e.preventDefault()
       if (phase === "running") gameRef.current.jump = true
