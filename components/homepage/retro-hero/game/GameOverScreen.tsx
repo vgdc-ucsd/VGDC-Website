@@ -87,7 +87,7 @@ export default function GameOverScreen({
         )}
 
         <div
-          className="mt-[1.1em] flex items-center gap-[1em]"
+          className="mt-[1.1em] flex flex-col items-center gap-[0.4em]"
           style={{ fontSize: "clamp(0.55rem, 1.2vw, 0.95rem)" }}
         >
           <motion.button
@@ -105,13 +105,6 @@ export default function GameOverScreen({
             QUIT
           </button>
         </div>
-
-        <p
-          className="mt-[0.8em] hidden text-white/50 sm:block"
-          style={{ fontSize: "clamp(0.45rem, 0.9vw, 0.75rem)" }}
-        >
-          PRESS SPACE TO RESTART
-        </p>
 
         {/* Club CTA — takes them to the club info below the hero */}
         <motion.button
