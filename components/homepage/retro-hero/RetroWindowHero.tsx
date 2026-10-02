@@ -25,7 +25,11 @@ export default function RetroWindowHero() {
     if (titleRef.current) titleRef.current.inert = started
   }, [started])
 
-  function scrollToContent() {
+  function scrollToHero() {
+    document.getElementById("retro-hero")?.scrollIntoView({ behavior: "smooth" })
+  }
+
+  function scrollToFeaturedGames() {
     document.getElementById("hero-content")?.scrollIntoView({ behavior: "smooth" })
   }
 
@@ -33,6 +37,7 @@ export default function RetroWindowHero() {
     blurActive()
     setGameOver(null)
     setStarted(true)
+    scrollToHero()
   }
 
   function quit() {
@@ -43,17 +48,18 @@ export default function RetroWindowHero() {
   // End the run before leaving, so game keys stop capturing Space/arrows on the page
   function learnMore() {
     quit()
-    scrollToContent()
+    scrollToFeaturedGames()
   }
 
   const restart = useCallback(() => {
     blurActive()
     setGameOver(null)
     setRunId((id) => id + 1)
+    scrollToHero()
   }, [])
 
   return (
-    <div className="flex w-full items-center justify-center p-3 sm:p-12 md:p-20 lg:p-28">
+    <div id="retro-hero" className="flex w-full items-center justify-center p-3 sm:p-12 md:p-20 lg:p-28">
       <RetroWindow
         title={started ? "VGDC.GAME" : "VGDC.HOMESCREEN"}
         className="aspect-[4/3] w-full sm:aspect-video"
