@@ -372,6 +372,9 @@ export default function VGDCGame({ isActive, runId = 0, onGameOver }: VGDCGamePr
   useEffect(() => {
     const gs = gameRef.current
     gs.highScore = readHighScore()
+    // Random starting mascot, so pickMascot's "different from last run" rule
+    // doesn't keep the first run from ever getting index 0
+    gs.mascotIndex = Math.floor(Math.random() * MASCOT_SRCS.length)
 
     const load = (src: string, onLoad: (img: HTMLImageElement) => void) => {
       const img = new Image()
@@ -381,7 +384,6 @@ export default function VGDCGame({ isActive, runId = 0, onGameOver }: VGDCGamePr
       }
       img.src = src
     }
-    gs.mascotIndex = Math.floor(Math.random() * MASCOT_SRCS.length)
     MASCOT_SRCS.forEach((src, i) => load(src, (img) => { gs.mascotImgs[i] = img }))
     load(PLATFORM_SRC, (img) => { gs.platformImg = img })
     PARALLAX_LAYERS.forEach(({ src }, i) => load(src, (img) => { gs.bgLayers[i] = img }))
