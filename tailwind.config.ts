@@ -98,6 +98,12 @@ const config = {
       },
       fontFamily: {
         inter: ["var(--font-inter)"],
+        mojangles: ["Mojangles", "monospace"],
+      },
+      boxShadow: {
+        "win95-raised": "inset -1px -1px 0 #000, inset 1px 1px 0 #5a5a7a, inset -2px -2px 0 #1a1a2e, inset 2px 2px 0 #4a4a6a",
+        "win95-sunken": "inset 1px 1px 0 #000, inset -1px -1px 0 #5a5a7a, inset 2px 2px 0 #1a1a2e, inset -2px -2px 0 #4a4a6a",
+        "win95-button": "inset -1px -1px 0 #000, inset 1px 1px 0 #5a5a7a, inset -2px -2px 0 #1a1a2e, inset 2px 2px 0 #4a4a6a",
       },
     },
   },
