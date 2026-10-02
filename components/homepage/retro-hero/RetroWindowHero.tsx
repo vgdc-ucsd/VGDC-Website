@@ -1,6 +1,6 @@
 "use client"
 
-import { useCallback, useEffect, useRef, useState } from "react"
+import { useCallback, useEffect, useRef, useState, useSyncExternalStore } from "react"
 import { AnimatePresence, motion } from "framer-motion"
 import RetroWindow from "./RetroWindow"
 import HeroTitleScreen from "./HeroTitleScreen"
@@ -14,12 +14,19 @@ function blurActive() {
   ;(document.activeElement as HTMLElement | null)?.blur?.()
 }
 
+// Fullscreen support never changes, so there is nothing to subscribe to
+const noopSubscribe = () => () => {}
+
 export default function RetroWindowHero() {
   const [started, setStarted] = useState(false)
   const [runId, setRunId] = useState(0)
   const [gameOver, setGameOver] = useState<GameOverInfo | null>(null)
   const [isFullscreen, setIsFullscreen] = useState(false)
-  const [canFullscreen, setCanFullscreen] = useState(false)
+  const canFullscreen = useSyncExternalStore(
+    noopSubscribe,
+    () => !!document.fullscreenEnabled,
+    () => false
+  )
   const titleRef = useRef<HTMLDivElement>(null)
   const windowRef = useRef<HTMLDivElement>(null)
 
@@ -30,7 +37,6 @@ export default function RetroWindowHero() {
 
   // Track fullscreen state so Esc-exits are reflected in the button
   useEffect(() => {
-    setCanFullscreen(!!document.fullscreenEnabled)
     const onChange = () =>
       setIsFullscreen(document.fullscreenElement === windowRef.current)
     document.addEventListener("fullscreenchange", onChange)
