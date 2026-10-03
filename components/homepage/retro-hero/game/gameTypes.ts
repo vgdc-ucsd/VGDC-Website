@@ -30,6 +30,11 @@ export const MIN_OBSTACLE_GAP = 300
 export const MAX_OBSTACLE_GAP = 800
 export const OBSTACLE_SIZE = 32
 export const PLAYER_HEIGHT = 120
+// Expressed at a proportion of the minimum obstacle gap
+export const MAX_OBSTACLE_SPAWN_RANGE = MAX_OBSTACLE_GAP / MIN_OBSTACLE_GAP - 1
+// After every this number of points, the obstacle spawn range (as a proportion
+// of the minimum possible gap) halfs.
+export const POINTS_TO_HALF_OBSTACLE_RANGE = 500
 
 // px per ms
 export const MAX_GAME_SPEED = 1.5
@@ -38,6 +43,7 @@ export const MIN_GAME_SPEED = 0.35
 // px/ms and px/ms² — ~160px jump apex, ~0.67s airtime
 export const JUMP_VELOCITY = 0.96
 export const GRAVITY = 0.00288
+export const AIRTIME = 2 * JUMP_VELOCITY / GRAVITY
 
 // Longest simulated step; avoids teleporting after a tab switch or hitch
 export const MAX_FRAME_DELTA = 50
