@@ -1,4 +1,5 @@
-import moment from 'moment';
+import moment from 'moment-timezone';
+import { Timezone } from '@/lib/utils';
 import { GameStatus } from '@/lib/generated/prisma/client';
 
 export interface TransformedGame {
@@ -18,9 +19,8 @@ export interface TransformedGame {
 export interface TransformedEvent {
   name: string;
   location: string;
-  date: Date;
-  startTime: Date;
-  endTime: Date;
+  startTimestamp: Date;
+  endTimestamp: Date;
   description: string;
   image: string | null;
   gallery: string[];
@@ -61,11 +61,10 @@ const FIRST_ROW = { default: 2, events: 4 };
 const US_DATE = /^(\d{1,2})\/(\d{1,2})\/(\d{4})$/;
 const ISO_DATE = /^(\d{4})-(\d{1,2})(?:-(\d{1,2}))?$/;
 
-/**
- * Parses a sheet date as UTC midnight, so the @db.Date column gets the same
- * calendar date regardless of the time zone the script runs in.
- */
-function parseSheetDate(value: string | undefined, label: string): Date {
+type DateParts = { year: number; month: number; day: number };
+
+/** Parses a sheet date into its parts, or null if it isn't a real date. */
+function parseSheetDateParts(value: string | undefined): DateParts | null {
   const text = (value ?? '').trim();
 
   let year, month, day;
@@ -75,26 +74,60 @@ function parseSheetDate(value: string | undefined, label: string): Date {
   } else if ((match = ISO_DATE.exec(text))) {
     [, year, month, day = '1'] = match;
   }
+  if (!year || !month || !day) return null;
 
-  if (year && month && day) {
-    // moment months are 0-based; isValid() rejects dates like 2/30
-    const parsed = moment.utc({ year: +year, month: +month - 1, date: +day });
-    if (parsed.isValid()) return parsed.toDate();
+  // moment months are 0-based; isValid() rejects dates like 2/30
+  const parts = { year: +year, month: +month, day: +day };
+  const valid = moment.utc({ year: parts.year, month: parts.month - 1, date: parts.day }).isValid();
+  return valid ? parts : null;
+}
+
+const FALLBACK_DATE: DateParts = { year: 2000, month: 1, day: 1 };
+
+/**
+ * Parses a sheet date as UTC midnight, so the @db.Date columns (Game.releaseDate,
+ * BlogPost.date) get the same calendar date regardless of the script's time zone.
+ */
+function parseSheetDate(value: string | undefined, label: string): Date {
+  const parts = parseSheetDateParts(value);
+  if (!parts) console.warn(`⚠️  ${label}: invalid date "${(value ?? '').trim()}", using 1/1/2000`);
+  const { year, month, day } = parts ?? FALLBACK_DATE;
+  return new Date(Date.UTC(year, month - 1, day));
+}
+
+/** Parses a h:mm A sheet time into hours and minutes, falling back if it's invalid. */
+function parseSheetTime(value: string | undefined, fallback: string, label: string) {
+  let parsed = moment.utc((value ?? '').trim(), 'h:mm A', true);
+  if (!parsed.isValid()) {
+    console.warn(`⚠️  ${label}: invalid time "${value ?? ''}", using ${fallback}`);
+    parsed = moment.utc(fallback, 'h:mm A', true);
   }
-
-  console.warn(`⚠️  ${label}: invalid date "${text}", using 1/1/2000`);
-  return new Date(Date.UTC(2000, 0, 1));
+  return { hour: parsed.hours(), minute: parsed.minutes() };
 }
 
 /**
- * Parses a h:mm A sheet time as a UTC wall-clock time. lib/events.ts reads
- * these @db.Time columns back with moment.utc(), so they must be stored in UTC.
+ * Combines an event's sheet date and times into exact timestamps. The sheet's
+ * times are Pacific wall-clock times, matching what the dashboard's createEvent
+ * does: an end time earlier than the start time means the event ends the next day.
  */
-function parseSheetTime(value: string, fallback: string, label: string): Date {
-  const parsed = moment.utc(value, 'h:mm A', true);
-  if (parsed.isValid()) return parsed.toDate();
-  console.warn(`⚠️  ${label}: invalid time "${value}", using ${fallback}`);
-  return moment.utc(fallback, 'h:mm A', true).toDate();
+function parseEventTimestamps(
+  dateValue: string | undefined,
+  startValue: string | undefined,
+  endValue: string | undefined,
+  label: string
+): { startTimestamp: Date; endTimestamp: Date } {
+  const dateParts = parseSheetDateParts(dateValue);
+  if (!dateParts) console.warn(`⚠️  ${label}: invalid date "${(dateValue ?? '').trim()}", using 1/1/2000`);
+  const { year, month, day } = dateParts ?? FALLBACK_DATE;
+
+  const at = ({ hour, minute }: { hour: number; minute: number }) =>
+    moment.tz({ year, month: month - 1, date: day, hour, minute }, Timezone);
+
+  const start = at(parseSheetTime(startValue, '12:00 AM', label));
+  const end = at(parseSheetTime(endValue, '11:59 PM', label));
+  if (end.isBefore(start)) end.add(1, 'day');
+
+  return { startTimestamp: start.toDate(), endTimestamp: end.toDate() };
 }
 
 /**
@@ -139,7 +172,8 @@ function transformGame(row: string[], index: number): TransformedGame | null {
       isWebPlayable: row[10] === 'TRUE',
       status,
       hasSeal: row[9] === 'TRUE',
-      themeText: row[8] || '',
+      // Trimmed to match the tag text in extractUniqueGameTags, which is now unique
+      themeText: row[8]?.trim() || '',
     };
   } catch (error) {
     console.warn(
@@ -173,9 +207,7 @@ function transformEvent(
     if (!row[0] || row[0] === '') return null;
 
     const label = `Event "${row[0]}" (row ${index + FIRST_ROW.events})`;
-    const date = parseSheetDate(row[3], label);
-    const startTime = parseSheetTime(row[4], '12:00 AM', label);
-    const endTime = parseSheetTime(row[5], '11:59 PM', label);
+    const { startTimestamp, endTimestamp } = parseEventTimestamps(row[3], row[4], row[5], label);
 
     // Use provided slug or generate from title
     const slug = row[9] || formatTitleToSlugClean(row[0]);
@@ -183,9 +215,8 @@ function transformEvent(
     return {
       name: row[0],
       location: row[2] || '',
-      date,
-      startTime,
-      endTime,
+      startTimestamp,
+      endTimestamp,
       description: row[1] || '',
       image: row[6] || null,
       gallery: [], // No gallery data in sheets

@@ -101,9 +101,8 @@ class MigrationSteps {
             ({
               name: event.name,
               location: event.location,
-              date: event.date,
-              startTime: event.startTime,
-              endTime: event.endTime,
+              startTimestamp: event.startTimestamp,
+              endTimestamp: event.endTimestamp,
               description: event.description,
               image: event.image,
               gallery: event.gallery,

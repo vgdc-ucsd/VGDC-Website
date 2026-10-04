@@ -63,17 +63,16 @@ model OfficerBio {
 }
 
 model Event {
-  id          Int         @id @default(autoincrement())
-  name        String
-  location    String
-  date        DateTime    @db.Date
-  startTime   DateTime    @db.Time
-  endTime     DateTime    @db.Time
-  description String
-  image       String?
-  gallery     String[]
-  eventTags   EventTags[]
-  slug        String      @unique
+  id             Int         @id @default(autoincrement())
+  name           String
+  location       String
+  startTimestamp DateTime    @db.Timestamptz(3)
+  endTimestamp   DateTime    @db.Timestamptz(3)
+  description    String
+  image          String?
+  gallery        String[]
+  eventTags      EventTags[]
+  slug           String      @unique
 }
 
 enum GameStatus {
@@ -84,14 +83,14 @@ enum GameStatus {
 
 model GameTags {
   id    Int    @id @default(autoincrement())
-  text  String
+  text  String @unique
   color String
   games Game[]
 }
 
 model EventTags {
   id     Int     @id @default(autoincrement())
-  text   String
+  text   String  @unique
   color  String
   events Event[]
 }

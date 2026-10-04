@@ -5,6 +5,9 @@ export type Result<T> =
   | { ok: true; data: T }
   | { ok: false; error: string }
 
+// Since VGDC is based in San Diego, we can assume Pacific time
+export const Timezone = "America/Los_Angeles";
+
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
 }

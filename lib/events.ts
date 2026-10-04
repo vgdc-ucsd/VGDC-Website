@@ -1,11 +1,11 @@
-import moment from "moment"
-import { prisma } from "./prisma"
-import { EventWhereInput } from "./generated/prisma/models"
-import { getStoredImageUrl } from "./images"
-import { supabase } from "./supabase"
-import { Result } from "./utils"
+import moment from "moment-timezone"
+import { prisma } from "@/lib/prisma"
+import type { Event } from "@/lib/generated/prisma/client"
+import { EventWhereInput } from "@/lib/generated/prisma/models"
+import { getStoredImageUrl } from "@/lib/images.server"
+import { Result, Timezone } from "@/lib/utils"
 
-/** The details of an event from the spreadsheet. */
+/** The details of an event, formatted for display. */
 export type EventDetails = {
   title: string
   description: string
@@ -24,6 +24,26 @@ export interface GetEventsFlags {
 }
 
 /**
+ * Formats an event for display. Timestamps are stored as exact instants, so
+ * they're converted to Pacific time here rather than relying on the server's
+ * time zone (UTC on Vercel).
+ */
+async function toEventDetails(event: Event): Promise<EventDetails> {
+  const start = moment(event.startTimestamp).tz(Timezone);
+  const end = moment(event.endTimestamp).tz(Timezone);
+
+  return {
+    title: event.name,
+    description: event.description,
+    location: event.location,
+    date: start.format("MMMM Do"),
+    time: `${start.format("LT")} - ${end.format("LT")}`,
+    image: event.image ? await getStoredImageUrl(event.image) : "",
+    slug: event.slug,
+  };
+}
+
+/**
  * Gets a single event from the database
  */
 export async function getSingleEvent(slug: string): Promise<Result<EventDetails>> {
@@ -33,30 +53,14 @@ export async function getSingleEvent(slug: string): Promise<Result<EventDetails>
 
   if (!event) return { ok: false, error: `Failed to get event ${slug}` }
 
-  const eventImage = event.image 
-    ? await getStoredImageUrl(event.image)
-    : "";
-  return {
-    ok: true,
-    data: {
-      title: event.name,
-      description: event.description,
-      location: event.location,
-      date: moment(event.date).format("MMMM Do"),
-      time: moment(event.startTime).utc().format("LT") 
-        + " - " 
-        + moment(event.endTime).utc().format("LT"),
-      image: eventImage,
-      slug: event.slug,
-    }
-  };
+  return { ok: true, data: await toEventDetails(event) };
 }
 
 /**
- * Gets the events from a spreadsheet, filters them, and sorts them.
+ * Gets the events from the database, filters them, and sorts them.
  * @param homepage Only include events for the homepage? False by default.
- * @param includeOldEvents Include events that have already passed? False by default.
- * @param includeNewEvents Include events that haven't happened yet? True by default.
+ * @param includeOldEvents Include events that have already ended? False by default.
+ * @param includeNewEvents Include events that haven't ended yet (upcoming or happening now)? True by default.
  * @param latestFirst Order events with the latest first? False by default, helpful for showing past events.
  * @returns The list of events, sorted and filtered.
  */
@@ -66,49 +70,24 @@ export async function getEvents({
   includeNewEvents = true,
   latestFirst = false
 }: GetEventsFlags): Promise<Result<EventDetails[]>> {
-  //
-  // Gets the current moment to filter out events after this time.
-  const today = moment().startOf("day").toDate();
-  // Gets the current moment to filter out events before this time. Subtracts 1 day so events show a day after ending.
-  const yesterday = moment().subtract(1, "day").startOf("day").toDate();
+  // An event is "old" once it has ended, and "new" until then (including while it's
+  // happening). Both checks use endTimestamp, so every event is in exactly one group.
+  const now = new Date();
 
-  // Exclude date ranges based on parameters
-  const dateExcludes: EventWhereInput[] = [];
-  if (!includeOldEvents) dateExcludes.push({ date: { lte: yesterday } });
-  if (!includeNewEvents) dateExcludes.push({ date: { gt: today } });
+  // Exclude time ranges based on parameters
+  const timeExcludes: EventWhereInput[] = [];
+  if (!includeOldEvents) timeExcludes.push({ endTimestamp: { lt: now } });
+  if (!includeNewEvents) timeExcludes.push({ endTimestamp: { gte: now } });
 
   try {
     const events = await prisma.event.findMany({
-      where: dateExcludes.length > 0 ? { NOT: { OR: dateExcludes } } : undefined,
-      orderBy: [
-        { date: latestFirst ? "asc" : "desc" },
-        { startTime: latestFirst ? "asc" : "desc" },
-      ]
-    });
-
-    if (!events) return { ok: false, error: "Failed to get events"}
-
-    const eventsDetailsPromises = events.map(async (event) => {
-      const eventImage = event.image 
-        ? await getStoredImageUrl(event.image)
-        : "";
-
-      return {
-        title: event.name,
-        description: event.description,
-        location: event.location,
-        date: moment(event.date).format("MMMM Do"),
-        time: moment(event.startTime).utc().format("LT") 
-          + " - " 
-          + moment(event.endTime).utc().format("LT"),
-        image: eventImage,
-        slug: event.slug,
-      } satisfies EventDetails;
+      where: timeExcludes.length > 0 ? { NOT: { OR: timeExcludes } } : undefined,
+      orderBy: { startTimestamp: latestFirst ? "desc" : "asc" },
     });
 
     return {
       ok: true,
-      data: await Promise.all(eventsDetailsPromises)
+      data: await Promise.all(events.map(toEventDetails))
     };
   } catch (error) {
     console.log(error)
