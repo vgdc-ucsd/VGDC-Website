@@ -19,3 +19,18 @@ export const blogPostFormSchema = z.object({
 })
 
 export type BlogPostFormValues = z.infer<typeof blogPostFormSchema>
+
+// Author names from the form's author list. Blank rows (the form starts with one
+// empty input) are dropped before checking that at least one author remains.
+export const blogPostAuthorsInputSchema = z
+  .array(z.string())
+  .transform((authors) => authors.map((author) => author.trim()).filter(Boolean))
+  .pipe(z.array(shape.authors.element).min(1, "At least one author is required"))
+
+// What the client sends to createBlogPost: the form's fields plus the authors, which live in
+// separate state. The type uses z.input, the shape before validation transforms it.
+export const blogPostInputSchema = blogPostFormSchema.extend({
+  authors: blogPostAuthorsInputSchema,
+})
+
+export type BlogPostInput = z.input<typeof blogPostInputSchema>

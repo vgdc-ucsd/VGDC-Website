@@ -1,8 +1,11 @@
 "use client"
 
 import { useState, useEffect } from "react"
+import { z } from "zod"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
+import { eventTagInputSchema, type EventTagInput } from "@/lib/schemas/event"
+import { gameTagInputSchema, type GameTagInput } from "@/lib/schemas/game"
 
 // ── Shared Tailwind class strings ─────────────────────────────────────────────
 export const cx = {
@@ -21,15 +24,24 @@ export function toSlug(text: string) {
 }
 
 // ── Tag presets (separate pools for games vs events, persisted in localStorage)
-export type Tag = { text: string; color: string }
-export type TagType = "game" | "event"
+// Tag types and schemas are derived from the Prisma models in lib/schemas.
+type TagTypes = {
+  game:  GameTagInput
+  event: EventTagInput
+}
+export type TagType = keyof TagTypes
+
+const TAG_LIST_SCHEMAS: { [T in TagType]: z.ZodType<TagTypes[T][], z.ZodTypeDef, unknown> } = {
+  game:  z.array(gameTagInputSchema),
+  event: z.array(eventTagInputSchema),
+}
 
 const STORAGE_KEYS: Record<TagType, string> = {
   game:  "vgdc-tag-presets-game",
   event: "vgdc-tag-presets-event",
 }
 
-const DEFAULT_PRESETS: Record<TagType, Tag[]> = {
+const DEFAULT_PRESETS: { [T in TagType]: TagTypes[T][] } = {
   game: [
     { text: "Unreleased", color: "#5ec269" },
     { text: "Released", color: "#e2b53e" },
@@ -46,30 +58,38 @@ const DEFAULT_PRESETS: Record<TagType, Tag[]> = {
   ],
 }
 
-function loadPresets(type: TagType): Tag[] {
+function loadPresets<T extends TagType>(type: T): TagTypes[T][] {
   if (typeof window === "undefined") return DEFAULT_PRESETS[type]
   try {
     const stored = localStorage.getItem(STORAGE_KEYS[type])
-    return stored ? (JSON.parse(stored) as Tag[]) : DEFAULT_PRESETS[type]
+    if (!stored) return DEFAULT_PRESETS[type]
+    // Stored data may be from an older version or edited by hand, so validate it
+    const parsed = TAG_LIST_SCHEMAS[type].safeParse(JSON.parse(stored))
+    return parsed.success ? parsed.data : DEFAULT_PRESETS[type]
   } catch {
     return DEFAULT_PRESETS[type]
   }
 }
 
-function savePresets(type: TagType, presets: Tag[]) {
-  localStorage.setItem(STORAGE_KEYS[type], JSON.stringify(presets))
+function savePresets<T extends TagType>(type: T, presets: TagTypes[T][]) {
+  try {
+    localStorage.setItem(STORAGE_KEYS[type], JSON.stringify(presets))
+  } catch {
+    // Storage can be full or blocked (e.g. private browsing); presets just won't persist
+  }
 }
 
 // ── Tag chip input ────────────────────────────────────────────────────────────
-export function TagInput({
+export function TagInput<T extends TagType>({
   type,
   tags,
   onChange,
 }: {
-  type: TagType
-  tags: Tag[]
-  onChange: (tags: Tag[]) => void
+  type: T
+  tags: TagTypes[T][]
+  onChange: (tags: TagTypes[T][]) => void
 }) {
+  type Tag = TagTypes[T]
   const [presets, setPresets] = useState<Tag[]>([])
   const [showNew, setShowNew] = useState(false)
   const [newText, setNewText] = useState("")
@@ -164,13 +184,12 @@ export function TagInput({
 }
 
 // ── Disabled submit with "Not working yet" note ───────────────────────────────
-export function SubmitButton({ label }: { label: string }) {
+export function SubmitButton({ label, disabled }: { label: string, disabled?: boolean }) {
   return (
     <div className="flex items-center gap-3">
-      <Button type="submit" disabled className="bg-vgdc-light-green text-black font-medium opacity-50 cursor-not-allowed">
+      <Button type="submit" disabled={disabled} className="bg-vgdc-light-green text-black font-medium disabled:opacity-50">
         {label}
       </Button>
-      <span className={cx.hint}>Not working yet*</span>
     </div>
   )
 }

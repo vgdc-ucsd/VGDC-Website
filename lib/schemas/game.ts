@@ -1,5 +1,6 @@
 import { z } from "zod"
 import { GameSchema } from "@/lib/generated/zod/modelSchema/GameSchema"
+import { GameTagsSchema } from "@/lib/generated/zod/modelSchema/GameTagsSchema"
 
 // Shared by the dashboard Game form (client) and the server action that saves it.
 // Only imports zod and the per-model generated schema, so it is safe to bundle for the browser.
@@ -23,3 +24,18 @@ export const gameFormSchema = z.object({
 })
 
 export type GameFormValues = z.infer<typeof gameFormSchema>
+
+// A tag chosen in the form. It has no id yet: existing tags are matched by text when saving.
+export const gameTagInputSchema = GameTagsSchema.omit({ id: true }).extend({
+  text: GameTagsSchema.shape.text.trim().min(1, "Tag text is required"),
+})
+
+export type GameTagInput = z.infer<typeof gameTagInputSchema>
+
+// What the client sends to createGame: the form's fields plus the tags, which live in
+// separate state. The type uses z.input, the shape before validation transforms it.
+export const gameInputSchema = gameFormSchema.extend({
+  tags: z.array(gameTagInputSchema),
+})
+
+export type GameInput = z.input<typeof gameInputSchema>

@@ -8,11 +8,11 @@ import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { Switch } from "@/components/ui/switch"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { gameFormSchema, type GameFormValues } from "@/lib/schemas/game"
-import { cx, TagInput, SubmitButton, type Tag } from "./shared"
+import { gameFormSchema, type GameFormValues, type GameTagInput } from "@/lib/schemas/game"
+import { cx, TagInput, SubmitButton } from "./shared"
 
 export default function GameForm() {
-  const [tags, setTags] = useState<Tag[]>([])
+  const [tags, setTags] = useState<GameTagInput[]>([])
 
   const form = useForm<GameFormValues>({
     resolver: zodResolver(gameFormSchema),

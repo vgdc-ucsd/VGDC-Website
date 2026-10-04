@@ -6,25 +6,36 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
-import { eventFormSchema, type EventFormValues } from "@/lib/schemas/event"
-import { cx, toSlug, TagInput, SubmitButton, type Tag } from "./shared"
+import { eventFormSchema, type EventFormValues, type EventTagInput } from "@/lib/schemas/event"
+import { cx, toSlug, TagInput, SubmitButton } from "./shared"
+import { ImageUploadInput } from "./ImageUploadInput"
+import { createEvent } from "@/lib/form-actions"
 
 export default function EventForm() {
-  const [tags, setTags] = useState<Tag[]>([])
+  const [tags, setTags] = useState<EventTagInput[]>([])
+  const [pendingUploads, setPendingUploads] = useState(0);
 
   const form = useForm<EventFormValues>({
     resolver: zodResolver(eventFormSchema),
-    defaultValues: { name: "", location: "", date: "", startTime: "", endTime: "", description: "", slug: "" },
+    defaultValues: { name: "", location: "", date: "", startTime: "", endTime: "", description: "", slug: "", coverImage: "", gallery: [] },
   })
 
   function onNameChange(value: string) {
-    form.setValue("name", value)
-    if (!form.getValues("slug") || form.getValues("slug") === toSlug(form.getValues("name")))
-      form.setValue("slug", toSlug(value))
+    form.setValue("name", value, { shouldDirty: true });
+    if (!form.getFieldState("slug").isDirty) {
+      form.setValue("slug", toSlug(value));
+    }
   }
 
-  function onSubmit(_values: EventFormValues) {
-    // TODO: wire up API route
+  async function onSubmit(values: EventFormValues) {
+    form.clearErrors("root");
+    const result = await createEvent({...values, tags});
+    if (!result.ok) {
+      form.setError(result.field ?? "root", { message: result.error });
+      return;
+    }
+    form.reset();
+    setTags([]);
   }
 
   return (
@@ -111,7 +122,17 @@ export default function EventForm() {
             <FormItem>
               <FormLabel className={cx.label}>Cover Image</FormLabel>
               <FormControl>
-                <Input type="file" accept="image/*" onChange={(e) => field.onChange(e.target.files)} className={cx.file} />
+                <ImageUploadInput
+                  folder="events"
+                  multiple={false}
+                  paths={field.value ? [field.value] : []}
+                  onUploaded={([path]) => field.onChange(path)}
+                  onError={(message) => form.setError("coverImage", { message })}
+                  onBusyChange={(busy) => {
+                    if (busy) form.clearErrors("coverImage")
+                    setPendingUploads((count) => count + (busy ? 1 : -1))
+                  }}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -121,13 +142,30 @@ export default function EventForm() {
             <FormItem>
               <FormLabel className={cx.label}>Gallery Images</FormLabel>
               <FormControl>
-                <Input type="file" accept="image/*" multiple onChange={(e) => field.onChange(e.target.files)} className={cx.file} />
+                <ImageUploadInput 
+                  folder="events" 
+                  multiple={true}
+                  paths={field.value ?? []}
+                  onUploaded={(paths) => field.onChange([...(field.value ?? []), ...paths])}
+                  onError={(message) => form.setError("gallery", { message })}
+                  onBusyChange={(busy) => {
+                    if (busy) form.clearErrors("gallery")
+                    setPendingUploads((count) => count + (busy ? 1 : -1))
+                  }}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
           )} />
 
-          <SubmitButton label="Submit Event" />
+          {/* Errors from createEvent that don't belong to a specific field */}
+          {form.formState.errors.root && (
+            <p role="alert" className="text-sm font-medium text-destructive">
+              {form.formState.errors.root.message}
+            </p>
+          )}
+
+          <SubmitButton label="Submit Event" disabled={pendingUploads > 0 || form.formState.isSubmitting} />
         </form>
       </Form>
     </div>
