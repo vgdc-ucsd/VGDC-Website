@@ -3,7 +3,8 @@ import fs from 'fs/promises';
 import path from 'path';
 import { createClient, type SupabaseClient } from '@supabase/supabase-js';
 import { supabase } from '@/lib/supabase';
-import { uploadImage } from '@/lib/images';
+import { uploadImage } from '@/lib/images.server';
+import { getImageType, type ImageFolder } from '@/lib/images.shared';
 import {
   formatTitleToSlugClean,
   type TransformedBlogPost,
@@ -15,24 +16,6 @@ import {
 const PUBLIC_DIR = path.join(process.cwd(), 'public');
 const CONCURRENCY = 6;
 const DOWNLOAD_TIMEOUT_MS = 30_000;
-
-const EXTENSION_TYPES: Record<string, string> = {
-  png: 'image/png',
-  jpg: 'image/jpeg',
-  jpeg: 'image/jpeg',
-  gif: 'image/gif',
-  webp: 'image/webp',
-  avif: 'image/avif',
-  svg: 'image/svg+xml',
-};
-const TYPE_EXTENSIONS: Record<string, string> = {
-  'image/png': 'png',
-  'image/jpeg': 'jpg',
-  'image/gif': 'gif',
-  'image/webp': 'webp',
-  'image/avif': 'avif',
-  'image/svg+xml': 'svg',
-};
 
 export interface ImageUploadSummary {
   uploaded: number;
@@ -132,7 +115,7 @@ export class ImageUploader {
 
   private async resolveList(
     values: string[],
-    folder: string,
+    folder: ImageFolder,
     name: string,
     record: string
   ): Promise<string[]> {
@@ -145,7 +128,7 @@ export class ImageUploader {
   /** Returns the storage path for a sheet image value, or null if it can't be uploaded. */
   private async resolve(
     value: string | null,
-    folder: string,
+    folder: ImageFolder,
     name: string,
     record: string
   ): Promise<string | null> {
@@ -172,19 +155,28 @@ export class ImageUploader {
     }
   }
 
-  private async upload(source: string, folder: string, name: string): Promise<string> {
-    const { file, storagePath } = source.startsWith('/')
-      ? await readPublicFile(source)
-      : await downloadImage(source, folder, name);
+  private async upload(source: string, folder: ImageFolder, name: string): Promise<string> {
+    const bytes = source.startsWith('/') ? await readPublicFile(source) : await downloadImage(source);
 
-    await uploadImage(storagePath, file, { client: this.client, upsert: true });
+    // Same rule as the dashboard's /api/images route: the format comes from the
+    // file's bytes, and only PNG, JPEG, WebP, GIF and AVIF are accepted
+    const type = await getImageType(bytes);
+    if (!type) throw new Error('not a PNG, JPEG, WebP, GIF or AVIF image');
+
+    // Same folders as dashboard uploads (events/, games/, blogs/, store/). The name
+    // comes from the record plus a hash of the source, so re-running the import
+    // overwrites the same file instead of adding a copy.
+    const hash = createHash('sha1').update(source).digest('hex').slice(0, 8);
+    const storagePath = `${folder}/${formatTitleToSlugClean(name) || 'image'}-${hash}.${type.split('/')[1]}`;
+
+    await uploadImage(storagePath, new File([bytes], storagePath, { type }), { client: this.client, upsert: true });
     this.summary.uploaded++;
     return storagePath;
   }
 }
 
-/** Reads a /public file, keeping the same path in the bucket ("images/games/foo.png"). */
-async function readPublicFile(source: string): Promise<{ file: File; storagePath: string }> {
+/** Reads a file from /public (a sheet value like "/images/games/foo.png"). */
+async function readPublicFile(source: string): Promise<Blob> {
   const relativePath = decodeURIComponent(source.split(/[?#]/)[0]).replace(/^\/+/, '');
   const filePath = path.join(PUBLIC_DIR, relativePath);
   if (!filePath.startsWith(PUBLIC_DIR + path.sep)) {
@@ -194,45 +186,18 @@ async function readPublicFile(source: string): Promise<{ file: File; storagePath
   const buffer = await fs.readFile(filePath).catch(() => {
     throw new Error(`not found in public/${relativePath}`);
   });
-  const type = EXTENSION_TYPES[extensionOf(relativePath)];
-  if (!type) throw new Error('not an image file');
-
-  return {
-    file: new File([new Uint8Array(buffer)], path.basename(relativePath), { type }),
-    storagePath: relativePath,
-  };
+  return new Blob([new Uint8Array(buffer)]);
 }
 
-/**
- * Downloads a remote image. The storage path is derived from the record name
- * plus a hash of the URL, so re-running the import overwrites the same file.
- */
-async function downloadImage(
-  source: string,
-  folder: string,
-  name: string
-): Promise<{ file: File; storagePath: string }> {
+/** Downloads a remote image. Its Content-Type header isn't trusted; the bytes are checked instead. */
+async function downloadImage(source: string): Promise<Blob> {
   const response = await fetch(toDirectDownloadUrl(source), {
     signal: AbortSignal.timeout(DOWNLOAD_TIMEOUT_MS),
   }).catch((error: Error) => {
     throw new Error(`download failed: ${error.message}`);
   });
   if (!response.ok) throw new Error(`download failed: HTTP ${response.status}`);
-
-  // Some hosts serve images as application/octet-stream; fall back to the URL's extension
-  const headerType = response.headers.get('content-type')?.split(';')[0].trim() ?? '';
-  const type = TYPE_EXTENSIONS[headerType]
-    ? headerType
-    : EXTENSION_TYPES[extensionOf(new URL(source).pathname)];
-  if (!type) throw new Error(`not an image (content-type "${headerType}")`);
-
-  const hash = createHash('sha1').update(source).digest('hex').slice(0, 8);
-  const fileName = `${formatTitleToSlugClean(name) || 'image'}-${hash}.${TYPE_EXTENSIONS[type]}`;
-
-  return {
-    file: new File([await response.arrayBuffer()], fileName, { type }),
-    storagePath: `${folder}/${fileName}`,
-  };
+  return response.blob();
 }
 
 /** Google Drive share links point at an HTML viewer page; use the direct download instead. */
@@ -241,10 +206,6 @@ function toDirectDownloadUrl(url: string): string {
     url.match(/drive\.google\.com\/file\/d\/([\w-]+)/)?.[1] ??
     url.match(/drive\.google\.com\/(?:open|uc)\?(?:.*&)?id=([\w-]+)/)?.[1];
   return driveId ? `https://drive.google.com/uc?export=download&id=${driveId}` : url;
-}
-
-function extensionOf(filePath: string): string {
-  return path.extname(filePath).slice(1).toLowerCase();
 }
 
 async function runWithConcurrency(tasks: (() => Promise<void>)[], limit: number) {

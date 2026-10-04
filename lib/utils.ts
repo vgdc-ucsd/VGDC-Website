@@ -15,3 +15,5 @@ export function getRandomElementFromArray<T>(arr: Array<T | null>) {
   const randIdx = Math.floor(Math.random() * arr.length);
   return arr[randIdx];
 }
+
+export const BYTES_IN_MEGABYTE = 1024 * 1024;

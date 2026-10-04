@@ -1,5 +1,5 @@
 import type { GameStatusType } from "./generated/zod/inputTypeSchemas/GameStatusSchema"
-import { getStoredImageUrl } from "./images"
+import { getStoredImageUrl } from "./images.server"
 import { prisma } from "./prisma"
 import { Result } from "./utils"
 

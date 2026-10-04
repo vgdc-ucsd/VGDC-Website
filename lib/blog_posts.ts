@@ -1,4 +1,4 @@
-import { getStoredImageUrl } from "./images"
+import { getStoredImageUrl } from "./images.server"
 import { prisma } from "./prisma"
 import { Result } from "./utils"
 
