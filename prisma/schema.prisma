@@ -5,8 +5,11 @@
 // Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
 
 generator client {
-  provider = "prisma-client"
-  output   = "../lib/generated/prisma"
+  provider   = "prisma-client"
+  output     = "../lib/generated/prisma"
+  // Queries go through the `pg` driver adapter (see lib/prisma.ts) instead of the native
+  // Rust engine, which Turbopack-built Vercel functions can't locate at runtime
+  engineType = "client"
 }
 
 generator zod {

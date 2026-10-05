@@ -19,6 +19,7 @@
     "@dicebear/core": "^9.4.3",
     "@hookform/resolvers": "^3.9.0",
     "@mailchimp/mailchimp_marketing": "^3.0.80",
+    "@prisma/adapter-pg": "^6.19.3",
     "@prisma/client": "^6.19.3",
     "@radix-ui/react-accordion": "^1.1.2",
     "@radix-ui/react-avatar": "^1.0.4",

@@ -1,6 +1,7 @@
 #!/usr/bin/env tsx
 
-import { PrismaClient } from '@/lib/generated/prisma/client';
+import type { PrismaClient } from '@/lib/generated/prisma/client';
+import { createPrismaClient } from '@/lib/prisma';
 import { fetchAllSheetData } from './lib/data-fetchers';
 import {
   transformGames,
@@ -96,7 +97,7 @@ async function main() {
   console.log(`Target database: ${databaseHost()}`);
 
   // Initialize Prisma
-  const prisma = new PrismaClient({
+  const prisma = createPrismaClient({
     log: ['error', 'warn'],
   });
 
