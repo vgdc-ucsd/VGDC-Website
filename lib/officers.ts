@@ -46,7 +46,7 @@ export async function getAllYears(yearToExclude: SchoolYear) : Promise<SchoolYea
         : { type: "year", value: yearObj.year }
     ));
   } catch (error) {
-    console.log(error);
+    console.error(error);
     return [];
   }
 }

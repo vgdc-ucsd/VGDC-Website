@@ -91,7 +91,7 @@ export async function getEvents({
       data: await Promise.all(events.map(toEventDetails))
     };
   } catch (error) {
-    console.log(error)
+    console.error(error)
     return { ok: false, error: "Internal server error"}
   }
 }

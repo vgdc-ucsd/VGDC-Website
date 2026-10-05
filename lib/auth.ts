@@ -31,7 +31,6 @@ export const authOptions: NextAuthOptions = {
           })
           const guild_member_info = await response.json()
           const roles = guild_member_info.roles as string[]
-          console.log(`This member has the member info: ${JSON.stringify(guild_member_info)} and roles: ${roles}`)
           if (roles.includes(process.env.DISCORD_OFFICER_ROLE_ID!)) {
             return true
           }

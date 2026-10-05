@@ -64,7 +64,7 @@ export async function getShowcaseGames(): Promise<Result<ShowcaseGamesDetails[]>
       data: await Promise.all(gamesDetailsPromises)
     };
   } catch (error) {
-    console.log(error);
+    console.error(error);
     return { ok: false, error: "Internal server error" }
   }
 }
