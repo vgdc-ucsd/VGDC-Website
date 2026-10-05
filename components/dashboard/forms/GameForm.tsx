@@ -10,9 +10,11 @@ import { Switch } from "@/components/ui/switch"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { gameFormSchema, type GameFormValues, type GameTagInput } from "@/lib/schemas/game"
 import { cx, TagInput, SubmitButton } from "./shared"
+import { ImageUploadInput } from "./ImageUploadInput"
 
 export default function GameForm() {
   const [tags, setTags] = useState<GameTagInput[]>([])
+  const [uploadPending, setUploadPending] = useState(false);
 
   const form = useForm<GameFormValues>({
     resolver: zodResolver(gameFormSchema),
@@ -134,13 +136,30 @@ export default function GameForm() {
             <FormItem>
               <FormLabel className={cx.label}>Thumbnail</FormLabel>
               <FormControl>
-                <Input type="file" accept="image/*" onChange={(e) => field.onChange(e.target.files)} className={cx.file} />
+                <ImageUploadInput 
+                  folder="games" 
+                  multiple={false}
+                  paths={field.value ? [field.value] : []}
+                  onUploaded={([path]) => field.onChange(path)}
+                  onError={(message) => form.setError("thumbnail", { message })}
+                  onBusyChange={(busy) => {
+                    if (busy) form.clearErrors("thumbnail")
+                    setUploadPending(busy)
+                  }}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
           )} />
 
-          <SubmitButton label="Submit Game" />
+          {/* Errors from createGame that don't belong to a specific field */}
+          {form.formState.errors.root && (
+            <p role="alert" className="text-sm font-medium text-destructive">
+              {form.formState.errors.root.message}
+            </p>
+          )}
+
+          <SubmitButton label="Submit Game" disabled={uploadPending || form.formState.isSubmitting} />
         </form>
       </Form>
     </div>

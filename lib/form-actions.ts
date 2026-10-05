@@ -3,16 +3,18 @@
 import { auth } from "@/lib/auth";
 import { EventFormValues, EventInput, eventInputSchema } from "@/lib/schemas/event";
 import moment from "moment-timezone";
-import { Timezone } from "@/lib/utils";
+import { parseDateOnly, Timezone } from "@/lib/dateUtils";
 import { revalidatePath } from "next/cache";
 import { ImageFolder } from "@/lib/images.shared";
 import z from "zod";
 import { prisma } from "@/lib/prisma";
 import { Prisma } from "@/lib/generated/prisma/client";
+import { GameFormValues, GameInput, gameInputSchema } from "@/lib/schemas/game";
+import { GameCreateInput } from "@/lib/generated/prisma/models";
 
-export type FormActionResult = 
+export type FormActionResult<TValues> = 
   | { ok: true; }
-  | { ok: false, error: string; field?: keyof EventFormValues };
+  | { ok: false, error: string; field?: keyof TValues };
 
 const TIME_FORMAT = "YYYY-MM-DD HH:mm";
 
@@ -24,7 +26,7 @@ const validateImagePath = (folder: ImageFolder) =>
     "Invalid image path",
   );
 
-export async function createEvent(input: EventInput): Promise<FormActionResult> {
+export async function createEvent(input: EventInput): Promise<FormActionResult<EventFormValues>> {
   const session = await auth();
   if (!session) return { ok: false, error: "You must be signed in as an officer to create an event" };
 
@@ -77,5 +79,53 @@ export async function createEvent(input: EventInput): Promise<FormActionResult> 
 
   revalidatePath("/events");
   revalidatePath("/");
+  return { ok: true };
+}
+
+export async function createGame(input: GameInput): Promise<FormActionResult<GameFormValues>> {
+  const session = await auth();
+  if (!session) return { ok: false, error: "You must be signed in as an officer to create a game" };
+
+  const parsed = gameInputSchema.extend({
+    thumbnail: validateImagePath("games").optional().or(z.literal(""))
+  }).safeParse(input);
+  if (!parsed.success) {
+    const issue = parsed.error.issues[0];
+    return { ok: false, error: issue.message, field: issue.path[0] as keyof GameFormValues };
+  }
+  const values = parsed.data;
+
+  const releaseDate = parseDateOnly(values.releaseDate);
+  if (!releaseDate) {
+    return { ok: false, error: "Invalid release date", field: "releaseDate" };
+  }
+
+  try {
+    await prisma.game.create({
+      data: {
+        title: values.title,
+        credits: values.credits,
+        description: values.description,
+        releaseDate: releaseDate,
+        difficulty: values.difficulty,
+        link: values.link || null,
+        thumbnail: values.thumbnail,
+        isWebPlayable: values.isWebPlayable,
+        status: values.status,
+        hasSeal: values.hasSeal,
+        gameTags: {
+          connectOrCreate: values.tags.map((tag) => ({
+            where: { text: tag.text },
+            create: tag,
+          }))
+        }
+      } satisfies GameCreateInput
+    });
+  } catch (error) {
+    console.error("createGame failed", error);
+    return { ok: false, error: "Couldn't create the game. Please try again." };
+  }
+
+  revalidatePath("/games");
   return { ok: true };
 }

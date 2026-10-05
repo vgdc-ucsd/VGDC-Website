@@ -1,3 +1,4 @@
+import { formatDateOnly } from "./dateUtils"
 import type { GameStatusType } from "./generated/zod/inputTypeSchemas/GameStatusSchema"
 import { getStoredImageUrl } from "./images.server"
 import { prisma } from "./prisma"
@@ -42,7 +43,7 @@ export async function getShowcaseGames(): Promise<Result<ShowcaseGamesDetails[]>
 
       return {
         title: game.title,
-        releaseDate: game.releaseDate.toLocaleDateString(),
+        releaseDate: formatDateOnly(game.releaseDate),
         difficulty: game.difficulty,
         description: game.description,
         credits: game.credits.toString(),

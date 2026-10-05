@@ -6,13 +6,22 @@ import { ImageFolder, MAX_IMAGE_BYTES } from "@/lib/images.shared"
 import { getPublicImageUrl, postImage } from "@/lib/images.client"
 import { BYTES_IN_MEGABYTE } from "@/lib/utils"
 
+/**
+* Form input interface for uploading images to storage. When images are successfully uploaded, this component
+* will display them.
+*/
 export function ImageUploadInput({ folder, multiple, paths, onUploaded, onError, onBusyChange }: {
+  /** The folder in storage in which the uploaded image should be stored. */
   folder: ImageFolder,
+  /** If true, allows multiple images to be uploaded. Otherwise, only a single image can be uploaded. */
   multiple?: boolean,
   /** The paths currently in the form field; shown as thumbnails. */
   paths: string[],
+  /** Callback for when the image is successfully uploaded. Returns an array of paths to the images in storage. */
   onUploaded: (paths: string[]) => void,
+  /** Callback for when uploading throws an error. */
   onError: (message: string) => void,
+  /** Callback for when this component starts or stops uploading. */
   onBusyChange?: (busy: boolean) => void
 }) {
   const [isUploading, setIsUploading] = useState(false);

@@ -4,6 +4,8 @@ import { ImageFolder } from "./images.shared";
  * Public URL of an image in the "Images" bucket, for use in the browser.
  * Built by hand because the Supabase client in lib/supabase.ts reads
  * server-only env vars and can't run on the client.
+ * @param path The image's filepath. Ex: `events`.
+ * @returns {string} The image's url for use in an `<Image />`.
  */
 export function getPublicImageUrl(path: string): string {
   return `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/Images/${path}`;

@@ -1,5 +1,5 @@
 import moment from 'moment-timezone';
-import { Timezone } from '@/lib/utils';
+import { Timezone } from '@/lib/dateUtils';
 import { GameStatus } from '@/lib/generated/prisma/client';
 
 export interface TransformedGame {
