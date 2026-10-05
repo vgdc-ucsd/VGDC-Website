@@ -6,6 +6,7 @@ import type {
   TransformedStoreItem,
   GameTagData,
 } from './data-transformers';
+import type { TransformedOfficers } from './officer-data';
 
 export interface MigrationData {
   games: TransformedGame[];
@@ -13,6 +14,7 @@ export interface MigrationData {
   blogPosts: TransformedBlogPost[];
   storeItems: TransformedStoreItem[];
   gameTags: GameTagData[];
+  officers: TransformedOfficers;
 }
 
 /**
@@ -31,6 +33,10 @@ class MigrationSteps {
     await this.tx.game.deleteMany(); // Must come before GameTags due to relation
     await this.tx.gameTags.deleteMany();
     await this.tx.eventTags.deleteMany();
+    // Users are kept (upserted in createOfficers) so changes made to them outside
+    // the import, like a real discordHandle or role, aren't lost
+    await this.tx.officerBio.deleteMany();
+    await this.tx.officerYear.deleteMany();
 
     console.log('✅ Database cleared');
   }
@@ -160,6 +166,65 @@ class MigrationSteps {
 
     console.log(`✅ Created ${items.length} store items`);
   }
+
+  async createOfficers({ currentYear, years, users }: TransformedOfficers): Promise<void> {
+    const bioCount = years.reduce((count, year) => count + year.bios.length, 0);
+    console.log(`🧑‍💼 Creating ${users.length} officer users, ${years.length} officer years, ${bioCount} bios...`);
+
+    // Matched by placeholder discordHandle, so re-running updates the same users. Role
+    // isn't updated: it may have been changed on purpose since the last import.
+    const userIds = new Map<string, number>();
+    for (const user of users) {
+      const { id } = await withContext(`user "${user.name}"`, () =>
+        this.tx.user.upsert({
+          where: { discordHandle: user.discordHandle },
+          update: { name: user.name, profilePicture: user.profilePicture },
+          create: {
+            name: user.name,
+            discordHandle: user.discordHandle,
+            role: user.role,
+            profilePicture: user.profilePicture,
+          } satisfies Prisma.UserCreateInput,
+          select: { id: true },
+        })
+      );
+      userIds.set(user.discordHandle, id);
+    }
+
+    for (const year of years) {
+      // createMany inserts in order, so ids follow officers.json's display order
+      await withContext(`officer year ${year.year}`, () =>
+        this.tx.officerYear.create({
+          data: {
+            year: year.year,
+            excerpt: year.excerpt,
+            startTimestamp: year.startTimestamp,
+            officerBios: {
+              createMany: {
+                data: year.bios.map(
+                  (bio) =>
+                    ({
+                      userId: userIds.get(bio.userHandle)!,
+                      position: bio.position,
+                      description: bio.description,
+                      image: bio.image,
+                    }) satisfies Prisma.OfficerBioCreateManyYearInput
+                ),
+              },
+            },
+          } satisfies Prisma.OfficerYearCreateInput,
+        })
+      );
+    }
+
+    await this.tx.config.upsert({
+      where: { key: 'currentYear' },
+      update: { value: currentYear },
+      create: { key: 'currentYear', value: currentYear },
+    });
+
+    console.log(`✅ Created officers, current year set to ${currentYear}`);
+  }
 }
 
 /** Re-throws an error with the record that caused it, since the whole migration aborts. */
@@ -187,6 +252,7 @@ export class DatabaseMigrator {
           await steps.createEvents(data.events);
           await steps.createBlogPosts(data.blogPosts);
           await steps.createStoreItems(data.storeItems);
+          await steps.createOfficers(data.officers);
         },
         // The default 5s timeout is too short for a remote database
         { maxWait: 10_000, timeout: 120_000 }

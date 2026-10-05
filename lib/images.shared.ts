@@ -3,7 +3,7 @@ import { BYTES_IN_MEGABYTE } from "./utils";
 export const MAX_IMAGE_BYTES = 4 * BYTES_IN_MEGABYTE;
 
 // This is a cool trick I got from https://x.com/mattpocockuk/status/1830546778472546573
-export const IMAGE_FOLDERS = ["events", "games", "blogs", "store"] as const;
+export const IMAGE_FOLDERS = ["events", "games", "blogs", "store", "officers"] as const;
 export type ImageFolder = (typeof IMAGE_FOLDERS)[number];
 
 function hasBytes(bytes: Uint8Array, offset: number, expected: number[]) {

@@ -12,6 +12,7 @@ import {
   type TransformedGame,
   type TransformedStoreItem,
 } from './data-transformers';
+import type { TransformedOfficers } from './officer-data';
 
 const PUBLIC_DIR = path.join(process.cwd(), 'public');
 const CONCURRENCY = 6;
@@ -57,6 +58,7 @@ export class ImageUploader {
     events: TransformedEvent[];
     blogPosts: TransformedBlogPost[];
     storeItems: TransformedStoreItem[];
+    officers: TransformedOfficers;
   }): Promise<ImageUploadSummary> {
     console.log('🖼️  Uploading images to Supabase storage...');
 
@@ -91,6 +93,24 @@ export class ImageUploader {
       tasks.push(async () => {
         item.gallery = await this.resolveList(item.gallery, 'store', item.name, record);
       });
+    }
+
+    // A user's profile picture is one of their bio images, so the cache uploads it once
+    const officerNames = new Map(data.officers.users.map((user) => [user.discordHandle, user.name]));
+    for (const user of data.officers.users) {
+      const record = `officer "${user.name}"`;
+      tasks.push(async () => {
+        user.profilePicture = await this.resolve(user.profilePicture, 'officers', user.name, record);
+      });
+    }
+    for (const { year, bios } of data.officers.years) {
+      for (const bio of bios) {
+        const name = officerNames.get(bio.userHandle)!;
+        const record = `${year} officer "${name}"`;
+        tasks.push(async () => {
+          bio.image = await this.resolve(bio.image, 'officers', name, record);
+        });
+      }
     }
 
     await runWithConcurrency(tasks, CONCURRENCY);

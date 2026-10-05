@@ -88,6 +88,8 @@ export async function getOfficerYear(yearInput: SchoolYear): Promise<Result<Offi
       },
       include: {
         officerBios: {
+          // Bios are created in display order
+          orderBy: { id: "asc" },
           include: {
             user: true
           }

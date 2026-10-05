@@ -11,6 +11,7 @@ import {
 } from './lib/data-transformers';
 import { DatabaseMigrator } from './lib/database-operations';
 import { ImageUploader } from './lib/image-uploader';
+import { PLACEHOLDER_HANDLE_PREFIX, readOfficerData, transformOfficers } from './lib/officer-data';
 import * as readline from 'readline';
 
 async function confirmAction(message: string): Promise<boolean> {
@@ -56,6 +57,12 @@ async function validateMigration(prisma: PrismaClient): Promise<void> {
     blogPosts: await prisma.blogPost.count(),
     storeItems: await prisma.storeItem.count(),
     gameTags: await prisma.gameTags.count(),
+    officerYears: await prisma.officerYear.count(),
+    officerBios: await prisma.officerBio.count(),
+    users: await prisma.user.count(),
+    placeholderUsers: await prisma.user.count({
+      where: { discordHandle: { startsWith: PLACEHOLDER_HANDLE_PREFIX } },
+    }),
   };
 
   console.log('Record counts:');
@@ -64,6 +71,9 @@ async function validateMigration(prisma: PrismaClient): Promise<void> {
   console.log(`  - Blog Posts: ${counts.blogPosts}`);
   console.log(`  - Store Items: ${counts.storeItems}`);
   console.log(`  - Game Tags: ${counts.gameTags}`);
+  console.log(`  - Officer Years: ${counts.officerYears}`);
+  console.log(`  - Officer Bios: ${counts.officerBios}`);
+  console.log(`  - Users: ${counts.users} (${counts.placeholderUsers} with a placeholder discordHandle)`);
 
   // Sample a few records to verify data integrity
   const sampleGame = await prisma.game.findFirst({
@@ -94,12 +104,16 @@ async function main() {
     // Fetch data from Google Sheets
     console.log('\n' + '='.repeat(50));
     const rawData = await fetchAllSheetData();
+    const rawOfficers = await readOfficerData();
 
     // Every table is cleared before inserting, so a sheet that failed to load
     // would wipe that table. Abort instead.
     const missingSheets = Object.entries(rawData)
       .filter(([, rows]) => !rows || rows.length === 0)
       .map(([sheet]) => sheet);
+    if (!Object.values(rawOfficers).some((year) => year.officers?.length > 0)) {
+      missingSheets.push('officers.json');
+    }
     if (missingSheets.length > 0) {
       throw new Error(
         `No data fetched for: ${missingSheets.join(', ')}. Aborting before any changes.`
@@ -114,11 +128,15 @@ async function main() {
     const blogPosts = transformBlogPosts(rawData.blog);
     const storeItems = transformStoreItems(rawData.store);
     const gameTags = extractUniqueGameTags(games);
+    const officers = transformOfficers(rawOfficers);
 
     console.log(
       `  - Transformed ${games.length} games, ${events.length} events, ${blogPosts.length} posts, ${storeItems.length} items`
     );
     console.log(`  - Extracted ${gameTags.length} unique game tags`);
+    console.log(
+      `  - Transformed ${officers.years.length} officer years (${officers.years.map((y) => y.year).join(', ')}) with ${officers.users.length} unique officers`
+    );
 
     // Slugs are unique in the database; catch collisions before changing anything
     const duplicateSlugs = [
@@ -134,7 +152,7 @@ async function main() {
     const confirmed =
       process.argv.includes('--yes') ||
       (await confirmAction(
-        `\n⚠️  This will DELETE all games, events, blog posts and store items on ${databaseHost()} and replace them. Continue?`
+        `\n⚠️  This will DELETE all games, events, blog posts, store items, officer years and officer bios on ${databaseHost()} and replace them (officer users are updated, not deleted). Continue?`
       ));
     if (!confirmed) {
       console.log('Migration cancelled by user');
@@ -144,7 +162,7 @@ async function main() {
     // Upload images first: replaces sheet URLs/public paths with storage paths.
     // Kept outside the database transaction, which would time out on downloads.
     console.log('\n' + '='.repeat(50));
-    await new ImageUploader().uploadAll({ games, events, blogPosts, storeItems });
+    await new ImageUploader().uploadAll({ games, events, blogPosts, storeItems, officers });
 
     // Run migration
     console.log('\n' + '='.repeat(50));
@@ -155,6 +173,7 @@ async function main() {
       blogPosts,
       storeItems,
       gameTags,
+      officers,
     });
 
     // Validate results
