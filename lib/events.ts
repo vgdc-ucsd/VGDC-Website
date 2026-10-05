@@ -1,14 +1,18 @@
-import { getSheetData } from "./google-sheets.action"
-import moment from "moment"
+import moment from "moment-timezone"
+import { prisma } from "@/lib/prisma"
+import type { Event } from "@/lib/generated/prisma/client"
+import { EventWhereInput } from "@/lib/generated/prisma/models"
+import { getStoredImageUrl } from "@/lib/images.server"
+import { Timezone } from "@/lib/dateUtils"
+import { Result } from "@/lib/utils"
 
-/** The details of an event from the spreadsheet. */
+/** The details of an event, formatted for display. */
 export type EventDetails = {
   title: string
   description: string
   location: string
   date: string
   time: string
-  timestamp: string
   image: string
   slug: string
 }
@@ -17,74 +21,77 @@ export interface GetEventsFlags {
   homepage?: boolean;
   includeOldEvents?: boolean;
   includeNewEvents?: boolean;
-  reverseOrder?: boolean;
+  latestFirst?: boolean;
 }
 
 /**
- * Gets the events from a spreadsheet, filters them, and sorts them.
+ * Formats an event for display. Timestamps are stored as exact instants, so
+ * they're converted to Pacific time here rather than relying on the server's
+ * time zone (UTC on Vercel).
+ */
+async function toEventDetails(event: Event): Promise<EventDetails> {
+  const start = moment(event.startTimestamp).tz(Timezone);
+  const end = moment(event.endTimestamp).tz(Timezone);
+
+  return {
+    title: event.name,
+    description: event.description,
+    location: event.location,
+    date: start.format("MMMM Do"),
+    time: `${start.format("LT")} - ${end.format("LT")}`,
+    image: event.image ? await getStoredImageUrl(event.image) : "",
+    slug: event.slug,
+  };
+}
+
+/**
+ * Gets a single event from the database
+ */
+export async function getSingleEvent(slug: string): Promise<Result<EventDetails>> {
+  const event = await prisma.event.findUnique({
+    where: { slug: slug }
+  })
+
+  if (!event) return { ok: false, error: `Failed to get event ${slug}` }
+
+  return { ok: true, data: await toEventDetails(event) };
+}
+
+/**
+ * Gets the events from the database, filters them, and sorts them.
  * @param homepage Only include events for the homepage? False by default.
- * @param includeOldEvents Include events that have already passed? False by default.
- * @param includeNewEvents Include events that haven't happened yet? True by default.
- * @param reverseOrder Reverse order of events? False by default, helpful for showing past events.
+ * @param includeOldEvents Include events that have already ended? False by default.
+ * @param includeNewEvents Include events that haven't ended yet (upcoming or happening now)? True by default.
+ * @param latestFirst Order events with the latest first? False by default, helpful for showing past events.
  * @returns The list of events, sorted and filtered.
  */
 export async function getEvents({
   homepage = false,
   includeOldEvents = false,
   includeNewEvents = true,
-  reverseOrder = false
-}: GetEventsFlags) {
-  // Gets the raw data from getSheetData.
-  const response = await getSheetData("Events")
-  // Gets the current moment to filter out events before this time. Subtracts 1 day so events show a day after ending.
-  const yesterday = moment().subtract(1, "day").format("YYYY-MM-DD HH:mm:ss")
-  // Gets the current moment to filter out events after this time.
-  const today = moment().format("YYYY-MM-DD HH:mm:ss")
+  latestFirst = false
+}: GetEventsFlags): Promise<Result<EventDetails[]>> {
+  // An event is "old" once it has ended, and "new" until then (including while it's
+  // happening). Both checks use endTimestamp, so every event is in exactly one group.
+  const now = new Date();
 
-  // The list that events will be added to.
-  let eventList = []
+  // Exclude time ranges based on parameters
+  const timeExcludes: EventWhereInput[] = [];
+  if (!includeOldEvents) timeExcludes.push({ endTimestamp: { lt: now } });
+  if (!includeNewEvents) timeExcludes.push({ endTimestamp: { gte: now } });
 
-  // As long as event data is present...
-  if (response.data != undefined && response.data != null) {
-    // Iterate through every event.
-    for (let i in response.data) {
-      // Get the details for the event.
-      let event: EventDetails = {
-        title: response.data[i][0],
-        description: response.data[i][1],
-        location: response.data[i][2],
-        // Formats the date as "Fri, July 5th".
-        date: moment(response.data[i][3], "M/D/YYYY").format("MMMM Do"),
-        time:
-          response.data[i][4] != response.data[i][5]
-            ? response.data[i][4] + " - " + response.data[i][5]
-            : response.data[i][4],
-        // Uses momentjs to get a standard timestamp for sorting.
-        timestamp: moment(
-          response.data[i][3] + " " + response.data[i][4],
-          "M/D/YYYY h:mm A"
-        ).format("YYYY-MM-DD HH:mm:ss"),
-        image: response.data[i][6],
-        slug: response.data[i][9],
-      }
+  try {
+    const events = await prisma.event.findMany({
+      where: timeExcludes.length > 0 ? { NOT: { OR: timeExcludes } } : undefined,
+      orderBy: { startTimestamp: latestFirst ? "desc" : "asc" },
+    });
 
-      // If on the homepage, filter out non-homepage events.
-      if (response.data[i][7] == "FALSE" && homepage) continue
-      // Filter out old or new events based on parameters.
-      if (event.timestamp < yesterday && !includeOldEvents) continue
-      if (event.timestamp > today && !includeNewEvents) continue
-      // If neither filter activated, add the event to the list.
-      eventList.push(event)
-    }
-
-    // Sort the events by timestamp, earliest event first.
-    eventList.sort((a, b) => {
-      if (a.timestamp > b.timestamp) return reverseOrder ? -1 : 1
-      else if (a.timestamp < b.timestamp) return reverseOrder ? 1 : -1
-      return 0
-    })
+    return {
+      ok: true,
+      data: await Promise.all(events.map(toEventDetails))
+    };
+  } catch (error) {
+    console.error(error)
+    return { ok: false, error: "Internal server error"}
   }
-
-  // Return the completed list.
-  return eventList
 }

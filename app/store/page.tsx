@@ -4,12 +4,15 @@ import PageSection from "@/components/global/PageSection"
 import { getStoreItems } from "@/lib/store_items"
 import StoreVendor from "./components/StoreVendor"
 import Link from "next/link"
+import { notFound } from "next/navigation"
 
 export const revalidate = 60
 const storeFormLink = "https://forms.gle/hbeMy1HY5LHC886L6";
 
 export default async function Store() {
-    const storeData = await getStoreItems()
+    const result = await getStoreItems()
+    if (!result.ok) notFound();
+    const storeData = result.data;
 
     return (
         <main className="min-h-screen bg-background-black">

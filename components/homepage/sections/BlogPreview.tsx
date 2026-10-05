@@ -1,6 +1,6 @@
 import HomeBlogCard from "@/components/news/HomeBlogCard"
 
-import { Post, getSortedPostsData } from "@/lib/post_sheets"
+import { BlogPostData, getBlogPostsData } from "@/lib/blog_posts"
 
 import Link from "next/link"
 
@@ -11,7 +11,8 @@ import { notionistsNeutral } from "@dicebear/collection"
 import { SectionHeader, SectionComponent } from "../../global/SectionComponents"
 
 export default async function BlogPreview() {
-  const posts = await getSortedPostsData(2)
+  const result = await getBlogPostsData(2)
+  const posts = result.ok ? result.data : []
   return (
     <SectionComponent>
       <span className="flex flex-col justify-between md:flex-row">
@@ -25,15 +26,15 @@ export default async function BlogPreview() {
       </span>
 
       <div>
-        {posts.map((post: Post) => (
+        {posts.map((post: BlogPostData) => (
           <HomeBlogCard
-            key={post.id}
+            key={post.slug}
             post={post}
             avatar={createAvatar(notionistsNeutral, {
-              seed: post.author,
+              seed: post.authors,
               radius: 50,
               size: 24,
-            }).toDataUriSync()}
+            }).toDataUri()}
           />
         ))}
       </div>

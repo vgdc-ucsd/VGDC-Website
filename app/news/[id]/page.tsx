@@ -1,5 +1,5 @@
 import React, { useContext } from "react"
-import { generateNeighbors, getPostData } from "@/lib/post_sheets"
+import { getBlogPostData, getBlogPostNeighbors } from "@/lib/blog_posts"
 import { parseISO, format } from "date-fns"
 import Image from "next/image"
 import Navbar from "@/components/global/Navbar"
@@ -68,42 +68,44 @@ import BlogView from "./components/BlogView"
 
 export const revalidate = 60;
 
-export async function generateMetadata({ params }: any) {
-    const post = await getPostData(params.id)
+export async function generateMetadata({
+    params,
+}: {
+    params: Promise<{ id: string }>
+}): Promise<Metadata> {
+    const { id } = await params
+    const result = await getBlogPostData(id)
 
-    if (post != null) {
-        return {
-            title: post.title,
-            description: post.excerpt,
-            openGraph: {
-                siteName: "Video Game Development Club",
-                title: post.title,
-                description: post.excerpt,
-                url: `https://vgdc.dev/news/${params.id}`,
-                type: "article",
-                images: [
-                    {
-                        url: post.coverImage,
-                        width: 1280,
-                        height: 640,
-                    },
-                ],
-            },
-            twitter: {
-                card: "summary_large_image",
-                site: "@UCSDVGDC",
-                title: post.title,
-                description: post.excerpt,
-                creator: "@vgdc",
-                images: [
-                    `https://vgdc.dev/_next/image?url=/images/blogs/${post.id}${post.coverImage}&w=828&q=75`,
-                ],
-            },
-        }
-    } else {
+    if (!result.ok) {
         return {
             title: "VGDC @ UCSD",
         }
+    }
+
+    const post = result.data
+    const images = post.coverImage ? [post.coverImage] : undefined
+
+    return {
+        title: post.title,
+        description: post.subtitle,
+        openGraph: {
+            siteName: "Video Game Development Club",
+            title: post.title,
+            description: post.subtitle,
+            url: `https://vgdc.dev/news/${id}`,
+            type: "article",
+            images: post.coverImage
+                ? [{ url: post.coverImage, width: 1280, height: 640 }]
+                : undefined,
+        },
+        twitter: {
+            card: "summary_large_image",
+            site: "@UCSDVGDC",
+            title: post.title,
+            description: post.subtitle,
+            creator: "@vgdc",
+            images,
+        },
     }
 }
 
@@ -113,22 +115,27 @@ export default async function BlogPage({
     params: Promise<{ id: string }>
 }) {
     const slug = (await params).id
-    const post = await getPostData(slug)
-    const { previousPost, nextPost } = await generateNeighbors(slug)
+    const result = await getBlogPostData(slug)
 
-    if (post == null) {
+    if (!result.ok) {
         notFound()
     }
+
+    const post = result.data
+    const neighbors = await getBlogPostNeighbors(slug)
+    const { previousPost, nextPost } = neighbors.ok
+        ? neighbors.data
+        : { previousPost: null, nextPost: null }
 
     // grab full url path
     const headerList = await headers()
     const fullpath = headerList.get("x-current-path")
 
     const avatar = createAvatar(notionistsNeutral, {
-        seed: post!.author,
+        seed: post.authors,
         radius: 50,
         size: 24,
-    }).toDataUriSync()
+    }).toDataUri()
 
     // const transformUri = (uri: string) => {
     //     if (uri.startsWith('/images/')) {

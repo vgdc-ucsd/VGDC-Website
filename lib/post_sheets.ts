@@ -85,7 +85,6 @@ export async function generateNeighbors(id: string) {
     // Find the index of the current post
     const currentIndex = sortedPosts.findIndex((post) => post.id === id)
 
-    console.log(sortedPosts.length)
     // Define previous and next posts
     let previousPost = null
     let nextPost = null

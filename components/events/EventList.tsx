@@ -1,8 +1,7 @@
 "use server"
 
+import EventCard from "./EventCard"
 import { EventDetails } from "@/lib/events"
-
-import Event from "./EventCard"
 
 /** Returns a vertical list of events. */
 export default async function EventList({
@@ -16,7 +15,7 @@ export default async function EventList({
       {events.length > 0 ? (
         events.map((event) => {
           return (
-            <Event
+            <EventCard
               title={event.title}
               description={event.description}
               date={event.date}

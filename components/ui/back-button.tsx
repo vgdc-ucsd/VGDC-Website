@@ -12,10 +12,8 @@ export default function BackButton() {
             const isDirectNavigation = !document.referrer || !document.referrer.startsWith(appOrigin);
             
             if (window.history.length > 1 && !isDirectNavigation) {
-                console.log("here");
                 router.back();
             } else {
-                console.log("o rhere");
                 router.push("/");
             }
         }}>Back</Button>

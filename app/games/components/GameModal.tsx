@@ -5,18 +5,18 @@ import { ShowcaseGamesDetails } from "@/lib/showcase_games"
 import Image from "next/image"
 import { X, ExternalLink, Calendar, Users, Code } from "lucide-react"
 import ApprovalSeal from "./ApprovalSeal"
+import { GameStatus } from "@/lib/generated/prisma/enums"
+import { GameStatusColor } from "./ShowcaseSearch"
 
 type GameModalProps = {
   game: ShowcaseGamesDetails
   onClose: () => void
-  getStatusText: (status: boolean) => string
   getThemeColor: (theme: string) => string
 }
 
 const GameModal: React.FC<GameModalProps> = ({
   game,
   onClose,
-  getStatusText,
   getThemeColor,
 }) => {
   const modalRef = useRef<HTMLDivElement>(null)
@@ -129,9 +129,9 @@ const GameModal: React.FC<GameModalProps> = ({
                               {game.theme || "General"}
                             </span> */}
                               <span
-                                className={`rounded-full ${getStatusText(game.status) === "Released" ? "bg-green-500" : "bg-yellow-500"} px-3 py-1 text-xs font-medium text-white`}
+                                className={`rounded-full ${GameStatusColor[game.status]} px-3 py-1 text-xs font-medium text-white`}
                               >
-                                {getStatusText(game.status)}
+                                {game.status}
                               </span>
                               {game.web && (
                                 <span className="rounded-full bg-blue-600 px-3 py-1 text-xs font-medium text-white">
@@ -184,11 +184,10 @@ const GameModal: React.FC<GameModalProps> = ({
                     {[...Array(5)].map((_, i) => (
                       <span
                         key={i}
-                        className={`mr-1 text-lg ${
-                          i < game.difficulty
+                        className={`mr-1 text-lg ${i < game.difficulty
                             ? "text-yellow-400"
                             : "text-gray-600"
-                        }`}
+                          }`}
                       >
                         ★
                       </span>

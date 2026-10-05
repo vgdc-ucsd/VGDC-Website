@@ -35,7 +35,7 @@ export default function BlogView({
         <div className="mt-1 flex h-fit flex-row align-middle">
           <img src={avatar} className="mr-2 w-12" alt="author cover image" />
           <div className="ml-1 flex flex-col justify-center">
-            <p className="text-sm sm:text-base">{post.author}</p>
+            <p className="text-sm sm:text-base">{post.authors}</p>
             {/* <p className="text-xs sm:text-sm">{calculateReadingTime(post.content)} Min Read</p>  */}
             {moment(post.date).format("MMMM DD, YYYY")}
           </div>
@@ -65,14 +65,16 @@ export default function BlogView({
         }}
         className="aspect-[16/9] w-full object-cover"
       >
-        <Image
-          src={post.coverImage}
-          width={800}
-          height={600}
-          alt="Cover Image"
-          layout="responsive"
-          className="h-full w-full rounded-2xl"
-        />
+        {post.coverImage && (
+          <Image
+            src={post.coverImage}
+            width={800}
+            height={600}
+            alt="Cover Image"
+            layout="responsive"
+            className="h-full w-full rounded-2xl"
+          />
+        )}
         {post.coverCredit && (
           <em className="mt-2 block w-full text-text-grey text-center">
             {post.coverCredit}
@@ -239,7 +241,7 @@ export default function BlogView({
         <div className="mt-8 flex w-full justify-between">
           <div className="mr-8 flex items-center">
             {previousPost && (
-              <Link href={`/news/${previousPost.id}`}>
+              <Link href={`/news/${previousPost.slug}`}>
                 <p className="mr-2 text-sm text-white">Previous</p>
                 <p className="text-white">{previousPost.title}</p>
               </Link>
@@ -248,7 +250,7 @@ export default function BlogView({
 
           <div className="ml-auto flex items-center">
             {nextPost && (
-              <Link href={`/news/${nextPost.id}`}>
+              <Link href={`/news/${nextPost.slug}`}>
                 <p className="mr-2 text-sm text-white">Next</p>
                 <p className="text-white">{nextPost.title}</p>
               </Link>
