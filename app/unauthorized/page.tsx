@@ -1,12 +1,18 @@
 import Footer from "@/components/global/Footer";
 import Navbar from "@/components/global/Navbar";
 import SignInButton from "@/components/global/SignInButton";
+import { Button } from "../../components/ui/button";
+import Link from "next/link";
+import { authOptions } from "@/lib/auth"
+import { getServerSession } from "next-auth/next";
 
 export default async function UnauthorizedPage({ searchParams }: {
   searchParams:
   Promise<{ [key: string]: string | string[] | undefined }>
 }) {
   const query = await searchParams;
+  const session = await getServerSession(authOptions)
+
   return (
     <main className="min-h-screen bg-background-black">
       <Navbar />
@@ -16,7 +22,12 @@ export default async function UnauthorizedPage({ searchParams }: {
           <p className="mb-6 text-text-grey">
             You must be signed in with a Discord account that has officer permissions to access this page.
           </p>
-          <SignInButton redirect={query.redirect as string} />
+          {session ?
+            <Link href="/">
+              <Button> Home </Button>
+            </Link>
+            : <SignInButton redirect={query.redirect as string} />
+          }
         </div>
       </div>
       <Footer />

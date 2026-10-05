@@ -3,7 +3,7 @@
 import Image from "next/image"
 import Link from "next/link"
 import { IoMenu } from "react-icons/io5"
-import { usePathname } from "next/navigation"
+import { redirect, usePathname, useSearchParams } from "next/navigation"
 import { useSession } from "next-auth/react"
 
 import {
@@ -18,6 +18,8 @@ import { Button } from "@/components/ui/button"
 import { useState, useEffect } from "react"
 import SignOutButton from "./SignOutButton"
 import SignInButton from "./SignInButton"
+import { toast } from "@/components/ui/use-toast"
+import Confetti from 'react-confetti'
 
 /**
  * The navbar for the website, with the logo and navigation.
@@ -25,8 +27,74 @@ import SignInButton from "./SignInButton"
  * @returns JSX representation of the navbar.
  */
 export default function Navbar({ offsetSpace = true, hideOnScroll = true }) {
+  const pathName = usePathname()
+  const query = useSearchParams()
+
   const { data: session, status } = useSession()
   const isAuthenticated = status === "authenticated"
+  const isOfficer = (session?.user as any)?.role == "officer"
+
+  const [windowSize, setWindowSize] = useState({
+    width: 300,
+    height: 300,
+  });
+
+  useEffect(() => {
+    function handleResize() {
+      setWindowSize({
+        width: window.innerWidth,
+        height: window.innerHeight,
+      });
+    }
+    window.addEventListener("resize", handleResize);
+    handleResize();
+    return () => window.removeEventListener("resize", handleResize);
+  }, [])
+
+  const [showConfetti, setShowConfetti] = useState(false)
+
+  useEffect(() => {
+    if (query.get("error") == "Callback") {
+      redirect(`${query.get("callbackUrl")}?error=AccessDenied`)
+    } else if (query.get("error") == "AccessDenied") {
+      const updatedQuery = new URLSearchParams(query.toString())
+      updatedQuery.delete("error")
+      const queryString = updatedQuery.toString()
+
+      const { dismiss } = toast({
+        title: "Sign in failed",
+        description: "Make sure to use an account that is a VGDC Discord server member."
+      })
+      setTimeout(dismiss, 5000)
+
+      // Remove query parameter without reload
+      const newUrl = `${pathName}${queryString ? "?" + queryString : ""}`
+      window.history.replaceState(
+        { ...window.history.state, as: newUrl, url: newUrl },
+        "",
+        newUrl
+      );
+    } else if (query.get("signIn") == "Success") {
+      const updatedQuery = new URLSearchParams(query.toString())
+      updatedQuery.delete("signIn")
+      const queryString = updatedQuery.toString()
+      const { dismiss } = toast({ title: "Signed in successfully" })
+      setShowConfetti(true)
+
+      setTimeout(() => {
+        dismiss()
+        setShowConfetti(false)
+      }, 5000)
+
+      // Remove query parameter without reload
+      const newUrl = `${pathName}${queryString ? "?" + queryString : ""}`
+      window.history.replaceState(
+        { ...window.history.state, as: newUrl, url: newUrl },
+        "",
+        newUrl
+      );
+    }
+  }, [pathName, query])
 
   let menuButton: string = "hover:text-light-grey transition-colors text-lg"
 
@@ -69,6 +137,7 @@ export default function Navbar({ offsetSpace = true, hideOnScroll = true }) {
 
   return (
     <>
+      {showConfetti && <Confetti width={windowSize.width} height={windowSize.height * 0.5}/> }
       {/* Physically include navbar in page? */}
       {offsetSpace && <div className="relative h-16 bg-background-black" />}
       {/* Base navbar div, fixed with a blurred background */}
@@ -115,8 +184,8 @@ export default function Navbar({ offsetSpace = true, hideOnScroll = true }) {
                   {isAuthenticated
                     ? <SignOutButton className="mx-auto" redirect={
                       pathname == "/dashboard" ? "/" : pathname
-                    }/>
-                    : <SignInButton className="mx-auto" redirect={pathname}/>
+                    } />
+                    : <SignInButton className="mx-auto" redirect={pathname} />
                   }
                   <Button
                     variant="link"
@@ -153,7 +222,7 @@ export default function Navbar({ offsetSpace = true, hideOnScroll = true }) {
                   >
                     <Link href="/store">Store</Link>
                   </Button>
-                  {isAuthenticated &&
+                  {isOfficer &&
                     <Button
                       variant="link"
                       className={getStyle("/dashboard")}
@@ -187,7 +256,7 @@ export default function Navbar({ offsetSpace = true, hideOnScroll = true }) {
             <Link href="/store" className={getStyle("/store")}>
               Store
             </Link>
-            {isAuthenticated &&
+            {isOfficer &&
               <Link href="/dashboard" className={getStyle("/dashboard")}>
                 Dashboard
               </Link>
@@ -196,8 +265,8 @@ export default function Navbar({ offsetSpace = true, hideOnScroll = true }) {
           {isAuthenticated
             ? <SignOutButton className="invisible lg:visible relative float-right -top-5" redirect={
               pathname == "/dashboard" ? "/" : pathname
-            }/>
-            : <SignInButton className="invisible lg:visible relative float-right -top-5" redirect={pathname}/>
+            } />
+            : <SignInButton className="invisible lg:visible relative float-right -top-5" redirect={pathname} />
           }
         </div>
       </div>

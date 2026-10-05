@@ -8,10 +8,10 @@ export default function SignInButton(
   { redirect, className = "" }: { redirect: string, className?: string })
 {
   return <Button
-    onClick={() => signIn("discord", { callbackUrl: redirect })}
+    onClick={() => signIn("discord", { callbackUrl: `${redirect}?signIn=Success`})}
     className={"gap-3 " + className}
   >
     <FaDiscord size={24} className="inline-block" />
-    Officer sign in
+    Sign in
   </Button>
 }
