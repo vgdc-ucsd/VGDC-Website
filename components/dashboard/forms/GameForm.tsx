@@ -9,7 +9,7 @@ import { Textarea } from "@/components/ui/textarea"
 import { Switch } from "@/components/ui/switch"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { gameFormSchema, type GameFormValues, type GameTagInput } from "@/lib/schemas/game"
-import { cx, TagInput, SubmitButton } from "./shared"
+import { cx, TagInput, SubmitButton, FormRootErrors } from "./shared"
 import { ImageUploadInput } from "./ImageUploadInput"
 import { createGame } from "@/lib/form-actions"
 
@@ -160,12 +160,7 @@ export default function GameForm() {
             </FormItem>
           )} />
 
-          {/* Errors from createGame that don't belong to a specific field */}
-          {form.formState.errors.root && (
-            <p role="alert" className="text-sm font-medium text-destructive">
-              {form.formState.errors.root.message}
-            </p>
-          )}
+          <FormRootErrors formErrors={form.formState.errors} />
 
           <SubmitButton label="Submit Game" disabled={uploadPending || form.formState.isSubmitting} />
         </form>

@@ -6,6 +6,7 @@ import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { eventTagInputSchema, type EventTagInput } from "@/lib/schemas/event"
 import { gameTagInputSchema, type GameTagInput } from "@/lib/schemas/game"
+import { FieldErrors, FieldValues, Form } from "react-hook-form"
 
 // ── Shared Tailwind class strings ─────────────────────────────────────────────
 export const cx = {
@@ -180,6 +181,17 @@ export function TagInput<T extends TagType>({
         </div>
       )}
     </div>
+  )
+}
+
+/** Errors that don't belong to a specific field */
+export function FormRootErrors<TValues extends FieldValues>({ formErrors }: { formErrors: FieldErrors<TValues> }) {
+  return (
+    formErrors.root && (
+      <p role="alert" className="text-sm font-medium text-destructive">
+        {formErrors.root.message}
+      </p>
+    )
   )
 }
 

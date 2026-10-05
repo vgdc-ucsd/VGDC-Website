@@ -7,7 +7,7 @@ import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, For
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { eventFormSchema, type EventFormValues, type EventTagInput } from "@/lib/schemas/event"
-import { cx, toSlug, TagInput, SubmitButton } from "./shared"
+import { cx, toSlug, TagInput, SubmitButton, FormRootErrors } from "./shared"
 import { ImageUploadInput } from "./ImageUploadInput"
 import { createEvent } from "@/lib/form-actions"
 
@@ -158,12 +158,7 @@ export default function EventForm() {
             </FormItem>
           )} />
 
-          {/* Errors from createEvent that don't belong to a specific field */}
-          {form.formState.errors.root && (
-            <p role="alert" className="text-sm font-medium text-destructive">
-              {form.formState.errors.root.message}
-            </p>
-          )}
+          <FormRootErrors formErrors={form.formState.errors} />
 
           <SubmitButton label="Submit Event" disabled={pendingUploads > 0 || form.formState.isSubmitting} />
         </form>

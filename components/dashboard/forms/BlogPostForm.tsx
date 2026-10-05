@@ -8,10 +8,11 @@ import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { Button } from "@/components/ui/button"
 import { blogPostFormSchema, type BlogPostFormValues } from "@/lib/schemas/blog-post"
-import { cx, toSlug, SubmitButton } from "./shared"
+import { cx, toSlug, SubmitButton, FormRootErrors } from "./shared"
 
 export default function BlogPostForm() {
   const [authors, setAuthors] = useState<string[]>([""])
+  const [pendingUploads, setPendingUploads] = useState(0);
 
   const form = useForm<BlogPostFormValues>({
     resolver: zodResolver(blogPostFormSchema),
@@ -93,6 +94,17 @@ export default function BlogPostForm() {
             <FormItem>
               <FormLabel className={cx.label}>Cover Image</FormLabel>
               <FormControl>
+                <ImageUploadInput 
+                  folder="blog" 
+                  multiple={false}
+                  paths={field.value ? [field.value] : []}
+                  onUploaded={([path]) => field.onChange(path)}
+                  onError={(message) => form.setError("thumbnail", { message })}
+                  onBusyChange={(busy) => {
+                    if (busy) form.clearErrors("thumbnail")
+                    setUploadPending(busy)
+                  }}
+                />
                 <Input type="file" accept="image/*" onChange={(e) => field.onChange(e.target.files)} className={cx.file} />
               </FormControl>
               <FormMessage />
@@ -130,6 +142,8 @@ export default function BlogPostForm() {
               <FormMessage />
             </FormItem>
           )} />
+
+          <FormRootErrors formErrors={form.formState.errors} />
 
           <SubmitButton label="Publish Post" />
         </form>
