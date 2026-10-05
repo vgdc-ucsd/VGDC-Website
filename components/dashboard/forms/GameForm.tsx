@@ -11,6 +11,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { gameFormSchema, type GameFormValues, type GameTagInput } from "@/lib/schemas/game"
 import { cx, TagInput, SubmitButton } from "./shared"
 import { ImageUploadInput } from "./ImageUploadInput"
+import { createGame } from "@/lib/form-actions"
 
 export default function GameForm() {
   const [tags, setTags] = useState<GameTagInput[]>([])
@@ -21,8 +22,15 @@ export default function GameForm() {
     defaultValues: { title: "", credits: "", description: "", releaseDate: "", status: "UNRELEASED", difficulty: 1, isWebPlayable: false, hasSeal: false, link: "" },
   })
 
-  function onSubmit(_values: GameFormValues) {
-    // TODO: wire up API route
+  async function onSubmit(values: GameFormValues) {
+    form.clearErrors("root");
+    const result = await createGame({...values, tags});
+    if (!result.ok) {
+      form.setError(result.field ?? "root", { message: result.error });
+      return;
+    }
+    form.reset();
+    setTags([]);
   }
 
   return (
