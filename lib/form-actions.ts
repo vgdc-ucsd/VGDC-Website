@@ -10,7 +10,8 @@ import z from "zod";
 import { prisma } from "@/lib/prisma";
 import { Prisma } from "@/lib/generated/prisma/client";
 import { GameFormValues, GameInput, gameInputSchema } from "@/lib/schemas/game";
-import { GameCreateInput } from "@/lib/generated/prisma/models";
+import { BlogPostCreateInput, GameCreateInput } from "@/lib/generated/prisma/models";
+import { BlogPostFormValues, BlogPostInput, blogPostInputSchema } from "@/lib/schemas/blog-post";
 
 export type FormActionResult<TValues> = 
   | { ok: true; }
@@ -127,5 +128,46 @@ export async function createGame(input: GameInput): Promise<FormActionResult<Gam
   }
 
   revalidatePath("/games");
+  return { ok: true };
+}
+
+export async function createBlogPost(input: BlogPostInput): Promise<FormActionResult<BlogPostFormValues>> {
+  const session = await auth();
+  if (!session) return { ok: false, error: "You must be signed in as an officer to create a game" };
+
+  const parsed = blogPostInputSchema.extend({
+    coverImage: validateImagePath("blogs").optional().or(z.literal(""))
+  }).safeParse(input);
+  if (!parsed.success) {
+    const issue = parsed.error.issues[0];
+    return { ok: false, error: issue.message, field: issue.path[0] as keyof BlogPostFormValues };
+  }
+  const values = parsed.data;
+
+  const date = parseDateOnly(values.date);
+  if (!date) {
+    return { ok: false, error: "Invalid date", field: "date" };
+  }
+
+  try {
+    await prisma.blogPost.create({
+      data: {
+        title: values.title,
+        subtitle: values.subtitle,
+        date: date,
+        authors: values.authors,
+        coverImage: values.coverImage || null,
+        coverCaption: values.coverCaption || null,
+        postData: values.postData,
+        slug: values.slug,
+      } satisfies BlogPostCreateInput
+    });
+  } catch (error) {
+    console.error("createBlogPost failed", error);
+    return { ok: false, error: "Couldn't create the blog post. Please try again." };
+  }
+
+  revalidatePath("/news")
+  revalidatePath("/");
   return { ok: true };
 }

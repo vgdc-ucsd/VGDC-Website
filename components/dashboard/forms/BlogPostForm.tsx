@@ -9,6 +9,8 @@ import { Textarea } from "@/components/ui/textarea"
 import { Button } from "@/components/ui/button"
 import { blogPostFormSchema, type BlogPostFormValues } from "@/lib/schemas/blog-post"
 import { cx, toSlug, SubmitButton, FormRootErrors } from "./shared"
+import { ImageUploadInput } from "./ImageUploadInput"
+import { createBlogPost } from "@/lib/form-actions"
 
 export default function BlogPostForm() {
   const [authors, setAuthors] = useState<string[]>([""])
@@ -20,134 +22,149 @@ export default function BlogPostForm() {
   })
 
   function onTitleChange(value: string) {
-    form.setValue("title", value)
-    if (!form.getValues("slug") || form.getValues("slug") === toSlug(form.getValues("title")))
-      form.setValue("slug", toSlug(value))
+    form.setValue("title", value, { shouldDirty: true });
+    if (!form.getFieldState("slug").isDirty) {
+      form.setValue("slug", toSlug(value));
+    }
   }
 
-  function onSubmit(_values: BlogPostFormValues) {
-    //TODO: wire up API route
+  async function onSubmit(values: BlogPostFormValues) {
+    form.clearErrors("root");
+    const result = await createBlogPost({...values, authors});
+    if (!result.ok) {
+      form.setError(result.field ?? "root", { message: result.error });
+      return;
+    }
+    form.reset();
+    setAuthors([]);
   }
 
   return (
-    <div className={cx.card}>
-      <h3 className="mb-6 text-xl font-bold text-white">Write Blog Post</h3>
-      <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+    <div className="relative">
+      {/* TODO implement blog post image file uploading
+      <aside className="absolute right-full top-0 mr-6">
+        <ImageFileList />
+      </aside>
+      */}
 
-          <FormField control={form.control} name="title" render={({ field }) => (
-            <FormItem>
-              <FormLabel className={cx.label}>Title</FormLabel>
-              <FormControl>
-                <Input {...field} onChange={(e) => onTitleChange(e.target.value)} placeholder="e.g. Devlog #3: Polishing the Combat System" className={cx.input} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )} />
+      <div className={cx.card}>
+        <h3 className="mb-6 text-xl font-bold text-white">Write Blog Post</h3>
+        <Form {...form}>
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
 
-          <FormField control={form.control} name="subtitle" render={({ field }) => (
-            <FormItem>
-              <FormLabel className={cx.label}>Subtitle</FormLabel>
-              <FormControl>
-                <Input {...field} placeholder="A short summary shown in the post listing" className={cx.input} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )} />
+            <FormField control={form.control} name="title" render={({ field }) => (
+              <FormItem>
+                <FormLabel className={cx.label}>Title</FormLabel>
+                <FormControl>
+                  <Input {...field} onChange={(e) => onTitleChange(e.target.value)} placeholder="e.g. Devlog #3: Polishing the Combat System" className={cx.input} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )} />
 
-          <FormField control={form.control} name="date" render={({ field }) => (
-            <FormItem>
-              <FormLabel className={cx.label}>Date</FormLabel>
-              <FormControl>
-                <Input {...field} type="date" className={cx.input} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )} />
+            <FormField control={form.control} name="subtitle" render={({ field }) => (
+              <FormItem>
+                <FormLabel className={cx.label}>Subtitle</FormLabel>
+                <FormControl>
+                  <Input {...field} placeholder="A short summary shown in the post listing" className={cx.input} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )} />
 
-          {/* Authors */}
-          <div className="space-y-2">
-            <p className="text-sm text-text-grey">Authors</p>
+            <FormField control={form.control} name="date" render={({ field }) => (
+              <FormItem>
+                <FormLabel className={cx.label}>Date</FormLabel>
+                <FormControl>
+                  <Input {...field} type="date" className={cx.input} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )} />
+
+            {/* Authors */}
             <div className="space-y-2">
-              {authors.map((author, i) => (
-                <div key={i} className="flex gap-2 items-center">
-                  <Input
-                    value={author}
-                    onChange={(e) => setAuthors((prev) => prev.map((a, idx) => idx === i ? e.target.value : a))}
-                    placeholder={`Author ${i + 1}`}
-                    className={cx.input}
-                  />
-                  {authors.length > 1 && (
-                    <Button type="button" variant="outline" onClick={() => setAuthors((prev) => prev.filter((_, idx) => idx !== i))} className={`shrink-0 ${cx.btn}`}>
-                      Remove
-                    </Button>
-                  )}
-                </div>
-              ))}
+              <p className="text-sm text-text-grey">Authors</p>
+              <div className="space-y-2">
+                {authors.map((author, i) => (
+                  <div key={i} className="flex gap-2 items-center">
+                    <Input
+                      value={author}
+                      onChange={(e) => setAuthors((prev) => prev.map((a, idx) => idx === i ? e.target.value : a))}
+                      placeholder={`Author ${i + 1}`}
+                      className={cx.input}
+                    />
+                    {authors.length > 1 && (
+                      <Button type="button" variant="outline" onClick={() => setAuthors((prev) => prev.filter((_, idx) => idx !== i))} className={`shrink-0 ${cx.btn}`}>
+                        Remove
+                      </Button>
+                    )}
+                  </div>
+                ))}
+              </div>
+              <Button type="button" variant="outline" onClick={() => setAuthors((prev) => [...prev, ""])} className={`text-sm ${cx.btn}`}>
+                + Add Author
+              </Button>
             </div>
-            <Button type="button" variant="outline" onClick={() => setAuthors((prev) => [...prev, ""])} className={`text-sm ${cx.btn}`}>
-              + Add Author
-            </Button>
-          </div>
 
-          <FormField control={form.control} name="coverImage" render={({ field }) => (
-            <FormItem>
-              <FormLabel className={cx.label}>Cover Image</FormLabel>
-              <FormControl>
-                <ImageUploadInput 
-                  folder="blog" 
-                  multiple={false}
-                  paths={field.value ? [field.value] : []}
-                  onUploaded={([path]) => field.onChange(path)}
-                  onError={(message) => form.setError("thumbnail", { message })}
-                  onBusyChange={(busy) => {
-                    if (busy) form.clearErrors("thumbnail")
-                    setUploadPending(busy)
-                  }}
-                />
-                <Input type="file" accept="image/*" onChange={(e) => field.onChange(e.target.files)} className={cx.file} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )} />
+            <FormField control={form.control} name="coverImage" render={({ field }) => (
+              <FormItem>
+                <FormLabel className={cx.label}>Cover Image</FormLabel>
+                <FormControl>
+                  <ImageUploadInput 
+                    folder="blogs" 
+                    multiple={false}
+                    paths={field.value ? [field.value] : []}
+                    onUploaded={([path]) => field.onChange(path)}
+                    onError={(message) => form.setError("coverImage", { message })}
+                    onBusyChange={(busy) => {
+                      if (busy) form.clearErrors("coverImage")
+                      setPendingUploads((count) => count + (busy ? 1 : -1))
+                    }}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )} />
 
-          <FormField control={form.control} name="coverCaption" render={({ field }) => (
-            <FormItem>
-              <FormLabel className={cx.label}>Cover Caption <span className="text-text-grey/50">(optional)</span></FormLabel>
-              <FormControl>
-                <Input {...field} placeholder="Caption displayed below the cover image" className={cx.input} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )} />
+            <FormField control={form.control} name="coverCaption" render={({ field }) => (
+              <FormItem>
+                <FormLabel className={cx.label}>Cover Caption <span className="text-text-grey/50">(optional)</span></FormLabel>
+                <FormControl>
+                  <Input {...field} placeholder="Caption displayed below the cover image" className={cx.input} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )} />
 
-          <FormField control={form.control} name="slug" render={({ field }) => (
-            <FormItem>
-              <FormLabel className={cx.label}>Slug</FormLabel>
-              <FormControl>
-                <Input {...field} placeholder="e.g. devlog-3-combat-system" className={cx.input} />
-              </FormControl>
-              <FormDescription className={cx.hint}>Auto-generated from the title. Used in the URL.</FormDescription>
-              <FormMessage />
-            </FormItem>
-          )} />
+            <FormField control={form.control} name="slug" render={({ field }) => (
+              <FormItem>
+                <FormLabel className={cx.label}>Slug</FormLabel>
+                <FormControl>
+                  <Input {...field} placeholder="e.g. devlog-3-combat-system" className={cx.input} />
+                </FormControl>
+                <FormDescription className={cx.hint}>Auto-generated from the title. Used in the URL.</FormDescription>
+                <FormMessage />
+              </FormItem>
+            )} />
 
-          <FormField control={form.control} name="postData" render={({ field }) => (
-            <FormItem>
-              <FormLabel className={cx.label}>Content</FormLabel>
-              <FormControl>
-                <Textarea {...field} rows={16} placeholder="Write your post in Markdown…" className={`${cx.textarea} resize-y font-mono text-sm`} />
-              </FormControl>
-              <FormDescription className={cx.hint}>Markdown supported.</FormDescription>
-              <FormMessage />
-            </FormItem>
-          )} />
+            <FormField control={form.control} name="postData" render={({ field }) => (
+              <FormItem>
+                <FormLabel className={cx.label}>Content</FormLabel>
+                <FormControl>
+                  <Textarea {...field} rows={16} placeholder="Write your post in Markdown…" className={`${cx.textarea} resize-y font-mono text-sm`} />
+                </FormControl>
+                <FormDescription className={cx.hint}>Markdown supported.</FormDescription>
+                <FormMessage />
+              </FormItem>
+            )} />
 
-          <FormRootErrors formErrors={form.formState.errors} />
+            <FormRootErrors formErrors={form.formState.errors} />
 
-          <SubmitButton label="Publish Post" />
-        </form>
-      </Form>
+            <SubmitButton label="Publish Post" disabled={pendingUploads > 0 || form.formState.isSubmitting} />
+          </form>
+        </Form>
+      </div>
     </div>
   )
 }

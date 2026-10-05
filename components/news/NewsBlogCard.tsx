@@ -1,7 +1,6 @@
 "use client"
 
 import { Button } from "@/components/ui/button"
-import { Post } from "@/lib/post_sheets"
 import Image from "next/image"
 import Link from "next/link"
 import styles from "./BlogCard.module.css" // Import your CSS file
