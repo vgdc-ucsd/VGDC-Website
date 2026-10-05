@@ -2,6 +2,7 @@ import type { BlogPost } from "@/lib/generated/prisma/client"
 import { getStoredImageUrl } from "./images.server"
 import { prisma } from "./prisma"
 import { Result } from "./utils"
+import { toDateInputValue } from "./dateUtils"
 
 export type BlogPostData = {
   title: string
@@ -26,7 +27,7 @@ async function toBlogPostData(post: BlogPost): Promise<BlogPostData> {
 
   return {
     title: post.title,
-    date: post.date.toLocaleDateString(),
+    date: toDateInputValue(post.date),
     authors: post.authors.join(", "),
     subtitle: post.subtitle,
     coverImage: coverImageURL,

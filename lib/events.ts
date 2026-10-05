@@ -3,7 +3,8 @@ import { prisma } from "@/lib/prisma"
 import type { Event } from "@/lib/generated/prisma/client"
 import { EventWhereInput } from "@/lib/generated/prisma/models"
 import { getStoredImageUrl } from "@/lib/images.server"
-import { Result, Timezone } from "@/lib/dateUtils"
+import { Timezone } from "@/lib/dateUtils"
+import { Result } from "@/lib/utils"
 
 /** The details of an event, formatted for display. */
 export type EventDetails = {
