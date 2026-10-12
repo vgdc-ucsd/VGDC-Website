@@ -17,6 +17,7 @@ export const authOptions: NextAuthOptions = {
           scope: "identify email guilds.members.read",
         },
       },
+      issuer: "https://discord.com",
     }),
   ],
   callbacks: {
