@@ -29,7 +29,7 @@ const validateImagePath = (folder: ImageFolder) =>
 
 export async function createEvent(input: EventInput): Promise<FormActionResult<EventFormValues>> {
   const session = await auth();
-  if (!session) return { ok: false, error: "You must be signed in as an officer to create an event" };
+  if (session?.user.role != "officer") return { ok: false, error: "You must be signed in as an officer to create an event" };
 
   const parsed = eventInputSchema.extend({
     coverImage: validateImagePath("events"),
@@ -85,7 +85,7 @@ export async function createEvent(input: EventInput): Promise<FormActionResult<E
 
 export async function createGame(input: GameInput): Promise<FormActionResult<GameFormValues>> {
   const session = await auth();
-  if (!session) return { ok: false, error: "You must be signed in as an officer to create a game" };
+  if (session?.user.role != "officer") return { ok: false, error: "You must be signed in as an officer to create a game" };
 
   const parsed = gameInputSchema.extend({
     thumbnail: validateImagePath("games").optional().or(z.literal(""))
@@ -133,7 +133,7 @@ export async function createGame(input: GameInput): Promise<FormActionResult<Gam
 
 export async function createBlogPost(input: BlogPostInput): Promise<FormActionResult<BlogPostFormValues>> {
   const session = await auth();
-  if (!session) return { ok: false, error: "You must be signed in as an officer to create a game" };
+  if (session?.user.role != "officer") return { ok: false, error: "You must be signed in as an officer to create a game" };
 
   const parsed = blogPostInputSchema.extend({
     coverImage: validateImagePath("blogs").optional().or(z.literal(""))

@@ -7,6 +7,24 @@ import type {
 } from "next"
 import { getServerSession } from "next-auth"
 
+export type UserRole = "member" | "officer"
+
+declare module "next-auth" {
+  interface Session {
+    user: {
+      id: string;
+      role: string;
+    }
+  }
+}
+
+declare module "next-auth/jwt" {
+  interface JWT {
+    id: string;
+    role: string;
+  }
+}
+
 export const authOptions: NextAuthOptions = {
   providers: [
     DiscordProvider({
@@ -58,8 +76,8 @@ export const authOptions: NextAuthOptions = {
     },
     async session({ session, token }) {
       if (session.user) {
-        (session.user as any).id = token.sub!;
-        (session.user as any).role = token.role;
+        session.user.id = token.sub!;
+        session.user.role = token.role;
       }
       return session
     },
