@@ -1,4 +1,4 @@
-import { NextAuthOptions } from "next-auth"
+import { NextAuthOptions, ISODateString } from "next-auth"
 import DiscordProvider from "next-auth/providers/discord"
 import type {
   GetServerSidePropsContext,
@@ -12,9 +12,13 @@ export type UserRole = "member" | "officer"
 declare module "next-auth" {
   interface Session {
     user: {
+      name?: string | null
+      email?: string | null
+      image?: string | null
       id: string;
       role: string;
-    }
+    },
+    expires: ISODateString
   }
 }
 
