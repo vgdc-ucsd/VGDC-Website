@@ -48,7 +48,7 @@
     "marked": "^12.0.1",
     "moment": "^2.30.1",
     "moment-timezone": "^0.6.4",
-    "next": "^16.3.6",
+    "next": "^16.4.0",
     "next-auth": "^4.24.13",
     "next-share": "^0.27.0",
     "react": "^18",
