@@ -12,18 +12,27 @@ export const revalidate = 60
 
 /** Dedicated events page. */
 export default async function Events() {
-  const upcomingEvents = await getEvents({
+  const upcomingEventsResult = await getEvents({
     homepage: false,
     includeOldEvents: false,
     includeNewEvents: true,
-    reverseOrder: false,
+    latestFirst: false,
   });
-  const allRecentEvents = await getEvents({
+  // This should probably be replaced with a proper error UI
+  const upcomingEvents = upcomingEventsResult.ok
+    ? upcomingEventsResult.data
+    : [];
+
+  const allRecentEventsResult = await getEvents({
     homepage: false,
     includeOldEvents: true,
     includeNewEvents: false,
-    reverseOrder: true,
+    latestFirst: true,
   });
+  // This should probably be replaced with a proper error UI
+  const allRecentEvents = allRecentEventsResult.ok
+    ? allRecentEventsResult.data
+    : []
   const recentEvents = allRecentEvents.slice(0, maxNumOfRecentEvents);
 
   return (

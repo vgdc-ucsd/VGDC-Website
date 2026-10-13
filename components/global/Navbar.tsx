@@ -4,6 +4,7 @@ import Image from "next/image"
 import Link from "next/link"
 import { IoMenu } from "react-icons/io5"
 import { usePathname } from "next/navigation"
+import { useSession } from "next-auth/react"
 
 import {
   Drawer,
@@ -15,6 +16,8 @@ import {
 import { Button } from "@/components/ui/button"
 
 import { useState, useEffect } from "react"
+import SignOutButton from "./SignOutButton"
+import SignInButton from "./SignInButton"
 
 /**
  * The navbar for the website, with the logo and navigation.
@@ -22,6 +25,10 @@ import { useState, useEffect } from "react"
  * @returns JSX representation of the navbar.
  */
 export default function Navbar({ offsetSpace = true, hideOnScroll = true }) {
+  const { data: session, status } = useSession()
+  const isAuthenticated = status === "authenticated"
+  const isOfficer = session?.user.role == "officer"
+
   let menuButton: string = "hover:text-light-grey transition-colors text-lg"
 
   const [show, setShow] = useState(true)
@@ -83,8 +90,8 @@ export default function Navbar({ offsetSpace = true, hideOnScroll = true }) {
           </Link>
 
           {/* Hamburger menu for mobile, disappears on bigger screens */}
-          <div className="absolute right-7 top-3 sm:hidden">
-            <Drawer open={openHamburger} onOpenChange={setOpenHamburger}>
+          <div className="absolute right-7 top-3 md:hidden">
+            <Drawer open={openHamburger} onOpenChange={setOpenHamburger} modal={false}>
               {/* Hamburger icon */}
 
               <DrawerTrigger>
@@ -106,6 +113,12 @@ export default function Navbar({ offsetSpace = true, hideOnScroll = true }) {
                   {/* <Button variant="link" className={getStyle("/")}>
                     <Link href="/">Home</Link>
                   </Button> */}
+                  {isAuthenticated
+                    ? <SignOutButton className="mx-auto" redirect={
+                      pathname == "/dashboard" ? "/" : pathname
+                    } />
+                    : <SignInButton className="mx-auto" redirect={pathname} />
+                  }
                   <Button
                     variant="link"
                     className={getStyle("/officers")}
@@ -141,13 +154,22 @@ export default function Navbar({ offsetSpace = true, hideOnScroll = true }) {
                   >
                     <Link href="/store">Store</Link>
                   </Button>
+                  {isOfficer &&
+                    <Button
+                      variant="link"
+                      className={getStyle("/dashboard")}
+                      onClick={closeHamburger}
+                    >
+                      <Link href="/dashboard">Dashboard</Link>
+                    </Button>
+                  }
                 </DrawerFooter>
               </DrawerContent>
             </Drawer>
           </div>
 
           {/* Basic menu, dynamically changes with screen size */}
-          <div className="invisible relative top-3 float-right mx-auto w-fit space-x-12 align-middle text-base transition-transform sm:visible lg:float-none lg:space-x-16">
+          <div className="invisible relative top-3 mx-auto w-fit space-x-12 align-middle text-base transition-transform lg:visible">
             {/* <Link href="/" className={getStyle("/")}>
               Home
             </Link> */}
@@ -166,7 +188,18 @@ export default function Navbar({ offsetSpace = true, hideOnScroll = true }) {
             <Link href="/store" className={getStyle("/store")}>
               Store
             </Link>
+            {isOfficer &&
+              <Link href="/dashboard" className={getStyle("/dashboard")}>
+                Dashboard
+              </Link>
+            }
           </div>
+          {isAuthenticated
+            ? <SignOutButton className="invisible lg:visible relative float-right -top-5" redirect={
+              pathname == "/dashboard" ? "/" : pathname
+            } />
+            : <SignInButton className="invisible lg:visible relative float-right -top-5" redirect={pathname} />
+          }
         </div>
       </div>
     </>

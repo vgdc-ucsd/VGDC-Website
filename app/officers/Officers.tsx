@@ -8,15 +8,8 @@ import {
 } from "@/components/ui/hover-card"
 import Image from "next/image"
 import { motion } from "framer-motion"
+import { OfficerDetails } from "@/lib/officers"
 import { Popover, PopoverContent, PopoverTrigger } from "@radix-ui/react-popover"
-
-// The type for the data for one officer
-export type OfficerDetails = {
-  title: string
-  name: string
-  avatar: string
-  quote: string
-}
 
 export default function Officers({ officers }: { officers: OfficerDetails[] }) {
   {

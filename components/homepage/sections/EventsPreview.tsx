@@ -14,15 +14,19 @@ export default async function EventsPreview({
   /** Include events that haven't happened yet? True by default. */
   includeNewEvents = true,
   /** Reverse order of events? False by default, helpfulf or showing past events. */
-  reverseOrder = false,
+  latestFirst: reverseOrder = false,
 }: GetEventsFlags) {
   // Gets the event data based on parameters passed in.
-  let events = await getEvents({
+  const result = await getEvents({
     homepage,
     includeOldEvents,
     includeNewEvents,
-    reverseOrder
+    latestFirst: reverseOrder
   });
+  // This should probably get a proper error UI
+  const events = result.ok 
+    ? result.data
+    : [];
 
   return (
     <SectionComponent>

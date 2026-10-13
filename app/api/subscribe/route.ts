@@ -33,8 +33,6 @@ export async function POST(req: NextRequest) {
       options
     )
 
-    //console.log(response)
-
     if (response.status == 200) {
       return Response.json(
         { message: "You have successfully subscribed!" },
@@ -63,7 +61,7 @@ export async function POST(req: NextRequest) {
           )
         }
       } else if (error.request) {
-        console.error(error.request)
+        console.error("Mailchimp request failed", error.code, error.message)
       } else {
         console.error("Error", error.message)
       }

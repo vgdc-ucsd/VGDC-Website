@@ -18,7 +18,10 @@ export function middleware(request: NextRequest) {
   headers.set("x-current-path", `https://${request.nextUrl.host}${request.nextUrl.pathname}`);
   headers.set("x-host-name", request.nextUrl.host)
   headers.set("x-port",request.nextUrl.port)
-  return NextResponse.next({ headers });
+  // `request: { headers }` forwards these to the app (readable with headers() in server
+  // components). Passing `{ headers }` directly would instead copy every request header
+  // onto the response, overwriting its content-type and breaking server action responses.
+  return NextResponse.next({ request: { headers } });
 }
 
 export const config = {
