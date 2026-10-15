@@ -147,6 +147,7 @@ export default function EventForm() {
                   multiple={true}
                   paths={field.value ?? []}
                   onUploaded={(paths) => field.onChange([...(field.value ?? []), ...paths])}
+                  onRemoved={(path) => field.onChange(field.value.filter((fieldPath) => fieldPath !== path))}
                   onError={(message) => form.setError("gallery", { message })}
                   onBusyChange={(busy) => {
                     if (busy) form.clearErrors("gallery")

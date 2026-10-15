@@ -3,14 +3,15 @@ import { useRef, useState } from "react"
 import { Button } from "@/components/ui/button"
 import { cx } from "@/components/dashboard/forms/shared"
 import { ImageFolder, MAX_IMAGE_BYTES } from "@/lib/images.shared"
-import { getPublicImageUrl, postImage } from "@/lib/images.client"
+import { deleteImages, getPublicImageUrl, postImage } from "@/lib/images.client"
 import { BYTES_IN_MEGABYTE } from "@/lib/utils"
+import { IoClose } from "react-icons/io5"
 
 /**
 * Form input interface for uploading images to storage. When images are successfully uploaded, this component
 * will display them.
 */
-export function ImageUploadInput({ folder, multiple, paths, onUploaded, onError, onBusyChange }: {
+export function ImageUploadInput({ folder, multiple, paths, onUploaded, onRemoved, onError, onBusyChange }: {
   /** The folder in storage in which the uploaded image should be stored. */
   folder: ImageFolder,
   /** If true, allows multiple images to be uploaded. Otherwise, only a single image can be uploaded. */
@@ -19,6 +20,8 @@ export function ImageUploadInput({ folder, multiple, paths, onUploaded, onError,
   paths: string[],
   /** Callback for when the image is successfully uploaded. Returns an array of paths to the images in storage. */
   onUploaded: (paths: string[]) => void,
+  /** Callback for when an image is removed. Returns the path of the removed image in storage. */
+  onRemoved?: (path: string) => void,
   /** Callback for when uploading throws an error. */
   onError: (message: string) => void,
   /** Callback for when this component starts or stops uploading. */
@@ -30,6 +33,10 @@ export function ImageUploadInput({ folder, multiple, paths, onUploaded, onError,
   const inputRef = useRef<HTMLInputElement>(null);
 
   async function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
+    if (!multiple && paths.length === 1) {
+      await deleteImages(paths)
+    }
+
     const files = Array.from(e.target.files ?? []);
     // Clear so choosing the same file again (e.g. to retry) still fires onChange
     e.target.value = "";
@@ -63,6 +70,11 @@ export function ImageUploadInput({ folder, multiple, paths, onUploaded, onError,
     }
   }
 
+  const onRemoveButton = (path: string) => {
+    deleteImages(path)
+    onRemoved?.(path)
+  }
+
   const label = isUploading
     ? "Uploading..."
     : multiple
@@ -91,14 +103,23 @@ export function ImageUploadInput({ folder, multiple, paths, onUploaded, onError,
       {paths.length > 0 && (
         <div className="flex flex-wrap gap-3">
           {paths.map((path) => (
-            <Image
-              key={path}
-              src={getPublicImageUrl(path)}
-              alt=""
-              width={320}
-              height={320}
-              className="h-80 w-80 rounded object-cover"
-            />
+            <div key={path} className="relative w-80 h-80">
+              <Image
+                src={getPublicImageUrl(path)}
+                alt=""
+                width={320}
+                height={320}
+                className="h-80 w-80 rounded object-cover"
+              />
+              { multiple &&
+                <Button
+                  onClick={() => onRemoveButton(path)}
+                  className="absolute right-4 top-4 z-20 px-2 aspect-square rounded-full text-white hover:bg-opacity-90"
+                >
+                  <IoClose size={20} className="text-white"/>
+                </Button>
+              }
+            </div>
           ))}
         </div>
       )}
