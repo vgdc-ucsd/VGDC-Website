@@ -5,6 +5,7 @@ import Footer from "@/components/global/Footer"
 import PageSection from "@/components/global/PageSection"
 
 import { getEvents } from "@/lib/events"
+import { auth } from "@/lib/auth"
 
 const maxNumOfRecentEvents = 5;
 
@@ -12,6 +13,9 @@ export const revalidate = 60
 
 /** Dedicated events page. */
 export default async function Events() {
+  const session = await auth()
+  const editable = session?.user.role === "officer"
+
   const upcomingEventsResult = await getEvents({
     homepage: false,
     includeOldEvents: false,
