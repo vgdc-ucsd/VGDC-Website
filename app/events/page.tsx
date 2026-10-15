@@ -48,7 +48,7 @@ export default async function Events() {
           <div>
             <h3 className="text-2xl font-bold text-white mb-6">Upcoming Events</h3>
             {upcomingEvents.length > 0 ? (
-              <EventList events={upcomingEvents} />
+              <EventList events={upcomingEvents} editable={editable}/>
             ) : (
               <p className="text-xl text-text-grey">No upcoming events, check back again soon!</p>
             )}
@@ -58,7 +58,7 @@ export default async function Events() {
           {recentEvents.length > 0 && (
             <div>
               <h3 className="text-2xl font-bold text-white mb-6">Recent Events</h3>
-              <EventList events={recentEvents} />
+              <EventList events={recentEvents} editable={editable}/>
             </div>
           )}
         </div>

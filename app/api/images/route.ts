@@ -1,13 +1,15 @@
 import { auth } from "@/lib/auth";
-import { uploadImage } from "@/lib/images.server";
 import { getImageType, IMAGE_FOLDERS, ImageFolder, MAX_IMAGE_BYTES } from "@/lib/images.shared";
 import { supabaseAdmin } from "@/lib/supabase.server";
 import { BYTES_IN_MEGABYTE } from "@/lib/utils";
 import { randomUUID } from "crypto";
 
+interface DeleteImageRequest { paths: string[] }
+
 export async function POST(request: Request) {
-  if (!(await auth())) {
-    return Response.json({ error: "Not signed in" }, { status: 401 });
+  const session = await auth()
+  if (session?.user.role != "officer") {
+    return Response.json({ error: "Not signed in as an officer" }, { status: 403 });
   }
 
   if (request.headers.get("origin") !== new URL(request.url).origin) {
@@ -49,4 +51,30 @@ export async function POST(request: Request) {
   }
 
   return Response.json({ path }, { status: 201 });
+}
+
+export async function DELETE(request: Request) {
+  const session = await auth()
+  if (session?.user.role != "officer") {
+    return Response.json({ error: "Not signed in as an officer" }, { status: 403 })
+  }
+
+  if (request.headers.get("origin") !== new URL(request.url).origin) {
+    return Response.json({ error: "Bad origin"}, { status: 403 })
+  }
+
+  const { paths } = await request.json() as DeleteImageRequest
+  if (!paths) {
+    return Response.json({ error: "Invalid or empty image paths" }, { status: 400 })
+  }
+
+  const { error } = await supabaseAdmin.storage
+    .from("Images")
+    .remove(paths)
+  if (error) {
+    console.error("Failed to delete image", error);
+    return Response.json({ error: "Couldn't delete the image for some reason. PLease try again." }, { status: 502 })
+  }
+
+  return Response.json({}, { status: 201 })
 }
