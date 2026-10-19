@@ -5,7 +5,8 @@ import EventCard from "./EventCard"
 import { EventDetails } from "@/lib/events"
 import { EventInput } from "@/lib/schemas/event"
 import { deleteEvent } from "@/lib/form-actions"
-import EventEditModal, { EventEditModalState } from "./EventEditModal"
+import EditModal, { EditModalState } from "../global/EditModal"
+import EventForm from "../dashboard/forms/EventForm"
 
 /** Returns a vertical list of events. */
 export default function EventList({
@@ -15,23 +16,18 @@ export default function EventList({
   events: EventDetails[]
   editable?: boolean
 }) {
-  const [modal, setModal] = useState<EventEditModalState | null>(null)
+  const [modal, setModal] = useState<EditModalState<EventInput> | null>(null)
   const [deleting, setDeleting] = useState(false)
   const [deleteError, setDeleteError] = useState<string | null>(null)
 
-  function openModal(kind: "update" | "delete", formValues: EventInput) {
+  function openModal(kind: "update" | "delete", item: EventInput) {
     setDeleteError(null)
-    setModal({ kind, formValues })
+    setModal({ kind, item })
   }
 
-  async function onDelete() {
-    if (modal?.kind !== "delete") {
-      setDeleteError("Not currently in deletion mode")
-      return
-    }
-
+  async function onDelete(item: EventInput) {
     setDeleting(true)
-    const result = await deleteEvent(modal.formValues)
+    const result = await deleteEvent(item)
     setDeleting(false)
     if (!result.ok) {
       setDeleteError(result.error)
@@ -68,9 +64,13 @@ export default function EventList({
       )}
     </div>
     {
-      editable && modal && <EventEditModal
+      editable && modal && <EditModal<EventInput>
         modal={modal}
         closeModal={() => setModal(null)}
+        renderForm={(event: EventInput) => (
+          <EventForm isUpdating initialValues={event} callback={() => setModal(null)} />
+        )}
+        getDeleteLabel={(event: EventInput) => event.name}
         deleting={deleting}
         deleteError={deleteError}
         onDelete={onDelete}
