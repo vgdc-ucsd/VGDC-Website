@@ -1,7 +1,7 @@
 "use client"
 
 import { useState } from "react"
-import { useForm } from "react-hook-form"
+import { useForm, useWatch } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
@@ -11,10 +11,15 @@ import { blogPostFormSchema, type BlogPostFormValues } from "@/lib/schemas/blog-
 import { cx, toSlug, SubmitButton, FormRootErrors } from "./shared"
 import { ImageUploadInput } from "./ImageUploadInput"
 import { createBlogPost } from "@/lib/form-actions"
+import ImageFileList from "./ImageFileList"
+import { ImageMap, generateUniqueImageName, resolveImageSrc } from "@/lib/blog_images.shared"
+import ReactMarkdown from "react-markdown"
+import rehypeRaw from "rehype-raw"
 
 export default function BlogPostForm() {
   const [authors, setAuthors] = useState<string[]>([""])
   const [pendingUploads, setPendingUploads] = useState(0);
+  const [imageMap, setImageMap] = useState<ImageMap>({});
 
   const form = useForm<BlogPostFormValues>({
     resolver: zodResolver(blogPostFormSchema),
@@ -28,24 +33,58 @@ export default function BlogPostForm() {
     }
   }
 
+  function onImagesUploaded(uploaded: { fileName: string; path: string }[]) {
+    setImageMap((prev) => {
+      const next = { ...prev };
+      // Name each one against `next` so files uploaded together don't take the same name
+      for (const { fileName, path } of uploaded) next[generateUniqueImageName(fileName, next)] = path;
+      return next;
+    });
+  }
+
+  function onImageRenamed(oldName: string, newName: string) {
+    // Rebuild from entries so the image keeps its place in the list
+    setImageMap((prev) => Object.fromEntries(
+      Object.entries(prev).map(([name, path]) => [name === oldName ? newName : name, path])
+    ));
+    // Update references in the post so renaming doesn't break them
+    const content = form.getValues("postData");
+    form.setValue("postData", content.split(`](${oldName})`).join(`](${newName})`), { shouldDirty: true });
+  }
+
+  function onImageDeleted(name: string) {
+    // The file stays in storage; it's just no longer part of this post
+    setImageMap((prev) => {
+      const { [name]: _, ...rest } = prev;
+      return rest;
+    });
+  }
+
   async function onSubmit(values: BlogPostFormValues) {
     form.clearErrors("root");
-    const result = await createBlogPost({...values, authors});
+    const result = await createBlogPost({...values, authors, imageMap});
     if (!result.ok) {
       form.setError(result.field ?? "root", { message: result.error });
       return;
     }
     form.reset();
-    setAuthors([]);
+    setAuthors([""]);
+    setImageMap({});
   }
 
+  const postData = useWatch({ control: form.control, name: "postData" });
+
   return (
-    <div className="relative">
-      {/* TODO implement blog post image file uploading
-      <aside className="absolute right-full top-0 mr-6">
-        <ImageFileList />
+    <div className="flex flex-col gap-6 lg:grid lg:grid-cols-[16rem_minmax(0,1fr)] lg:items-start min-[1440px]:-ml-[17.5rem]">
+      <aside className="lg:sticky lg:top-6">
+        <ImageFileList
+          imageMap={imageMap}
+          onUploaded={onImagesUploaded}
+          onBusyChange={(busy) => setPendingUploads((count) => count + (busy ? 1 : -1))}
+          onRename={onImageRenamed}
+          onDelete={onImageDeleted}
+        />
       </aside>
-      */}
 
       <div className={cx.card}>
         <h3 className="mb-6 text-xl font-bold text-white">Write Blog Post</h3>
@@ -154,10 +193,29 @@ export default function BlogPostForm() {
                 <FormControl>
                   <Textarea {...field} rows={16} placeholder="Write your post in Markdown…" className={`${cx.textarea} resize-y font-mono text-sm`} />
                 </FormControl>
-                <FormDescription className={cx.hint}>Markdown supported.</FormDescription>
+                <FormDescription className={cx.hint}>Markdown supported. Click an image in the list to copy its Markdown.</FormDescription>
                 <FormMessage />
               </FormItem>
             )} />
+
+            {/* Prototype preview: only checks that local image names resolve */}
+            {postData && (
+              <div className="space-y-2">
+                <p className="text-sm text-text-grey">Preview</p>
+                <div className="rounded-md bg-black p-4 text-sm text-text-grey space-y-2">
+                  <ReactMarkdown
+                    rehypePlugins={[rehypeRaw]}
+                    components={{
+                      img: ({ src, alt }) => (
+                        <img src={resolveImageSrc(String(src ?? ""), imageMap)} alt={alt ?? ""} className="max-w-full rounded" />
+                      ),
+                    }}
+                  >
+                    {postData}
+                  </ReactMarkdown>
+                </div>
+              </div>
+            )}
 
             <FormRootErrors formErrors={form.formState.errors} />
 
