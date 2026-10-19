@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
@@ -8,34 +8,58 @@ import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { Switch } from "@/components/ui/switch"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { gameFormSchema, type GameFormValues, type GameTagInput } from "@/lib/schemas/game"
+import { gameFormSchema, type GameFormValues, type GameInput, type GameTagInput } from "@/lib/schemas/game"
 import { cx, TagInput, SubmitButton, FormRootErrors } from "./shared"
 import { ImageUploadInput } from "./ImageUploadInput"
-import { createGame } from "@/lib/form-actions"
+import { createGame, updateGame } from "@/lib/form-actions"
 
-export default function GameForm() {
-  const [tags, setTags] = useState<GameTagInput[]>([])
+export default function GameForm({
+  isUpdating = false,
+  initialValues,
+  id,
+  callback,
+}: {
+  isUpdating?: boolean
+  initialValues?: GameInput
+  id?: number
+  callback?(): void
+}) {
+  const [tags, setTags] = useState<GameTagInput[]>(initialValues?.tags ?? [])
   const [uploadPending, setUploadPending] = useState(false);
 
   const form = useForm<GameFormValues>({
     resolver: zodResolver(gameFormSchema),
-    defaultValues: { title: "", credits: "", description: "", releaseDate: "", status: "UNRELEASED", difficulty: 1, isWebPlayable: false, hasSeal: false, link: "" },
+    defaultValues: initialValues ?? { title: "", credits: "", description: "", releaseDate: "", status: "UNRELEASED", difficulty: 1, isWebPlayable: false, hasSeal: false, link: "", thumbnail: "" },
   })
+
+  useEffect(() => {
+    if (!initialValues) return
+
+    const { tags: initialTags, ...formValues } = initialValues
+    form.reset(formValues)
+    setTags(initialTags)
+  }, [initialValues, form])
 
   async function onSubmit(values: GameFormValues) {
     form.clearErrors("root");
-    const result = await createGame({...values, tags});
+    const input = { ...values, tags }
+    const result = isUpdating && id !== undefined
+      ? await updateGame(id, input)
+      : await createGame(input)
     if (!result.ok) {
       form.setError(result.field ?? "root", { message: result.error });
       return;
     }
-    form.reset();
-    setTags([]);
+    if (!isUpdating) {
+      form.reset();
+      setTags([]);
+    }
+    callback?.()
   }
 
   return (
     <div className={cx.card}>
-      <h3 className="mb-6 text-xl font-bold text-white">Add Game</h3>
+      <h3 className="mb-6 text-xl font-bold text-white">{isUpdating ? "Update Game" : "Add Game"}</h3>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
 
@@ -89,8 +113,8 @@ export default function GameForm() {
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent className="border-white/20 bg-black text-white">
-                    <SelectItem value="RELEASED"   className="focus:bg-background-grey focus:text-white">Released</SelectItem>
-                    <SelectItem value="PROTOTYPE"  className="focus:bg-background-grey focus:text-white">Prototype</SelectItem>
+                    <SelectItem value="RELEASED" className="focus:bg-background-grey focus:text-white">Released</SelectItem>
+                    <SelectItem value="PROTOTYPE" className="focus:bg-background-grey focus:text-white">Prototype</SelectItem>
                     <SelectItem value="UNRELEASED" className="focus:bg-background-grey focus:text-white">Unreleased</SelectItem>
                   </SelectContent>
                 </Select>
@@ -144,8 +168,8 @@ export default function GameForm() {
             <FormItem>
               <FormLabel className={cx.label}>Thumbnail</FormLabel>
               <FormControl>
-                <ImageUploadInput 
-                  folder="games" 
+                <ImageUploadInput
+                  folder="games"
                   multiple={false}
                   paths={field.value ? [field.value] : []}
                   onUploaded={([path]) => field.onChange(path)}
@@ -162,7 +186,7 @@ export default function GameForm() {
 
           <FormRootErrors formErrors={form.formState.errors} />
 
-          <SubmitButton label="Submit Game" disabled={uploadPending || form.formState.isSubmitting} />
+          <SubmitButton label={isUpdating ? "Save Changes" : "Submit Game"} disabled={uploadPending || form.formState.isSubmitting} />
         </form>
       </Form>
     </div>
