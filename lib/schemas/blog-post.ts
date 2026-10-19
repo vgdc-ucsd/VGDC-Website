@@ -31,6 +31,8 @@ export const blogPostAuthorsInputSchema = z
 // separate state. The type uses z.input, the shape before validation transforms it.
 export const blogPostInputSchema = blogPostFormSchema.extend({
   authors: blogPostAuthorsInputSchema,
+  // Local image name used in the Markdown -> storage path. Stored inside postData, see lib/blog_images.shared.ts
+  imageMap: z.record(z.string(), z.string()).default({}),
 })
 
 export type BlogPostInput = z.input<typeof blogPostInputSchema>

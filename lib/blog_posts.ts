@@ -3,6 +3,7 @@ import { getStoredImageUrl } from "./images.server"
 import { prisma } from "./prisma"
 import { Result } from "./utils"
 import { toDateInputValue } from "./dateUtils"
+import { ImageMap, splitPostData } from "./blog_images.shared"
 
 export type BlogPostData = {
   title: string
@@ -12,6 +13,7 @@ export type BlogPostData = {
   coverImage?: string
   coverCredit?: string
   content: string
+  imageMap: ImageMap
   slug: string
 }
 
@@ -32,7 +34,7 @@ async function toBlogPostData(post: BlogPost): Promise<BlogPostData> {
     subtitle: post.subtitle,
     coverImage: coverImageURL,
     coverCredit: post.coverCaption ?? undefined,
-    content: post.postData,
+    ...splitPostData(post.postData),
     slug: post.slug,
   };
 }

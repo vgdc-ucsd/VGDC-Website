@@ -12,6 +12,8 @@ import { Prisma } from "@/lib/generated/prisma/client";
 import { GameFormValues, GameInput, gameInputSchema } from "@/lib/schemas/game";
 import { BlogPostCreateInput, GameCreateInput } from "@/lib/generated/prisma/models";
 import { BlogPostFormValues, BlogPostInput, blogPostInputSchema } from "@/lib/schemas/blog-post";
+import { joinPostData } from "@/lib/blog_images.shared";
+import { remark } from "remark";
 
 export type FormActionResult<TValues> = 
   | { ok: true; }
@@ -26,6 +28,17 @@ const validateImagePath = (folder: ImageFolder) =>
     ),
     "Invalid image path",
   );
+
+/** The src of every Markdown image in the post, decoded so they match ImageMap names. */
+function getMarkdownImageSrcs(markdown: string): Set<string> {
+  const srcs = new Set<string>();
+  const walk = (node: any) => {
+    if (node.type === "image") srcs.add(decodeURIComponent(node.url));
+    node.children?.forEach(walk);
+  };
+  walk(remark().parse(markdown));
+  return srcs;
+}
 
 export async function createEvent(input: EventInput): Promise<FormActionResult<EventFormValues>> {
   const session = await auth();
@@ -136,7 +149,8 @@ export async function createBlogPost(input: BlogPostInput): Promise<FormActionRe
   if (session?.user.role != "officer") return { ok: false, error: "You must be signed in as an officer to create a game" };
 
   const parsed = blogPostInputSchema.extend({
-    coverImage: validateImagePath("blogs").optional().or(z.literal(""))
+    coverImage: validateImagePath("blogs").optional().or(z.literal("")),
+    imageMap: z.record(z.string().min(1), validateImagePath("blogs")).default({}),
   }).safeParse(input);
   if (!parsed.success) {
     const issue = parsed.error.issues[0];
@@ -149,6 +163,17 @@ export async function createBlogPost(input: BlogPostInput): Promise<FormActionRe
     return { ok: false, error: "Invalid date", field: "date" };
   }
 
+  // Only keep the images the post actually references
+  const usedImages = getMarkdownImageSrcs(values.postData);
+  const imageMap = Object.fromEntries(Object.entries(values.imageMap).filter(([name]) => usedImages.has(name)));
+  const postData = joinPostData(values.postData, imageMap);
+
+  // Prototype: local dev shares the production database, so set BLOG_DRY_RUN=1 to log instead of saving
+  if (process.env.BLOG_DRY_RUN === "1") {
+    console.log("createBlogPost dry run", { ...values, postData });
+    return { ok: true };
+  }
+
   try {
     await prisma.blogPost.create({
       data: {
@@ -158,7 +183,7 @@ export async function createBlogPost(input: BlogPostInput): Promise<FormActionRe
         authors: values.authors,
         coverImage: values.coverImage || null,
         coverCaption: values.coverCaption || null,
-        postData: values.postData,
+        postData,
         slug: values.slug,
       } satisfies BlogPostCreateInput
     });

@@ -10,6 +10,7 @@ import { vscDarkPlus } from "react-syntax-highlighter/dist/esm/styles/prism"
 import SyntaxHighlighter from "react-syntax-highlighter/dist/esm/default-highlight"
 import Link from "next/link"
 import { motion } from "framer-motion"
+import { resolveImageSrc } from "@/lib/blog_images.shared"
 
 export default function BlogView({
   post,
@@ -142,7 +143,7 @@ export default function BlogView({
             img: (image) => {
               return (
                 <Image
-                  src={image.src!}
+                  src={resolveImageSrc(String(image.src ?? ""), post.imageMap ?? {})}
                   alt={image.alt!}
                   height="768"
                   width="432"
