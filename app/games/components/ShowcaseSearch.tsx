@@ -16,8 +16,10 @@ export const GameStatusColor = {
 
 export default function ShowcaseSearch({
   data,
+  editable = false,
 }: {
   data: ShowcaseGamesDetails[]
+  editable?: boolean
 }) {
   const sortGames = (games: ShowcaseGamesDetails[]) => {
     return [...games].sort((a, b) => {
@@ -267,6 +269,7 @@ export default function ShowcaseSearch({
         gameData={filteredItems}
         setCurrentIndex={setCurrentIndex}
         setShowModal={setShowModal}
+        editable={editable}
       />
 
       {/* Game Modal */}
