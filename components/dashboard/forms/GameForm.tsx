@@ -113,7 +113,7 @@ export default function GameForm() {
             <FormField control={form.control} name="isWebPlayable" render={({ field }) => (
               <FormItem className="flex items-center gap-3">
                 <FormControl>
-                  <Switch checked={field.value} onCheckedChange={field.onChange} className="data-[state=checked]:bg-vgdc-light-green" />
+                  <Switch checked={field.value} onCheckedChange={field.onChange} className={cx.switch} />
                 </FormControl>
                 <FormLabel className={`${cx.label} !mt-0`}>Web Playable</FormLabel>
               </FormItem>
@@ -121,7 +121,7 @@ export default function GameForm() {
             <FormField control={form.control} name="hasSeal" render={({ field }) => (
               <FormItem className="flex items-center gap-3">
                 <FormControl>
-                  <Switch checked={field.value} onCheckedChange={field.onChange} className="data-[state=checked]:bg-vgdc-light-green" />
+                  <Switch checked={field.value} onCheckedChange={field.onChange} className={cx.switch} />
                 </FormControl>
                 <FormLabel className={`${cx.label} !mt-0`}>Has VGDC Seal</FormLabel>
               </FormItem>

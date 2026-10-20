@@ -14,7 +14,6 @@ import { MarkdownEditor } from "./MarkdownEditor"
 
 export default function BlogPostForm() {
   const [authors, setAuthors] = useState<string[]>([""])
-  const [markdown, setMarkdown] = useState("")
   const [pendingUploads, setPendingUploads] = useState(0);
 
   const form = useForm<BlogPostFormValues>({
@@ -154,11 +153,18 @@ export default function BlogPostForm() {
                 <FormLabel className={cx.label}>Content</FormLabel>
                 <FormControl>
                   <MarkdownEditor
-                    value={markdown}
-                    onChange={(value) => {
-                      setMarkdown(value)
-                      field.onChange(value)
-                    }}
+                    value={field.value}
+                    onChange={field.onChange}
+                    fullScreenFooter={
+                      <div className="mt-4 flex flex-wrap items-center justify-end gap-x-4 gap-y-2">
+                        <FormMessage />
+                        {Object.keys(form.formState.errors).some((key) => key !== "postData" && key !== "root") && (
+                          <p className="text-sm font-medium text-destructive">Some other fields need fixing. Exit full screen to see them.</p>
+                        )}
+                        <FormRootErrors formErrors={form.formState.errors} />
+                        <SubmitButton label="Publish Post" disabled={pendingUploads > 0 || form.formState.isSubmitting} />
+                      </div>
+                    }
                   />
                 </FormControl>
                 <FormDescription className={cx.hint}>Markdown supported.</FormDescription>

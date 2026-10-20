@@ -17,6 +17,7 @@ export const cx = {
   hint:     "text-text-grey/60 text-xs",
   btn:      "border-white/20 bg-black text-text-grey hover:text-white hover:bg-black",
   card:     "rounded-lg bg-background-grey p-6",
+  switch:   "data-[state=checked]:bg-vgdc-light-green data-[state=unchecked]:bg-white/15 focus-visible:ring-vgdc-light-blue focus-visible:ring-offset-background-grey [&>span]:bg-gray-200 data-[state=unchecked]:[&>span]:bg-text-grey",
 }
 
 // ── Slug helper ───────────────────────────────────────────────────────────────

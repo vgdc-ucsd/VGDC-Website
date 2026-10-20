@@ -41,13 +41,13 @@ export default function DashboardClient({ userName }: { userName: string }) {
             </TabsList>
           </div>
 
-          <TabsContent value="event">
+          <TabsContent value="event" forceMount className="data-[state=inactive]:hidden">
             <EventForm />
           </TabsContent>
-          <TabsContent value="game">
+          <TabsContent value="game" forceMount className="data-[state=inactive]:hidden">
             <GameForm />
           </TabsContent>
-          <TabsContent value="blog">
+          <TabsContent value="blog" forceMount className="data-[state=inactive]:hidden">
             <BlogPostForm />
           </TabsContent>
         </Tabs>
