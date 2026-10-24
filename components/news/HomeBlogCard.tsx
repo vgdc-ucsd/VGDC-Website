@@ -57,7 +57,14 @@ export default function HomeBlogCard({
 
         {/** Card Meta Data */}
         <div className="mt-2 inline-flex items-center">
-          <img src={avatar} className="w-8" alt="author cover image" />
+          <Image 
+            src={avatar} 
+            className="w-8" 
+            width={32}
+            height={32}
+            sizes="32px"
+            alt="author cover image" 
+          />
           <p className="ml-2 text-base text-white">{post.authors}</p>
           <p className="mx-1">•</p>
           {moment(post.date).format("MMMM DD, YYYY")}
