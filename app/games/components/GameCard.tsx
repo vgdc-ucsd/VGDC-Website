@@ -46,14 +46,15 @@ const GameCard: React.FC<GameCardProps> = ({
         <div className="relative h-3/4 w-full overflow-visible">
           <div className="relative h-full w-full overflow-hidden rounded-t-lg">
             {game.image ? (
-              <Image
-                src={game.image}
-                alt={`${game.title} thumbnail`}
-                fill={true}
-                objectFit="cover"
-                sizes="224px"
-                className="aspect-square w-full"
-              />
+              <div className="relative aspect-square w-full">
+                <Image
+                  src={game.image}
+                  alt={`${game.title} thumbnail`}
+                  fill={true}
+                  sizes="224px"
+                  className="object-cover"
+                />
+              </div>
             ) : (
               <div className="flex aspect-square w-full items-center justify-center bg-background-black">
                 <p className="text-center text-gray-400">No image</p>
