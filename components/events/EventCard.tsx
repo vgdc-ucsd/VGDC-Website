@@ -3,6 +3,7 @@
 import Link from "next/link"
 import { motion } from "framer-motion"
 import removeMd from "remove-markdown"
+import Image from "next/image"
 
 /** An event card to be shown in the events list. */
 export default function EventCard({
@@ -26,9 +27,12 @@ export default function EventCard({
         transition={{ ease: "easeOut", duration: 0.4 }}
         className="flex rounded-3xl bg-background-grey/50 p-5 align-middle sm:space-x-6 sm:p-6 mb-6"
       >
-        <img
+        <Image
           src={`${image}`}
-          className="hidden aspect-square w-40 rounded-xl object-cover sm:block md:w-48"
+          alt={`${title} thumbnail`}
+          objectFit="cover"
+          sizes="192px"
+          className="hidden aspect-square w-40 rounded-xl sm:block md:w-48"
         />
         <div className="relative w-full">
           <div className="mb-1 md:mt-2">

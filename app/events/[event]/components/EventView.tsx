@@ -6,6 +6,7 @@ import { motion } from "framer-motion"
 import ReactMarkdown from "react-markdown"
 import rehypeRaw from "rehype-raw"
 import styles from "../page.module.css"
+import Image from "next/image"
 
 export default function EventView({ event }: { event: EventDetails }) {
   return (
@@ -64,7 +65,7 @@ export default function EventView({ event }: { event: EventDetails }) {
           }}
           className="m-8 mt-14 flex-1"
         >
-          <img src={`${event.image}`} className="rounded-xl" />
+          <Image src={`${event.image}`} alt={`${event.title} thumbnail`} className="rounded-xl" />
         </motion.div>
       </div>
     </section>
