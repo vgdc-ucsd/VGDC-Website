@@ -30,9 +30,10 @@ export default function EventCard({
         <Image
           src={`${image}`}
           alt={`${title} thumbnail`}
-          objectFit="cover"
+          width={192}
+          height={192}
           sizes="192px"
-          className="hidden aspect-square w-40 rounded-xl sm:block md:w-48"
+          className="hidden aspect-square w-40 rounded-xl sm:block md:w-48 object-cover"
         />
         <div className="relative w-full">
           <div className="mb-1 md:mt-2">
