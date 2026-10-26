@@ -28,7 +28,7 @@ const GameCard: React.FC<GameCardProps> = ({
       onHoverStart={() => setIsHovered(true)}
       onHoverEnd={() => setIsHovered(false)}
       whileHover={{ scale: 1.05 }}
-      transition={{ duration: 0.3, ease: "easeOut" }}
+      transition={{ duration: 0.1, ease: "easeIn" }}
     >
       {/* Box Container */}
       <motion.div
@@ -39,7 +39,7 @@ const GameCard: React.FC<GameCardProps> = ({
             ? "0 0 0 3px rgb(99, 193, 255)"
             : "0 0 0 0px rgba(0, 0, 0, 0)",
         }}
-        transition={{ duration: 0.3 }}
+        transition={{ duration: 0.1 }}
       >
         {/* Game Cover Image */}
         <div className="relative h-3/4 w-full overflow-visible">
@@ -64,7 +64,7 @@ const GameCard: React.FC<GameCardProps> = ({
               className="absolute inset-0 bg-black pointer-events-none rounded-t-lg"
               initial={{ opacity: 0 }}
               animate={{ opacity: isHovered ? 0.3 : 0 }}
-              transition={{ duration: 0.3 }}
+              transition={{ duration: 0.1 }}
             />
             <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
               <motion.div
@@ -74,7 +74,7 @@ const GameCard: React.FC<GameCardProps> = ({
                   opacity: isHovered ? 1 : 0,
                   y: isHovered ? 0 : 8,
                 }}
-                transition={{ duration: 0.3, ease: "easeOut" }}
+                transition={{ duration: 0.1, ease: "easeOut" }}
               >
                 <Eye className="h-12 w-12 text-white" />
               </motion.div>
