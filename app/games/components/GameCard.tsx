@@ -51,7 +51,7 @@ const GameCard: React.FC<GameCardProps> = ({
                   src={game.image}
                   alt={`${game.title} thumbnail`}
                   fill={true}
-                  sizes="224px"
+                  sizes="(min-width: 640px) 224px, 320px"
                   className="object-cover"
                 />
               </div>

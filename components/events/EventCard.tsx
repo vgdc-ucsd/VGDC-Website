@@ -27,14 +27,15 @@ export default function EventCard({
         transition={{ ease: "easeOut", duration: 0.4 }}
         className="flex rounded-3xl bg-background-grey/50 p-5 align-middle sm:space-x-6 sm:p-6 mb-6"
       >
-        <Image
+        {image && (<Image
           src={`${image}`}
           alt={`${title} thumbnail`}
           width={192}
           height={192}
           sizes="192px"
           className="hidden aspect-square w-40 rounded-xl sm:block md:w-48 object-cover"
-        />
+        />)
+        }
         <div className="relative w-full">
           <div className="mb-1 md:mt-2">
               <h3 className="text-xl font-semibold text-text-white">{title}</h3>
@@ -57,7 +58,6 @@ export default function EventCard({
               {time}
             </h4>
           </div>
-        
       </motion.div>
     </Link>
     </motion.div>
