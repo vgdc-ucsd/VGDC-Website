@@ -2,8 +2,7 @@ import { Button } from "@/components/ui/button"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
 import { cleanImageName, ImageMap } from "@/lib/blog_images.shared";
 import { postImage } from "@/lib/images.client";
-import { MAX_IMAGE_BYTES } from "@/lib/images.shared";
-import { BYTES_IN_MEGABYTE } from "@/lib/utils";
+import { MAX_IMAGE_BYTES, MAX_IMAGE_MEGABYTES } from "@/lib/images.shared";
 import { Copy, FilePlus, ImageIcon, Pencil, Trash2 } from "lucide-react"
 import { useRef, useState } from "react";
 import { IoEllipsisVertical } from "react-icons/io5";
@@ -17,10 +16,11 @@ type ImageFileListProps = {
   onRename: (oldName: string, newName: string) => void,
   /** Callback for when the user removes an image from the post. */
   onDelete: (name: string) => void,
+  errors: string[],
+  onErrors: (errors: string[]) => void,
 };
 
-export default function ImageFileList({ imageMap, onUploaded, onBusyChange, onInsert, onRename, onDelete }: ImageFileListProps) {
-  const [errors, setErrors] = useState<string[]>([]);
+export default function ImageFileList({ imageMap, onUploaded, onBusyChange, onInsert, onRename, onDelete, errors, onErrors}: ImageFileListProps) {
   const [isUploading, setIsUploading] = useState(false);
   // The name of the image being renamed, and what's typed so far
   const [renaming, setRenaming] = useState<string | null>(null);
@@ -44,11 +44,11 @@ export default function ImageFileList({ imageMap, onUploaded, onBusyChange, onIn
     const toUpload = files.filter((f) => f.type.startsWith("image/") && f.size <= MAX_IMAGE_BYTES);
     const newErrors = files.flatMap((f) =>
       !f.type.startsWith("image/") ? [`${f.name} isn't an image`]
-      : f.size > MAX_IMAGE_BYTES ? [`${f.name} is larger than the max size of ${MAX_IMAGE_BYTES / BYTES_IN_MEGABYTE} MB`]
+      : f.size > MAX_IMAGE_BYTES ? [`${f.name} is larger than the max size of ${MAX_IMAGE_MEGABYTES} MB`]
       : []
     );
     if (toUpload.length === 0) {
-      setErrors(newErrors);
+      onErrors(newErrors);
       return;
     }
 
@@ -66,7 +66,7 @@ export default function ImageFileList({ imageMap, onUploaded, onBusyChange, onIn
     } finally {
       setIsUploading(false);
       onBusyChange?.(false);
-      setErrors(newErrors);
+      onErrors(newErrors);
     }
   }
 
@@ -107,7 +107,7 @@ export default function ImageFileList({ imageMap, onUploaded, onBusyChange, onIn
   function startRename(name: string) {
     setRenaming(name);
     setDraftName(name);
-    setErrors([]);
+    onErrors([]);
   }
 
   /** @param keepEditingOnError Leave the input open on a bad name (Enter) rather than giving up (blur). */
@@ -120,7 +120,7 @@ export default function ImageFileList({ imageMap, onUploaded, onBusyChange, onIn
         : newName in imageMap ? `An image named ${newName} already exists`
         : null;
       if (error) {
-        setErrors([error]);
+        onErrors([error]);
         if (keepEditingOnError) return;
       } else {
         onRename(renaming, newName);

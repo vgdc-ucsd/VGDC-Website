@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useRef, useState } from "react"
 import { useForm, useWatch } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
@@ -15,11 +15,15 @@ import ImageFileList from "./ImageFileList"
 import { ImageMap, generateUniqueImageName, resolveImageSrc } from "@/lib/blog_images.shared"
 import ReactMarkdown from "react-markdown"
 import rehypeRaw from "rehype-raw"
+import { ImageDragDropWrapper } from "./ImageDragDropWrapper"
 
 export default function BlogPostForm() {
   const [authors, setAuthors] = useState<string[]>([""])
   const [pendingUploads, setPendingUploads] = useState(0);
   const [imageMap, setImageMap] = useState<ImageMap>({});
+  const [imageErrors, setImageErrors] = useState<string[]>([]);
+
+  const editorRef = useRef(null)
 
   const form = useForm<BlogPostFormValues>({
     resolver: zodResolver(blogPostFormSchema),
@@ -54,10 +58,22 @@ export default function BlogPostForm() {
 
   function onImageDeleted(name: string) {
     // The file stays in storage; it's just no longer part of this post
+    // TODO: Once the image deletion feature from feat/event-update-delete is
+    // moved to its own branch, implement image deletion here.
     setImageMap((prev) => {
       const { [name]: _, ...rest } = prev;
       return rest;
     });
+
+    const content = form.getValues("postData");
+    form.setValue(
+      "postData",
+      content
+        .split("\n")
+        .filter((line) => !line.endsWith(`](${name})`))
+        .join("\n"),
+      { shouldDirty: true }
+    );
   }
 
   async function onSubmit(values: BlogPostFormValues) {
@@ -72,6 +88,10 @@ export default function BlogPostForm() {
     setImageMap({});
   }
 
+  function onContentChange(newContent: string) {
+    form.setValue("postData", newContent, { shouldDirty: true });
+  }
+
   const postData = useWatch({ control: form.control, name: "postData" });
 
   return (
@@ -83,6 +103,8 @@ export default function BlogPostForm() {
           onBusyChange={(busy) => setPendingUploads((count) => count + (busy ? 1 : -1))}
           onRename={onImageRenamed}
           onDelete={onImageDeleted}
+          errors={imageErrors}
+          onErrors={setImageErrors}
         />
       </aside>
 
@@ -191,7 +213,16 @@ export default function BlogPostForm() {
               <FormItem>
                 <FormLabel className={cx.label}>Content</FormLabel>
                 <FormControl>
-                  <Textarea {...field} rows={16} placeholder="Write your post in Markdown…" className={`${cx.textarea} resize-y font-mono text-sm`} />
+                  <ImageDragDropWrapper
+                    imageMap={imageMap}
+                    onUploaded={onImagesUploaded}
+                    onBusyChange={(busy) => setPendingUploads((count) => count + (busy ? 1 : -1))}
+                    onErrors={setImageErrors}
+                    onChange={onContentChange}
+                    editorRef={editorRef}
+                  >
+                    <Textarea {...field} rows={16} placeholder="Write your post in Markdown…" className={`${cx.textarea} resize-y font-mono text-sm`} ref={editorRef}/>
+                  </ImageDragDropWrapper>
                 </FormControl>
                 <FormDescription className={cx.hint}>Markdown supported. Click an image in the list to copy its Markdown.</FormDescription>
                 <FormMessage />
