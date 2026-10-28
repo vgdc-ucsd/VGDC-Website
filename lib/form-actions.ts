@@ -12,6 +12,7 @@ import { Prisma } from "@/lib/generated/prisma/client";
 import { GameFormValues, GameInput, gameInputSchema } from "@/lib/schemas/game";
 import { BlogPostCreateInput, GameCreateInput } from "@/lib/generated/prisma/models";
 import { BlogPostFormValues, BlogPostInput, blogPostInputSchema } from "@/lib/schemas/blog-post";
+import { supabaseAdmin } from "@/lib/supabase.server";
 
 export type FormActionResult<TValues> = 
   | { ok: true; }
@@ -27,14 +28,17 @@ const validateImagePath = (folder: ImageFolder) =>
     "Invalid image path",
   );
 
-export async function createEvent(input: EventInput): Promise<FormActionResult<EventFormValues>> {
-  const session = await auth();
-  if (session?.user.role != "officer") return { ok: false, error: "You must be signed in as an officer to create an event" };
+const imageValidatedEventInputSchema = eventInputSchema.extend({
+  coverImage: validateImagePath("events"),
+  gallery: z.array(validateImagePath("events")),
+})
 
-  const parsed = eventInputSchema.extend({
-    coverImage: validateImagePath("events"),
-    gallery: z.array(validateImagePath("events")),
-  }).safeParse(input);
+type ParsedEventResult =
+  | { ok: true, values: z.infer<typeof imageValidatedEventInputSchema>, startTimestamp: Date, endTimestamp: Date }
+  | Extract<FormActionResult<EventFormValues>, { ok: false }>
+
+function parseEventInput(input: EventInput): ParsedEventResult {
+  const parsed = imageValidatedEventInputSchema.safeParse(input);
   if (!parsed.success) {
     const issue = parsed.error.issues[0];
     return { ok: false, error: issue.message, field: issue.path[0] as keyof EventFormValues };
@@ -51,13 +55,24 @@ export async function createEvent(input: EventInput): Promise<FormActionResult<E
     endTimestamp.add(1, "day");
   }
 
+  return { ok: true, values, startTimestamp: startTimestamp.toDate(), endTimestamp: endTimestamp.toDate() };
+}
+
+export async function createEvent(input: EventInput): Promise<FormActionResult<EventFormValues>> {
+  const session = await auth()
+  if (session?.user.role != "officer") return { ok: false, error: "You must be signed in as an officer to create an event" }
+
+  const parsed = parseEventInput(input)
+  if (!parsed.ok) return parsed
+  const { values, startTimestamp, endTimestamp } = parsed
+
   try {
     await prisma.event.create({
       data: {
         name: values.name,
         location: values.location,
-        startTimestamp: startTimestamp.toDate(),
-        endTimestamp: endTimestamp.toDate(),
+        startTimestamp,
+        endTimestamp,
         description: values.description,
         image: values.coverImage,
         gallery: values.gallery,
@@ -81,6 +96,78 @@ export async function createEvent(input: EventInput): Promise<FormActionResult<E
   revalidatePath("/events");
   revalidatePath("/");
   return { ok: true };
+}
+
+export async function updateEvent(input: EventInput): Promise<FormActionResult<EventFormValues>> {
+  const session = await auth()
+  if (session?.user.role != "officer") return { ok: false, error: "You must be signed in as an officer to create an event" }
+
+  const parsed = parseEventInput(input)
+  if (!parsed.ok) return parsed
+  const { values, startTimestamp, endTimestamp } = parsed
+
+  try {
+    await prisma.event.update({
+      where: { slug: values.slug },
+      data: {
+        name: values.name,
+        location: values.location,
+        startTimestamp,
+        endTimestamp,
+        description: values.description,
+        image: values.coverImage,
+        gallery: values.gallery,
+        eventTags: {
+          connectOrCreate: values.tags.map((tag) => ({
+            where: { text: tag.text },
+            create: tag,
+          })),
+        },
+      } satisfies Omit<Prisma.EventCreateInput, "slug">,
+    })
+  } catch (error) {
+    if (error instanceof Prisma.PrismaClientKnownRequestError && error.code === "P2001") {
+      return { ok: false, error: "No event with this slug" }
+    }
+    console.error("updateEvent failed", error)
+    return { ok: false, error: "Couldn't update the event. Please try again." }
+  }
+
+  revalidatePath("/events")
+  revalidatePath("/")
+  return { ok: true }
+}
+
+export async function deleteEvent(input: EventInput): Promise<FormActionResult<EventFormValues>> {
+  const session = await auth()
+  if (session?.user.role != "officer") return { ok: false, error: "You must be signed in as an officer to delete an event" }
+
+  const parsed = parseEventInput(input)
+  if (!parsed.ok) return parsed
+  const { values } = parsed
+  const { slug, coverImage, gallery } = values
+
+  try {
+    await prisma.event.delete({
+      where: { slug }
+    })
+  } catch (error) {
+    if (error instanceof Prisma.PrismaClientKnownRequestError && error.code === "P2001") {
+      return { ok: false, error: "No event with this slug" }
+    }
+    console.error("deleteEvent failed", error)
+    return { ok: false, error: "Couldn't delete the event. Please try again." }
+  }
+
+  try {
+    await supabaseAdmin.storage.from("Images").remove([...gallery, coverImage])
+  } catch (error) {
+    console.error("Deleting images in deleteEvent failed", error)
+  }
+
+  revalidatePath("/events")
+  revalidatePath("/")
+  return { ok: true }
 }
 
 export async function createGame(input: GameInput): Promise<FormActionResult<GameFormValues>> {
@@ -125,6 +212,75 @@ export async function createGame(input: GameInput): Promise<FormActionResult<Gam
   } catch (error) {
     console.error("createGame failed", error);
     return { ok: false, error: "Couldn't create the game. Please try again." };
+  }
+
+  revalidatePath("/games");
+  return { ok: true };
+}
+
+export async function updateGame(id: number, input: GameInput): Promise<FormActionResult<GameFormValues>> {
+  const session = await auth();
+  if (session?.user.role != "officer") return { ok: false, error: "You must be signed in as an officer to update a game" };
+
+  const parsed = gameInputSchema.extend({
+    thumbnail: validateImagePath("games").optional().or(z.literal(""))
+  }).safeParse(input);
+  if (!parsed.success) {
+    const issue = parsed.error.issues[0];
+    return { ok: false, error: issue.message, field: issue.path[0] as keyof GameFormValues };
+  }
+  const values = parsed.data;
+  const releaseDate = parseDateOnly(values.releaseDate);
+  if (!releaseDate) return { ok: false, error: "Invalid release date", field: "releaseDate" };
+
+  try {
+    await prisma.game.update({
+      where: { id },
+      data: {
+        title: values.title,
+        credits: values.credits,
+        description: values.description,
+        releaseDate,
+        difficulty: values.difficulty,
+        link: values.link || null,
+        thumbnail: values.thumbnail || null,
+        isWebPlayable: values.isWebPlayable,
+        status: values.status,
+        hasSeal: values.hasSeal,
+        gameTags: {
+          connectOrCreate: values.tags.map((tag) => ({
+            where: { text: tag.text },
+            create: tag,
+          }))
+        }
+      }
+    });
+  } catch (error) {
+    console.error("updateGame failed", error);
+    return { ok: false, error: "Couldn't update the game. Please try again." };
+  }
+
+  revalidatePath("/games");
+  return { ok: true };
+}
+
+export async function deleteGame(id: number, input: GameInput): Promise<FormActionResult<GameFormValues>> {
+  const session = await auth();
+  if (session?.user.role != "officer") return { ok: false, error: "You must be signed in as an officer to delete a game" };
+
+  try {
+    await prisma.game.delete({ where: { id } });
+  } catch (error) {
+    console.error("deleteGame failed", error);
+    return { ok: false, error: "Couldn't delete the game. Please try again." };
+  }
+
+  if (input.thumbnail) {
+    try {
+      await supabaseAdmin.storage.from("Images").remove([input.thumbnail]);
+    } catch (error) {
+      console.error("Deleting game image failed", error);
+    }
   }
 
   revalidatePath("/games");

@@ -6,41 +6,55 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
-import { eventFormSchema, type EventFormValues, type EventTagInput } from "@/lib/schemas/event"
+import { eventFormSchema, type EventFormValues, type EventInput, type EventTagInput } from "@/lib/schemas/event"
 import { cx, toSlug, TagInput, SubmitButton, FormRootErrors } from "./shared"
 import { ImageUploadInput } from "./ImageUploadInput"
-import { createEvent } from "@/lib/form-actions"
+import { createEvent, updateEvent } from "@/lib/form-actions"
 
-export default function EventForm() {
-  const [tags, setTags] = useState<EventTagInput[]>([])
+export default function EventForm({
+  isUpdating = false,
+  initialValues,
+  callback
+}: {
+  isUpdating?: boolean
+  initialValues?: EventInput
+  callback?(): void
+}) {
+  const [tags, setTags] = useState<EventTagInput[]>(initialValues?.tags ?? [])
   const [pendingUploads, setPendingUploads] = useState(0);
 
   const form = useForm<EventFormValues>({
     resolver: zodResolver(eventFormSchema),
-    defaultValues: { name: "", location: "", date: "", startTime: "", endTime: "", description: "", slug: "", coverImage: "", gallery: [] },
+    defaultValues: initialValues ??
+      { name: "", location: "", date: "", startTime: "", endTime: "", description: "", slug: "", coverImage: "", gallery: [] },
   })
 
   function onNameChange(value: string) {
     form.setValue("name", value, { shouldDirty: true });
-    if (!form.getFieldState("slug").isDirty) {
+    // The slug should not change while updating an event.
+    if (!isUpdating && !form.getFieldState("slug").isDirty) {
       form.setValue("slug", toSlug(value));
     }
   }
 
   async function onSubmit(values: EventFormValues) {
     form.clearErrors("root");
-    const result = await createEvent({...values, tags});
+    const result = await (isUpdating ? updateEvent : createEvent)({...values, tags});
     if (!result.ok) {
       form.setError(result.field ?? "root", { message: result.error });
       return;
     }
-    form.reset();
-    setTags([]);
+    if (!isUpdating) {
+      form.reset();
+      setTags([]);
+    }
+
+    callback?.()
   }
 
   return (
     <div className={cx.card}>
-      <h3 className="mb-6 text-xl font-bold text-white">Add Event</h3>
+      <h3 className="mb-6 text-xl font-bold text-white">{isUpdating ? "Update Event" : "Add Event"}</h3>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
 
@@ -111,9 +125,11 @@ export default function EventForm() {
             <FormItem>
               <FormLabel className={cx.label}>Slug</FormLabel>
               <FormControl>
-                <Input {...field} placeholder="e.g. game-jam-spring-2025" className={cx.input} />
+                <Input {...field} readOnly={isUpdating} placeholder="e.g. game-jam-spring-2025" className={cx.input} />
               </FormControl>
-              <FormDescription className={cx.hint}>Auto-generated from the event name. Used in the URL.</FormDescription>
+              <FormDescription className={cx.hint}>
+                {isUpdating ? "Used in the URL. Can't be changed once the event is created." : "Auto-generated from the event name. Used in the URL."}
+              </FormDescription>
               <FormMessage />
             </FormItem>
           )} />
@@ -147,6 +163,7 @@ export default function EventForm() {
                   multiple={true}
                   paths={field.value ?? []}
                   onUploaded={(paths) => field.onChange([...(field.value ?? []), ...paths])}
+                  onRemoved={(path) => field.onChange(field.value.filter((fieldPath) => fieldPath !== path))}
                   onError={(message) => form.setError("gallery", { message })}
                   onBusyChange={(busy) => {
                     if (busy) form.clearErrors("gallery")
@@ -160,7 +177,7 @@ export default function EventForm() {
 
           <FormRootErrors formErrors={form.formState.errors} />
 
-          <SubmitButton label="Submit Event" disabled={pendingUploads > 0 || form.formState.isSubmitting} />
+          <SubmitButton label={isUpdating ? "Save Changes" : "Submit Event"} disabled={pendingUploads > 0 || form.formState.isSubmitting} />
         </form>
       </Form>
     </div>

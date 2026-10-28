@@ -1,8 +1,9 @@
-import { formatDateOnly } from "./dateUtils"
+import { formatDateOnly, toDateInputValue } from "./dateUtils"
 import type { GameStatusType } from "./generated/zod/inputTypeSchemas/GameStatusSchema"
 import { getStoredImageUrl } from "./images.server"
 import { prisma } from "./prisma"
 import { Result } from "./utils"
+import type { GameInput } from "./schemas/game"
 
 export type ShowcaseGameTag = {
   text: string
@@ -11,6 +12,7 @@ export type ShowcaseGameTag = {
 
 /** The details of a showcase game. */
 export type ShowcaseGamesDetails = {
+  id: number
   title: string
   releaseDate: string
   difficulty: number
@@ -22,6 +24,7 @@ export type ShowcaseGamesDetails = {
   tags: ShowcaseGameTag[]
   vgdcApproved: boolean
   web: boolean
+  formValues: GameInput
 }
 
 /**
@@ -42,6 +45,7 @@ export async function getShowcaseGames(): Promise<Result<ShowcaseGamesDetails[]>
         : "";
 
       return {
+        id: game.id,
         title: game.title,
         releaseDate: formatDateOnly(game.releaseDate),
         difficulty: game.difficulty,
@@ -56,6 +60,22 @@ export async function getShowcaseGames(): Promise<Result<ShowcaseGamesDetails[]>
         })),
         vgdcApproved: game.hasSeal,
         web: game.isWebPlayable,
+        formValues: {
+          title: game.title,
+          credits: game.credits,
+          description: game.description,
+          releaseDate: toDateInputValue(game.releaseDate),
+          status: game.status,
+          difficulty: game.difficulty,
+          isWebPlayable: game.isWebPlayable,
+          hasSeal: game.hasSeal,
+          link: game.link ?? "",
+          thumbnail: game.thumbnail ?? "",
+          tags: game.gameTags.map((tag) => ({
+            text: tag.text,
+            color: tag.color,
+          })),
+        },
       } satisfies ShowcaseGamesDetails;
     });
 
