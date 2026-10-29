@@ -148,7 +148,15 @@ export default async function BlogPage({
 
     function ImageRenderer(src: string, alt: string, title: string) {
         return (
-            <img src={src} alt={alt} title={title} style={{ maxWidth: "100%" }} />
+            <Image 
+              src={src} 
+              alt={alt} 
+              title={title} 
+              width={0}
+              height={0}
+              sizes="(min-width: 1024px) 50vw 100vw"
+              className="max-w-[100%] h-auto w-full"
+            />
         )
     }
 

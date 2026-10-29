@@ -40,14 +40,14 @@ export class ImageUploader {
   private summary: ImageUploadSummary = { uploaded: 0, kept: 0, failed: [] };
 
   constructor() {
-    const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+    const serviceKey = process.env.SUPABASE_SECRET_KEY;
     if (serviceKey) {
       this.client = createClient(process.env.NEXT_PUBLIC_SUPABASE_URL!, serviceKey, {
         auth: { persistSession: false },
       });
     } else {
       console.warn(
-        '⚠️  SUPABASE_SERVICE_ROLE_KEY is not set; uploading with the anon key, which fails unless the bucket allows anonymous uploads'
+        '⚠️  SUPABASE_SECRET_KEY is not set; uploading with the public publishable key, which fails unless the bucket allows anonymous uploads'
       );
       this.client = supabase;
     }
