@@ -57,20 +57,6 @@ const GameModal: React.FC<GameModalProps> = ({
           <X size={20} />
         </button>
 
-        {/* Hide scrollbar */}
-        <style jsx global>{`
-          /* Hide scrollbar for Chrome, Safari and Opera */
-          .hide-scrollbar::-webkit-scrollbar {
-            display: none;
-          }
-
-          /* Hide scrollbar for IE, Edge and Firefox */
-          .hide-scrollbar {
-            -ms-overflow-style: none; /* IE and Edge */
-            scrollbar-width: none; /* Firefox */
-          }
-        `}</style>
-
         <div className="hide-scrollbar max-h-[90vh] overflow-y-auto">
           {/* Blurred background image header */}
           <div className="relative h-64 w-full overflow-hidden bg-gray-800 sm:h-48">
