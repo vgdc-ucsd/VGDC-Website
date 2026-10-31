@@ -70,7 +70,7 @@ export default function EventView({ event }: { event: EventDetails }) {
             alt={`${event.title} thumbnail`} 
             width={0}
             height={0}
-            sizes="(min-width: 1024px) 50vw 100vw"
+            sizes="(min-width: 1024px) 50vw, 100vw"
             className="rounded-xl h-auto w-full"
           />)}
         </motion.div>
