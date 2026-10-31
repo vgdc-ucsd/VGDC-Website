@@ -154,7 +154,7 @@ export default async function BlogPage({
               title={title} 
               width={0}
               height={0}
-              sizes="(min-width: 1024px) 50vw 100vw"
+              sizes="(min-width: 1024px) 50vw, 100vw"
               className="max-w-[100%] h-auto w-full"
             />
         )
