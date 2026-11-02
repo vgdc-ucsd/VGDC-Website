@@ -34,20 +34,25 @@ export default function EventCard({
     <motion.div
       whileHover={{ filter: "brightness(0.8)" }}
     >
-      <Link href={`./events/${slug}`}>
-        <motion.div
-          initial={{ opacity: 0, translateY: 100 }}
-          whileInView={{ opacity: 1, translateY: 0 }}
-          viewport={{ once: true }}
-          transition={{ ease: "easeOut", duration: 0.4 }}
-          className="flex rounded-3xl bg-background-grey/50 p-5 align-middle sm:space-x-6 sm:p-6 mb-6"
-        >
-          <img
-            src={`${image}`}
-            className="hidden aspect-square w-40 rounded-xl object-cover sm:block md:w-48"
-          />
-          <div className="relative w-full">
-            <div className="mb-1 md:mt-2">
+    <Link href={`./events/${slug}`}>
+      <motion.div
+        initial={{ opacity: 0, translateY: 100 }}
+        whileInView={{ opacity: 1, translateY: 0 }}
+        viewport={{ once: true }}
+        transition={{ ease: "easeOut", duration: 0.4 }}
+        className="flex rounded-3xl bg-background-grey/50 p-5 align-middle sm:space-x-6 sm:p-6 mb-6"
+      >
+        {image && (<Image
+          src={`${image}`}
+          alt={`${title} thumbnail`}
+          width={192}
+          height={192}
+          sizes="192px"
+          className="hidden aspect-square w-40 rounded-xl sm:block md:w-48 object-cover"
+        />)
+        }
+        <div className="relative w-full">
+          <div className="mb-1 md:mt-2">
               <h3 className="text-xl font-semibold text-text-white">{title}</h3>
               <h4 className="text-md font-semibold text-vgdc-light-green">
                 {location}

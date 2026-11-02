@@ -110,6 +110,7 @@ export function ImageUploadInput({ folder, multiple, paths, onUploaded, onRemove
                 width={320}
                 height={320}
                 className="h-80 w-80 rounded object-cover"
+                unoptimized={true}
               />
               { multiple &&
                 <Button

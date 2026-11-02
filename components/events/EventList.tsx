@@ -20,14 +20,19 @@ export default function EventList({
   const [deleting, setDeleting] = useState(false)
   const [deleteError, setDeleteError] = useState<string | null>(null)
 
-  function openModal(kind: "update" | "delete", item: EventInput) {
+  function openModal(kind: "update" | "delete", formValues: EventInput) {
     setDeleteError(null)
-    setModal({ kind, item })
+    setModal({ kind, formValues })
   }
 
-  async function onDelete(item: EventInput) {
+  async function onDelete() {
+    if (modal?.kind !== "delete") {
+      setDeleteError("Not currently in deletion mode")
+      return
+    }
+
     setDeleting(true)
-    const result = await deleteEvent(item)
+    const result = await deleteEvent(modal.formValues)
     setDeleting(false)
     if (!result.ok) {
       setDeleteError(result.error)
