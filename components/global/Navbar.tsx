@@ -32,7 +32,7 @@ export default function Navbar({ offsetSpace = true, hideOnScroll = true }) {
 
   const { data: session, status } = useSession()
   const isAuthenticated = status === "authenticated"
-  const isOfficer = (session?.user as any)?.role == "officer"
+  const isOfficer = session?.user?.role == "officer"
 
   const [windowSize, setWindowSize] = useState({
     width: 300,

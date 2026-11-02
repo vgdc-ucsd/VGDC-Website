@@ -5,7 +5,7 @@ import { redirect } from "next/navigation"
 export default async function DashboardPage() {
   const session = await auth()
 
-  if (!((session?.user as any)?.role == "officer")) {
+  if (!(session?.user?.role == "officer")) {
     redirect(`/unauthorized?redirect=/dashboard`)
   }
 
