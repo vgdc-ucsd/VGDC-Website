@@ -1,8 +1,11 @@
 "use client"
 
+import Image from "next/image"
 import Link from "next/link"
 import { motion } from "framer-motion"
 import removeMd from "remove-markdown"
+import VerticalEllipsis from "@/components/global/VerticalEllipsis"
+import type { EventInput } from "@/lib/schemas/event"
 
 /** An event card to be shown in the events list. */
 export default function EventCard({
@@ -13,7 +16,21 @@ export default function EventCard({
   description,
   image,
   slug,
-}: any) {
+  formValues,
+  editable = false,
+  openModal
+}: {
+  title: string,
+  location: string,
+  date: string,
+  time: string,
+  description: string,
+  image: string,
+  slug: string,
+  formValues: EventInput
+  editable?: boolean,
+  openModal(kind: "update" | "delete", formValues: EventInput): void
+}) {
   return (
     <div className="transition-[filter] duration-200 hover:brightness-75 will-change-[filter]">
     <Link href={`./events/${slug}`}>
@@ -24,10 +41,15 @@ export default function EventCard({
         transition={{ ease: "easeOut", duration: 0.4 }}
         className="flex rounded-3xl bg-background-grey/50 p-5 align-middle sm:space-x-6 sm:p-6 mb-6"
       >
-        <img
+        {image && (<Image
           src={`${image}`}
-          className="hidden aspect-square w-40 rounded-xl object-cover sm:block md:w-48"
-        />
+          alt={`${title} thumbnail`}
+          width={192}
+          height={192}
+          sizes="192px"
+          className="hidden aspect-square w-40 rounded-xl sm:block md:w-48 object-cover"
+        />)
+        }
         <div className="relative w-full">
           <div className="mb-1 md:mt-2">
               <h3 className="text-xl font-semibold text-text-white">{title}</h3>
@@ -49,11 +71,18 @@ export default function EventCard({
               <br />
               {time}
             </h4>
+            {
+              editable &&
+              <
+                VerticalEllipsis
+                onUpdate={() => openModal("update", formValues)}
+                onDelete={() => openModal("delete", formValues)}
+              />
+            }
           </div>
-        
-      </motion.div>
-    </Link>
-    </div>
+        </motion.div>
+      </Link>
+    </motion.div>
   )
 }
 

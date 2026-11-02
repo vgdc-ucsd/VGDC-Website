@@ -6,6 +6,8 @@ import { motion } from "framer-motion"
 import { GameStatusColor } from "./ShowcaseSearch"
 import { Eye } from "lucide-react"
 import { useState } from "react"
+import VerticalEllipsis from "@/components/global/VerticalEllipsis"
+import Image from "next/image"
 
 export type GameStatus = "Released" | "Unreleased"
 
@@ -13,11 +15,15 @@ type GameCardProps = {
   game: ShowcaseGamesDetails
   onClick: () => void
   getStatusText: (status: boolean) => GameStatus
+  editable?: boolean
+  openModal?(kind: "update" | "delete", game: ShowcaseGamesDetails): void
 }
 
 const GameCard: React.FC<GameCardProps> = ({
   game,
   onClick,
+  editable = false,
+  openModal,
 }) => {
   const [isHovered, setIsHovered] = useState(false)
 
@@ -45,14 +51,15 @@ const GameCard: React.FC<GameCardProps> = ({
         <div className="relative h-3/4 w-full overflow-visible">
           <div className="relative h-full w-full overflow-hidden rounded-t-lg">
             {game.image ? (
-              <div
-                className="aspect-square w-full"
-                style={{
-                  backgroundImage: `url(${game.image})`,
-                  backgroundSize: "cover",
-                  backgroundPosition: "center",
-                }}
-              />
+              <div className="relative aspect-square w-full">
+                <Image
+                  src={game.image}
+                  alt={`${game.title} thumbnail`}
+                  fill={true}
+                  sizes="(min-width: 640px) 224px, 320px"
+                  className="object-cover"
+                />
+              </div>
             ) : (
               <div className="flex aspect-square w-full items-center justify-center bg-background-black">
                 <p className="text-center text-gray-400">No image</p>
@@ -103,9 +110,17 @@ const GameCard: React.FC<GameCardProps> = ({
         {/* Game Information - Bottom Info */}
         <div className="w-full rounded-b-lg bg-footer-grey p-3">
           {/* <div className="aspect-square w-full opacity-0"></div> */}
-          <h3 className="mb-1 line-clamp-1 text-base font-bold text-white">
-            {game.title}
-          </h3>
+          <div className="relative pr-8">
+            <h3 className="mb-1 line-clamp-1 text-base font-bold text-white">
+              {game.title}
+            </h3>
+            {editable && openModal && (
+              <VerticalEllipsis
+                onUpdate={() => openModal("update", game)}
+                onDelete={() => openModal("delete", game)}
+              />
+            )}
+          </div>
 
           <div className="mb-2 flex flex-wrap gap-1">
             <span

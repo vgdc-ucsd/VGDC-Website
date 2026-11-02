@@ -1,10 +1,11 @@
 import moment from "moment-timezone"
 import { prisma } from "@/lib/prisma"
-import type { Event } from "@/lib/generated/prisma/client"
+import type { Prisma } from "@/lib/generated/prisma/client"
 import { EventWhereInput } from "@/lib/generated/prisma/models"
 import { getStoredImageUrl } from "@/lib/images.server"
 import { Timezone } from "@/lib/dateUtils"
 import { Result } from "@/lib/utils"
+import type { EventInput } from "@/lib/schemas/event"
 
 /** The details of an event, formatted for display. */
 export type EventDetails = {
@@ -15,7 +16,12 @@ export type EventDetails = {
   time: string
   image: string
   slug: string
+  /** The raw values of the event, used to prefill the event form when editing. */
+  formValues: EventInput
 }
+
+const eventInclude = { eventTags: true } satisfies Prisma.EventInclude
+type EventWithTags = Prisma.EventGetPayload<{ include: typeof eventInclude }>
 
 export interface GetEventsFlags {
   homepage?: boolean;
@@ -29,7 +35,7 @@ export interface GetEventsFlags {
  * they're converted to Pacific time here rather than relying on the server's
  * time zone (UTC on Vercel).
  */
-async function toEventDetails(event: Event): Promise<EventDetails> {
+async function toEventDetails(event: EventWithTags): Promise<EventDetails> {
   const start = moment(event.startTimestamp).tz(Timezone);
   const end = moment(event.endTimestamp).tz(Timezone);
 
@@ -41,6 +47,18 @@ async function toEventDetails(event: Event): Promise<EventDetails> {
     time: `${start.format("LT")} - ${end.format("LT")}`,
     image: event.image ? await getStoredImageUrl(event.image) : "",
     slug: event.slug,
+    formValues: {
+      name: event.name,
+      location: event.location,
+      date: start.format("YYYY-MM-DD"),
+      startTime: start.format("HH:mm"),
+      endTime: end.format("HH:mm"),
+      description: event.description,
+      coverImage: event.image ?? "",
+      gallery: event.gallery,
+      slug: event.slug,
+      tags: event.eventTags.map(({ text, color }) => ({ text, color })),
+    },
   };
 }
 
@@ -49,7 +67,8 @@ async function toEventDetails(event: Event): Promise<EventDetails> {
  */
 export async function getSingleEvent(slug: string): Promise<Result<EventDetails>> {
   const event = await prisma.event.findUnique({
-    where: { slug: slug }
+    where: { slug: slug },
+    include: eventInclude,
   })
 
   if (!event) return { ok: false, error: `Failed to get event ${slug}` }
@@ -84,6 +103,7 @@ export async function getEvents({
     const events = await prisma.event.findMany({
       where: timeExcludes.length > 0 ? { NOT: { OR: timeExcludes } } : undefined,
       orderBy: { startTimestamp: latestFirst ? "desc" : "asc" },
+      include: eventInclude,
     });
 
     return {
