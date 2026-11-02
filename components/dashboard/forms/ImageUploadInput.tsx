@@ -98,6 +98,7 @@ export function ImageUploadInput({ folder, multiple, paths, onUploaded, onError,
               width={320}
               height={320}
               className="h-80 w-80 rounded object-cover"
+              unoptimized={true}
             />
           ))}
         </div>

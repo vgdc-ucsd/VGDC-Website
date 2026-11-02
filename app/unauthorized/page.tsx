@@ -3,15 +3,14 @@ import Navbar from "@/components/global/Navbar";
 import SignInButton from "@/components/global/SignInButton";
 import { Button } from "../../components/ui/button";
 import Link from "next/link";
-import { authOptions } from "@/lib/auth"
-import { getServerSession } from "next-auth/next";
+import { auth } from "@/lib/auth"
 
 export default async function UnauthorizedPage({ searchParams }: {
   searchParams:
   Promise<{ [key: string]: string | string[] | undefined }>
 }) {
   const query = await searchParams;
-  const session = await getServerSession(authOptions)
+  const session = await auth()
 
   return (
     <main className="min-h-screen bg-background-black">

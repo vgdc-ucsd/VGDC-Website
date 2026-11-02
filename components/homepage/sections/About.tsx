@@ -61,7 +61,7 @@
 //           <a href="https://www.facebook.com/groups/VGDC.UCSD/" target="_blank">
 //             <FaFacebook className={socialLinkStyle} size={28} />
 //           </a>
-//           <a href="mailto:vgdc@ucsd.edu" target="_blank">
+//           <a href="mailto:contact@vgdc.dev" target="_blank">
 //             <SiMinutemailer className={socialLinkStyle} size={28} />
 //           </a>
 //         </span>

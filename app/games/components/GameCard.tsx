@@ -6,6 +6,7 @@ import { motion } from "framer-motion"
 import { GameStatusColor } from "./ShowcaseSearch"
 import { Eye } from "lucide-react"
 import { useState } from "react"
+import Image from "next/image"
 
 export type GameStatus = "Released" | "Unreleased"
 
@@ -45,14 +46,15 @@ const GameCard: React.FC<GameCardProps> = ({
         <div className="relative h-3/4 w-full overflow-visible">
           <div className="relative h-full w-full overflow-hidden rounded-t-lg">
             {game.image ? (
-              <div
-                className="aspect-square w-full"
-                style={{
-                  backgroundImage: `url(${game.image})`,
-                  backgroundSize: "cover",
-                  backgroundPosition: "center",
-                }}
-              />
+              <div className="relative aspect-square w-full">
+                <Image
+                  src={game.image}
+                  alt={`${game.title} thumbnail`}
+                  fill={true}
+                  sizes="(min-width: 640px) 224px, 320px"
+                  className="object-cover"
+                />
+              </div>
             ) : (
               <div className="flex aspect-square w-full items-center justify-center bg-background-black">
                 <p className="text-center text-gray-400">No image</p>

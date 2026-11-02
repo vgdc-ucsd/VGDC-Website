@@ -122,13 +122,13 @@ function HeroText() {
           </h3>
           {/* Email Button */}
           {/* <a
-        href="mailto:vgdc@ucsd.edu"
+        href="mailto:contact@vgdc.dev"
         target="_blank"
         className="text-md mx-auto mt-3 block h-fit w-fit rounded-3xl bg-hot-pink 
           px-3 py-1 text-center align-middle text-white transition-colors hover:bg-pink-700 hover:text-light-grey 
           sm:mt-5"
       >
-        vgdc@ucsd.edu
+        contact@vgdc.dev
       </a> */}
         </motion.div>
       </div>

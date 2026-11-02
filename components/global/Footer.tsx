@@ -109,23 +109,26 @@ export default function Footer() {
             <div className="text-center text-lg text-white">Contact us!</div>
             <div className="mx-auto w-fit text-center">
               <a
-                href={`mailto:vgdc@ucsd.edu`}
+                href={`mailto:contact@vgdc.dev`}
                 className="text-center font-bold"
               >
                 <RippleText className="text-4xl">
-                  <span className="text-v-color">v</span>
-                  <span className="text-g-color">g</span>
-                  <span className="text-d-color">d</span>
-                  <span className="text-c-color">c</span>
-                  <span className="text-lg text-[#A7E7D0]">@</span>
-                  <span className="text-[#D3F3E7]">u</span>
+                  <span className="text-v-color">c</span>
+                  <span className="text-g-color">o</span>
+                  <span className="text-d-color">n</span>
+                  <span className="text-c-color">t</span>
+                  <span className="text-[#D3F3E7]">a</span>
                   <span className="text-[#D3F3E7]">c</span>
-                  <span className="text-[#D3F3E7]">s</span>
-                  <span className="text-[#A7E7D0]">d</span>
+                  <span className="text-[#D3F3E7]">t</span>
+                  <span className="text-xl text-[#A7E7D0]">@</span>
+                  <span className="text-[#D3F3E7]">v</span>
+                  <span className="text-[#D3F3E7]">g</span>
+                  <span className="text-[#D3F3E7]">d</span>
+                  <span className="text-[#A7E7D0]">c</span>
                   <span className="text-c-color">.</span>
-                  <span className="text-d-color">e</span>
-                  <span className="text-g-color">d</span>
-                  <span className="text-v-color">u</span>
+                  <span className="text-d-color">d</span>
+                  <span className="text-g-color">e</span>
+                  <span className="text-v-color">v</span>
                 </RippleText>
               </a>
             </div>

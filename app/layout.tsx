@@ -3,6 +3,8 @@ import { Inter } from "next/font/google"
 import { Toaster } from "@/components/ui/toaster"
 import "./globals.css"
 import { Providers } from './providers';
+import { Suspense } from "react";
+import QueryParamHandler from "@/components/global/QueryParamHandler";
 
 const inter = Inter({ subsets: ["latin"] })
 
@@ -20,6 +22,9 @@ export default function RootLayout({
     <html lang="en" className="bg-background-black">
       <body className={inter.className}>
          <Providers>
+        <Suspense fallback={null}>
+          <QueryParamHandler />
+        </Suspense>
         <main>{children}</main>
         <Toaster />
         </Providers>

@@ -1,4 +1,4 @@
-import { NextAuthOptions } from "next-auth"
+import { NextAuthOptions, ISODateString } from "next-auth"
 import DiscordProvider from "next-auth/providers/discord"
 import type {
   GetServerSidePropsContext,
@@ -17,6 +17,7 @@ export const authOptions: NextAuthOptions = {
           scope: "identify email guilds.members.read",
         },
       },
+      issuer: "https://discord.com",
     }),
   ],
   callbacks: {

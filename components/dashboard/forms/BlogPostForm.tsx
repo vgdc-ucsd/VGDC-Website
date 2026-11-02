@@ -111,8 +111,8 @@ export default function BlogPostForm() {
               <FormItem>
                 <FormLabel className={cx.label}>Cover Image</FormLabel>
                 <FormControl>
-                  <ImageUploadInput
-                    folder="blogs"
+                  <ImageUploadInput 
+                    folder="blogs" 
                     multiple={false}
                     paths={field.value ? [field.value] : []}
                     onUploaded={([path]) => field.onChange(path)}

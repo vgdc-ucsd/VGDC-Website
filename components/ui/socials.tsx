@@ -22,7 +22,7 @@ const socialLinks = [
     label: "Discord"
   },
   {
-    href: "mailto:vgdc@ucsd.edu",
+    href: "mailto:contact@vgdc.dev",
     icon: SiMinutemailer,
     size: 28,
     label: "Email"
