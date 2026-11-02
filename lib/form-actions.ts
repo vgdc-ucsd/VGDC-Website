@@ -218,6 +218,75 @@ export async function createGame(input: GameInput): Promise<FormActionResult<Gam
   return { ok: true };
 }
 
+export async function updateGame(id: number, input: GameInput): Promise<FormActionResult<GameFormValues>> {
+  const session = await auth();
+  if (session?.user.role != "officer") return { ok: false, error: "You must be signed in as an officer to update a game" };
+
+  const parsed = gameInputSchema.extend({
+    thumbnail: validateImagePath("games").optional().or(z.literal(""))
+  }).safeParse(input);
+  if (!parsed.success) {
+    const issue = parsed.error.issues[0];
+    return { ok: false, error: issue.message, field: issue.path[0] as keyof GameFormValues };
+  }
+  const values = parsed.data;
+  const releaseDate = parseDateOnly(values.releaseDate);
+  if (!releaseDate) return { ok: false, error: "Invalid release date", field: "releaseDate" };
+
+  try {
+    await prisma.game.update({
+      where: { id },
+      data: {
+        title: values.title,
+        credits: values.credits,
+        description: values.description,
+        releaseDate,
+        difficulty: values.difficulty,
+        link: values.link || null,
+        thumbnail: values.thumbnail || null,
+        isWebPlayable: values.isWebPlayable,
+        status: values.status,
+        hasSeal: values.hasSeal,
+        gameTags: {
+          connectOrCreate: values.tags.map((tag) => ({
+            where: { text: tag.text },
+            create: tag,
+          }))
+        }
+      }
+    });
+  } catch (error) {
+    console.error("updateGame failed", error);
+    return { ok: false, error: "Couldn't update the game. Please try again." };
+  }
+
+  revalidatePath("/games");
+  return { ok: true };
+}
+
+export async function deleteGame(id: number, input: GameInput): Promise<FormActionResult<GameFormValues>> {
+  const session = await auth();
+  if (session?.user.role != "officer") return { ok: false, error: "You must be signed in as an officer to delete a game" };
+
+  try {
+    await prisma.game.delete({ where: { id } });
+  } catch (error) {
+    console.error("deleteGame failed", error);
+    return { ok: false, error: "Couldn't delete the game. Please try again." };
+  }
+
+  if (input.thumbnail) {
+    try {
+      await supabaseAdmin.storage.from("Images").remove([input.thumbnail]);
+    } catch (error) {
+      console.error("Deleting game image failed", error);
+    }
+  }
+
+  revalidatePath("/games");
+  return { ok: true };
+}
+
 export async function createBlogPost(input: BlogPostInput): Promise<FormActionResult<BlogPostFormValues>> {
   const session = await auth();
   if (session?.user.role != "officer") return { ok: false, error: "You must be signed in as an officer to create a game" };
