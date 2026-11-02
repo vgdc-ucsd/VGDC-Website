@@ -157,7 +157,8 @@ function FeaturedGamesTitle() {
       className="mb-12 text-center text-6xl font-extrabold text-white sm:text-7xl lg:mb-16 lg:text-9xl"
     >
       Featured <br />
-      <span className="bg-gradient-to-r from-vgdc-light-blue to-vgdc-light-green bg-clip-text text-transparent">
+      {/* bg-white shows through if the gradient vars get clobbered (e.g. by extensions injecting Tailwind v4 @property rules) */}
+      <span className="bg-white bg-gradient-to-r from-vgdc-light-blue to-vgdc-light-green bg-clip-text text-transparent">
         Games
       </span>
     </motion.h1>
