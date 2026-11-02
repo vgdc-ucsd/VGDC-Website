@@ -22,7 +22,7 @@ export default function EventList({
 
   function openModal(kind: "update" | "delete", formValues: EventInput) {
     setDeleteError(null)
-    setModal({ kind, formValues })
+    setModal({ kind, item: formValues })
   }
 
   async function onDelete() {
@@ -32,7 +32,7 @@ export default function EventList({
     }
 
     setDeleting(true)
-    const result = await deleteEvent(modal.formValues)
+    const result = await deleteEvent(modal.item)
     setDeleting(false)
     if (!result.ok) {
       setDeleteError(result.error)
