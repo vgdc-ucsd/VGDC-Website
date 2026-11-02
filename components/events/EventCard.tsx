@@ -32,9 +32,7 @@ export default function EventCard({
   openModal(kind: "update" | "delete", formValues: EventInput): void
 }) {
   return (
-    <motion.div
-      whileHover={{ filter: "brightness(0.8)" }}
-    >
+    <div className="transition-[filter] duration-200 hover:brightness-75 will-change-[filter]">
     <Link href={`./events/${slug}`}>
       <motion.div
         initial={{ opacity: 0, translateY: 100 }}
