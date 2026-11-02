@@ -3,6 +3,9 @@
 import Link from "next/link"
 import { motion } from "framer-motion"
 import removeMd from "remove-markdown"
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuPortal, DropdownMenuTrigger } from "../ui/dropdown-menu"
+import { IoCreate, IoEllipsisVertical, IoTrash } from "react-icons/io5"
+import type { EventInput } from "@/lib/schemas/event"
 import Image from "next/image"
 
 /** An event card to be shown in the events list. */
@@ -14,7 +17,21 @@ export default function EventCard({
   description,
   image,
   slug,
-}: any) {
+  formValues,
+  editable = false,
+  openModal
+}: {
+  title: string,
+  location: string,
+  date: string,
+  time: string,
+  description: string,
+  image: string,
+  slug: string,
+  formValues: EventInput
+  editable?: boolean,
+  openModal(kind: "update" | "delete", formValues: EventInput): void
+}) {
   return (
     <motion.div
       whileHover={{ filter: "brightness(0.8)" }}
@@ -57,6 +74,28 @@ export default function EventCard({
               <br />
               {time}
             </h4>
+            {editable && (
+              // Prevent clicks on the menu trigger from following the card's link
+              <div className="absolute right-1 bottom-1 text-right" onClick={e => e.preventDefault()}>
+                <DropdownMenu modal={false}>
+                  <DropdownMenuTrigger>
+                    <IoEllipsisVertical size={20} className="text-white hover:text-light-grey"/>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuPortal>
+                    <DropdownMenuContent onClick={e => e.stopPropagation()} onCloseAutoFocus={e => e.preventDefault()} className="bg-background-grey border-none">
+                      <DropdownMenuItem onSelect={() => openModal("update", formValues)} className="hover:cursor-pointer text-white">
+                        Update
+                        <IoCreate className="ml-auto relative -top-1/2"/>
+                      </DropdownMenuItem>
+                      <DropdownMenuItem onSelect={() => openModal("delete", formValues)} className="text-red-500 hover:cursor-pointer">
+                        Delete
+                        <IoTrash className="ml-auto"/>
+                      </DropdownMenuItem>
+                    </DropdownMenuContent>
+                  </DropdownMenuPortal>
+                </DropdownMenu>
+              </div>
+            )}
           </div>
       </motion.div>
     </Link>
