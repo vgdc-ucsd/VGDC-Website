@@ -82,7 +82,7 @@ export default function EventCard({
           </div>
         </motion.div>
       </Link>
-    </motion.div>
+    </div>
   )
 }
 
