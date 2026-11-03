@@ -1,7 +1,7 @@
 "use server"
 
 import { auth } from "@/lib/auth";
-import { EventFormValues, EventInput, eventInputSchema } from "@/lib/schemas/event";
+import { EventFormValues, EventInput, eventInputSchema, EventTagInput, eventTagInputSchema } from "@/lib/schemas/event";
 import moment from "moment-timezone";
 import { parseDateOnly, Timezone } from "@/lib/dateUtils";
 import { revalidatePath } from "next/cache";
@@ -9,7 +9,7 @@ import { ImageFolder } from "@/lib/images.shared";
 import z from "zod";
 import { prisma } from "@/lib/prisma";
 import { Prisma } from "@/lib/generated/prisma/client";
-import { GameFormValues, GameInput, gameInputSchema } from "@/lib/schemas/game";
+import { GameFormValues, GameInput, gameInputSchema, GameTagInput, gameTagInputSchema } from "@/lib/schemas/game";
 import { BlogPostCreateInput, GameCreateInput } from "@/lib/generated/prisma/models";
 import { BlogPostFormValues, BlogPostInput, blogPostInputSchema } from "@/lib/schemas/blog-post";
 
@@ -168,6 +168,83 @@ export async function createBlogPost(input: BlogPostInput): Promise<FormActionRe
   }
 
   revalidatePath("/news")
+  revalidatePath("/");
+  return { ok: true };
+}
+
+export type SavedTag = { text: string; color: string; uses: number };
+
+/** Lists the tags saved in the database, with how many games/events use each, most used first. */
+export async function getSavedTags(type: "game" | "event"): Promise<SavedTag[]> {
+  const session = await auth();
+  if (session?.user?.role != "officer") return [];
+
+  const tags = type === "game"
+    ? (await prisma.gameTags.findMany({ include: { _count: { select: { games: true } } } }))
+        .map((t) => ({ text: t.text, color: t.color, uses: t._count.games }))
+    : (await prisma.eventTags.findMany({ include: { _count: { select: { events: true } } } }))
+        .map((t) => ({ text: t.text, color: t.color, uses: t._count.events }));
+
+  return tags.sort((a, b) => b.uses - a.uses || a.text.localeCompare(b.text));
+}
+
+/** Deletes a saved tag, which also removes it from every game/event that has it. */
+export async function deleteTag(type: "game" | "event", text: string): Promise<FormActionResult<GameTagInput>> {
+  const session = await auth();
+  if (session?.user?.role != "officer") return { ok: false, error: "You must be signed in as an officer to delete a tag" };
+
+  try {
+    if (type === "game") {
+      await prisma.gameTags.deleteMany({ where: { text } });
+    } else {
+      await prisma.eventTags.deleteMany({ where: { text } });
+    }
+  } catch (error) {
+    console.error("deleteTag failed", error);
+    return { ok: false, error: "Couldn't delete the tag. Please try again." };
+  }
+
+  revalidatePath(type === "game" ? "/games" : "/events");
+  revalidatePath("/");
+  return { ok: true };
+}
+
+/**
+ * Renames/recolors a saved tag everywhere it's used. Tags are matched by text (unique per table).
+ * A tag that was never saved with a game/event doesn't exist in the database yet, which is fine:
+ * nothing is updated and it will be created with its new values the first time it's used.
+ */
+export async function updateTag(
+  type: "game" | "event",
+  oldText: string,
+  input: GameTagInput | EventTagInput,
+): Promise<FormActionResult<GameTagInput>> {
+  const session = await auth();
+  if (session?.user?.role != "officer") return { ok: false, error: "You must be signed in as an officer to edit a tag" };
+
+  const parsed = (type === "game" ? gameTagInputSchema : eventTagInputSchema).safeParse(input);
+  if (!parsed.success) {
+    const issue = parsed.error.issues[0];
+    return { ok: false, error: issue.message, field: issue.path[0] as keyof GameTagInput };
+  }
+  const tag = parsed.data;
+
+  try {
+    const where = { text: oldText };
+    if (type === "game") {
+      await prisma.gameTags.updateMany({ where, data: tag });
+    } else {
+      await prisma.eventTags.updateMany({ where, data: tag });
+    }
+  } catch (error) {
+    if (error instanceof Prisma.PrismaClientKnownRequestError && error.code === "P2002") {
+      return { ok: false, error: `A saved tag named "${tag.text}" already exists`, field: "text" };
+    }
+    console.error("updateTag failed", error);
+    return { ok: false, error: "Couldn't update the tag. Please try again." };
+  }
+
+  revalidatePath(type === "game" ? "/games" : "/events");
   revalidatePath("/");
   return { ok: true };
 }

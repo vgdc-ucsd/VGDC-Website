@@ -67,11 +67,10 @@ class MigrationSteps {
     console.log(`🎮 Creating ${games.length} games...`);
 
     for (const game of games) {
-      // Find the tag ID for this game's theme
-      const tagIds =
-        game.themeText && tagMap.has(game.themeText)
-          ? [tagMap.get(game.themeText)!]
-          : [];
+      // Find the tag IDs for this game's themes
+      const tagIds = game.themeTags
+        .filter((tag) => tagMap.has(tag))
+        .map((tag) => tagMap.get(tag)!);
 
       await withContext(`game "${game.title}"`, () =>
         this.tx.game.create({

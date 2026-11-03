@@ -74,7 +74,7 @@ const GameModal: React.FC<GameModalProps> = ({
         <div className="hide-scrollbar max-h-[90vh] overflow-y-auto">
           {/* Blurred background image header */}
           <div className="relative h-64 w-full overflow-hidden bg-gray-800 sm:h-48">
-            {game.image ? (
+            {game.image && (
               <>
                 {/* Blurred background image */}
                 <div
@@ -89,77 +89,84 @@ const GameModal: React.FC<GameModalProps> = ({
 
                 {/* Overlay to darken the blurred image */}
                 <div className="absolute inset-0 bg-black bg-opacity-40"></div>
+              </>
+            )}
 
-                {/* General info section (image, title, and approval seal) */}
-                <div className="absolute bottom-0 left-0 w-full bg-gradient-to-t from-background-black p-6">
-                  <div className="flex items-end gap-4">
-                    <div className="flex flex-grow flex-col gap-4 sm:flex-row sm:items-end">
-                      {/* Clear image */}
-                      <div
-                        className="relative flex-shrink-0 overflow-hidden rounded-lg shadow-lg"
-                        style={{ maxWidth: "150px", maxHeight: "200px" }}
-                      >
-                        <Image
-                          src={game.image}
-                          alt={game.title}
-                          width={150}
-                          height={200}
-                          className="h-auto w-auto object-contain"
-                          style={{ maxHeight: "200px" }}
-                        />
-                      </div>
+            {/* General info section (image, title, and approval seal), shown with or without a thumbnail */}
+            <div className="absolute bottom-0 left-0 w-full bg-gradient-to-t from-background-black p-6">
+              <div className="flex items-end gap-4">
+                <div className="flex flex-grow flex-col gap-4 sm:flex-row sm:items-end">
+                  {/* Clear image */}
+                  {game.image && (
+                    <div
+                      className="relative flex-shrink-0 overflow-hidden rounded-lg shadow-lg"
+                      style={{ maxWidth: "150px", maxHeight: "200px" }}
+                    >
+                      <Image
+                        src={game.image}
+                        alt={game.title}
+                        width={150}
+                        height={200}
+                        className="h-auto w-auto object-contain"
+                        style={{ maxHeight: "200px" }}
+                      />
+                    </div>
+                  )}
 
-                      {/* Content container that keeps title, seal and badges aligned at the bottom */}
-                      <div className="flex-grow pb-1">
-                        <div className="flex items-center justify-between">
-                          <div>
-                            {/* Title and badges container */}
-                            <div className="mb-2 flex items-center gap-2">
-                              {/* Title */}
-                              <h2 className="text-2xl font-bold text-white sm:text-3xl">
-                                {game.title}
-                              </h2>
-                            </div>
+                  {/* Content container that keeps title, seal and badges aligned at the bottom */}
+                  <div className="flex-grow pb-1">
+                    <div className="flex items-center justify-between">
+                      <div>
+                        {/* Title and badges container */}
+                        <div className="mb-2 flex items-center gap-2">
+                          {/* Title */}
+                          <h2 className="text-2xl font-bold text-white sm:text-3xl">
+                            {game.title}
+                          </h2>
+                        </div>
 
-                            {/* Badges under the title */}
-                            <div className="flex flex-wrap gap-2">
-                              {/* <span
+                        {/* Badges under the title */}
+                        <div className="flex flex-wrap gap-2">
+                          {/* <span
                               className={`rounded-full px-3 py-1 text-xs font-medium text-white ${getThemeColor(game.theme)}`}
                             >
                               {game.theme || "General"}
                             </span> */}
-                              <span
-                                className={`rounded-full ${GameStatusColor[game.status]} px-3 py-1 text-xs font-medium text-white`}
-                              >
-                                {game.status}
-                              </span>
-                              {game.web && (
-                                <span className="rounded-full bg-blue-600 px-3 py-1 text-xs font-medium text-white">
-                                  Web
-                                </span>
-                              )}
-                            </div>
-                          </div>
-
-                          {game.vgdcApproved && (
-                            <div className="ml-4 flex-shrink-0">
-                              <ApprovalSeal
-                                width={80}
-                                height={80}
-                              />
-                            </div>
+                          <span
+                            className={`rounded-full ${GameStatusColor[game.status]} px-3 py-1 text-xs font-medium text-white`}
+                          >
+                            {game.status}
+                          </span>
+                          {game.web && (
+                            <span className="rounded-full bg-blue-600 px-3 py-1 text-xs font-medium text-white">
+                              Web
+                            </span>
                           )}
+                          {game.tags.map((tag) => (
+                            <span
+                              key={`${tag.text}-${tag.color}`}
+                              className="rounded-full px-3 py-1 text-xs font-medium text-white"
+                              style={{ backgroundColor: tag.color }}
+                            >
+                              {tag.text}
+                            </span>
+                          ))}
                         </div>
                       </div>
+
+                      {game.vgdcApproved && (
+                        <div className="ml-4 flex-shrink-0">
+                          <ApprovalSeal
+                            width={80}
+                            height={80}
+                          />
+                        </div>
+                      )}
                     </div>
                   </div>
                 </div>
-              </>
-            ) : (
-              <div className="flex h-full w-full items-center justify-center bg-gray-800">
-                <p className="text-gray-400">No image available</p>
               </div>
-            )}
+            </div>
           </div>
 
           {/* Game details */}
@@ -187,7 +194,7 @@ const GameModal: React.FC<GameModalProps> = ({
                         className={`mr-1 text-lg ${i < game.difficulty
                             ? "text-yellow-400"
                             : "text-gray-600"
-                          }`}
+                        }`}
                       >
                         ★
                       </span>

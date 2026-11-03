@@ -13,7 +13,14 @@ export interface TransformedGame {
   isWebPlayable: boolean;
   status: GameStatus;
   hasSeal: boolean;
-  themeText: string;
+  /** One tag per genre: the sheet's theme cell is a comma-separated list like "Puzzle, Platformer" */
+  themeTags: string[];
+}
+
+/** Split the tags by comma */
+export function splitThemeTags(cell: string | null | undefined): string[] {
+  const tags = (cell ?? '').split(',').map((t) => t.trim()).filter(Boolean);
+  return Array.from(new Set(tags));
 }
 
 export interface TransformedEvent {
@@ -172,8 +179,7 @@ function transformGame(row: string[], index: number): TransformedGame | null {
       isWebPlayable: row[10] === 'TRUE',
       status,
       hasSeal: row[9] === 'TRUE',
-      // Trimmed to match the tag text in extractUniqueGameTags, which is now unique
-      themeText: row[8]?.trim() || '',
+      themeTags: splitThemeTags(row[8]),
     };
   } catch (error) {
     console.warn(
@@ -348,9 +354,7 @@ export function extractUniqueGameTags(games: TransformedGame[]): GameTagData[] {
   const uniqueThemes = new Set<string>();
 
   games.forEach((game) => {
-    if (game.themeText && game.themeText.trim() !== '') {
-      uniqueThemes.add(game.themeText.trim());
-    }
+    game.themeTags.forEach((tag) => uniqueThemes.add(tag));
   });
 
   const themes = Array.from(uniqueThemes);
