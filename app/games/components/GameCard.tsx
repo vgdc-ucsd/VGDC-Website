@@ -7,7 +7,7 @@ import { GameStatusColor } from "./ShowcaseSearch"
 import { Eye } from "lucide-react"
 import { useState } from "react"
 import VerticalEllipsis from "@/components/global/VerticalEllipsis"
-import Image from "next/image"
+import SafeImage from "@/components/global/SafeImage"
 
 export type GameStatus = "Released" | "Unreleased"
 
@@ -52,7 +52,7 @@ const GameCard: React.FC<GameCardProps> = ({
           <div className="relative h-full w-full overflow-hidden rounded-t-lg">
             {game.image ? (
               <div className="relative aspect-square w-full">
-                <Image
+                <SafeImage
                   src={game.image}
                   alt={`${game.title} thumbnail`}
                   fill={true}

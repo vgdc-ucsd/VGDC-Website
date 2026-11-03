@@ -6,7 +6,7 @@ import { motion } from "framer-motion"
 import ReactMarkdown from "react-markdown"
 import rehypeRaw from "rehype-raw"
 import styles from "../page.module.css"
-import Image from "next/image"
+import SafeImage from "@/components/global/SafeImage"
 
 export default function EventView({ event }: { event: EventDetails }) {
   return (
@@ -65,7 +65,7 @@ export default function EventView({ event }: { event: EventDetails }) {
           }}
           className="m-8 mt-14 flex-1"
         >
-          {event.image && (<Image 
+          {event.image && (<SafeImage 
             src={`${event.image}`} 
             alt={`${event.title} thumbnail`} 
             width={0}

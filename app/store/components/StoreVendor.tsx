@@ -1,7 +1,7 @@
 'use client'
 
 import React from "react"
-import Image from "next/image"
+import SafeImage from "@/components/global/SafeImage"
 import Link from "next/link"
 
 import { StoreItemDetails } from "@/lib/store_items"
@@ -24,7 +24,7 @@ export default function StoreVendor({ data, formLink }: StoreVendorProps) {
             }}>
             <div className="relative aspect-[3/4] overflow-hidden rounded-lg">
               {/* Fixed height of 16rem (h-64) */}
-              <Image
+              <SafeImage
                 src={item.image}
                 alt={item.name}
                 className={`object-cover transition group-hover:scale-110 ${
