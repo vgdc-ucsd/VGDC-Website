@@ -1,6 +1,6 @@
 "use client"
 
-import Image from "next/image"
+import SafeImage from "@/components/global/SafeImage"
 import Link from "next/link"
 import { motion } from "framer-motion"
 import removeMd from "remove-markdown"
@@ -41,7 +41,7 @@ export default function EventCard({
         transition={{ ease: "easeOut", duration: 0.4 }}
         className="flex rounded-3xl bg-background-grey/50 p-5 align-middle sm:space-x-6 sm:p-6 mb-6"
       >
-        {image && (<Image
+        {image && (<SafeImage
           src={`${image}`}
           alt={`${title} thumbnail`}
           width={192}

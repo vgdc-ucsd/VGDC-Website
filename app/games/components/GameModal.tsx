@@ -2,7 +2,7 @@
 
 import React, { useEffect, useRef } from "react"
 import { ShowcaseGamesDetails } from "@/lib/showcase_games"
-import Image from "next/image"
+import SafeImage from "@/components/global/SafeImage"
 import { X, ExternalLink, Calendar, Users, Code } from "lucide-react"
 import ApprovalSeal from "./ApprovalSeal"
 import { GameStatus } from "@/lib/generated/prisma/enums"
@@ -85,7 +85,7 @@ const GameModal: React.FC<GameModalProps> = ({
                         className="relative flex-shrink-0 overflow-hidden rounded-lg shadow-lg"
                         style={{ maxWidth: "150px", maxHeight: "200px" }}
                       >
-                        <Image
+                        <SafeImage
                           src={game.image}
                           alt={game.title}
                           width={150}
