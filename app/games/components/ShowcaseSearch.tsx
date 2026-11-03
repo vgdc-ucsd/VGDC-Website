@@ -196,11 +196,10 @@ export default function ShowcaseSearch({
             Filters
           </button>
 
-
-          {/* TODO: Replace with link to the actual update request form */}
+          {/* Game form button */}
           <a
             className="flex items-center justify-center rounded-lg bg-vgdc-light-blue px-4 py-2 text-white transition-colors hover:bg-opacity-90"
-            href="about:blank"
+            href={process.env.NEXT_PUBLIC_GAME_FORM_URL}
             target="_blank"
           >
             Request an Update
