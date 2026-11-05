@@ -7,17 +7,20 @@ import BlogPreview from "@/components/homepage/sections/BlogPreview"
 import Games from "@/components/homepage/sections/Games"
 import Companies from "@/components/homepage/sections/Companies"
 import Footer from "@/components/global/Footer"
+import { getSealedGames } from "@/lib/showcase_games"
 
 export const revalidate = 60;
 
 /**
  * The website homepage
  */
-export default function Home() {
+export default async function Home() {
+  const sealed = await getSealedGames()
+
   return (
     <main className="min-h-screen bg-background-black">
       <Navbar offsetSpace={true} />
-      <Hero />
+      <Hero games={sealed.ok ? sealed.data : []} />
       <Mission />
       <EventsPreview />
       <Design />

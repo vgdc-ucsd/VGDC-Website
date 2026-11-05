@@ -2,28 +2,25 @@
 
 import { motion } from "framer-motion"
 
-import Image from "next/image"
-
 import Socials from "@/components/ui/socials"
 
-import React from "react"
-import UseEmblaCarousel from "embla-carousel-react"
-import heroGames from "@/public/data/hero_games.json"
 import RetroWindowHero from "@/components/homepage/retro-hero/RetroWindowHero"
+import SlotMachine from "@/components/homepage/featured-slots/SlotMachine"
+import type { ShowcaseGamesDetails } from "@/lib/showcase_games"
 
 /**
  * The hero that appears at the top of the homepage.
  *
  * @returns JSX representation of the hero.
  */
-export default function Hero() {
+export default function Hero({ games }: { games: ShowcaseGamesDetails[] }) {
   return (
     <section className="mb-32">
       <div className="flex min-h-screen items-center justify-center">
         <RetroWindowHero />
       </div>
       <div id="hero-content" className="px-8 md:px-12">
-        <HeroContent />
+        <HeroContent games={games} />
       </div>
     </section>
   )
@@ -136,11 +133,16 @@ function HeroText() {
   )
 }
 
-function HeroContent() {
+function HeroContent({ games }: { games: ShowcaseGamesDetails[] }) {
   return (
     <div className="mx-auto h-fit md:w-[45rem] lg:w-[60rem] xl:w-[75rem]">
-      <FeaturedGamesTitle />
-      <HeroGames />
+      {/* Hide the whole section when no games have the seal yet */}
+      {games.length > 0 && (
+        <>
+          <FeaturedGamesTitle />
+          <SlotMachine games={games} />
+        </>
+      )}
       <HeroSocials />
     </div>
   )
@@ -164,109 +166,6 @@ function FeaturedGamesTitle() {
   )
 }
 
-// The type for the data for one hero game
-export type HeroGameDetails = {
-  name: string
-  link: string
-  image: string
-  year: string
-  style: string
-  paragraph: string
-  order: number
-}
-
-function HeroGames() {
-  const heroGamesList: HeroGameDetails[] = heroGames.hero_games.map((game) => ({
-    name: game.name!,
-    link: game.link!,
-    image: game.image!,
-    year: game.year!,
-    style: game.style!,
-    paragraph: game.paragraph!,
-    order: game.order!,
-  }))
-
-  const [emblaRef, embla] = UseEmblaCarousel({ loop: true })
-
-  const emblaStyle = "overflow-hidden md:hidden mb-16"
-  const emblaContainerStyle = "flex"
-  const emblaSlideStyle =
-    "min-w-0 flex-grow-0 flex-shrink-0 basis-3/4 min-[450px]:basis-1/2 text-text-white w-40 mx-2 min-[450px]:mx-4 select-none"
-
-  function EmblaSlide({
-    name,
-    link,
-    image,
-    year,
-  }: {
-    name: string
-    link: string
-    image: string
-    year: string
-  }) {
-    return (
-      <a href={link} target="_blank" className={emblaSlideStyle}>
-        <Image
-          className="aspect-[10/9] w-full rounded-xl object-cover"
-          src={image}
-          width={0}
-          height={0}
-          sizes="100vw"
-          alt={`Image of ${name}`}
-        />
-        <div className="relative mx-2 mt-2 block h-6 text-lg sm:mx-3 sm:mt-3 sm:text-xl">
-          <h3 className="absolute font-semibold text-text-white">{name}</h3>
-          <p className="absolute right-0 font-semibold text-hot-pink">{year}</p>
-        </div>
-      </a>
-    )
-  }
-
-  return (
-    <>
-      {/* Mobile version */}
-      <motion.div
-        initial={{ opacity: 0, translateY: 50 }}
-        whileInView={{ opacity: 1, translateY: 0 }}
-        viewport={{ once: true }}
-        transition={{ delay: 0.4, ease: "easeOut", duration: 0.4 }}
-        className={emblaStyle}
-        ref={emblaRef}
-      >
-        <div className={emblaContainerStyle}>
-          {heroGamesList.map((game, index) => {
-            return (
-              <EmblaSlide
-                key={index}
-                name={game.name}
-                link={game.link}
-                image={game.image}
-                year={game.year}
-              />
-            )
-          })}
-        </div>
-      </motion.div>
-      {/* Desktop/tablet version */}
-      <div className="hidden aspect-square h-fit grid-cols-4 grid-rows-4 gap-2 md:grid lg:gap-4">
-        {heroGamesList.map((game, index) => {
-          return (
-            <Game
-              key={index}
-              style={game.style}
-              name={game.name}
-              link={game.link}
-              paragraph={game.paragraph}
-              image={game.image}
-              order={game.order}
-            />
-          )
-        })}
-      </div>
-    </>
-  )
-}
-
 function HeroSocials() {
   return (
     <motion.div
@@ -278,138 +177,4 @@ function HeroSocials() {
       <Socials variant="hero" />
     </motion.div>
   )
-}
-
-function Game({
-  style,
-  name,
-  link,
-  paragraph,
-  image,
-  order,
-}: {
-  style: string // "small-block" | "long-block" | "big-block"
-  name: string
-  link: string
-  paragraph?: string
-  image: string
-  order: number
-}) {
-  const gameStyle = "relative rounded-xl border border-gray-700 overflow-clip"
-  const headerStyle =
-    "text-md font-semibold text-text-white md:text-xl xl:text-2xl tracking-tight"
-  const paragraphStyle =
-    "text-sm w-full xl:w-[70%] text-text-grey lg:text-base leading-4 lg:leading-5 xl:leading-6"
-
-  if (style == "small-block") {
-    return (
-      <motion.a
-        initial={{ opacity: 0, translateY: 50 }}
-        whileInView={{ opacity: 1, translateY: 0 }}
-        viewport={{ once: true }}
-        transition={{ delay: order * 0.05, ease: "easeOut", duration: 0.4 }}
-        href={link}
-        target="_blank"
-        className={`${gameStyle} group col-span-1 row-span-1`}
-      >
-        <div className="absolute h-full w-full bg-black opacity-40 transition-opacity group-hover:opacity-0" />
-        <div
-          className={`${headerStyle} absolute bottom-2 left-2 select-none transition-[bottom] group-hover:-bottom-12 lg:bottom-3 lg:left-3 xl:bottom-4 xl:left-4`}
-        >
-          {name}
-        </div>
-        <Image
-          src={image}
-          alt={`Image of ${name}`}
-          width={0}
-          height={0}
-          sizes="100vw"
-          className="h-full w-full object-cover"
-        />
-      </motion.a>
-    )
-  }
-
-  if (style == "long-block") {
-    return (
-      <motion.div
-        initial={{ opacity: 0, translateY: 50 }}
-        whileInView={{ opacity: 1, translateY: 0 }}
-        viewport={{ once: true }}
-        transition={{ delay: order * 0.05, ease: "easeOut", duration: 0.4 }}
-        className={`${gameStyle} group col-span-2 row-span-1`}
-      >
-        <div className="flex h-[50%] flex-col justify-center p-2 align-middle lg:p-3 xl:h-[40%] xl:p-4">
-          <div className="h-fit">
-            <a href={link} target="_blank" className={headerStyle}>
-              {name}
-            </a>
-            <p className={paragraphStyle}>{paragraph}</p>
-          </div>
-        </div>
-        <a
-          href={link}
-          target="_blank"
-          className="absolute bottom-0 h-[50%] w-full xl:h-[60%]"
-        >
-          <div className="absolute h-full w-full bg-black opacity-20 transition-opacity hover:opacity-0" />
-          <Image
-            src={image}
-            alt={`Image of ${name}`}
-            width={0}
-            height={0}
-            sizes="100vw"
-            className="h-full w-full object-cover"
-          />
-        </a>
-      </motion.div>
-    )
-  }
-
-  if (style == "big-block") {
-    return (
-      <motion.div
-        initial={{ opacity: 0, translateY: 50 }}
-        whileInView={{ opacity: 1, translateY: 0 }}
-        viewport={{ once: true }}
-        transition={{ delay: order * 0.05, ease: "easeOut", duration: 0.4 }}
-        className={`${gameStyle} group col-span-2 row-span-2`}
-      >
-        <div className="flex h-[30%] flex-col justify-center p-2 align-middle lg:p-3 xl:p-4">
-          <div className="h-fit">
-            <a href={link} target="_blank" className={headerStyle}>
-              {name}
-            </a>
-            <p className={paragraphStyle}>
-              {paragraph}
-              <a
-                href={link}
-                target="_blank"
-                className="hidden w-fit font-bold text-hot-pink lg:block xl:pt-1"
-              >
-                {"Learn more ->"}
-              </a>
-            </p>
-          </div>
-        </div>
-        <a
-          href={link}
-          target="_blank"
-          className="absolute bottom-0 h-[70%] w-full"
-        >
-          <div className="absolute h-full w-full bg-black opacity-20 transition-opacity hover:opacity-0" />
-          <Image
-            src={image}
-            alt={`Image of ${name}`}
-            width={0}
-            height={0}
-            sizes="100vw"
-            className="h-full w-full object-cover"
-          />
-        </a>
-      </motion.div>
-    )
-  }
-
-  return <div className={`${gameStyle}`}></div>
 }
