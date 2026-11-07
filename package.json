@@ -14,9 +14,11 @@
     "db:migrate:prod": "dotenv -c production -- prisma migrate deploy",
     "migrate:sheets:dev": "dotenv -c development -- tsx scripts/migrate-sheets-to-db.ts"
   },
+  "packageManager": "pnpm@11.28.9",
   "dependencies": {
     "@dicebear/collection": "^9.4.3",
     "@dicebear/core": "^9.4.3",
+    "@dicebear/converter": "^9.4.3",
     "@hookform/resolvers": "^3.9.0",
     "@mailchimp/mailchimp_marketing": "^3.0.80",
     "@prisma/adapter-pg": "^6.19.3",
@@ -34,6 +36,7 @@
     "@radix-ui/react-switch": "^1.2.6",
     "@radix-ui/react-tabs": "^1.1.13",
     "@radix-ui/react-toast": "^1.2.1",
+    "@resvg/resvg-js": "^2.6.2",
     "@supabase/ssr": "^0.8.0",
     "@supabase/supabase-js": "^2.98.0",
     "axios": "^1.18.0",
