@@ -9,7 +9,10 @@ import { useSession } from "next-auth/react"
 import {
   Drawer,
   DrawerContent,
+  DrawerDescription,
   DrawerFooter,
+  DrawerHeader,
+  DrawerTitle,
   DrawerTrigger,
 } from "@/components/ui/drawer"
 
@@ -108,68 +111,72 @@ export default function Navbar({ offsetSpace = true, hideOnScroll = true }) {
                 </svg> */}
               </DrawerTrigger>
               {/* Menu buttons */}
-              <DrawerContent>
-                <DrawerFooter>
-                  {/* <Button variant="link" className={getStyle("/")}>
-                    <Link href="/">Home</Link>
-                  </Button> */}
-                  {isAuthenticated
-                    ? <SignOutButton className="mx-auto" redirect={
-                      pathname == "/dashboard" ? "/" : pathname
-                    } />
-                    : <SignInButton className="mx-auto" redirect={pathname} />
-                  }
+              <DrawerContent className="bg-background-black rounded-t-md w-full overflow-y-visible">
+                <DrawerHeader className="sr-only">
+                  <DrawerTitle>Navigation Menu</DrawerTitle>
+                  <DrawerDescription>
+                    Navigation links and buttons for our mobile website.
+                  </DrawerDescription>
+                </DrawerHeader>
+                {/* <Button variant="link" className={getStyle("/")}>
+                  <Link href="/">Home</Link>
+                </Button> */}
+                {isAuthenticated
+                  ? <SignOutButton className="mx-auto mt-2" redirect={
+                    pathname == "/dashboard" ? "/" : pathname
+                  } />
+                  : <SignInButton className="mx-auto mt-2" redirect={pathname} />
+                }
+                <Button
+                  variant="link"
+                  className={getStyle("/officers")}
+                  onClick={closeHamburger}
+                >
+                  <Link href="/officers" className="text-white">Team</Link>
+                </Button>
+                <Button
+                  variant="link"
+                  className={getStyle("/events")}
+                  onClick={closeHamburger}
+                >
+                  <Link href="/events" className="text-white">Events</Link>
+                </Button>
+                <Button
+                  variant="link"
+                  className={getStyle("/games")}
+                  onClick={closeHamburger}
+                >
+                  <Link href="/games" className="text-white">Games</Link>
+                </Button>
+                <Button
+                  variant="link"
+                  className={getStyle("/news")}
+                  onClick={closeHamburger}
+                >
+                  <Link href="/news" className="text-white">News</Link>
+                </Button>
+                <Button
+                  variant="link"
+                  className={getStyle("/store")}
+                  onClick={closeHamburger}
+                >
+                  <Link href="/store" className="text-white">Store</Link>
+                </Button>
+                {isOfficer &&
                   <Button
                     variant="link"
-                    className={getStyle("/officers")}
+                    className={getStyle("/dashboard")}
                     onClick={closeHamburger}
                   >
-                    <Link href="/officers">Team</Link>
+                    <Link href="/dashboard" className="text-white">Dashboard</Link>
                   </Button>
-                  <Button
-                    variant="link"
-                    className={getStyle("/events")}
-                    onClick={closeHamburger}
-                  >
-                    <Link href="/events">Events</Link>
-                  </Button>
-                  <Button
-                    variant="link"
-                    className={getStyle("/games")}
-                    onClick={closeHamburger}
-                  >
-                    <Link href="/games">Games</Link>
-                  </Button>
-                  <Button
-                    variant="link"
-                    className={getStyle("/news")}
-                    onClick={closeHamburger}
-                  >
-                    <Link href="/news">News</Link>
-                  </Button>
-                  <Button
-                    variant="link"
-                    className={getStyle("/store")}
-                    onClick={closeHamburger}
-                  >
-                    <Link href="/store">Store</Link>
-                  </Button>
-                  {isOfficer &&
-                    <Button
-                      variant="link"
-                      className={getStyle("/dashboard")}
-                      onClick={closeHamburger}
-                    >
-                      <Link href="/dashboard">Dashboard</Link>
-                    </Button>
-                  }
-                </DrawerFooter>
+                }
               </DrawerContent>
             </Drawer>
           </div>
 
           {/* Basic menu, dynamically changes with screen size */}
-          <div className="invisible relative top-3 mx-auto w-fit space-x-12 align-middle text-base transition-transform lg:visible">
+          <div className="hidden top-3 mx-auto w-fit space-x-12 align-middle text-base transition-transform lg:relative">
             {/* <Link href="/" className={getStyle("/")}>
               Home
             </Link> */}
