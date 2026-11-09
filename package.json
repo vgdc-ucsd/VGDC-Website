@@ -12,13 +12,15 @@
     "db:reset:dev": "dotenv -c development -- prisma migrate reset",
     "db:migrate:dev": "dotenv -c development -- prisma migrate dev",
     "db:migrate:prod": "dotenv -c production -- prisma migrate deploy",
-    "migrate:sheets:dev": "dotenv -c development -- tsx scripts/migrate-sheets-to-db.ts"
+    "migrate:sheets:dev": "dotenv -c development -- tsx scripts/migrate-sheets-to-db.ts",
+    "migrate:images:dev": "dotenv -c development -- tsx scripts/migrate-images-to-r2.ts"
   },
   "packageManager": "pnpm@11.28.9",
   "dependencies": {
+    "@aws-sdk/client-s3": "^3.1164.0",
     "@dicebear/collection": "^9.4.3",
-    "@dicebear/core": "^9.4.3",
     "@dicebear/converter": "^9.4.3",
+    "@dicebear/core": "^9.4.3",
     "@hookform/resolvers": "^3.9.0",
     "@mailchimp/mailchimp_marketing": "^3.0.80",
     "@prisma/adapter-pg": "^6.19.3",
