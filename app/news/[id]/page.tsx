@@ -1,7 +1,7 @@
 import React, { useContext } from "react"
 import { getBlogPostData, getBlogPostNeighbors } from "@/lib/blog_posts"
 import { parseISO, format } from "date-fns"
-import Image from "next/image"
+import SafeImage from "@/components/global/SafeImage"
 import Navbar from "@/components/global/Navbar"
 import Link from "next/link"
 import { createAvatar } from "@dicebear/core"
@@ -148,7 +148,7 @@ export default async function BlogPage({
 
     function ImageRenderer(src: string, alt: string, title: string) {
         return (
-            <Image 
+            <SafeImage 
               src={src} 
               alt={alt} 
               title={title} 

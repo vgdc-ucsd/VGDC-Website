@@ -1,9 +1,11 @@
 "use client"
 
+import SafeImage from "@/components/global/SafeImage"
 import Link from "next/link"
 import { motion } from "framer-motion"
 import removeMd from "remove-markdown"
-import Image from "next/image"
+import VerticalEllipsis from "@/components/global/VerticalEllipsis"
+import type { EventInput } from "@/lib/schemas/event"
 
 /** An event card to be shown in the events list. */
 export default function EventCard({
@@ -14,11 +16,23 @@ export default function EventCard({
   description,
   image,
   slug,
-}: any) {
+  formValues,
+  editable = false,
+  openModal
+}: {
+  title: string,
+  location: string,
+  date: string,
+  time: string,
+  description: string,
+  image: string,
+  slug: string,
+  formValues: EventInput
+  editable?: boolean,
+  openModal(kind: "update" | "delete", formValues: EventInput): void
+}) {
   return (
-    <motion.div
-      whileHover={{ filter: "brightness(0.8)" }}
-    >
+    <div className="transition-[filter] duration-200 hover:brightness-75 will-change-[filter]">
     <Link href={`./events/${slug}`}>
       <motion.div
         initial={{ opacity: 0, translateY: 100 }}
@@ -27,7 +41,7 @@ export default function EventCard({
         transition={{ ease: "easeOut", duration: 0.4 }}
         className="flex rounded-3xl bg-background-grey/50 p-5 align-middle sm:space-x-6 sm:p-6 mb-6"
       >
-        {image && (<Image
+        {image && (<SafeImage
           src={`${image}`}
           alt={`${title} thumbnail`}
           width={192}
@@ -57,10 +71,18 @@ export default function EventCard({
               <br />
               {time}
             </h4>
+            {
+              editable &&
+              <
+                VerticalEllipsis
+                onUpdate={() => openModal("update", formValues)}
+                onDelete={() => openModal("delete", formValues)}
+              />
+            }
           </div>
-      </motion.div>
-    </Link>
-    </motion.div>
+        </motion.div>
+      </Link>
+    </div>
   )
 }
 

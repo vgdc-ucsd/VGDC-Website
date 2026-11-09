@@ -3,6 +3,7 @@
 import { motion } from "framer-motion"
 
 import Image from "next/image"
+import SafeImage from "@/components/global/SafeImage"
 
 import Socials from "@/components/ui/socials"
 
@@ -207,7 +208,7 @@ function HeroGames() {
   }) {
     return (
       <a href={link} target="_blank" className={emblaSlideStyle}>
-        <Image
+        <SafeImage
           className="aspect-[10/9] w-full rounded-xl object-cover"
           src={image}
           width={0}
@@ -319,7 +320,7 @@ function Game({
         >
           {name}
         </div>
-        <Image
+        <SafeImage
           src={image}
           alt={`Image of ${name}`}
           width={0}
@@ -354,7 +355,7 @@ function Game({
           className="absolute bottom-0 h-[50%] w-full xl:h-[60%]"
         >
           <div className="absolute h-full w-full bg-black opacity-20 transition-opacity hover:opacity-0" />
-          <Image
+          <SafeImage
             src={image}
             alt={`Image of ${name}`}
             width={0}
@@ -399,7 +400,7 @@ function Game({
           className="absolute bottom-0 h-[70%] w-full"
         >
           <div className="absolute h-full w-full bg-black opacity-20 transition-opacity hover:opacity-0" />
-          <Image
+          <SafeImage
             src={image}
             alt={`Image of ${name}`}
             width={0}

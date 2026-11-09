@@ -16,8 +16,10 @@ export const GameStatusColor = {
 
 export default function ShowcaseSearch({
   data,
+  editable = false,
 }: {
   data: ShowcaseGamesDetails[]
+  editable?: boolean
 }) {
   const sortGames = (games: ShowcaseGamesDetails[]) => {
     return [...games].sort((a, b) => {
@@ -193,6 +195,15 @@ export default function ShowcaseSearch({
             <Filter size={18} className="mr-2" />
             Filters
           </button>
+
+          {/* Game form button */}
+          <a
+            className="flex items-center justify-center rounded-lg bg-vgdc-light-blue px-4 py-2 text-white transition-colors hover:bg-opacity-90"
+            href={process.env.NEXT_PUBLIC_GAME_FORM_URL}
+            target="_blank"
+          >
+            Request an Update
+          </a>
         </div>
 
         {/* Filter Options */}
@@ -267,6 +278,7 @@ export default function ShowcaseSearch({
         gameData={filteredItems}
         setCurrentIndex={setCurrentIndex}
         setShowModal={setShowModal}
+        editable={editable}
       />
 
       {/* Game Modal */}

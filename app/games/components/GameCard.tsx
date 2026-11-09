@@ -6,7 +6,8 @@ import { motion } from "framer-motion"
 import { GameStatusColor } from "./ShowcaseSearch"
 import { Eye } from "lucide-react"
 import { useState } from "react"
-import Image from "next/image"
+import VerticalEllipsis from "@/components/global/VerticalEllipsis"
+import SafeImage from "@/components/global/SafeImage"
 
 export type GameStatus = "Released" | "Unreleased"
 
@@ -14,11 +15,15 @@ type GameCardProps = {
   game: ShowcaseGamesDetails
   onClick: () => void
   getStatusText: (status: boolean) => GameStatus
+  editable?: boolean
+  openModal?(kind: "update" | "delete", game: ShowcaseGamesDetails): void
 }
 
 const GameCard: React.FC<GameCardProps> = ({
   game,
   onClick,
+  editable = false,
+  openModal,
 }) => {
   const [isHovered, setIsHovered] = useState(false)
 
@@ -29,7 +34,7 @@ const GameCard: React.FC<GameCardProps> = ({
       onHoverStart={() => setIsHovered(true)}
       onHoverEnd={() => setIsHovered(false)}
       whileHover={{ scale: 1.05 }}
-      transition={{ duration: 0.3, ease: "easeOut" }}
+      transition={{ duration: 0.1, ease: "easeIn" }}
     >
       {/* Box Container */}
       <motion.div
@@ -40,14 +45,14 @@ const GameCard: React.FC<GameCardProps> = ({
             ? "0 0 0 3px rgb(99, 193, 255)"
             : "0 0 0 0px rgba(0, 0, 0, 0)",
         }}
-        transition={{ duration: 0.3 }}
+        transition={{ duration: 0.1 }}
       >
         {/* Game Cover Image */}
         <div className="relative h-3/4 w-full overflow-visible">
           <div className="relative h-full w-full overflow-hidden rounded-t-lg">
             {game.image ? (
               <div className="relative aspect-square w-full">
-                <Image
+                <SafeImage
                   src={game.image}
                   alt={`${game.title} thumbnail`}
                   fill={true}
@@ -66,7 +71,7 @@ const GameCard: React.FC<GameCardProps> = ({
               className="absolute inset-0 bg-black pointer-events-none rounded-t-lg"
               initial={{ opacity: 0 }}
               animate={{ opacity: isHovered ? 0.3 : 0 }}
-              transition={{ duration: 0.3 }}
+              transition={{ duration: 0.1 }}
             />
             <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
               <motion.div
@@ -76,7 +81,7 @@ const GameCard: React.FC<GameCardProps> = ({
                   opacity: isHovered ? 1 : 0,
                   y: isHovered ? 0 : 8,
                 }}
-                transition={{ duration: 0.3, ease: "easeOut" }}
+                transition={{ duration: 0.1, ease: "easeOut" }}
               >
                 <Eye className="h-12 w-12 text-white" />
               </motion.div>
@@ -105,9 +110,17 @@ const GameCard: React.FC<GameCardProps> = ({
         {/* Game Information - Bottom Info */}
         <div className="w-full rounded-b-lg bg-footer-grey p-3">
           {/* <div className="aspect-square w-full opacity-0"></div> */}
-          <h3 className="mb-1 line-clamp-1 text-base font-bold text-white">
-            {game.title}
-          </h3>
+          <div className="relative pr-8">
+            <h3 className="mb-1 line-clamp-1 text-base font-bold text-white">
+              {game.title}
+            </h3>
+            {editable && openModal && (
+              <VerticalEllipsis
+                onUpdate={() => openModal("update", game)}
+                onDelete={() => openModal("delete", game)}
+              />
+            )}
+          </div>
 
           <div className="mb-2 flex flex-wrap gap-1">
             <span

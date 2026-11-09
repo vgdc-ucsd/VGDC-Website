@@ -1,7 +1,7 @@
 "use client"
 
 import { Button } from "@/components/ui/button"
-import Image from "next/image"
+import SafeImage from "@/components/global/SafeImage"
 import Link from "next/link"
 import styles from "./BlogCard.module.css" // Import your CSS file
 import moment from "moment"
@@ -34,7 +34,7 @@ export default function NewsBlogCard({
       className="w-fill mx-auto flex h-fit flex-col rounded-lg pt-4 text-white hover:cursor-pointer"
     >
       {post.coverImage && <div className="flex-shrink-0 bg-gray-950 pb-4 md:w-[26rem] lg:w-[28rem]">
-        <Image
+        <SafeImage
           src={post.coverImage}
           width={600}
           height={600}
@@ -57,7 +57,7 @@ export default function NewsBlogCard({
 
         {/** Card Meta Data */}
         <div className="mt-2 inline-flex items-center">
-          <Image 
+          <SafeImage 
             src={avatar} 
             width={32}
             height={32}
