@@ -1,8 +1,6 @@
 import { createHash } from 'crypto';
 import fs from 'fs/promises';
 import path from 'path';
-import { createClient, type SupabaseClient } from '@supabase/supabase-js';
-import { supabase } from '@/lib/supabase';
 import { uploadImage } from '@/lib/images.server';
 import { getImageType, type ImageFolder } from '@/lib/images.shared';
 import {
@@ -17,6 +15,9 @@ import type { TransformedOfficers } from './officer-data';
 const PUBLIC_DIR = path.join(process.cwd(), 'public');
 const CONCURRENCY = 6;
 const DOWNLOAD_TIMEOUT_MS = 30_000;
+// Re-running the import overwrites the same paths, so these can't be cached as immutable
+export const IMPORT_CACHE_CONTROL ='public, max-age=86400'; // 1 day
+const REQUIRED_ENV = ['S3_API_ENDPOINT', 'S3_ACCESS_KEY_ID', 'S3_SECRET_ACCESS_KEY'];
 
 export interface ImageUploadSummary {
   uploaded: number;
@@ -27,29 +28,23 @@ export interface ImageUploadSummary {
 /**
  * The sheets hold images the way the old site used them as <img src>: either a
  * path in /public ("/images/games/foo.png") or a full URL. The site now reads
- * image fields as paths in the Supabase "Images" bucket, so each one is
- * uploaded there and the field is replaced with its storage path.
+ * image fields as paths in the R2 images bucket, so each one is uploaded
+ * there and the field is replaced with its storage path.
  *
  * Runs before the database transaction. Images that can't be uploaded are set
  * to null and reported, rather than aborting the whole import.
  */
 export class ImageUploader {
-  private client: SupabaseClient;
   // Same source is uploaded once even if several records use it
   private cache = new Map<string, Promise<string>>();
   private summary: ImageUploadSummary = { uploaded: 0, kept: 0, failed: [] };
 
   constructor() {
-    const serviceKey = process.env.SUPABASE_SECRET_KEY;
-    if (serviceKey) {
-      this.client = createClient(process.env.NEXT_PUBLIC_SUPABASE_URL!, serviceKey, {
-        auth: { persistSession: false },
-      });
-    } else {
-      console.warn(
-        '⚠️  SUPABASE_SECRET_KEY is not set; uploading with the public publishable key, which fails unless the bucket allows anonymous uploads'
-      );
-      this.client = supabase;
+    // The S3 client is created with whatever env is loaded, so fail clearly up front
+    // instead of reporting every image as a failed upload
+    const missing = REQUIRED_ENV.filter((name) => !process.env[name]);
+    if (missing.length > 0) {
+      throw new Error(`Missing ${missing.join(', ')}; can't upload images to R2`);
     }
   }
 
@@ -60,7 +55,7 @@ export class ImageUploader {
     storeItems: TransformedStoreItem[];
     officers: TransformedOfficers;
   }): Promise<ImageUploadSummary> {
-    console.log('🖼️  Uploading images to Supabase storage...');
+    console.log('🖼️  Uploading images to R2...');
 
     const tasks: (() => Promise<void>)[] = [];
 
@@ -189,7 +184,7 @@ export class ImageUploader {
     const hash = createHash('sha1').update(source).digest('hex').slice(0, 8);
     const storagePath = `${folder}/${formatTitleToSlugClean(name) || 'image'}-${hash}.${type.split('/')[1]}`;
 
-    await uploadImage(storagePath, new File([bytes], storagePath, { type }), { client: this.client, upsert: true });
+    await uploadImage(storagePath, bytes, { contentType: type, cacheControl: IMPORT_CACHE_CONTROL });
     this.summary.uploaded++;
     return storagePath;
   }
@@ -228,7 +223,7 @@ function toDirectDownloadUrl(url: string): string {
   return driveId ? `https://drive.google.com/uc?export=download&id=${driveId}` : url;
 }
 
-async function runWithConcurrency(tasks: (() => Promise<void>)[], limit: number) {
+export async function runWithConcurrency(tasks: (() => Promise<void>)[], limit: number) {
   let next = 0;
   const workers = Array.from({ length: Math.min(limit, tasks.length) }, async () => {
     while (next < tasks.length) {

@@ -1,10 +1,10 @@
 import { auth } from "@/lib/auth";
 import { getImageType, IMAGE_FOLDERS, ImageFolder, MAX_IMAGE_BYTES } from "@/lib/images.shared";
-import { supabaseAdmin } from "@/lib/supabase.server";
+import { removeImages, uploadImage } from "@/lib/images.server";
 import { BYTES_IN_MEGABYTE } from "@/lib/utils";
 import { randomUUID } from "crypto";
 
-interface DeleteImageRequest { paths: string[] }
+interface DeleteImageRequest { paths: string | string[] }
 
 export async function POST(request: Request) {
   const session = await auth()
@@ -42,10 +42,9 @@ export async function POST(request: Request) {
   const imageFileExtension = imageType.split("/")[1];
   const path = `${folder}/${randomUUID()}.${imageFileExtension}`;
 
-  const { error } = await supabaseAdmin.storage
-    .from("Images")
-    .upload(path, await blob.arrayBuffer(), { contentType: imageType} );
-  if (error) {
+  try {
+    await uploadImage(path, blob, { contentType: imageType });
+  } catch (error) {
     console.error("Failed to upload image", error);
     return Response.json({ error: "Couldn't upload the image for some reason. PLease try again." }, { status: 502 });
   }
@@ -63,15 +62,16 @@ export async function DELETE(request: Request) {
     return Response.json({ error: "Bad origin"}, { status: 403 })
   }
 
+  // deleteImages() in images.client.ts sends either a single path or a list
   const { paths } = await request.json() as DeleteImageRequest
-  if (!paths) {
+  const pathArray = typeof paths === "string" ? [paths] : paths
+  if (!Array.isArray(pathArray) || pathArray.length === 0 || !pathArray.every((p) => typeof p === "string")) {
     return Response.json({ error: "Invalid or empty image paths" }, { status: 400 })
   }
 
-  const { error } = await supabaseAdmin.storage
-    .from("Images")
-    .remove(paths)
-  if (error) {
+  try {
+    await removeImages(pathArray);
+  } catch (error) {
     console.error("Failed to delete image", error);
     return Response.json({ error: "Couldn't delete the image for some reason. PLease try again." }, { status: 502 })
   }
