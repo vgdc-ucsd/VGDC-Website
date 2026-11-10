@@ -13,6 +13,8 @@ export default async function Store() {
     // TODO: Remove when we get the new merch stuff working 
     notFound();
 
+    // TODO: Uncomment when we get the new merch stuff working 
+    /*
     const result = await getStoreItems()
     if (!result.ok) notFound();
     const storeData = result.data;
@@ -33,4 +35,5 @@ export default async function Store() {
             <Footer />
         </main>
     )
+    */
 }
