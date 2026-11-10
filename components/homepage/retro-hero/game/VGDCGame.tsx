@@ -1,6 +1,7 @@
 "use client"
 
 import { useEffect, useRef } from "react"
+import { startRun } from "@/lib/leaderboard"
 import type { AABB, GameState, VGDCGameProps, Obstacle } from "./gameTypes"
 import {
   MAX_GAME_SPEED,
@@ -42,7 +43,7 @@ const PARALLAX_LAYERS = [
 ] as const
 const PLATFORM_SRC = "/logos/background/Platform.png"
 
-// One is picked at random each run
+// One is picked at random each run. Keep in sync with MASCOTS in lib/leaderboard.ts
 const MASCOT_SRCS = ["/logos/Vivi.png", "/logos/Cici.png", "/logos/Doug.png", "/logos/Gigi.png"]
 
 //hard coded trees lol
@@ -455,6 +456,7 @@ export default function VGDCGame({ isActive, runId = 0, onGameOver }: VGDCGamePr
 
     if (isActive) {
       pickMascot(gs)
+      const runToken = startRun(gs.mascotIndex).catch(() => null)
       gs.phase = "running"
       gs.lastTime = performance.now()
       getNextSpawnTime(gs)
@@ -474,7 +476,7 @@ export default function VGDCGame({ isActive, runId = 0, onGameOver }: VGDCGamePr
           writeHighScore(score)
         }
         render(canvas, gs)
-        onGameOverRef.current?.({ score, best: gs.highScore, isNewBest })
+        onGameOverRef.current?.({ score, best: gs.highScore, isNewBest, runToken })
       }
       rafRef.current = requestAnimationFrame(tick)
     } else {

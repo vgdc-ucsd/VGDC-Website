@@ -2,6 +2,7 @@ export interface GameOverInfo {
   score: number
   best: number
   isNewBest: boolean
+  runToken: Promise<string | null>
 }
 
 // Props for the VGDCGame canvas component
