@@ -10,6 +10,9 @@ export const revalidate = 60
 const storeFormLink = "https://forms.gle/hbeMy1HY5LHC886L6";
 
 export default async function Store() {
+    // TODO: Remove when we get the new merch stuff working 
+    notFound();
+
     const result = await getStoreItems()
     if (!result.ok) notFound();
     const storeData = result.data;

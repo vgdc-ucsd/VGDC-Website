@@ -155,13 +155,14 @@ export default function Navbar({ offsetSpace = true, hideOnScroll = true }) {
                 >
                   <Link href="/news" className={getStyle("/news")}>News</Link>
                 </Button>
-                <Button
-                  variant="link"
-                  className={getStyle("/store")}
-                  onClick={closeHamburger}
-                >
-                  <Link href="/store" className={getStyle("/store")}>Store</Link>
-                </Button>
+                {/* TODO: Uncomment when we get the new merch stuff working  */}
+                {/* <Button */}
+                {/*   variant="link" */}
+                {/*   className={getStyle("/store")} */}
+                {/*   onClick={closeHamburger} */}
+                {/* > */}
+                {/*   <Link href="/store" className={getStyle("/store")}>Store</Link> */}
+                {/* </Button> */}
                 {isOfficer &&
                   <Button
                     variant="link"
@@ -192,9 +193,10 @@ export default function Navbar({ offsetSpace = true, hideOnScroll = true }) {
             <Link href="/news" className={getStyle("/news")}>
               News
             </Link>
-            <Link href="/store" className={getStyle("/store")}>
-              Store
-            </Link>
+            {/* TODO: Uncomment when we get the new merch stuff working  */}
+            {/* <Link href="/store" className={getStyle("/store")}> */}
+            {/*   Store */}
+            {/* </Link> */}
             {isOfficer &&
               <Link href="/dashboard" className={getStyle("/dashboard")}>
                 Dashboard
