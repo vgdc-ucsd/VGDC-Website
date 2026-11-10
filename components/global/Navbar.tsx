@@ -64,7 +64,7 @@ export default function Navbar({ offsetSpace = true, hideOnScroll = true }) {
 
   const getStyle = (path: string) => {
     const isActive = pathname == path
-    return `hover:text-gray-600 transition-colors text-lg ${isActive ? "text-vgdc-light-green" : ""}`
+    return `hover:text-gray-600 transition-colors text-lg ${isActive ? "text-vgdc-light-green" : "text-white"}`
   }
 
   const closeHamburger = () => {
@@ -111,7 +111,7 @@ export default function Navbar({ offsetSpace = true, hideOnScroll = true }) {
                 </svg> */}
               </DrawerTrigger>
               {/* Menu buttons */}
-              <DrawerContent className="bg-background-black rounded-t-md w-full overflow-y-visible">
+              <DrawerContent className="bg-background-black rounded-t-md w-full pb-6 gap-2">
                 <DrawerHeader className="sr-only">
                   <DrawerTitle>Navigation Menu</DrawerTitle>
                   <DrawerDescription>
@@ -132,35 +132,35 @@ export default function Navbar({ offsetSpace = true, hideOnScroll = true }) {
                   className={getStyle("/officers")}
                   onClick={closeHamburger}
                 >
-                  <Link href="/officers" className="text-white">Team</Link>
+                  <Link href="/officers" className={getStyle("/officers")}>Team</Link>
                 </Button>
                 <Button
                   variant="link"
                   className={getStyle("/events")}
                   onClick={closeHamburger}
                 >
-                  <Link href="/events" className="text-white">Events</Link>
+                  <Link href="/events" className={getStyle("/events")}>Events</Link>
                 </Button>
                 <Button
                   variant="link"
                   className={getStyle("/games")}
                   onClick={closeHamburger}
                 >
-                  <Link href="/games" className="text-white">Games</Link>
+                  <Link href="/games" className={getStyle("/games")}>Games</Link>
                 </Button>
                 <Button
                   variant="link"
                   className={getStyle("/news")}
                   onClick={closeHamburger}
                 >
-                  <Link href="/news" className="text-white">News</Link>
+                  <Link href="/news" className={getStyle("/news")}>News</Link>
                 </Button>
                 <Button
                   variant="link"
                   className={getStyle("/store")}
                   onClick={closeHamburger}
                 >
-                  <Link href="/store" className="text-white">Store</Link>
+                  <Link href="/store" className={getStyle("/store")}>Store</Link>
                 </Button>
                 {isOfficer &&
                   <Button
@@ -168,7 +168,7 @@ export default function Navbar({ offsetSpace = true, hideOnScroll = true }) {
                     className={getStyle("/dashboard")}
                     onClick={closeHamburger}
                   >
-                    <Link href="/dashboard" className="text-white">Dashboard</Link>
+                    <Link href="/dashboard" className={getStyle("dashboard")}>Dashboard</Link>
                   </Button>
                 }
               </DrawerContent>
@@ -176,7 +176,7 @@ export default function Navbar({ offsetSpace = true, hideOnScroll = true }) {
           </div>
 
           {/* Basic menu, dynamically changes with screen size */}
-          <div className="hidden top-3 mx-auto w-fit space-x-12 align-middle text-base transition-transform lg:relative">
+          <div className="hidden relative top-3 mx-auto w-fit space-x-12 align-middle text-base transition-transform lg:block">
             {/* <Link href="/" className={getStyle("/")}>
               Home
             </Link> */}
@@ -202,10 +202,10 @@ export default function Navbar({ offsetSpace = true, hideOnScroll = true }) {
             }
           </div>
           {isAuthenticated
-            ? <SignOutButton className="invisible lg:visible relative float-right -top-5" redirect={
+            ? <SignOutButton className="hidden lg:block relative float-right -top-5" redirect={
               pathname == "/dashboard" ? "/" : pathname
             } />
-            : <SignInButton className="invisible lg:visible relative float-right -top-5" redirect={pathname} />
+            : <SignInButton className="hidden lg:block relative float-right -top-5" redirect={pathname} />
           }
         </div>
       </div>
