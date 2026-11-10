@@ -1,6 +1,6 @@
 import { formatDateOnly, toDateInputValue } from "./dateUtils"
 import type { GameStatusType } from "./generated/zod/inputTypeSchemas/GameStatusSchema"
-import { getStoredImageUrl } from "./images.server"
+import { getImageUrl } from "./images.shared"
 import { prisma } from "./prisma"
 import { Result } from "./utils"
 import type { GameInput } from "./schemas/game"
@@ -41,7 +41,7 @@ export async function getShowcaseGames(): Promise<Result<ShowcaseGamesDetails[]>
 
     const gamesDetailsPromises = gamesList.map(async (game) => {
       const gameThumbnail = game.thumbnail 
-        ? await getStoredImageUrl(game.thumbnail)
+        ? getImageUrl(game.thumbnail)
         : "";
 
       return {
