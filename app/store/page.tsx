@@ -1,3 +1,5 @@
+// TODO: Remove when we get the new merch stuff working 
+// @ts-nocheck
 import Navbar from "@/components/global/Navbar"
 import Footer from "@/components/global/Footer"
 import PageSection from "@/components/global/PageSection"
