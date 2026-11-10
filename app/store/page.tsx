@@ -1,3 +1,5 @@
+// TODO: Remove when we get the new merch stuff working 
+// @ts-nocheck
 import Navbar from "@/components/global/Navbar"
 import Footer from "@/components/global/Footer"
 import PageSection from "@/components/global/PageSection"
@@ -10,6 +12,11 @@ export const revalidate = 60
 const storeFormLink = "https://forms.gle/hbeMy1HY5LHC886L6";
 
 export default async function Store() {
+    // TODO: Remove when we get the new merch stuff working 
+    notFound();
+
+    // TODO: Uncomment when we get the new merch stuff working 
+    /*
     const result = await getStoreItems()
     if (!result.ok) notFound();
     const storeData = result.data;
@@ -30,4 +37,5 @@ export default async function Store() {
             <Footer />
         </main>
     )
+    */
 }
