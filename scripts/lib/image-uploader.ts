@@ -91,7 +91,7 @@ export class ImageUploader {
     }
 
     // A user's profile picture is one of their bio images, so the cache uploads it once
-    const officerNames = new Map(data.officers.users.map((user) => [user.discordHandle, user.name]));
+    const officerNames = new Map(data.officers.users.map((user) => [user.discordID, user.name]));
     for (const user of data.officers.users) {
       const record = `officer "${user.name}"`;
       tasks.push(async () => {
@@ -100,7 +100,7 @@ export class ImageUploader {
     }
     for (const { year, bios } of data.officers.years) {
       for (const bio of bios) {
-        const name = officerNames.get(bio.userHandle)!;
+        const name = officerNames.get(bio.discordID)!;
         const record = `${year} officer "${name}"`;
         tasks.push(async () => {
           bio.image = await this.resolve(bio.image, 'officers', name, record);
