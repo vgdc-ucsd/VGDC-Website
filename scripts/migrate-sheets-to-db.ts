@@ -12,7 +12,7 @@ import {
 } from './lib/data-transformers';
 import { DatabaseMigrator } from './lib/database-operations';
 import { ImageUploader } from './lib/image-uploader';
-import { PLACEHOLDER_HANDLE_PREFIX, readOfficerData, transformOfficers } from './lib/officer-data';
+import { PLACEHOLDER_ID_PREFIX, readOfficerData, transformOfficers } from './lib/officer-data';
 import * as readline from 'readline';
 
 async function confirmAction(message: string): Promise<boolean> {
@@ -62,7 +62,7 @@ async function validateMigration(prisma: PrismaClient): Promise<void> {
     officerBios: await prisma.officerBio.count(),
     users: await prisma.user.count(),
     placeholderUsers: await prisma.user.count({
-      where: { discordHandle: { startsWith: PLACEHOLDER_HANDLE_PREFIX } },
+      where: { discordID: { startsWith: PLACEHOLDER_ID_PREFIX } },
     }),
   };
 
@@ -74,7 +74,7 @@ async function validateMigration(prisma: PrismaClient): Promise<void> {
   console.log(`  - Game Tags: ${counts.gameTags}`);
   console.log(`  - Officer Years: ${counts.officerYears}`);
   console.log(`  - Officer Bios: ${counts.officerBios}`);
-  console.log(`  - Users: ${counts.users} (${counts.placeholderUsers} with a placeholder discordHandle)`);
+  console.log(`  - Users: ${counts.users} (${counts.placeholderUsers} with a placeholder discordID)`);
 
   // Sample a few records to verify data integrity
   const sampleGame = await prisma.game.findFirst({

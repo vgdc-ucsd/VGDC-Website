@@ -10,7 +10,7 @@ CREATE TABLE "User" (
     "name" TEXT NOT NULL,
     "role" "Role" NOT NULL DEFAULT 'MEMBER',
     "profilePicture" TEXT,
-    "discordHandle" TEXT NOT NULL,
+    "discordID" TEXT NOT NULL,
 
     CONSTRAINT "User_pkey" PRIMARY KEY ("id")
 );
@@ -122,7 +122,7 @@ CREATE TABLE "_GameToGameTags" (
 );
 
 -- CreateIndex
-CREATE UNIQUE INDEX "User_discordHandle_key" ON "User"("discordHandle");
+CREATE UNIQUE INDEX "User_discordID_key" ON "User"("discordID");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "Event_slug_key" ON "Event"("slug");

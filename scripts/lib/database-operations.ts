@@ -34,7 +34,7 @@ class MigrationSteps {
     await this.tx.gameTags.deleteMany();
     await this.tx.eventTags.deleteMany();
     // Users are kept (upserted in createOfficers) so changes made to them outside
-    // the import, like a real discordHandle or role, aren't lost
+    // the import, like a real discordID or role, aren't lost
     await this.tx.officerBio.deleteMany();
     await this.tx.officerYear.deleteMany();
 
@@ -171,24 +171,24 @@ class MigrationSteps {
     const bioCount = years.reduce((count, year) => count + year.bios.length, 0);
     console.log(`🧑‍💼 Creating ${users.length} officer users, ${years.length} officer years, ${bioCount} bios...`);
 
-    // Matched by placeholder discordHandle, so re-running updates the same users. Role
+    // Matched by placeholder discordID, so re-running updates the same users. Role
     // isn't updated: it may have been changed on purpose since the last import.
     const userIds = new Map<string, number>();
     for (const user of users) {
       const { id } = await withContext(`user "${user.name}"`, () =>
         this.tx.user.upsert({
-          where: { discordHandle: user.discordHandle },
+          where: { discordID: user.discordID },
           update: { name: user.name, profilePicture: user.profilePicture },
           create: {
             name: user.name,
-            discordHandle: user.discordHandle,
+            discordID: user.discordID,
             role: user.role,
             profilePicture: user.profilePicture,
           } satisfies Prisma.UserCreateInput,
           select: { id: true },
         })
       );
-      userIds.set(user.discordHandle, id);
+      userIds.set(user.discordID, id);
     }
 
     for (const year of years) {
@@ -204,7 +204,7 @@ class MigrationSteps {
                 data: year.bios.map(
                   (bio) =>
                     ({
-                      userId: userIds.get(bio.userHandle)!,
+                      userId: userIds.get(bio.discordID)!,
                       position: bio.position,
                       description: bio.description,
                       image: bio.image,
