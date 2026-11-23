@@ -1,6 +1,25 @@
 # VGDC-Website
 This is the website for the Video Game Development Club at UCSD!
 
+## Local database and image storage
+To test features that save data without touching production, run Postgres and
+[Garage](https://garagehq.deuxfleurs.fr/) (an S3-compatible store standing in for Cloudflare R2) locally with Docker.
+
+1. Install [Docker Desktop](https://docs.docker.com/desktop/).
+2. `vercel env pull` as usual. The local services' settings are already committed in `.env.services`.
+3. `pnpm dev:services` starts both containers. Run it again after restarting your computer.
+4. Optionally, `pnpm db:pull` copies the production database and images into them.
+   It uses the read-only `SYNC_*` credentials from Vercel's Development environment and scrubs personal data after copying.
+   Use `pnpm db:pull --db` or `pnpm db:pull --images` to copy just one, and run it again whenever you want fresh data.
+   Images you already have are skipped.
+5. `pnpm run dev` as usual. It uses the local services.
+
+Without `db:pull`, `pnpm db:reset:local` gives you an empty database with every migration applied.
+It also wipes local images. `pnpm dev:services:stop` stops the containers without deleting anything.
+
+`dev`, `db:migrate:dev`, `db:reset:dev`, `db:pull` and `db:reset:local` load `.env.services` before the
+files pulled from Vercel, so its values win. `pnpm dev:remote` skips it and uses the pulled values instead.
+
 
 ## Testing opengraph and twitter cards locally
 A neat feature that we included is the ability to share blog posts via twitter. To do this, we utilize an internet protcol called **Opengraph**
