@@ -4,6 +4,7 @@ import { useRef, useState } from "react"
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion"
 import SlotReel from "./SlotReel"
 import SlotLever from "./SlotLever"
+import MarqueeLights from "./MarqueeLights"
 import {
   REEL_COUNT,
   buildStrip,
@@ -92,7 +93,7 @@ export default function SlotMachine({ games }: { games: SlotGame[] }) {
   let display: string
   if (spinning) display = "SPINNING..."
   else if (hovered) display = hovered.title
-  else if (winner) display = `★ ${winner.title} ★`
+  else if (winner) display = winner.title
   else display = "PULL THE LEVER!"
   const year = !spinning && (hovered ?? winner)?.releaseDate.slice(-4)
 
@@ -103,51 +104,88 @@ export default function SlotMachine({ games }: { games: SlotGame[] }) {
       viewport={{ once: true, amount: 0.5 }}
       onViewportEnter={introSpin}
       transition={{ delay: 0.2, ease: "easeOut", duration: 0.4 }}
-      className="mb-8 border-2 border-white bg-black font-mojangles md:mb-16"
+      className="mb-8 font-mojangles md:mb-16"
     >
-      {/* Marquee title display */}
-      <div className="border-b-2 border-white p-2 sm:p-4">
-        <div
-          aria-live="polite"
-          className="relative flex h-12 items-center justify-center overflow-hidden rounded bg-neutral-950 px-3 shadow-[inset_0_0_16px_rgba(0,0,0,0.9)] ring-1 ring-gray-700 sm:h-16"
-        >
-          <AnimatePresence mode="wait" initial={false}>
-            <motion.p
-              key={display}
-              initial={{ opacity: 0, y: 8 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -8 }}
-              transition={{ duration: 0.15 }}
-              className={`truncate text-center text-sm text-vgdc-light-green [text-shadow:0_0_8px_rgba(88,213,131,0.8)] sm:text-2xl ${
-                winner && !hovered ? "animate-pulse" : ""
-              }`}
+      <MarqueeLights
+        mode={spinning ? "spin" : winner ? "win" : "idle"}
+        className="border-2 border-white bg-neutral-900"
+      >
+        <div className="border-2 border-white bg-black">
+          {/* Marquee title display */}
+          <div className="border-b-2 border-white p-2 sm:p-4">
+            <div
+              aria-live="polite"
+              className="relative flex h-12 items-center justify-center overflow-hidden rounded bg-neutral-950 px-3 shadow-[inset_0_0_16px_rgba(0,0,0,0.9)] ring-1 ring-gray-700 sm:h-16"
             >
-              {display}
-              {spinning && <span className="animate-pulse">_</span>}
-              {year && <span className="ml-3 text-hot-pink [text-shadow:none]">{year}</span>}
-            </motion.p>
+              <AnimatePresence mode="wait" initial={false}>
+                <motion.p
+                  key={display}
+                  initial={{ opacity: 0, y: 8 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -8 }}
+                  transition={{ duration: 0.15 }}
+                  className={`truncate text-center text-sm text-vgdc-light-green [text-shadow:0_0_8px_rgba(88,213,131,0.8)] sm:text-2xl ${
+                    winner && !hovered ? "animate-pulse" : ""
+                  }`}
+                >
+                  {display}
+                  {spinning && <span className="animate-pulse">_</span>}
+                  {year && (
+                    <span className="ml-3 text-hot-pink [text-shadow:none]">
+                      {year}
+                    </span>
+                  )}
+                </motion.p>
+              </AnimatePresence>
+            </div>
+          </div>
+
+          {/* Reels + lever */}
+          <div className="flex items-stretch gap-2 p-2 sm:gap-4 sm:p-4">
+            <div className="grid flex-1 grid-cols-5 gap-1.5 sm:gap-3 lg:gap-4">
+              {strips.map((strip, i) => (
+                <SlotReel
+                  key={i}
+                  strip={strip}
+                  spinId={spinId}
+                  duration={SPIN_BASE + i * SPIN_STAGGER}
+                  spinning={spinning}
+                  highlight={!spinning && winner !== null}
+                  onStop={() => onReelStop(i)}
+                  onHover={onHover}
+                />
+              ))}
+            </div>
+            <SlotLever onPull={pullLever} disabled={spinning} />
+          </div>
+
+          {/* Play button, shown once the lever lands on a winner */}
+          <AnimatePresence>
+            {winner && !spinning && (
+              <motion.div
+                initial={{ opacity: 0, height: 0 }}
+                animate={{ opacity: 1, height: "auto" }}
+                exit={{ opacity: 0, height: 0 }}
+                transition={{ duration: 0.25, ease: "easeOut" }}
+                className="overflow-hidden"
+              >
+                <div className="flex justify-center border-t-2 border-white p-3 sm:p-4">
+                  <motion.a
+                    href={winner.link || "/games"}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.96 }}
+                    className="border-2 border-white bg-black px-4 py-2 text-sm text-white hover:bg-white hover:text-black sm:px-6 sm:text-lg"
+                  >
+                    ▶ PLAY THE GAME
+                  </motion.a>
+                </div>
+              </motion.div>
+            )}
           </AnimatePresence>
         </div>
-      </div>
-
-      {/* Reels + lever */}
-      <div className="flex items-stretch gap-2 p-2 sm:gap-4 sm:p-4">
-        <div className="grid flex-1 grid-cols-5 gap-1.5 sm:gap-3 lg:gap-4">
-          {strips.map((strip, i) => (
-            <SlotReel
-              key={i}
-              strip={strip}
-              spinId={spinId}
-              duration={SPIN_BASE + i * SPIN_STAGGER}
-              spinning={spinning}
-              highlight={!spinning && winner !== null}
-              onStop={() => onReelStop(i)}
-              onHover={onHover}
-            />
-          ))}
-        </div>
-        <SlotLever onPull={pullLever} disabled={spinning} />
-      </div>
+      </MarqueeLights>
     </motion.div>
   )
 }

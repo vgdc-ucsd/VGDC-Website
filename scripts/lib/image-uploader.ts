@@ -42,7 +42,7 @@ export class ImageUploader {
   constructor() {
     const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
     if (serviceKey) {
-      this.client = createClient(process.env.SUPABASE_URL!, serviceKey, {
+      this.client = createClient(process.env.NEXT_PUBLIC_SUPABASE_URL!, serviceKey, {
         auth: { persistSession: false },
       });
     } else {

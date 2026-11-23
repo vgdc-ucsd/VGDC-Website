@@ -80,6 +80,14 @@ export default function SlotReel({
         ))}
       </motion.div>
 
+      {/* CRT scanline overlay, same as the hero title screen */}
+      <div
+        className="pointer-events-none absolute inset-0"
+        style={{
+          backgroundImage:
+            "repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.06) 2px, rgba(0,0,0,0.06) 4px)",
+        }}
+      />
       {/* Dim overlay that lifts on hover */}
       <div className="pointer-events-none absolute inset-0 bg-black/30 transition-opacity group-hover:opacity-0 group-focus-visible:opacity-0" />
       {/* Glass shine, like a real slot window */}

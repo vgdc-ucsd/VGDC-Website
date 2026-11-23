@@ -90,11 +90,22 @@ const config = {
             "background-position": "0% 50%",
           },
         },
+        // Slot machine marquee bulbs: lit for the first third of each cycle
+        "bulb-chase": {
+          "0%": { opacity: "1" },
+          "33.333%, 100%": { opacity: "0.2" },
+        },
+        "bulb-blink": {
+          "0%, 49.999%": { opacity: "1" },
+          "50%, 100%": { opacity: "0.2" },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
         gradient: "gradient 3s linear infinite",
+        "bulb-chase": "bulb-chase var(--chase-speed, 0.9s) step-end infinite",
+        "bulb-blink": "bulb-blink 0.5s step-end infinite",
       },
       fontFamily: {
         inter: ["var(--font-inter)"],
