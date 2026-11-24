@@ -1,0 +1,25 @@
+# Garage config for the local dev container (see docker-compose.yml).
+# Dev-only: the rpc_secret is public and only used inside the container.
+
+metadata_dir = "/var/lib/garage/meta"
+data_dir = "/var/lib/garage/data"
+db_engine = "sqlite"
+replication_factor = 1
+
+rpc_bind_addr = "[::]:3901"
+rpc_public_addr = "127.0.0.1:3901"
+rpc_secret = "48032e2afd5febbcef9944edb1ef3747ccc1c61dedff47eb5b8037e805b584a0"
+
+[s3_api]
+# Garage rejects request signatures for any other region, so S3_REGION must match
+s3_region = "garage"
+api_bind_addr = "[::]:3900"
+root_domain = ".s3.garage.localhost"
+
+[s3_web]
+# Public, unauthenticated reads. Garage has no bucket policies, so this is how
+# image URLs work locally. The bucket is picked from the Host header, which is
+# why scripts/dev-sync gives the images bucket a "localhost" alias.
+bind_addr = "[::]:3902"
+root_domain = ".web.garage.localhost"
+index = "index.html"
