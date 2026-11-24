@@ -9,7 +9,10 @@ import { useSession } from "next-auth/react"
 import {
   Drawer,
   DrawerContent,
+  DrawerDescription,
   DrawerFooter,
+  DrawerHeader,
+  DrawerTitle,
   DrawerTrigger,
 } from "@/components/ui/drawer"
 
@@ -61,7 +64,7 @@ export default function Navbar({ offsetSpace = true, hideOnScroll = true }) {
 
   const getStyle = (path: string) => {
     const isActive = pathname == path
-    return `hover:text-gray-600 transition-colors text-lg ${isActive ? "text-vgdc-light-green" : ""}`
+    return `hover:text-gray-600 transition-colors text-lg ${isActive ? "text-vgdc-light-green" : "text-white"}`
   }
 
   const closeHamburger = () => {
@@ -108,68 +111,73 @@ export default function Navbar({ offsetSpace = true, hideOnScroll = true }) {
                 </svg> */}
               </DrawerTrigger>
               {/* Menu buttons */}
-              <DrawerContent>
-                <DrawerFooter>
-                  {/* <Button variant="link" className={getStyle("/")}>
-                    <Link href="/">Home</Link>
-                  </Button> */}
-                  {isAuthenticated
-                    ? <SignOutButton className="mx-auto" redirect={
-                      pathname == "/dashboard" ? "/" : pathname
-                    } />
-                    : <SignInButton className="mx-auto" redirect={pathname} />
-                  }
+              <DrawerContent className="bg-background-black rounded-t-md w-full pb-6 gap-2">
+                <DrawerHeader className="sr-only">
+                  <DrawerTitle>Navigation Menu</DrawerTitle>
+                  <DrawerDescription>
+                    Navigation links and buttons for our mobile website.
+                  </DrawerDescription>
+                </DrawerHeader>
+                {/* <Button variant="link" className={getStyle("/")}>
+                  <Link href="/">Home</Link>
+                </Button> */}
+                {isAuthenticated
+                  ? <SignOutButton className="mx-auto mt-2" redirect={
+                    pathname == "/dashboard" ? "/" : pathname
+                  } />
+                  : <SignInButton className="mx-auto mt-2" redirect={pathname} />
+                }
+                <Button
+                  variant="link"
+                  className={getStyle("/officers")}
+                  onClick={closeHamburger}
+                >
+                  <Link href="/officers" className={getStyle("/officers")}>Team</Link>
+                </Button>
+                <Button
+                  variant="link"
+                  className={getStyle("/events")}
+                  onClick={closeHamburger}
+                >
+                  <Link href="/events" className={getStyle("/events")}>Events</Link>
+                </Button>
+                <Button
+                  variant="link"
+                  className={getStyle("/games")}
+                  onClick={closeHamburger}
+                >
+                  <Link href="/games" className={getStyle("/games")}>Games</Link>
+                </Button>
+                <Button
+                  variant="link"
+                  className={getStyle("/news")}
+                  onClick={closeHamburger}
+                >
+                  <Link href="/news" className={getStyle("/news")}>News</Link>
+                </Button>
+                {/* TODO: Uncomment when we get the new merch stuff working  */}
+                {/* <Button */}
+                {/*   variant="link" */}
+                {/*   className={getStyle("/store")} */}
+                {/*   onClick={closeHamburger} */}
+                {/* > */}
+                {/*   <Link href="/store" className={getStyle("/store")}>Store</Link> */}
+                {/* </Button> */}
+                {isOfficer &&
                   <Button
                     variant="link"
-                    className={getStyle("/officers")}
+                    className={getStyle("/dashboard")}
                     onClick={closeHamburger}
                   >
-                    <Link href="/officers">Team</Link>
+                    <Link href="/dashboard" className={getStyle("dashboard")}>Dashboard</Link>
                   </Button>
-                  <Button
-                    variant="link"
-                    className={getStyle("/events")}
-                    onClick={closeHamburger}
-                  >
-                    <Link href="/events">Events</Link>
-                  </Button>
-                  <Button
-                    variant="link"
-                    className={getStyle("/games")}
-                    onClick={closeHamburger}
-                  >
-                    <Link href="/games">Games</Link>
-                  </Button>
-                  <Button
-                    variant="link"
-                    className={getStyle("/news")}
-                    onClick={closeHamburger}
-                  >
-                    <Link href="/news">News</Link>
-                  </Button>
-                  <Button
-                    variant="link"
-                    className={getStyle("/store")}
-                    onClick={closeHamburger}
-                  >
-                    <Link href="/store">Store</Link>
-                  </Button>
-                  {isOfficer &&
-                    <Button
-                      variant="link"
-                      className={getStyle("/dashboard")}
-                      onClick={closeHamburger}
-                    >
-                      <Link href="/dashboard">Dashboard</Link>
-                    </Button>
-                  }
-                </DrawerFooter>
+                }
               </DrawerContent>
             </Drawer>
           </div>
 
           {/* Basic menu, dynamically changes with screen size */}
-          <div className="invisible relative top-3 mx-auto w-fit space-x-12 align-middle text-base transition-transform lg:visible">
+          <div className="hidden relative top-3 mx-auto w-fit space-x-12 align-middle text-base transition-transform lg:block">
             {/* <Link href="/" className={getStyle("/")}>
               Home
             </Link> */}
@@ -185,9 +193,10 @@ export default function Navbar({ offsetSpace = true, hideOnScroll = true }) {
             <Link href="/news" className={getStyle("/news")}>
               News
             </Link>
-            <Link href="/store" className={getStyle("/store")}>
-              Store
-            </Link>
+            {/* TODO: Uncomment when we get the new merch stuff working  */}
+            {/* <Link href="/store" className={getStyle("/store")}> */}
+            {/*   Store */}
+            {/* </Link> */}
             {isOfficer &&
               <Link href="/dashboard" className={getStyle("/dashboard")}>
                 Dashboard
@@ -195,10 +204,10 @@ export default function Navbar({ offsetSpace = true, hideOnScroll = true }) {
             }
           </div>
           {isAuthenticated
-            ? <SignOutButton className="invisible lg:visible relative float-right -top-5" redirect={
+            ? <SignOutButton className="hidden lg:block relative float-right -top-5" redirect={
               pathname == "/dashboard" ? "/" : pathname
             } />
-            : <SignInButton className="invisible lg:visible relative float-right -top-5" redirect={pathname} />
+            : <SignInButton className="hidden lg:block relative float-right -top-5" redirect={pathname} />
           }
         </div>
       </div>

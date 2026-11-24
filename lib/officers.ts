@@ -1,5 +1,6 @@
 import { prisma } from "./prisma"
-import { getRandomMascotImageFallback, getStoredImageUrl, imageFallbacks } from "./images.server"
+import { getRandomMascotImageFallback, imageFallbacks } from "./images.server"
+import { getImageUrl } from "./images.shared";
 import { getRandomElementFromArray, Result } from "./utils";
 
 export type OfficerYear = {
@@ -101,7 +102,7 @@ export async function getOfficerYear(yearInput: SchoolYear): Promise<Result<Offi
 
     const officerDetailPromises = officerYear.officerBios.map(async (officer) => {
       const avatar = officer.image
-        ? await getStoredImageUrl(officer.image)
+        ? getImageUrl(officer.image)
         : undefined;
 
       return {

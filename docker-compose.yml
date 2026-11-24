@@ -1,0 +1,51 @@
+# Local development services. Everything here is dev-only: the credentials are
+# public on purpose and the ports are only reachable from this machine.
+#
+#   pnpm dev:services   start them (and finish Garage's website setup)
+#   pnpm db:pull        copy prod data into them (see scripts/dev-sync)
+#   pnpm db:reset:local wipe them and start over with an empty, migrated DB
+name: vgdc-dev
+
+services:
+  db:
+    # Keep the major version >= Supabase's (SELECT version();), or pg_dump refuses to dump it
+    image: postgres:17
+    # The user, password, database and port must match the URLs in .env.services
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: vgdc
+    # 54322 so it doesn't clash with a Postgres installed directly on the machine
+    ports: ["127.0.0.1:54322:5432"]
+    # postgres:18+ moved its data directory to /var/lib/postgresql
+    volumes: [db-data:/var/lib/postgresql/data]
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d vgdc"]
+      interval: 2s
+      retries: 15
+
+  storage:
+    image: dxflrs/garage:v2.5.0
+    # Single-node mode sets up the cluster layout itself, and --default-bucket
+    # creates the bucket and key below on first start
+    command: ["/garage", "server", "--single-node", "--default-bucket"]
+    environment:
+      # Must match S3_IMAGES_BUCKET in lib/r2.server.ts, and the key must match .env.services
+      GARAGE_DEFAULT_BUCKET: images
+      GARAGE_DEFAULT_ACCESS_KEY: GK82d49fad94bda2fb330c75f4
+      GARAGE_DEFAULT_SECRET_KEY: ff9530cc8fa9f9fa395eeacd943fe3cdea83feb07475ec1a68b2f1244451bf65
+    ports:
+      - "127.0.0.1:3900:3900" # S3 API (S3_API_ENDPOINT)
+      - "127.0.0.1:3902:3902" # Public website endpoint (NEXT_PUBLIC_S3_PUBLIC_URL)
+    volumes:
+      - ./dev/garage.toml:/etc/garage.toml:ro
+      - storage-data:/var/lib/garage
+    healthcheck:
+      # The image has no shell, so check with the garage binary itself
+      test: ["CMD", "/garage", "bucket", "info", "images"]
+      interval: 2s
+      retries: 15
+
+volumes:
+  db-data:
+  storage-data:

@@ -1,5 +1,5 @@
 import type { BlogPost } from "@/lib/generated/prisma/client"
-import { getStoredImageUrl } from "./images.server"
+import { getImageUrl } from "./images.shared"
 import { prisma } from "./prisma"
 import { Result } from "./utils"
 import { toDateInputValue } from "./dateUtils"
@@ -22,7 +22,7 @@ export type BlogPostLink = {
 
 async function toBlogPostData(post: BlogPost): Promise<BlogPostData> {
   const coverImageURL = post.coverImage
-    ? await getStoredImageUrl(post.coverImage)
+    ? getImageUrl(post.coverImage)
     : undefined;
 
   return {

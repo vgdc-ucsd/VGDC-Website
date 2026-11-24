@@ -12,7 +12,7 @@ import { Prisma } from "@/lib/generated/prisma/client";
 import { GameFormValues, GameInput, gameInputSchema } from "@/lib/schemas/game";
 import { BlogPostCreateInput, GameCreateInput } from "@/lib/generated/prisma/models";
 import { BlogPostFormValues, BlogPostInput, blogPostInputSchema } from "@/lib/schemas/blog-post";
-import { supabaseAdmin } from "@/lib/supabase.server";
+import { removeImages } from "@/lib/images.server";
 
 export type FormActionResult<TValues> = 
   | { ok: true; }
@@ -160,7 +160,7 @@ export async function deleteEvent(input: EventInput): Promise<FormActionResult<E
   }
 
   try {
-    await supabaseAdmin.storage.from("Images").remove([...gallery, coverImage])
+    await removeImages([...gallery, coverImage])
   } catch (error) {
     console.error("Deleting images in deleteEvent failed", error)
   }
@@ -277,7 +277,7 @@ export async function deleteGame(id: number, input: GameInput): Promise<FormActi
 
   if (input.thumbnail) {
     try {
-      await supabaseAdmin.storage.from("Images").remove([input.thumbnail]);
+      await removeImages([input.thumbnail]);
     } catch (error) {
       console.error("Deleting game image failed", error);
     }

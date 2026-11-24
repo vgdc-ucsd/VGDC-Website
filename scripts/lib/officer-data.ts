@@ -12,9 +12,9 @@ export const CURRENT_YEAR = '2026-2027';
 // random mascot for bios without an image, so these are imported as empty.
 const PLACEHOLDER_IMAGE_DIR = '/images/officers/placeholders/';
 
-// Prefix for the stand-in discordHandle of imported users, which officers.json
-// doesn't have. Replace these with real handles once officers are linked to Discord.
-export const PLACEHOLDER_HANDLE_PREFIX = 'import:';
+// Prefix for the stand-in discordID of imported users, which officers.json
+// doesn't have. Replace these with real IDs once officers are linked to Discord.
+export const PLACEHOLDER_ID_PREFIX = 'import:';
 
 interface RawOfficer {
   title: string;
@@ -32,14 +32,13 @@ interface RawOfficerYear {
 
 export interface TransformedOfficerUser {
   name: string;
-  discordHandle: string;
+  discordID: string;
   role: Role;
   profilePicture: string | null;
 }
 
 export interface TransformedOfficerBio {
-  /** discordHandle of the user this bio belongs to */
-  userHandle: string;
+  discordID: string;
   position: string;
   description: string;
   image: string | null;
@@ -71,8 +70,8 @@ export async function readOfficerData(): Promise<Record<string, RawOfficerYear>>
 }
 
 /** The same person appears once per year they were an officer, so they're keyed by name. */
-function placeholderHandle(name: string): string {
-  return PLACEHOLDER_HANDLE_PREFIX + formatTitleToSlugClean(name).toLowerCase();
+function placeholderID(name: string): string {
+  return PLACEHOLDER_ID_PREFIX + formatTitleToSlugClean(name).toLowerCase();
 }
 
 /** "2024-2025" -> September 1, 2024, when the fall quarter's officer team takes over. */
@@ -99,7 +98,7 @@ export function transformOfficers(data: Record<string, RawOfficerYear>): Transfo
         excerpt: raw.paragraph,
         startTimestamp: schoolYearStart(year),
         bios: (raw.officers ?? []).map((officer) => ({
-          userHandle: placeholderHandle(officer.name),
+          discordID: placeholderID(officer.name),
           position: officer.title.trim(),
           description: officer.quote.trim(),
           image: toImage(officer.avatar),
@@ -119,14 +118,14 @@ export function transformOfficers(data: Record<string, RawOfficerYear>): Transfo
   const users = new Map<string, TransformedOfficerUser>();
   for (const { year, bios, names } of years) {
     bios.forEach((bio, i) => {
-      const existing = users.get(bio.userHandle);
+      const existing = users.get(bio.discordID);
       if (existing) {
         existing.profilePicture ??= bio.image;
         return;
       }
-      users.set(bio.userHandle, {
+      users.set(bio.discordID, {
         name: names[i],
-        discordHandle: bio.userHandle,
+        discordID: bio.discordID,
         role: year === CURRENT_YEAR ? Role.OFFICER : Role.MEMBER,
         profilePicture: bio.image,
       });

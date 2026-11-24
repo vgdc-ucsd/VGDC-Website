@@ -2,7 +2,7 @@ import moment from "moment-timezone"
 import { prisma } from "@/lib/prisma"
 import type { Prisma } from "@/lib/generated/prisma/client"
 import { EventWhereInput } from "@/lib/generated/prisma/models"
-import { getStoredImageUrl } from "@/lib/images.server"
+import { getImageUrl } from "@/lib/images.shared"
 import { Timezone } from "@/lib/dateUtils"
 import { Result } from "@/lib/utils"
 import type { EventInput } from "@/lib/schemas/event"
@@ -45,7 +45,7 @@ async function toEventDetails(event: EventWithTags): Promise<EventDetails> {
     location: event.location,
     date: start.format("MMMM Do"),
     time: `${start.format("LT")} - ${end.format("LT")}`,
-    image: event.image ? await getStoredImageUrl(event.image) : "",
+    image: event.image ? getImageUrl(event.image) : "",
     slug: event.slug,
     formValues: {
       name: event.name,

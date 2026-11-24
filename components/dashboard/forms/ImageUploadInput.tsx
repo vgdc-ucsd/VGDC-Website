@@ -2,8 +2,8 @@ import Image from "next/image"
 import { useRef, useState } from "react"
 import { Button } from "@/components/ui/button"
 import { cx } from "@/components/dashboard/forms/shared"
-import { ImageFolder, MAX_IMAGE_BYTES } from "@/lib/images.shared"
-import { deleteImages, getPublicImageUrl, postImage } from "@/lib/images.client"
+import { getImageUrl, ImageFolder, MAX_IMAGE_BYTES } from "@/lib/images.shared"
+import { deleteImages, postImage } from "@/lib/images.client"
 import { BYTES_IN_MEGABYTE } from "@/lib/utils"
 import { IoClose } from "react-icons/io5"
 
@@ -105,7 +105,7 @@ export function ImageUploadInput({ folder, multiple, paths, onUploaded, onRemove
           {paths.map((path) => (
             <div key={path} className="relative w-80 h-80">
               <Image
-                src={getPublicImageUrl(path)}
+                src={getImageUrl(path)}
                 alt=""
                 width={320}
                 height={320}

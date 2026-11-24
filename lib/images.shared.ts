@@ -36,3 +36,9 @@ export async function getImageType(file: Blob): Promise<string | null> {
   return IMAGE_SIGNATURES.find((signature) => signature.matches(header))?.type ?? null;
 }
 
+/**
+  * Gets an image's URL from its path 
+  */
+export function getImageUrl(path: string) {
+  return `${process.env.NEXT_PUBLIC_S3_PUBLIC_URL}/${path}`;
+}
