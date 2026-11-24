@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "dotenv -e .env.services -- dotenv -c development -- next dev",
     "dev:remote": "dotenv -c development -- next dev",
-    "build": "next build",
+    "build": "prisma generate && next build",
     "start": "next start",
     "lint": "next lint",
     "postinstall": "prisma generate",
