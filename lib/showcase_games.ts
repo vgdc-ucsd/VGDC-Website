@@ -1,9 +1,9 @@
-import { formatDateOnly } from "./dateUtils"
+import { formatDateOnly, toDateInputValue } from "./dateUtils"
 import type { GameStatusType } from "./generated/zod/inputTypeSchemas/GameStatusSchema"
-import { getStoredImageUrl } from "./images.server"
+import { getImageUrl } from "./images.shared"
 import { prisma } from "./prisma"
-import type { Prisma } from "./generated/prisma/client"
 import { Result } from "./utils"
+import type { GameInput } from "./schemas/game"
 
 export type ShowcaseGameTag = {
   text: string
@@ -12,6 +12,7 @@ export type ShowcaseGameTag = {
 
 /** The details of a showcase game. */
 export type ShowcaseGamesDetails = {
+  id: number
   title: string
   releaseDate: string
   difficulty: number
@@ -23,32 +24,7 @@ export type ShowcaseGamesDetails = {
   tags: ShowcaseGameTag[]
   vgdcApproved: boolean
   web: boolean
-}
-
-type GameWithTags = Prisma.GameGetPayload<{ include: { gameTags: true } }>
-
-/** Converts a database game row into the shape the frontend uses. */
-async function toShowcaseDetails(game: GameWithTags): Promise<ShowcaseGamesDetails> {
-  const gameThumbnail = game.thumbnail
-    ? await getStoredImageUrl(game.thumbnail)
-    : "";
-
-  return {
-    title: game.title,
-    releaseDate: formatDateOnly(game.releaseDate),
-    difficulty: game.difficulty,
-    description: game.description,
-    credits: game.credits.toString(),
-    link: game.link ?? "",
-    status: game.status,
-    image: gameThumbnail,
-    tags: game.gameTags.map((tag) => ({
-      text: tag.text,
-      color: tag.color,
-    })),
-    vgdcApproved: game.hasSeal,
-    web: game.isWebPlayable,
-  };
+  formValues: GameInput
 }
 
 /**
@@ -63,9 +39,49 @@ export async function getShowcaseGames(): Promise<Result<ShowcaseGamesDetails[]>
 
     if (!gamesList) return { ok: false, error: "Failed to get showcase games" }
 
+    const gamesDetailsPromises = gamesList.map(async (game) => {
+      const gameThumbnail = game.thumbnail 
+        ? getImageUrl(game.thumbnail)
+        : "";
+
+      return {
+        id: game.id,
+        title: game.title,
+        releaseDate: formatDateOnly(game.releaseDate),
+        difficulty: game.difficulty,
+        description: game.description,
+        credits: game.credits.toString(),
+        link: game.link ?? "",
+        status: game.status,
+        image: gameThumbnail,
+        tags: game.gameTags.map((tag) => ({
+          text: tag.text,
+          color: tag.color,
+        })),
+        vgdcApproved: game.hasSeal,
+        web: game.isWebPlayable,
+        formValues: {
+          title: game.title,
+          credits: game.credits,
+          description: game.description,
+          releaseDate: toDateInputValue(game.releaseDate),
+          status: game.status,
+          difficulty: game.difficulty,
+          isWebPlayable: game.isWebPlayable,
+          hasSeal: game.hasSeal,
+          link: game.link ?? "",
+          thumbnail: game.thumbnail ?? "",
+          tags: game.gameTags.map((tag) => ({
+            text: tag.text,
+            color: tag.color,
+          })),
+        },
+      } satisfies ShowcaseGamesDetails;
+    });
+
     return {
       ok: true,
-      data: await Promise.all(gamesList.map(toShowcaseDetails))
+      data: await Promise.all(gamesDetailsPromises)
     };
   } catch (error) {
     console.error(error);
@@ -74,22 +90,11 @@ export async function getShowcaseGames(): Promise<Result<ShowcaseGamesDetails[]>
 }
 
 /**
- * Gets the games that have the VGDC Seal of Approval (featured on the homepage).
+ * Gets the games with the VGDC Seal of Approval (featured on the homepage).
  * @returns List of sealed games details.
  */
 export async function getSealedGames(): Promise<Result<ShowcaseGamesDetails[]>> {
-  try {
-    const gamesList = await prisma.game.findMany({
-      where: { hasSeal: true },
-      include: { gameTags: true }
-    });
-
-    return {
-      ok: true,
-      data: await Promise.all(gamesList.map(toShowcaseDetails))
-    };
-  } catch (error) {
-    console.error(error);
-    return { ok: false, error: "Internal server error" }
-  }
+  const games = await getShowcaseGames()
+  if (!games.ok) return games
+  return { ok: true, data: games.data.filter((game) => game.vgdcApproved) }
 }

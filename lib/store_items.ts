@@ -1,4 +1,4 @@
-import { getStoredImageUrl } from "./images.server"
+import { getImageUrl } from "./images.shared"
 import { prisma } from "./prisma"
 import { Result } from "./utils"
 
@@ -19,7 +19,7 @@ export async function getStoreItems(): Promise<Result<StoreItemDetails[]>> {
 
     const storeItemDetailsPromises = storeItems.map(async (item) => {
       const itemImage = item.image 
-        ? await getStoredImageUrl(item.image)
+        ? getImageUrl(item.image)
         : "";
         return {
         name: item.name,

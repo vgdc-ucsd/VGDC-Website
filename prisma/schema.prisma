@@ -50,7 +50,7 @@ model User {
   name           String
   role           Role         @default(MEMBER)
   profilePicture String?
-  discordHandle  String       @unique
+  discordID      String       @unique
   officerBios    OfficerBio[]
 }
 

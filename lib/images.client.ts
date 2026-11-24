@@ -1,17 +1,6 @@
 import { ImageFolder } from "./images.shared";
 
 /**
- * Public URL of an image in the "Images" bucket, for use in the browser.
- * Built by hand because the Supabase client in lib/supabase.ts reads
- * server-only env vars and can't run on the client.
- * @param path The image's filepath. Ex: `events`.
- * @returns {string} The image's url for use in an `<Image />`.
- */
-export function getPublicImageUrl(path: string): string {
-  return `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/Images/${path}`;
-}
-
-/**
   * Uploads an image to storage. Should only be used on the client.
   * Will throw an error if uploading fails.
   * @returns {Promise<string>} The uploaded image's path.
@@ -23,4 +12,28 @@ export async function postImage(file: File, folder: ImageFolder): Promise<string
   if (!response.ok) throw new Error(result.error ?? `Failed to upload ${file.name} to ${folder}`);
   
   return result.path;
+}
+
+/**
+  * Deletes images from storage. Should only be used on the client.
+  * Will throw an error if deleting fails.
+  */
+export async function deleteImages(paths: string | string[]): Promise<undefined> {
+  if (paths.length == 0) { throw new Error("paths should not be empty") }
+
+  const response = await fetch(
+    `/api/images`,
+    {
+      method: "DELETE",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ paths: paths })
+    }
+  )
+
+  const result = await response.json()
+  const pathArray = typeof paths === "string" ? [paths] : paths
+
+  if (!response.ok) throw new Error(
+    result.error ?? `Failed to delete ${ pathArray.length == 1 ? pathArray[0] : pathArray.slice(0, 10).join(", ") }`
+  )
 }

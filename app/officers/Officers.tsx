@@ -7,6 +7,7 @@ import {
   HoverCardTrigger,
 } from "@/components/ui/hover-card"
 import Image from "next/image"
+import SafeImage from "@/components/global/SafeImage"
 import { motion } from "framer-motion"
 import { OfficerDetails } from "@/lib/officers"
 import { Popover, PopoverContent, PopoverTrigger } from "@radix-ui/react-popover"
@@ -30,7 +31,7 @@ function OfficerAvatar({ officer }: { officer: OfficerDetails }) {
     {/* Avatar */}
     <Avatar className="group mx-auto cursor-pointer h-32 w-32">
       {officer.avatar && (
-        <Image
+        <SafeImage
           src={officer.avatar}
           width={300}
           height={300}

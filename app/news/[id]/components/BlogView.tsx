@@ -1,7 +1,7 @@
 "use client"
 
 import TwitterButton from "@/components/ui/social-share-button"
-import Image from "next/image"
+import SafeImage from "@/components/global/SafeImage"
 import ReactMarkdown from "react-markdown"
 import rehypeRaw from "rehype-raw"
 import moment from "moment"
@@ -66,7 +66,7 @@ export default function BlogView({
         className="aspect-[16/9] w-full object-cover"
       >
         {post.coverImage && (
-          <Image
+          <SafeImage
             src={post.coverImage}
             width={800}
             height={600}
@@ -141,7 +141,7 @@ export default function BlogView({
             },
             img: (image) => {
               return (
-                <Image
+                <SafeImage
                   src={image.src!}
                   alt={image.alt!}
                   height="768"

@@ -18,6 +18,10 @@ import {
   getNextSpawnTime,
   checkAABB,
   VIRTUAL_HEIGHT,
+  MIN_GAME_SPEED,
+  AIRTIME,
+  POINTS_TO_HALF_OBSTACLE_RANGE,
+  MAX_OBSTACLE_SPAWN_RANGE,
 } from "./gameTypes"
 
 const SPRITE_FRAMES = 4
@@ -239,7 +243,11 @@ function render(canvas: HTMLCanvasElement, gameState: GameState) {
 
 function spawnObstacle(gameState: GameState) {
   const lastObstacle = gameState.obstacles[gameState.obstacles.length - 1]
-  const gap = Math.random() * (MAX_OBSTACLE_GAP - MIN_OBSTACLE_GAP) + MIN_OBSTACLE_GAP
+  // Make sure the minimum distance between two obstacles are actually jumpable.
+  const minGap = Math.max(MIN_OBSTACLE_GAP, AIRTIME * gameState.gameSpeed - TREE_NATURAL_DIMS[2].w)
+  // Shrink the range of possible obstacle spawn locations.
+  const maxGap = minGap * (1 + MAX_OBSTACLE_SPAWN_RANGE / Math.pow(2, Math.floor(gameState.score / POINTS_TO_HALF_OBSTACLE_RANGE)))
+  const gap = Math.random() * (maxGap - minGap) + minGap
 
   const imgIndex = Math.floor(Math.random() * TREE_NATURAL_DIMS.length)
   const nat = TREE_NATURAL_DIMS[imgIndex]
