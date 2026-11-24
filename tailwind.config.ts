@@ -90,7 +90,7 @@ const config = {
             "background-position": "0% 50%",
           },
         },
-        // Slot machine marquee bulbs: lit for the first third of each cycle
+        // Slot machine marquee bulbs
         "bulb-chase": {
           "0%": { opacity: "1" },
           "33.333%, 100%": { opacity: "0.2" },

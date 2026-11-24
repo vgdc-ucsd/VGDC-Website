@@ -3,28 +3,23 @@
 import { useEffect, useRef, useState, type ReactNode } from "react"
 import { useReducedMotion } from "framer-motion"
 
-/** idle: slow chase, spin: fast chase, win: every bulb blinks together */
+/** idle: slow chase, spin: fast chase, win: all bulbs blink */
 export type MarqueeMode = "idle" | "spin" | "win"
 
-// Width of the bulb track around the machine, in px
-const TRACK = 18
-// Target distance between bulb centers, in px
-const SPACING = 24
+const TRACK = 18 // bulb track width around the machine, px
+const SPACING = 24 // target gap between bulb centers, px
 
 const CHASE_SPEED: Record<Exclude<MarqueeMode, "win">, string> = {
   idle: "0.9s",
   spin: "0.24s",
 }
 
-// Bulbs cycle through the VGDC logo colors (v, g, d, c in tailwind.config.ts)
+// VGDC logo colors (v, g, d, c in tailwind.config.ts)
 const BULB_COLORS = ["#267392", "#3c99aa", "#0eb9ae", "#50d0a1"]
 
 type Point = { x: number; y: number }
 
-/**
- * Bulb centers going clockwise around a w × h box, starting at the top-left
- * corner. The track runs down the middle of the TRACK-wide padding.
- */
+/** Bulb centers clockwise around a w × h box, from the top-left corner. */
 function bulbPositions(w: number, h: number): Point[] {
   const inset = TRACK / 2
   const left = inset
@@ -33,7 +28,7 @@ function bulbPositions(w: number, h: number): Point[] {
   const bottom = h - inset
   let nx = Math.max(2, Math.round((right - left) / SPACING))
   const ny = Math.max(2, Math.round((bottom - top) / SPACING))
-  // Keep the total a multiple of 3 so the every-3rd-bulb chase has no seam
+  // A multiple of 3 keeps the every-3rd-bulb chase seamless where it wraps
   while ((2 * (nx + ny)) % 3 !== 0) nx++
   const dx = (right - left) / nx
   const dy = (bottom - top) / ny
@@ -46,10 +41,7 @@ function bulbPositions(w: number, h: number): Point[] {
   return points
 }
 
-/**
- * Wraps its children in a frame of marquee bulbs that chase clockwise,
- * like the lights around a real slot machine.
- */
+/** Frames its children with marquee bulbs that chase clockwise. */
 export default function MarqueeLights({
   mode,
   className = "",
@@ -63,7 +55,7 @@ export default function MarqueeLights({
   const frameRef = useRef<HTMLDivElement>(null)
   const [bulbs, setBulbs] = useState<Point[]>([])
 
-  // Re-lay the bulbs whenever the frame resizes (e.g. the play button appears)
+  // Re-lay the bulbs when the frame resizes
   useEffect(() => {
     const frame = frameRef.current
     if (!frame) return
@@ -85,8 +77,7 @@ export default function MarqueeLights({
     >
       <div aria-hidden className="pointer-events-none absolute inset-0">
         {bulbs.map((p, i) => {
-          // Every 3rd bulb is lit; the delay shifts the pattern one bulb
-          // forward each third of a cycle, so the light travels clockwise
+          // Every 3rd bulb is lit; staggered delays move the light clockwise
           const phase = (3 - (i % 3)) % 3
           const color = BULB_COLORS[i % BULB_COLORS.length]
           const animation = reduceMotion

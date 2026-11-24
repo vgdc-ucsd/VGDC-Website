@@ -34,6 +34,7 @@ export default function SlotMachine({ games }: { games: SlotGame[] }) {
   )
   const [spinId, setSpinId] = useState(0)
   const [spinning, setSpinning] = useState(false)
+  const [hasPulled, setHasPulled] = useState(false)
   const [hovered, setHovered] = useState<SlotGame | null>(null)
   const [winner, setWinner] = useState<SlotGame | null>(null)
   // Revealed when the last reel stops (null for the intro spin)
@@ -72,6 +73,7 @@ export default function SlotMachine({ games }: { games: SlotGame[] }) {
 
   function pullLever() {
     if (spinningRef.current) return
+    setHasPulled(true)
     const chosen = pickWinner(games, lastWinner.current)
     lastWinner.current = chosen
     spin(Array(REEL_COUNT).fill(chosen), chosen)
@@ -94,8 +96,9 @@ export default function SlotMachine({ games }: { games: SlotGame[] }) {
   if (spinning) display = "SPINNING..."
   else if (hovered) display = hovered.title
   else if (winner) display = winner.title
-  else display = "PULL THE LEVER!"
+  else display = "DRAG THE LEVER!"
   const year = !spinning && (hovered ?? winner)?.releaseDate.slice(-4)
+  const canPlay = !spinning && winner !== null
 
   return (
     <motion.div
@@ -142,7 +145,7 @@ export default function SlotMachine({ games }: { games: SlotGame[] }) {
 
           {/* Reels + lever */}
           <div className="flex items-stretch gap-2 p-2 sm:gap-4 sm:p-4">
-            <div className="grid flex-1 grid-cols-5 gap-1.5 sm:gap-3 lg:gap-4">
+            <div className="grid flex-1 grid-cols-5 gap-1.5 self-center sm:gap-3 lg:gap-4">
               {strips.map((strip, i) => (
                 <SlotReel
                   key={i}
@@ -159,31 +162,35 @@ export default function SlotMachine({ games }: { games: SlotGame[] }) {
             <SlotLever onPull={pullLever} disabled={spinning} />
           </div>
 
-          {/* Play button, shown once the lever lands on a winner */}
-          <AnimatePresence>
-            {winner && !spinning && (
-              <motion.div
-                initial={{ opacity: 0, height: 0 }}
-                animate={{ opacity: 1, height: "auto" }}
-                exit={{ opacity: 0, height: 0 }}
-                transition={{ duration: 0.25, ease: "easeOut" }}
-                className="overflow-hidden"
-              >
-                <div className="flex justify-center border-t-2 border-white p-3 sm:p-4">
-                  <motion.a
-                    href={winner.link || "/games"}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.96 }}
-                    className="border-2 border-white bg-black px-4 py-2 text-sm text-white hover:bg-white hover:text-black sm:px-6 sm:text-lg"
-                  >
-                    ▶ PLAY THE GAME
-                  </motion.a>
-                </div>
-              </motion.div>
-            )}
-          </AnimatePresence>
+          {/* Play button: appears on the first pull, disabled while spinning */}
+          {hasPulled && (
+            <motion.div
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: "auto" }}
+              transition={{ duration: 0.25, ease: "easeOut" }}
+              className="overflow-hidden"
+            >
+              <div className="flex justify-center border-t-2 border-white p-3 sm:p-4">
+                <motion.a
+                  role="link"
+                  href={canPlay ? winner.link || "/games" : undefined}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-disabled={!canPlay}
+                  tabIndex={canPlay ? 0 : -1}
+                  whileHover={canPlay ? { scale: 1.05 } : undefined}
+                  whileTap={canPlay ? { scale: 0.96 } : undefined}
+                  className={`border-2 bg-black px-4 py-2 text-sm sm:px-6 sm:text-lg ${
+                    canPlay
+                      ? "border-white text-white hover:bg-white hover:text-black"
+                      : "cursor-wait border-gray-600 text-gray-400"
+                  }`}
+                >
+                  ▶ PLAY THE GAME
+                </motion.a>
+              </div>
+            </motion.div>
+          )}
         </div>
       </MarqueeLights>
     </motion.div>
