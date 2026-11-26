@@ -135,7 +135,7 @@ function HeroText() {
 
 function HeroContent({ games }: { games: ShowcaseGamesDetails[] }) {
   return (
-    <div className="mx-auto h-fit md:w-[45rem] lg:w-[60rem] xl:w-[75rem]">
+    <div className="mx-auto h-fit max-w-full md:w-[45rem] lg:w-[60rem] xl:w-[75rem]">
       {/* Hide the whole section when no games have the seal yet */}
       {games.length > 0 && (
         <>
@@ -156,9 +156,9 @@ function FeaturedGamesTitle() {
       whileInView={{ opacity: 1, scale: 1 }}
       viewport={{ once: true }}
       transition={{ delay: 0.1, ease: "easeIn", duration: 0.2 }}
-      className="mb-12 text-center text-6xl font-extrabold text-white sm:text-7xl lg:mb-16 lg:text-9xl"
+      className="mb-8 text-center text-6xl font-extrabold text-white sm:text-7xl md:whitespace-nowrap lg:mb-10 lg:text-8xl xl:text-9xl"
     >
-      Featured <br />
+      Featured <br className="md:hidden" />
       <span className="bg-gradient-to-r from-vgdc-light-blue to-vgdc-light-green bg-clip-text text-transparent">
         Games
       </span>

@@ -12,8 +12,6 @@ type SlotReelProps = {
   /** Seconds the spin lasts (later reels spin longer so they stop left to right). */
   duration: number
   spinning: boolean
-  /** Glow after the lever picks a winner. */
-  highlight: boolean
   onStop: () => void
   onHover: (game: SlotGame | null) => void
 }
@@ -23,7 +21,6 @@ export default function SlotReel({
   spinId,
   duration,
   spinning,
-  highlight,
   onStop,
   onHover,
 }: SlotReelProps) {
@@ -44,12 +41,8 @@ export default function SlotReel({
       onMouseLeave={() => onHover(null)}
       onFocus={() => onHover(face)}
       onBlur={() => onHover(null)}
-      className={`group relative block aspect-square overflow-hidden rounded-md border-2 bg-black transition-[border-color,box-shadow] sm:rounded-lg ${
-        spinning ? "pointer-events-none border-gray-600" : "border-white"
-      } ${
-        highlight
-          ? "animate-pulse border-vgdc-light-green shadow-[0_0_18px_rgba(88,213,131,0.8)]"
-          : ""
+      className={`group relative block aspect-square overflow-hidden rounded-sm border-2 border-white bg-black outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-vgdc-light-green ${
+        spinning ? "pointer-events-none" : ""
       }`}
     >
       {/* The strip: n items stacked, n × the window's height. A new key per spin restarts it at y = 0 */}
@@ -88,10 +81,10 @@ export default function SlotReel({
             "repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.06) 2px, rgba(0,0,0,0.06) 4px)",
         }}
       />
-      {/* Dim overlay that lifts on hover */}
-      <div className="pointer-events-none absolute inset-0 bg-black/30 transition-opacity group-hover:opacity-0 group-focus-visible:opacity-0" />
+      {/* Subtle tint that lifts on hover */}
+      <div className="pointer-events-none absolute inset-0 bg-black/5 transition-opacity group-hover:opacity-0 group-focus-visible:opacity-0" />
       {/* Glass shine, like a real slot window */}
-      <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-black/60 via-transparent to-black/60" />
+      <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-black/20 via-transparent to-black/20" />
     </a>
   )
 }

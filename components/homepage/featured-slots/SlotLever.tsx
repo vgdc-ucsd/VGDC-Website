@@ -18,6 +18,7 @@ import {
 type SlotLeverProps = {
   onPull: () => void
   disabled: boolean
+  showHint: boolean
 }
 
 const PULL_DURATION = 0.4
@@ -25,11 +26,16 @@ const BOTTOM_HOLD = 0.5
 const RETURN_DURATION = 0.5
 
 /** A handle that slides down a tall, fixed slot to spin the machine. */
-export default function SlotLever({ onPull, disabled }: SlotLeverProps) {
+export default function SlotLever({
+  onPull,
+  disabled,
+  showHint,
+}: SlotLeverProps) {
   const reduceMotion = useReducedMotion()
   const instructionsId = useId()
   const trackRef = useRef<HTMLSpanElement>(null)
   const progress = useMotionValue(0)
+  const hintProgress = useMotionValue(0)
   const pulling = useRef(false)
   const dragged = useRef(false)
   const keyboardPull = useRef(false)
@@ -39,9 +45,34 @@ export default function SlotLever({ onPull, disabled }: SlotLeverProps) {
     startProgress: number
   } | null>(null)
 
-  const knobY = useTransform(progress, (p) => `${p * 100}%`)
+  const knobY = useTransform(
+    [progress, hintProgress],
+    ([pullProgress, hint]: number[]) => `${Math.min(1, pullProgress + hint) * 100}%`
+  )
 
   useEffect(() => () => progress.stop(), [progress])
+
+  useEffect(() => {
+    if (!showHint || disabled || reduceMotion) return
+    // A visual nudge only: it never advances the real pull gesture.
+    const animation = animate(hintProgress, [0, 0.15, 0], {
+      duration: 0.8,
+      times: [0, 0.4, 1],
+      ease: "easeInOut",
+      delay: 1,
+      repeat: Infinity,
+      repeatDelay: 2.5,
+    })
+    return () => {
+      animation.stop()
+      hintProgress.set(0)
+    }
+  }, [showHint, disabled, reduceMotion, hintProgress])
+
+  function stopHint() {
+    hintProgress.stop()
+    hintProgress.set(0)
+  }
 
   function returnToRest() {
     animate(progress, 0, {
@@ -86,6 +117,7 @@ export default function SlotLever({ onPull, disabled }: SlotLeverProps) {
       event.button !== 0
     )
       return
+    stopHint()
     progress.stop()
     dragged.current = false
     gesture.current = {
@@ -129,6 +161,7 @@ export default function SlotLever({ onPull, disabled }: SlotLeverProps) {
     if (event.key !== "ArrowDown") return
     event.preventDefault()
     if (disabled || pulling.current || gesture.current) return
+    stopHint()
     keyboardPull.current = true
     progress.stop()
     progress.set(Math.min(1, progress.get() + 0.2))
@@ -164,6 +197,7 @@ export default function SlotLever({ onPull, disabled }: SlotLeverProps) {
           reduceMotion
         )
           return
+        stopHint()
         animate(progress, [progress.get(), 0.15, 0], {
           duration: 0.5,
           times: [0, 0.4, 1],
@@ -182,7 +216,7 @@ export default function SlotLever({ onPull, disabled }: SlotLeverProps) {
       aria-label="Drag lever down to spin"
       aria-describedby={instructionsId}
       title="Drag down to spin"
-      className="group relative min-h-20 w-11 shrink-0 cursor-grab touch-none select-none self-stretch outline-none focus-visible:ring-2 focus-visible:ring-vgdc-light-green focus-visible:ring-offset-2 focus-visible:ring-offset-black active:cursor-grabbing disabled:cursor-not-allowed sm:w-12"
+      className="group relative min-h-0 w-11 shrink-0 cursor-grab touch-none select-none self-stretch outline-none focus-visible:ring-2 focus-visible:ring-vgdc-light-green focus-visible:ring-offset-2 focus-visible:ring-offset-black active:cursor-grabbing disabled:cursor-not-allowed sm:w-12"
     >
       <span id={instructionsId} className="sr-only">
         Drag down past halfway and release. With a keyboard, hold Down Arrow,
@@ -190,7 +224,7 @@ export default function SlotLever({ onPull, disabled }: SlotLeverProps) {
       </span>
       <span
         aria-hidden="true"
-        className="pointer-events-none absolute inset-x-1 inset-y-0 border-2 border-white bg-neutral-900"
+        className="pointer-events-none absolute inset-x-1 inset-y-0 rounded-sm bg-neutral-900"
       />
       <span
         ref={trackRef}
@@ -212,7 +246,7 @@ export default function SlotLever({ onPull, disabled }: SlotLeverProps) {
             cy={knobY}
             r="12"
             strokeWidth="2"
-            className="fill-vgdc-light-green stroke-white transition-colors group-hover:fill-white group-disabled:fill-neutral-500 motion-reduce:transition-none"
+            className="fill-vgdc-light-green stroke-vgdc-light-blue transition-colors group-hover:fill-white group-disabled:fill-neutral-500 motion-reduce:transition-none"
           />
         </svg>
       </span>

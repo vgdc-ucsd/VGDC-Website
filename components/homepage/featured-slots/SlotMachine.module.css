@@ -1,0 +1,120 @@
+/* Coordinates follow the supplied PNG's visible cabinet: (89, 215), 943 × 365.
+   Crop its transparent canvas in CSS so the original artwork stays intact. */
+.cabinet {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 943 / 365;
+  min-height: 280px;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.artwork {
+  position: absolute;
+  left: calc(-89 / 943 * 100%);
+  top: calc(-215 / 365 * 100%);
+  width: calc(1121 / 943 * 100%);
+  height: calc(673 / 365 * 100%);
+  max-width: none;
+  pointer-events: none;
+  user-select: none;
+}
+
+.marquee {
+  position: absolute;
+  left: calc(26 / 943 * 100%);
+  top: calc(11 / 365 * 100%);
+  width: calc(891 / 943 * 100%);
+  height: calc(47 / 365 * 100%);
+}
+
+.reelBay {
+  position: absolute;
+  left: calc(60 / 943 * 100%);
+  top: calc(124 / 365 * 100%);
+  width: calc(823 / 943 * 100%);
+  height: calc(166 / 365 * 100%);
+}
+
+.credits {
+  width: 100%;
+  overflow: hidden;
+  color: inherit;
+  font-size: inherit;
+  line-height: 1.2;
+  outline-offset: -1px;
+}
+
+.credits:focus-visible {
+  outline: 1px solid #50d0a1;
+}
+
+.creditsTrack {
+  display: flex;
+  width: max-content;
+  min-width: 100%;
+  justify-content: center;
+  gap: 32px;
+  white-space: nowrap;
+}
+
+.creditsTrack > span {
+  flex-shrink: 0;
+}
+
+.creditsScrolling {
+  justify-content: flex-start;
+  animation: credits-scroll var(--credits-duration) linear infinite;
+}
+
+.credits:hover .creditsScrolling,
+.credits:focus-within .creditsScrolling {
+  animation-play-state: paused;
+}
+
+@keyframes credits-scroll {
+  0%,
+  10% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(var(--credits-distance));
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .credits {
+    overflow-x: auto;
+  }
+  .creditsTrack {
+    justify-content: flex-start;
+  }
+  .creditsScrolling {
+    animation: none;
+  }
+}
+
+.reels {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  align-items: center;
+  flex: 1;
+  min-width: 0;
+  gap: clamp(4px, 1vw, 16px);
+}
+
+.reels > a {
+  width: 100%;
+  max-height: 100%;
+}
+
+.play {
+  position: absolute;
+  inset-inline: 0;
+  bottom: 0;
+  height: calc(52 / 365 * 100%);
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
