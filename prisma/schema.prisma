@@ -134,3 +134,21 @@ model BlogPost {
   postData     String   @db.Text
   slug         String   @unique
 }
+
+enum Mascot {
+  VIVI
+  CICI
+  DOUG
+  GIGI
+}
+
+model LeaderboardEntry {
+  id          Int      @id @default(autoincrement())
+  displayName String
+  discordId   String  @unique
+  mascot      Mascot
+  score       Int
+  achievedAt  DateTime @default(now()) @db.Timestamptz(3)
+
+  @@index([score(sort: Desc)])
+}

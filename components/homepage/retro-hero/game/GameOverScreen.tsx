@@ -1,8 +1,11 @@
 "use client"
 
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import { motion } from "framer-motion"
+import { useSession } from "next-auth/react"
 import type { GameOverInfo } from "./gameTypes"
+import Leaderboard from "./Leaderboard"
+import { getLeaderboard, submitScore, type LeaderboardResult } from "@/lib/leaderboard"
 
 interface GameOverScreenProps extends GameOverInfo {
   onRestart: () => void
@@ -19,13 +22,36 @@ export default function GameOverScreen({
   score,
   best,
   isNewBest,
+  mascotIndex,
   onRestart,
   onLearnMore,
   onQuit,
 }: GameOverScreenProps) {
+  const { data: session, status } = useSession()
+  const playerId = status === "authenticated" ? session.user.id : null
+  const [board, setBoard] = useState<LeaderboardResult | "loading" | "error">("loading")
+  const [showBoard, setShowBoard] = useState(false)
+
+  useEffect(() => {
+    if (status === "loading") return
+    let active = true
+    setBoard("loading")
+    const request = playerId
+      ? submitScore(score, mascotIndex)
+      : getLeaderboard().then((entries) => ({ entries, entryId: null }))
+    request.then(
+      (result) => { if (active) setBoard(result) },
+      () => { if (active) setBoard("error") },
+    )
+    return () => { active = false }
+  }, [status, playerId, score, mascotIndex])
+
+  const rank = typeof board === "object" ? board.entries.findIndex((e) => e.id === board.entryId) : -1
+
   useEffect(() => {
     const shownAt = performance.now()
     const onKeyDown = (e: KeyboardEvent) => {
+      if (e.code === "Escape") return setShowBoard(false)
       if (e.code !== "Space" && e.code !== "KeyR") return
       const target = e.target as HTMLElement | null
       if (target?.closest("button, a, input, textarea, select, [contenteditable]")) return
@@ -46,8 +72,21 @@ export default function GameOverScreen({
       role="dialog"
       aria-label="Game over"
     >
+      {showBoard ? (
+        <Leaderboard board={board} isGuest={status === "unauthenticated"} onBack={() => setShowBoard(false)} />
+      ) : (
+        <button
+          onClick={() => setShowBoard(true)}
+          className="absolute left-[3%] top-[4%] text-white/80 underline-offset-4 hover:text-white hover:underline"
+          style={{ ...pixelFont, fontSize: "clamp(0.55rem, 1.2vw, 0.95rem)" }}
+        >
+          ▤ LEADERBOARD
+          {rank >= 0 && <span className="ml-[0.6em] text-vgdc-light-green">#{rank + 1}</span>}
+        </button>
+      )}
+
       <motion.div
-        className="flex flex-col items-center text-center text-white"
+        className={`flex flex-col items-center text-center text-white ${showBoard ? "hidden" : ""}`}
         style={pixelFont}
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
