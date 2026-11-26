@@ -1,7 +1,6 @@
 "use client"
 
 import { useEffect, useRef } from "react"
-import { startRun } from "@/lib/leaderboard"
 import type { AABB, GameState, VGDCGameProps, Obstacle } from "./gameTypes"
 import {
   MAX_GAME_SPEED,
@@ -456,7 +455,6 @@ export default function VGDCGame({ isActive, runId = 0, onGameOver }: VGDCGamePr
 
     if (isActive) {
       pickMascot(gs)
-      const runToken = startRun(gs.mascotIndex).catch(() => null)
       gs.phase = "running"
       gs.lastTime = performance.now()
       getNextSpawnTime(gs)
@@ -476,7 +474,7 @@ export default function VGDCGame({ isActive, runId = 0, onGameOver }: VGDCGamePr
           writeHighScore(score)
         }
         render(canvas, gs)
-        onGameOverRef.current?.({ score, best: gs.highScore, isNewBest, runToken })
+        onGameOverRef.current?.({ score, best: gs.highScore, isNewBest, mascotIndex: gs.mascotIndex })
       }
       rafRef.current = requestAnimationFrame(tick)
     } else {

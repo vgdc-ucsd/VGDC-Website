@@ -1,5 +1,5 @@
 import { NextAuthOptions, ISODateString } from "next-auth"
-import DiscordProvider, { DiscordProfile } from "next-auth/providers/discord"
+import DiscordProvider from "next-auth/providers/discord"
 import type {
   GetServerSidePropsContext,
   NextApiRequest,
@@ -17,7 +17,6 @@ declare module "next-auth" {
       image?: string | null
       id: string;
       role: string;
-      username?: string | null;
     },
     expires: ISODateString
   }
@@ -27,7 +26,6 @@ declare module "next-auth/jwt" {
   interface JWT {
     id: string;
     role: string;
-    username?: string | null;
   }
 }
 
@@ -61,8 +59,7 @@ export const authOptions: NextAuthOptions = {
 
       return false
     },
-    async jwt({ token, account, profile }) {
-      if (profile) token.username = (profile as DiscordProfile).username
+    async jwt({ token, account }) {
       try {
         if (account && account.access_token) {
           const GUILD_MEMBER_URL = `https://discord.com/api/users/@me/guilds/${process.env.DISCORD_GUILD_ID!}/member`
@@ -85,7 +82,6 @@ export const authOptions: NextAuthOptions = {
       if (session.user) {
         session.user.id = token.sub!;
         session.user.role = token.role;
-        session.user.username = token.username ?? null;
       }
       return session
     },

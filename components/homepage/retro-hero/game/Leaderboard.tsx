@@ -5,6 +5,7 @@ import type { LeaderboardResult } from "@/lib/leaderboard"
 
 interface LeaderboardProps {
   board: LeaderboardResult | "loading" | "error"
+  isGuest: boolean
   onBack: () => void
 }
 
@@ -17,7 +18,7 @@ function statusText(board: LeaderboardProps["board"]) {
   return null
 }
 
-export default function Leaderboard({ board, onBack }: LeaderboardProps) {
+export default function Leaderboard({ board, isGuest, onBack }: LeaderboardProps) {
   const status = statusText(board)
 
   return (
@@ -54,6 +55,15 @@ export default function Leaderboard({ board, onBack }: LeaderboardProps) {
           </ol>
         )}
       </div>
+
+      {isGuest && (
+        <p
+          className="mt-[0.8em] whitespace-nowrap leading-relaxed text-white/80"
+          style={{ fontSize: "clamp(0.5rem, 1vw, 0.8rem)" }}
+        >
+          Sign in to enter the leaderboard!
+        </p>
+      )}
 
       <motion.button
         onClick={onBack}

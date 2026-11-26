@@ -135,7 +135,6 @@ model BlogPost {
   slug         String   @unique
 }
 
-// Homepage runner game leaderboard
 enum Mascot {
   VIVI
   CICI
@@ -143,22 +142,10 @@ enum Mascot {
   GIGI
 }
 
-// Issued when a run starts; its start time caps the score it can submit
-model GameRun {
-  id          String    @id @default(uuid())
-  mascot      Mascot
-  discordId   String?
-  startedAt   DateTime  @default(now()) @db.Timestamptz(3)
-  submittedAt DateTime? @db.Timestamptz(3)
-
-  @@index([startedAt])
-}
-
-// Signed-in players have one row with their best score; guests get one row per placing run
 model LeaderboardEntry {
   id          Int      @id @default(autoincrement())
   displayName String
-  discordId   String?  @unique
+  discordId   String  @unique
   mascot      Mascot
   score       Int
   achievedAt  DateTime @default(now()) @db.Timestamptz(3)

@@ -2,9 +2,10 @@
 
 import { useEffect, useRef, useState } from "react"
 import { motion } from "framer-motion"
+import { useSession } from "next-auth/react"
 import type { GameOverInfo } from "./gameTypes"
 import Leaderboard from "./Leaderboard"
-import { getLeaderboard, submitRun, type LeaderboardResult } from "@/lib/leaderboard"
+import { getLeaderboard, submitScore, type LeaderboardResult } from "@/lib/leaderboard"
 
 interface GameOverScreenProps extends GameOverInfo {
   onRestart: () => void
@@ -21,22 +22,37 @@ export default function GameOverScreen({
   score,
   best,
   isNewBest,
-  runToken,
+  mascotIndex,
   onRestart,
   onLearnMore,
   onQuit,
 }: GameOverScreenProps) {
+  const { data: session, status } = useSession()
+  const playerId = status === "authenticated" ? session.user.id : null
   const [board, setBoard] = useState<LeaderboardResult | "loading" | "error">("loading")
   const [showBoard, setShowBoard] = useState(false)
-  const submitted = useRef(false) // Strict Mode runs effects twice
+  const request = useRef<{ key: string; result: Promise<LeaderboardResult> } | null>(null)
 
   useEffect(() => {
-    if (submitted.current) return
-    submitted.current = true
-    runToken
-      .then(async (id) => (id ? submitRun(id, score) : { entries: await getLeaderboard(), entryId: null }))
-      .then(setBoard, () => setBoard("error"))
-  }, [runToken, score])
+    if (status === "loading") return
+    const key = `${playerId ?? "guest"}:${score}:${mascotIndex}`
+    // Reuse the request when Strict Mode reruns the effect.
+    if (request.current?.key !== key) {
+      request.current = {
+        key,
+        result: playerId
+          ? submitScore(score, mascotIndex)
+          : getLeaderboard().then((entries) => ({ entries, entryId: null })),
+      }
+    }
+    let active = true
+    setBoard("loading")
+    request.current.result.then(
+      (result) => { if (active) setBoard(result) },
+      () => { if (active) setBoard("error") },
+    )
+    return () => { active = false }
+  }, [status, playerId, score, mascotIndex])
 
   const rank = typeof board === "object" ? board.entries.findIndex((e) => e.id === board.entryId) : -1
 
@@ -65,7 +81,7 @@ export default function GameOverScreen({
       aria-label="Game over"
     >
       {showBoard ? (
-        <Leaderboard board={board} onBack={() => setShowBoard(false)} />
+        <Leaderboard board={board} isGuest={status === "unauthenticated"} onBack={() => setShowBoard(false)} />
       ) : (
         <button
           onClick={() => setShowBoard(true)}
