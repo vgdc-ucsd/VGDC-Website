@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useRef, useState } from "react"
+import { useEffect, useState } from "react"
 import { motion } from "framer-motion"
 import { useSession } from "next-auth/react"
 import type { GameOverInfo } from "./gameTypes"
@@ -31,23 +31,15 @@ export default function GameOverScreen({
   const playerId = status === "authenticated" ? session.user.id : null
   const [board, setBoard] = useState<LeaderboardResult | "loading" | "error">("loading")
   const [showBoard, setShowBoard] = useState(false)
-  const request = useRef<{ key: string; result: Promise<LeaderboardResult> } | null>(null)
 
   useEffect(() => {
     if (status === "loading") return
-    const key = `${playerId ?? "guest"}:${score}:${mascotIndex}`
-    // Reuse the request when Strict Mode reruns the effect.
-    if (request.current?.key !== key) {
-      request.current = {
-        key,
-        result: playerId
-          ? submitScore(score, mascotIndex)
-          : getLeaderboard().then((entries) => ({ entries, entryId: null })),
-      }
-    }
     let active = true
     setBoard("loading")
-    request.current.result.then(
+    const request = playerId
+      ? submitScore(score, mascotIndex)
+      : getLeaderboard().then((entries) => ({ entries, entryId: null }))
+    request.then(
       (result) => { if (active) setBoard(result) },
       () => { if (active) setBoard("error") },
     )
